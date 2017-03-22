@@ -1,0 +1,37 @@
+package edu.ufl.bmi.misc;
+
+import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.FileReader;
+import java.io.LineNumberReader;
+
+public class IriLookup {
+    HashMap<String, Iri> classIriMap;
+    HashMap<String, Iri> objPropIriMap;
+    HashMap<String, Iri> annPropIriMap;
+
+    String fname;
+
+    public IriLookup(String fname) {
+	this.fname = fname;
+    }
+
+    public void init() throws IOException {
+	FileReader fr = new FileReader(fname);
+	LineNumberReader lnr = new LineNumberReader(fr);
+	String line;
+	while ((line=lnr.readLine())!=null) {
+	    String[] flds = line.split(Pattern.quote("\t"));
+	}
+    }
+
+    public Iri lookupClassIri(String key) {
+    }
+
+    public Iri lookupObjPropIri(String key) {
+    }
+
+    public Iri lookupAnnPropIri(String key) {
+    }
+}
