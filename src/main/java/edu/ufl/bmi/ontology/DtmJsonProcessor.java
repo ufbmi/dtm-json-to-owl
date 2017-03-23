@@ -4,11 +4,14 @@ import java.lang.StringBuilder;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
@@ -31,6 +34,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
 import edu.ufl.bmi.misc.IndividualsToCreate;
 import edu.ufl.bmi.misc.IriLookup;
@@ -58,8 +62,9 @@ public class DtmJsonProcessor {
 	    oom = OWLManager.createOWLOntologyManager();
 	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
 	    OWLOntology oo = null;
+	    IRI ontologyIRI = IRI.create("http://www.pitt.edu/dc/dtm");
 	    try {
-		oo = oom.createOntology(IRI.create("http://www.pitt.edu/dc/dtm"));
+		oo = oom.createOntology(ontologyIRI);
 	    } catch (OWLOntologyCreationException ooce) {
 		ooce.printStackTrace();
 	    }
@@ -149,6 +154,8 @@ public class DtmJsonProcessor {
 			  what's source vs. sourceCodeRelease
 			*/
 
+		        String baseName = key;
+			String version = null;
 			Set<Map.Entry<String,JsonElement>> dtmAttSet = jo2.entrySet();
 			Iterator<Map.Entry<String,JsonElement>> j = dtmAttSet.iterator();
 			HashSet<String> reqInds = new HashSet<String>();
@@ -157,21 +164,80 @@ public class DtmJsonProcessor {
 			    String keyj = ej.getKey();
 			    allDtmAtt.add(keyj);
 			    System.out.println("\t\t" + keyj);
+			    if (keyj.equals("title")) {
+				JsonElement jej = ej.getValue();
+				if (jej instanceof JsonPrimitive)
+				    baseName = ((JsonPrimitive)jej).getAsString();
+				else
+				    System.err.println("title key does not have primitive value");
+			    } else if (keyj.equals("version")) {
+				JsonElement jej = ej.getValue();
+				if (jej instanceof JsonPrimitive)
+				    version = ((JsonPrimitive)jej).getAsString();
+				else 
+				    System.err.println("version key does not have primitive value");
+			    }
 			    HashSet<String> indsForKey = indsMap.get(keyj);
 			    if (indsForKey != null) {
 				reqInds.addAll(indsForKey);
 				//System.out.println("adding inds for key " + keyj);
 			    }
 			}
+
+			System.out.println("base name = " + baseName + ", version = " + version);
+			String baseLabel = (version == null) ? baseName : baseName + " - " + 
+			    ((Character.isDigit(version.charAt(0))) ? " v" + version : version);
+			System.out.println(baseLabel);
 			Iterator<String> k = reqInds.iterator();
 			System.out.println("\t\t\treqInds.size() = " + reqInds.size());
+			IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
+			HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 			while(k.hasNext()) {
 			    String ks = k.next();
-			    System.out.println("\t\t\t" + ks + "\t" + iriMap.lookupClassIri(ks));
+			    IRI classIri = iriMap.lookupClassIri(ks);
+			    System.out.println("\t\t\t" + ks + "\t" + classIri); 
+			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, baseLabel + " " + ks); 
+			    niMap.put(ks, oni);
+			}
+
+			//Once we've identified all the individuals we need, and we've created them, now we have to go back through
+			// and stick stuff on the individuals
+			j=dtmAttSet.iterator();
+			while (j.hasNext()) {
+			    Map.Entry<String,JsonElement> ej = j.next();
+			    String keyj = ej.getKey();
+			    if (keyj.equals("title")) {
+				//handleTitle(ej, niMap, oom, oo, odf, iriMap);
+			    } else if (keyj.equals("version")) {
+				//handleVersion(ej, niMap, oom, oo, odf, iriMap);
+			    } else if (keyj.equals("source")) {
+				//handleSource(ej, niMap, oom, oo, odf, iriMap);
+			    } else if (keyj.equals("license")) {
+			    } else if (keyj.equals("doi")) {
+			    } else if (keyj.equals("sourceCodeRelease")) {
+			    } else if (keyj.equals("generalInfo")) {
+			    } else if (keyj.equals("executables")) {
+			    } else if (keyj.equals("webApplication")) {
+			    } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
+			    } else if (keyj.equals("developer")) {
+				handleDeveloper(ej, niMap, oo, odf, iriMap);
+			    } else {
+				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step.");
+			    }
 			}
 		    }
+
 		}
-	    }
+	    
+       
+		try {
+		    oom.saveOntology(oo, new FileOutputStream("./dtm-ontology.owl"));
+		} catch (IOException ioe) {
+		    ioe.printStackTrace();
+		} catch (OWLOntologyStorageException oose) {
+		    oose.printStackTrace();
+		}
+	    } //while(i.hasNext()).  i is iterating over settings plus the main payload.
 
 		Iterator<String> si = allDtmAtt.iterator();
 		while (si.hasNext()) {
@@ -188,6 +254,26 @@ public class DtmJsonProcessor {
 	    jioe.printStackTrace();
 	} catch (JsonSyntaxException jse) {
 	    jse.printStackTrace();
+	}
+    }
+
+    public static void handleDeveloper(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	JsonElement je = e.getValue();
+	if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    String[] devs = value.split(Pattern.quote(","));
+	    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
+	    OWLNamedIndividual oni = niMap.get("developer");
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), devs[0], odf, oo);
+	    devNis.add(oni);
+	    if (devs.length > 1) {
+		for (int i=1; i<devs.length; i++) {
+		    devNis.add(createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devs[i]));
+		}
+	    }
+	} else {
+	    System.err.println("Value for developer is not primitive!");
 	}
     }
 
@@ -251,12 +337,21 @@ public class DtmJsonProcessor {
 	OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
 	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
 	oom.addAxiom(oo,ocaa);
-	OWLLiteral li = odf.getOWLLiteral(rdfsLabel);
+	addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
+	/*OWLLiteral li = odf.getOWLLiteral(rdfsLabel);
 	OWLAnnotationProperty la = odf.getOWLAnnotationProperty(labelPropIri);
 	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
 	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
-	oom.addAxiom(oo, oaaa);
+	oom.addAxiom(oo, oaaa);*/
 	return oni;
+    }
+
+    public static void addAnnotationToNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
+	OWLLiteral li = odf.getOWLLiteral(value);
+	OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
+	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
+	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
+	oom.addAxiom(oo, oaaa);	
     }
 
     public static IRI nextIri() {
