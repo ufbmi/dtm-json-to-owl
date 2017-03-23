@@ -10,8 +10,10 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
@@ -32,9 +34,16 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import edu.ufl.bmi.misc.IndividualsToCreate;
 import edu.ufl.bmi.misc.IriLookup;
@@ -184,12 +193,12 @@ public class DtmJsonProcessor {
 			    }
 			}
 
-			System.out.println("base name = " + baseName + ", version = " + version);
+			//System.out.println("base name = " + baseName + ", version = " + version);
 			String baseLabel = (version == null) ? baseName : baseName + " - " + 
 			    ((Character.isDigit(version.charAt(0))) ? " v" + version : version);
 			System.out.println(baseLabel);
 			Iterator<String> k = reqInds.iterator();
-			System.out.println("\t\t\treqInds.size() = " + reqInds.size());
+			//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
 			IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
 			HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 			while(k.hasNext()) {
@@ -214,11 +223,19 @@ public class DtmJsonProcessor {
 				//handleSource(ej, niMap, oom, oo, odf, iriMap);
 			    } else if (keyj.equals("license")) {
 			    } else if (keyj.equals("doi")) {
+				handleDoi(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("sourceCodeRelease")) {
+				handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("generalInfo")) {
+				handleGeneralInfo(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("executables")) {
+				handleExecutables(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("webApplication")) {
+				handleWebApplication(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("location")) {
+				handleLocation(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
+				handleDocumentation(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("developer")) {
 				handleDeveloper(ej, niMap, oo, odf, iriMap);
 			    } else {
@@ -257,6 +274,161 @@ public class DtmJsonProcessor {
 	}
     }
 
+    public static void handleDoi(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("doi");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+	}
+    }
+
+    public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("dtm");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    String[] htmls = value.split(Pattern.quote(","));
+	    for (String html : htmls) {
+		Document d = Jsoup.parse(html);
+		Elements links = d.select("a");
+		String url = links.get(0).attr("href");
+		String txt = links.get(0).ownText();
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	    }
+	}
+    }
+
+    public static void handleGeneralInfo(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("dtm");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
+	}
+    }
+
+    public static void handleExecutables(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("executable");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+            String value = ((JsonPrimitive)je).getAsString();
+	    String[] execs = value.split(Pattern.quote(","));
+	    ArrayList<OWLNamedIndividual> execNis = new ArrayList<OWLNamedIndividual>();
+	  
+	    System.out.println(value + " " + execs.length);
+	    String labelPrefix = "";
+	    if (execs[0].contains("<a ")) {
+		Document d = Jsoup.parse(execs[0]);
+		Elements links = d.select("a");
+		String url = links.get(0).attr("href");
+		String txt = links.get(0).ownText();
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+	    } else {
+		//otherwise, if the executable value is not html, just put whatever is in there on as a URL.
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	    }	   
+
+	    execNis.add(oni);
+	    if (execs.length > 1) {
+		for (int i=1; i<execs.length; i++) {
+		    if (execs[i].trim().startsWith("<a ")) {
+			Document d = Jsoup.parse(execs[i]);
+			Elements links = d.select("a");
+			String url = links.get(0).attr("href");
+			String txt = links.get(0).ownText();
+			
+			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("label"), txt);
+			addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			execNis.add(execi);
+
+			Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(iriMap.lookupAnnPropIri("editor preferred")));
+			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
+			if (ax.isPresent()) {
+			    OWLAnnotation oa = (ax.get()).getAnnotation();
+			    oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
+			}
+
+		    } else {
+			Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(iriMap.lookupAnnPropIri("editor preferred")));
+			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
+
+			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("hasURL"), execs[i].trim());
+			if (ax.isPresent()) {
+			    OWLAnnotation oa = (ax.get()).getAnnotation();
+			    oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
+			}
+			execNis.add(execi);
+			
+		    }
+		}
+	    }
+	    //Some of the values for executables attribute is an html link to the documentation with link text.  In that case
+	    // put the link on the executable individual with hasURL annotation, and put the link 
+	    // text on that individual as an rdfs:label annotation.
+
+	} else {
+	    System.err.println("value of documentation attribute is not primitive.");
+	}
+    }
+
+    public static void handleWebApplication(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("webexecutionof");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+            String value = ((JsonPrimitive)je).getAsString();
+	    //value is just a URL so slap it on the web execution of dtm individual
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	} else {
+	    System.err.println("value of web application attribute is not primitive.");
+	}	
+    }
+
+    public static void handleLocation(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("website");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+            String value = ((JsonPrimitive)je).getAsString();
+	    //value is just a URL so slap it on the website individual
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	} else {
+	    System.err.println("value of location attribute is not primitive.");
+	}	
+    }
+
+    public static void handleDocumentation(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("documentation");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+            String value = ((JsonPrimitive)je).getAsString();
+	    //Some of the documentation is an html link to the documentation with link text.  In that case
+	    // put the link on the documentation individual with hasURL annotation, and put the link 
+	    // text on that individual as an rdfs:label annotation.
+	    if (value.startsWith("<a ")) {
+		Document d = Jsoup.parse(value);
+		Elements links = d.select("a");
+		String url = links.get(0).attr("href");
+		String txt = links.get(0).ownText();
+		//System.out.println("URL IS " + url + " AND TEXT IS " + txt);
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+	    } else {
+		//otherwise, if the documentation value is not html, just put whatever is in there on as a URL.
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	    }
+	} else {
+	    System.err.println("value of documentation attribute is not primitive.");
+	}
+    }
+
     public static void handleDeveloper(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	JsonElement je = e.getValue();
@@ -269,8 +441,13 @@ public class DtmJsonProcessor {
 	    devNis.add(oni);
 	    if (devs.length > 1) {
 		for (int i=1; i<devs.length; i++) {
-		    devNis.add(createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devs[i]));
+		    devNis.add(createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devs[i].trim()));
 		}
+	    }
+	    for (int i=0; i<devNis.size(); i++) {
+		OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devs[i].trim());
+		OWLNamedIndividual devi = devNis.get(i);
+		createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
 	    }
 	} else {
 	    System.err.println("Value for developer is not primitive!");
@@ -352,6 +529,12 @@ public class DtmJsonProcessor {
 	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
 	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
 	oom.addAxiom(oo, oaaa);	
+    }
+
+    public static void createOWLObjectPropertyAssertion(OWLNamedIndividual source, IRI objPropIri, OWLNamedIndividual target, OWLDataFactory odf, OWLOntology oo) {
+	OWLObjectProperty oop = odf.getOWLObjectProperty(objPropIri);
+	OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
+	oom.addAxiom(oo, oopaa);
     }
 
     public static IRI nextIri() {
