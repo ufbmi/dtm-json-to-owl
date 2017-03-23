@@ -222,6 +222,7 @@ public class DtmJsonProcessor {
 			    } else if (keyj.equals("source")) {
 				//handleSource(ej, niMap, oom, oo, odf, iriMap);
 			    } else if (keyj.equals("license")) {
+				handleLicense(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("doi")) {
 				handleDoi(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("sourceCodeRelease")) {
@@ -274,13 +275,37 @@ public class DtmJsonProcessor {
 	}
     }
 
+    public static void handleLicense(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("license");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    if (value.contains("<a ")) {
+		    Document d = Jsoup.parse(value);
+		    Elements links = d.select("a");
+		    String url = links.get(0).attr("href");
+		    String txt = links.get(0).ownText();
+		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	    } else {
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+	    }
+	}
+    }
+
     public static void handleDoi(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("doi");
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+	    Document d = Jsoup.parse(value);
+	    Elements links = d.select("a");
+	    String url = links.get(0).attr("href");
+	    String txt = links.get(0).ownText();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	}
     }
 
