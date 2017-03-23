@@ -1,0 +1,18 @@
+developer	bearer	legalpersonrole
+codewriting	has active participant	developer
+codewriting	has specified output	dtm
+documentation	is about	dtm
+codewriting	realizes	programminglanguage
+doi	denotes	dtm
+versionid	denotes	dtm
+compiling	has specified input	dtm
+compiling	has specified output	executable
+executable	realized by	webexecutionof
+executable	realized by	executionof
+executable	realized by	wsexecutionof
+license	is part of	dtm
+dataaboutpathogen	is part of	dtm
+dataabouthost	is part of	dtm
+dtm	is part of	sourcerespository
+executionof	is part of	studyexecution
+website	is about	dtm

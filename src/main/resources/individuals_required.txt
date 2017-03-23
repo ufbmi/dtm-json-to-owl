@@ -12,7 +12,7 @@ directory
 version|dtm,versionid
 userGuidesAndManuals|dtm,documentation
 license|dtm,license
-controlMeasures|dtm 
+controlMeasures|dtm
 publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
 location|dtm,website

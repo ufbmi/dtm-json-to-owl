@@ -30,6 +30,6 @@ legalpersonrole	http://purl.obolibrary.org/obo/OMRSE_00000038 	class
 website	http://purl.obolibrary.org/obo/FBcv_0000667	class
 wsexecutionof	http://purl.obolibrary.org/obo/OBIws_0000104	class
 dataabouthost	http://purl.obolibrary.org/obo/IAO_0000100	class
-databoutpathogen	http://purl.obolibrary.org/obo/IAO_0000100	class
+dataaboutpathogen	http://purl.obolibrary.org/obo/IAO_0000100	class
 executionof	http://purl.obolibrary.org/obo/OBIws_0000050	class
 developer	http://purl.obolibrary.org/obo/BFO_0000040	class

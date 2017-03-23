@@ -1,5 +1,7 @@
 package edu.ufl.bmi.ontology;
 
+import java.lang.StringBuilder;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -16,10 +18,30 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.JsonArray;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+
 import edu.ufl.bmi.misc.IndividualsToCreate;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class DtmJsonProcessor {
+    static int iriCounter = 10;
+    static String iriPrefix = "http://www.pitt.edu/dc/IDE_";
+    static int iriLen = 10;
+
+    static OWLOntologyManager oom;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("./src/main/resources/software.json");
@@ -33,6 +55,15 @@ public class DtmJsonProcessor {
 	    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 	    iriMap.init();
 
+	    oom = OWLManager.createOWLOntologyManager();
+	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
+	    OWLOntology oo = null;
+	    try {
+		oo = oom.createOntology(IRI.create("http://www.pitt.edu/dc/dtm"));
+	    } catch (OWLOntologyCreationException ooce) {
+		ooce.printStackTrace();
+	    }
+	    
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
 	    System.out.println("entry set size = " + dtmEntrySet.size());
@@ -146,6 +177,9 @@ public class DtmJsonProcessor {
 		while (si.hasNext()) {
 		    System.out.println(si.next());
 		}
+		
+		System.out.println(nextIri());
+		System.out.println(nextIri());
 
 
 	} catch (IOException ioe) {
@@ -210,5 +244,28 @@ public class DtmJsonProcessor {
 
 	    return dtmEntrySet;
 	
+    }
+
+    public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
+			   OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
+	OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
+	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
+	oom.addAxiom(oo,ocaa);
+	OWLLiteral li = odf.getOWLLiteral(rdfsLabel);
+	OWLAnnotationProperty la = odf.getOWLAnnotationProperty(labelPropIri);
+	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
+	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
+	oom.addAxiom(oo, oaaa);
+	return oni;
+    }
+
+    public static IRI nextIri() {
+	String counterTxt = Integer.toString(iriCounter++);
+	StringBuilder sb = new StringBuilder(iriPrefix);
+	int numZero = 10-counterTxt.length();
+	for (int i=0; i<numZero; i++) 
+	    sb.append("0");
+	sb.append(counterTxt);
+	return IRI.create(new String(sb));
     }
 }
