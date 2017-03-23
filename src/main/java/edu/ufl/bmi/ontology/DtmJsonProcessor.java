@@ -216,11 +216,11 @@ public class DtmJsonProcessor {
 			    Map.Entry<String,JsonElement> ej = j.next();
 			    String keyj = ej.getKey();
 			    if (keyj.equals("title")) {
-				//handleTitle(ej, niMap, oom, oo, odf, iriMap);
+				handleTitle(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("version")) {
-				//handleVersion(ej, niMap, oom, oo, odf, iriMap);
+				handleVersion(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("source")) {
-				//handleSource(ej, niMap, oom, oo, odf, iriMap);
+				handleSource(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("license")) {
 				handleLicense(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("doi")) {
@@ -272,6 +272,36 @@ public class DtmJsonProcessor {
 	    jioe.printStackTrace();
 	} catch (JsonSyntaxException jse) {
 	    jse.printStackTrace();
+	}
+    }
+
+    public static void handleTitle(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("dtm");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("title"), value, odf, oo);
+	}
+    }
+
+    public static void handleVersion(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("versionid");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+	}
+    }
+
+    public static void handleSource(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual oni = niMap.get("sourcerepository");
+        JsonElement je = e.getValue();
+        if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	}
     }
 
