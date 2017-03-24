@@ -7,12 +7,12 @@ doi	denotes	dtm
 versionid	denotes	dtm
 compiling	has specified input	dtm
 compiling	has specified output	executable
-executable	realized by	webexecutionof
-executable	realized by	executionof
-executable	realized by	wsexecutionof
+executable	is realized by	webexecutionof
+executable	is realized by	executionof
+executable	is realized by	wsexecutionof
 license	is part of	dtm
 dataaboutpathogen	is part of	dtm
 dataabouthost	is part of	dtm
-dtm	is part of	sourcerespository
+dtm	is part of	sourcerepository
 executionof	is part of	studyexecution
 website	is about	dtm

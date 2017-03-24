@@ -47,6 +47,9 @@ import org.jsoup.select.Elements;
 
 import edu.ufl.bmi.misc.IndividualsToCreate;
 import edu.ufl.bmi.misc.IriLookup;
+import edu.ufl.bmi.misc.DtmIndivConnectGuide;
+import edu.ufl.bmi.misc.DtmIndividConnectRule;
+
 
 public class DtmJsonProcessor {
     static int iriCounter = 10;
@@ -243,6 +246,9 @@ public class DtmJsonProcessor {
 				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step.");
 			    }
 			}
+
+			//Now, we need to connect up all the individuals
+			connectDtmIndividuals(niMap, oo, odf, iriMap);
 		    }
 
 		}
@@ -584,6 +590,28 @@ public class DtmJsonProcessor {
 	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
 	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
 	oom.addAxiom(oo, oaaa);	
+    }
+
+
+    public static void connectDtmIndividuals(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	DtmIndivConnectGuide rules = new DtmIndivConnectGuide("./src/main/resources/obj_prop_assertions.txt");
+	try {
+	    rules.init();
+	    ArrayList<DtmIndividConnectRule> rulesList = rules.getRules();
+	    for (DtmIndividConnectRule rule : rulesList) {
+		String sourceKey = rule.getSourceKey();
+		String targetKey = rule.getTargetKey();
+		if (niMap.containsKey(sourceKey) && niMap.containsKey(targetKey)) {
+		    String objPropKey = rule.getObjPropKey();
+		    OWLNamedIndividual source = niMap.get(sourceKey);
+		    OWLNamedIndividual target = niMap.get(targetKey);
+		    IRI objPropIri = iriMap.lookupObjPropIri(objPropKey);
+		    createOWLObjectPropertyAssertion(source, objPropIri, target, odf, oo);
+		}
+	    }
+	} catch (IOException ioe) {
+	    ioe.printStackTrace();
+	}
     }
 
     public static void createOWLObjectPropertyAssertion(OWLNamedIndividual source, IRI objPropIri, OWLNamedIndividual target, OWLDataFactory odf, OWLOntology oo) {
