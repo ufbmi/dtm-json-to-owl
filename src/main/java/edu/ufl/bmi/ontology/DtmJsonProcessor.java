@@ -592,7 +592,6 @@ public class DtmJsonProcessor {
 	oom.addAxiom(oo, oaaa);	
     }
 
-
     public static void connectDtmIndividuals(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	DtmIndivConnectGuide rules = new DtmIndivConnectGuide("./src/main/resources/obj_prop_assertions.txt");
 	try {
