@@ -1,5 +1,4 @@
 developer	bearer	legalpersonrole
-codewriting	has active participant	developer
 codewriting	has specified output	dtm
 documentation	is about	dtm
 codewriting	realizes	programminglanguage

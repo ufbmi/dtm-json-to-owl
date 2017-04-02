@@ -402,6 +402,7 @@ public class DtmJsonProcessor {
 	    }	   
 
 	    //execNis.add(oni);
+	    System.err.println("there are " + execs.length + " executables");
 	    if (execs.length > 1) {
 		for (int i=1; i<execs.length; i++) {
 		    if (execs[i].trim().startsWith("<a ")) {
@@ -526,9 +527,11 @@ public class DtmJsonProcessor {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    String[] devs = value.split(Pattern.quote(","));
 	    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
-	    OWLNamedIndividual oni = niMap.get("developer");
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), devs[0], odf, oo);
-	    devNis.add(oni);
+	    OWLNamedIndividual devInd = niMap.get("developer");
+	    OWLNamedIndividual wrtInd = niMap.get("codewriting");
+
+	    addAnnotationToNamedIndividual(devInd, iriMap.lookupAnnPropIri("label"), devs[0], odf, oo);
+	    devNis.add(devInd);
 	    if (devs.length > 1) {
 		for (int i=1; i<devs.length; i++) {
 		    devNis.add(createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devs[i].trim()));
@@ -538,6 +541,7 @@ public class DtmJsonProcessor {
 		OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devs[i].trim());
 		OWLNamedIndividual devi = devNis.get(i);
 		createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
+		createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 	    }
 	} else {
 	    System.err.println("Value for developer is not primitive!");
