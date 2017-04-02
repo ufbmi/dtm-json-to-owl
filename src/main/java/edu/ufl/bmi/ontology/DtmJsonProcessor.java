@@ -416,7 +416,15 @@ public class DtmJsonProcessor {
 			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
 			if (ax.isPresent()) {
 			    OWLAnnotation oa = (ax.get()).getAnnotation();
-			    oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
+			    OWLAnnotationValue oav = oa.getValue();
+			    Optional<OWLLiteral> op = oav.asLiteral();
+			    if (op.isPresent()) {
+				OWLLiteral ol = op.get();
+				String annValue = ol.getLiteral();
+				annValue += " " + txt;
+				addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), annValue, odf, oo);
+			    }
+			    //oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
 			}
 
 		    } else {
@@ -424,12 +432,22 @@ public class DtmJsonProcessor {
 			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
 
 			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("hasURL"), execs[i].trim());
+			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), 
+											 "compiling to " + execs[i].trim());
 			if (ax.isPresent()) {
 			    OWLAnnotation oa = (ax.get()).getAnnotation();
-			    oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
+			    OWLAnnotationValue oav = oa.getValue();
+			    Optional<OWLLiteral> op = oav.asLiteral();
+			    if (op.isPresent()) {
+				OWLLiteral ol = op.get();
+				String annValue = ol.getLiteral();
+				annValue += " " + execs[i].trim();
+				addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), annValue, odf, oo);
+			    }
 			}
+			    //oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
 			execNis.add(execi);
-			
+			compNis.add(compi);
 		    }
 		}
 	    }
