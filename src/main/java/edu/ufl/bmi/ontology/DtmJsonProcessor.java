@@ -375,7 +375,12 @@ public class DtmJsonProcessor {
 
     public static void handleExecutables(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	OWLNamedIndividual oni = niMap.get("executable");
+	OWLNamedIndividual execInd = niMap.get("executable");
+	OWLNamedIndividual compInd = niMap.get("compiling");
+
+	String execIndPrefTerm = getAnnotationValueFromNamedIndividual(execInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
+	String compIndPrefTerm = getAnnotationValueFromNamedIndividual(execInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
+
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive)je).getAsString();
@@ -389,11 +394,11 @@ public class DtmJsonProcessor {
 		Elements links = d.select("a");
 		String url = links.get(0).attr("href");
 		String txt = links.get(0).ownText();
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 	    } else {
 		//otherwise, if the executable value is not html, just put whatever is in there on as a URL.
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	    }	   
 
 	    //execNis.add(oni);
@@ -405,47 +410,23 @@ public class DtmJsonProcessor {
 			String url = links.get(0).attr("href");
 			String txt = links.get(0).ownText();
 			
+			String newExecIndPrefTerm = execIndPrefTerm + " " + txt;
+			String newCompIndPrefTerm = "compiling to " + newExecIndPrefTerm;
 			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("label"), txt);
-			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), 
-											 "compiling to " + txt);
+			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), newCompIndPrefTerm);
 			addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm, odf, oo);			
+
 			execNis.add(execi);
 			compNis.add(compi);
 
-			Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(iriMap.lookupAnnPropIri("editor preferred")));
-			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
-			if (ax.isPresent()) {
-			    OWLAnnotation oa = (ax.get()).getAnnotation();
-			    OWLAnnotationValue oav = oa.getValue();
-			    Optional<OWLLiteral> op = oav.asLiteral();
-			    if (op.isPresent()) {
-				OWLLiteral ol = op.get();
-				String annValue = ol.getLiteral();
-				annValue += " " + txt;
-				addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), annValue, odf, oo);
-			    }
-			    //oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
-			}
-
 		    } else {
-			Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(iriMap.lookupAnnPropIri("editor preferred")));
-			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
-
+			String newExecIndPrefTerm = execIndPrefTerm + " " + execs[i];
+			String newCompIndPrefTerm = "compiling to " + newExecIndPrefTerm;
 			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("hasURL"), execs[i].trim());
-			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), 
-											 "compiling to " + execs[i].trim());
-			if (ax.isPresent()) {
-			    OWLAnnotation oa = (ax.get()).getAnnotation();
-			    OWLAnnotationValue oav = oa.getValue();
-			    Optional<OWLLiteral> op = oav.asLiteral();
-			    if (op.isPresent()) {
-				OWLLiteral ol = op.get();
-				String annValue = ol.getLiteral();
-				annValue += " " + execs[i].trim();
-				addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), annValue, odf, oo);
-			    }
-			}
-			    //oom.addAxiom(oo, odf.getOWLAnnotationAssertionAxiom(execi.getIRI(), oa));
+			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), newCompIndPrefTerm);
+			addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm, odf, oo);			
+
 			execNis.add(execi);
 			compNis.add(compi);
 		    }
@@ -465,6 +446,25 @@ public class DtmJsonProcessor {
 	} else {
 	    System.err.println("value of documentation attribute is not primitive.");
 	}
+    }
+
+
+    public static String getAnnotationValueFromNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, OWLOntology oo) {
+	String annValue = null;
+	
+	Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(annPropIri));
+	Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
+	if (ax.isPresent()) {
+	    OWLAnnotation oa = (ax.get()).getAnnotation();
+	    OWLAnnotationValue oav = oa.getValue();
+	    Optional<OWLLiteral> op = oav.asLiteral();
+	    if (op.isPresent()) {
+		OWLLiteral ol = op.get();
+		annValue = ol.getLiteral();
+	    }
+	}
+
+	return annValue;
     }
 
     public static void handleWebApplication(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
