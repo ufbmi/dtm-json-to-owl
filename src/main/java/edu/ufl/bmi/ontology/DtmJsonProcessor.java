@@ -34,6 +34,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -380,7 +381,7 @@ public class DtmJsonProcessor {
             String value = ((JsonPrimitive)je).getAsString();
 	    String[] execs = value.split(Pattern.quote(","));
 	    ArrayList<OWLNamedIndividual> execNis = new ArrayList<OWLNamedIndividual>();
-	  
+	    ArrayList<OWLNamedIndividual> compNis = new ArrayList<OWLNamedIndividual>();
 	    System.out.println(value + " " + execs.length);
 	    String labelPrefix = "";
 	    if (execs[0].contains("<a ")) {
@@ -395,7 +396,7 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	    }	   
 
-	    execNis.add(oni);
+	    //execNis.add(oni);
 	    if (execs.length > 1) {
 		for (int i=1; i<execs.length; i++) {
 		    if (execs[i].trim().startsWith("<a ")) {
@@ -405,8 +406,11 @@ public class DtmJsonProcessor {
 			String txt = links.get(0).ownText();
 			
 			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("label"), txt);
+			OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), 
+											 "compiling to " + txt);
 			addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 			execNis.add(execi);
+			compNis.add(compi);
 
 			Stream<OWLAnnotationAssertionAxiom> annStream = oo.annotationAssertionAxioms(oni.getIRI()).filter(w -> w.getProperty().getIRI().equals(iriMap.lookupAnnPropIri("editor preferred")));
 			Optional<OWLAnnotationAssertionAxiom> ax = annStream.findFirst();
@@ -432,7 +436,14 @@ public class DtmJsonProcessor {
 	    //Some of the values for executables attribute is an html link to the documentation with link text.  In that case
 	    // put the link on the executable individual with hasURL annotation, and put the link 
 	    // text on that individual as an rdfs:label annotation.
-
+	    for (int i=0; i<execNis.size(); i++) {
+		OWLNamedIndividual execi = execNis.get(i);
+		OWLNamedIndividual compi = compNis.get(i);
+		String execKey = "executable" + i;
+		String compKey = "compiling" + i;
+		niMap.put(execKey, execi);
+		niMap.put(compKey, compi);
+	    }
 	} else {
 	    System.err.println("value of documentation attribute is not primitive.");
 	}

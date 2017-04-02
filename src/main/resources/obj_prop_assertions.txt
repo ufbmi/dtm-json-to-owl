@@ -16,3 +16,9 @@ dataabouthost	is part of	dtm
 dtm	is part of	sourcerepository
 executionof	is part of	studyexecution
 website	is about	dtm
+compiling0	has specified input	dtm
+compiling0	has specified output	executable0
+compiling1	has specified input	dtm
+compiling1	has specified output	executable1
+compiling2	has specified input	dtm
+compiling2	has specified output	executable2
