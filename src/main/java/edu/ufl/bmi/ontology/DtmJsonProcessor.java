@@ -94,6 +94,10 @@ public class DtmJsonProcessor {
 	    Set<Map.Entry<String,JsonElement>> jeSet = jo.entrySet();
 	    System.out.println(jeSet.size());
 	    Iterator<Map.Entry<String,JsonElement>> i = jeSet.iterator();
+
+	    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
+	    HashSet<String> uniquePathogensCovered = new HashSet<String>();
+	    HashSet<String> uniqueHostsCovered = new HashSet<String>();
 	    while(i.hasNext()) {
 		Map.Entry<String,JsonElement> e = i.next();
 		String key = e.getKey();
@@ -247,6 +251,22 @@ public class DtmJsonProcessor {
 			    } else if (keyj.equals("publicationsThatUsedRelease")) {
 				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
 			    } else {
+				JsonElement jeRemainder = ej.getValue();
+				if (jeRemainder instanceof JsonPrimitive) {
+				    String value = ((JsonPrimitive)jeRemainder).getAsString();
+				
+				    if (keyj.equals("locationCoverage")) {
+					//System.out.println("LOCATION: " + value);
+					if (!value.equals("N/A"))
+					    uniqueLocationsCovered.add(value);
+				    } else if (keyj.equals("diseaseCoverage")) {
+					if (!value.equals("N/A"))
+					    uniquePathogensCovered.add(value);
+				    } else if (keyj.equals("hostSpeciesIncluded")) {
+					if (!value.equals("N/A"))
+					    uniqueHostsCovered.add(value);
+				    }
+				}
 				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step.");
 			    }
 			}
@@ -256,8 +276,7 @@ public class DtmJsonProcessor {
 		    }
 
 		}
-	    
-       
+
 		try {
 		    oom.saveOntology(oo, new FileOutputStream("./dtm-ontology.owl"));
 		} catch (IOException ioe) {
@@ -275,6 +294,23 @@ public class DtmJsonProcessor {
 		System.out.println(nextIri());
 		System.out.println(nextIri());
 
+		System.out.println("Locations required:");
+		for (String location : uniqueLocationsCovered) {
+		    System.out.println("\t" + location);
+		}
+		System.out.println();
+
+		System.out.println("Pathogens required:");
+		for (String pathogen : uniquePathogensCovered) {
+		    System.out.println("\t" + pathogen);
+		}
+		System.out.println();
+	    
+		System.out.println("Hosts required: ");
+		for (String host : uniqueHostsCovered) {
+		    System.out.println("\t" + host);
+		}
+		System.out.println();       
 
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();
