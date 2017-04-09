@@ -61,7 +61,8 @@ public class DtmJsonProcessor {
 
     public static void main(String[] args) {
 	try {
-	    FileReader fr = new FileReader("./src/main/resources/software.json");
+	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
+	    //FileReader fr = new FileReader("./src/main/resources/software.json");
 	    JsonParser jp = new JsonParser();
 	    JsonElement je  = jp.parse(fr);
 
@@ -200,7 +201,7 @@ public class DtmJsonProcessor {
 			//System.out.println("base name = " + baseName + ", version = " + version);
 			String baseLabel = (version == null) ? baseName : baseName + " - " + 
 			    ((Character.isDigit(version.charAt(0))) ? " v" + version : version);
-			System.out.println(baseLabel);
+			//System.out.println(baseLabel);
 			Iterator<String> k = reqInds.iterator();
 			//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
 			IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
@@ -208,7 +209,7 @@ public class DtmJsonProcessor {
 			while(k.hasNext()) {
 			    String ks = k.next();
 			    IRI classIri = iriMap.lookupClassIri(ks);
-			    System.out.println("\t\t\t" + ks + "\t" + classIri); 
+			    //System.out.println("\t\t\t" + ks + "\t" + classIri); 
 			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, baseLabel + " " + ks); 
 			    niMap.put(ks, oni);
 			}
@@ -243,6 +244,8 @@ public class DtmJsonProcessor {
 				handleDocumentation(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("developer")) {
 				handleDeveloper(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("publicationsThatUsedRelease")) {
+				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
 			    } else {
 				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step.");
 			    }
@@ -522,29 +525,106 @@ public class DtmJsonProcessor {
 
     public static void handleDeveloper(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual devInd = niMap.get("developer");
+	OWLNamedIndividual wrtInd = niMap.get("codewriting");
+
 	JsonElement je = e.getValue();
 	if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
-	    String[] devs = value.split(Pattern.quote(","));
+	    String[] devs = (value.contains(";")) ? value.split(Pattern.quote(";")) : value.split(Pattern.quote(","));
+	    //System.out.println("There are " + devs.length + " developers:");
 	    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
-	    OWLNamedIndividual devInd = niMap.get("developer");
-	    OWLNamedIndividual wrtInd = niMap.get("codewriting");
-
-	    addAnnotationToNamedIndividual(devInd, iriMap.lookupAnnPropIri("label"), devs[0], odf, oo);
 	    devNis.add(devInd);
-	    if (devs.length > 1) {
-		for (int i=1; i<devs.length; i++) {
-		    devNis.add(createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devs[i].trim()));
+
+	    String[] devNames = new String[devs.length];
+	    for (int i=0; i<devs.length; i++) {
+		//System.out.println("devs[i] = " + devs[i]);
+		if (devs[i].trim().startsWith("<a")) {
+		    Document d = Jsoup.parse(devs[i]);
+		    Elements links = d.select("a");
+		    String url = links.get(0).attr("href");
+		    String txt = links.get(0).ownText();
+		    devNames[i] = txt.trim();
+
+		    //System.out.println("developer name = " + devNames[i] + "\t" + txt);
+		    //System.out.println("developer href = " + url + "\t" + url);
+
+		    OWLNamedIndividual devi = null;
+		    if (i>=devNis.size()) {
+			devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
+			devNis.add(devi);
+		    } else {
+			devi = devNis.get(i);
+			addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+		    }
+		    OWLNamedIndividual emailInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("email address"), iriMap.lookupAnnPropIri("label"), url);
+		    createOWLObjectPropertyAssertion(emailInd, iriMap.lookupObjPropIri("is contact information about"), devi, odf, oo);
+		} else {
+		    devNames[i] = devs[i].trim();
+		    if (i>=devNis.size()) {
+			OWLNamedIndividual devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
+			devNis.add(devi);
+			addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+		    } else {
+			addAnnotationToNamedIndividual(devNis.get(i), iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+		    }
 		}
+		//System.out.println(i);
 	    }
+
 	    for (int i=0; i<devNis.size(); i++) {
-		OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devs[i].trim());
+		OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devNames[i]);
 		OWLNamedIndividual devi = devNis.get(i);
 		createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
 		createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 	    }
 	} else {
 	    System.err.println("Value for developer is not primitive!");
+	}
+    }
+
+    public static void handlePublicationsThatUsedRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual executableInd = niMap.get("executable");
+	OWLNamedIndividual execInd = niMap.get("executionof");
+	OWLNamedIndividual studyInd = niMap.get("studyexecution");
+
+	JsonElement je = e.getValue();
+	if (je instanceof JsonPrimitive) {
+	    String value = ((JsonPrimitive)je).getAsString();
+	    ArrayList<String> pubInfo = new ArrayList<String>();
+	    ArrayList<OWLNamedIndividual> execInds = new ArrayList<OWLNamedIndividual>();
+	    ArrayList<OWLNamedIndividual> studyInds = new ArrayList<OWLNamedIndividual>();
+
+	    if (value.contains("<li>")) {
+		    Document d = Jsoup.parse(value);
+		    Elements pubs = d.select("li");
+		    System.out.println("THERE ARE " + pubs.size() + " pubs that used release.");
+		    for (Element pub : pubs) {
+			pubInfo.add(pub.ownText().trim());
+		    }
+	    } else {
+		String[] pubs = value.split(Pattern.quote(";"));
+		//System.out.println("value = " + value);
+		//System.out.println("THERE ARE " + pubs.length + " pubs that used release.");
+		for (int i=0; i<pubs.length; i++) {
+		    pubInfo.add(pubs[i].trim());
+		}
+	    }
+
+	    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
+	    addAnnotationToNamedIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
+
+	    for (int i=1; i<pubInfo.size(); i++) {
+		OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executionof"), iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(i));
+		OWLNamedIndividual studyi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("studyexecution"), iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(i));
+		
+		createOWLObjectPropertyAssertion(executableInd, iriMap.lookupObjPropIri("is realized by"), execi, odf, oo); 
+		createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("is part of"), studyi, odf, oo); 
+	    }
+
+	} else {
+	    System.err.println("VALUE(S) OF PUBLICATIONSTHATUSEDRELEASE ATTRIBUTE IS(ARE) NOT PRIMITIVE");
 	}
     }
 

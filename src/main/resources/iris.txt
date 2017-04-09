@@ -34,3 +34,5 @@ dataaboutpathogen	http://purl.obolibrary.org/obo/IAO_0000100	class
 executionof	http://purl.obolibrary.org/obo/OBIws_0000050	class
 developer	http://purl.obolibrary.org/obo/BFO_0000040	class
 editor preferred	http://purl.obolibrary.org/obo/IAO_0000111	annotation
+is contact information about	http://purl.obolibrary.org/obo/OMIABIS_0000042	object property
+email address	http://purl.obolibrary.org/obo/IAO_0000429	class
