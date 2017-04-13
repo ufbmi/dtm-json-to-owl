@@ -1,6 +1,6 @@
 hostSpeciesIncluded|dtm,dataabouthost
 diseaseCoverage|dtm,dataaboutpathogen
-isApolloEnabled
+isApolloEnabled|dtm,compiling,executable,wsexecutionof
 executables|dtm,compiling,executable
 webApplication|dtm,compiling,executable,webexecutionof
 sourceCodeRelease|dtm
@@ -16,7 +16,8 @@ controlMeasures|dtm
 publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
 location|dtm,website
-developer|dtm,codewriting,developer
+site|dtm,website
+developer|dtm,codewriting,developer,legalpersonrole
 publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable
 doi|dtm,doi

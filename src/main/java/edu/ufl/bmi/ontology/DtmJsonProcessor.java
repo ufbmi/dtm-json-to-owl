@@ -59,6 +59,10 @@ public class DtmJsonProcessor {
 
     static OWLOntologyManager oom;
 
+    static String baseName;
+    static String[] versionNames;
+    static String[] fullNames;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
@@ -172,8 +176,6 @@ public class DtmJsonProcessor {
 			  what's source vs. sourceCodeRelease
 			*/
 
-		        String baseName = key;
-			String version = null;
 			Set<Map.Entry<String,JsonElement>> dtmAttSet = jo2.entrySet();
 			Iterator<Map.Entry<String,JsonElement>> j = dtmAttSet.iterator();
 			HashSet<String> reqInds = new HashSet<String>();
@@ -190,10 +192,30 @@ public class DtmJsonProcessor {
 				    System.err.println("title key does not have primitive value");
 			    } else if (keyj.equals("version")) {
 				JsonElement jej = ej.getValue();
-				if (jej instanceof JsonPrimitive)
-				    version = ((JsonPrimitive)jej).getAsString();
-				else 
-				    System.err.println("version key does not have primitive value");
+				if (jej instanceof JsonPrimitive) {
+				    /* versionNames = new String[1];
+				    versionNames[0] = ((JsonPrimitive)jej).getAsString();
+				    System.out.println("CAUTION: There are still version primitives!"); */
+				    throw new IllegalArgumentException("Version element may not be primitive");
+				}
+				else {
+				    //System.err.println("version key does not have primitive value");
+				    //System.err.println("it's type is instead " + jej.getClass());
+				    JsonArray versionArray = (JsonArray)jej;
+				    Iterator<JsonElement> vIter = versionArray.iterator();
+				    versionNames = new String[versionArray.size()];
+				    int vIndex = 0;
+				    while (vIter.hasNext()) {
+					JsonElement vElement = vIter.next();
+					//System.out.println("Version element is " + vElement.getClass());
+					if (vElement instanceof JsonPrimitive) {
+					    versionNames[vIndex++] = ((JsonPrimitive)vElement).getAsString();
+					} else {
+					    System.err.println("Version element is not primitive!!!");
+					}
+				    }
+				    System.out.println("Number of versions is : " + vIndex);
+				}
 			    }
 			    HashSet<String> indsForKey = indsMap.get(keyj);
 			    if (indsForKey != null) {
@@ -203,8 +225,8 @@ public class DtmJsonProcessor {
 			}
 
 			//System.out.println("base name = " + baseName + ", version = " + version);
-			String baseLabel = (version == null) ? baseName : baseName + " - " + 
-			    ((Character.isDigit(version.charAt(0))) ? " v" + version : version);
+			String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
+			    ((Character.isDigit(versionNames[0].charAt(0))) ? " v" + versionNames[0] : versionNames[0]);
 			//System.out.println(baseLabel);
 			Iterator<String> k = reqInds.iterator();
 			//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
@@ -213,7 +235,7 @@ public class DtmJsonProcessor {
 			while(k.hasNext()) {
 			    String ks = k.next();
 			    IRI classIri = iriMap.lookupClassIri(ks);
-			    //System.out.println("\t\t\t" + ks + "\t" + classIri); 
+			    //System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
 			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, baseLabel + " " + ks); 
 			    niMap.put(ks, oni);
 			}
@@ -242,7 +264,7 @@ public class DtmJsonProcessor {
 				handleExecutables(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("webApplication")) {
 				handleWebApplication(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("location")) {
+			    } else if (keyj.equals("location") || keyj.equals("site")) {
 				handleLocation(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
 				handleDocumentation(ej, niMap, oo, odf, iriMap);
@@ -255,19 +277,34 @@ public class DtmJsonProcessor {
 				if (jeRemainder instanceof JsonPrimitive) {
 				    String value = ((JsonPrimitive)jeRemainder).getAsString();
 				
-				    if (keyj.equals("locationCoverage")) {
-					//System.out.println("LOCATION: " + value);
-					if (!value.equals("N/A"))
-					    uniqueLocationsCovered.add(value);
-				    } else if (keyj.equals("diseaseCoverage")) {
-					if (!value.equals("N/A"))
-					    uniquePathogensCovered.add(value);
-				    } else if (keyj.equals("hostSpeciesIncluded")) {
-					if (!value.equals("N/A"))
-					    uniqueHostsCovered.add(value);
+				} else if (jeRemainder instanceof JsonArray) {
+				    JsonArray remArray = (JsonArray)jeRemainder;
+				    Iterator<JsonElement> remIter = remArray.iterator();
+				    while (remIter.hasNext()) {
+					JsonElement remNext = remIter.next();
+					if (remNext instanceof JsonPrimitive) {
+					    String value = ((JsonPrimitive)remNext).getAsString();
+					    
+					    if (keyj.equals("locationCoverage")) {
+						//System.out.println("LOCATION: " + value);
+						if (!value.equals("N/A"))
+						    uniqueLocationsCovered.add(value);
+					    } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
+						if (!value.equals("N/A"))
+						    uniquePathogensCovered.add(value);
+					    } else if (keyj.equals("hostSpeciesIncluded")) {
+						if (!value.equals("N/A"))
+						    uniqueHostsCovered.add(value);
+					    }
+					    
+					} else {
+					    throw new IllegalArgumentException("ERROR: element " + keyj + "has array of values that are complex.");
+					}
 				    }
+				} else { 
+				    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
 				}
-				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step.");
+				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
 			    }
 			}
 
@@ -328,6 +365,8 @@ public class DtmJsonProcessor {
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("title"), value, odf, oo);
+	} else {
+	    System.err.println("Title attribute has value that is not primitive.");
 	}
     }
 
@@ -338,6 +377,8 @@ public class DtmJsonProcessor {
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+	} else {
+	    System.err.println("Version attribute has value that is not primitive.");
 	}
     }
 
@@ -348,6 +389,8 @@ public class DtmJsonProcessor {
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	} else {
+	    System.err.println("Source attribute has value that is not primitive.");
 	}
     }
 
@@ -367,6 +410,8 @@ public class DtmJsonProcessor {
 	    } else {
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 	    }
+	} else {
+	    System.err.println("License attribute has value that is not primitive.");
 	}
     }
 
@@ -382,6 +427,8 @@ public class DtmJsonProcessor {
 	    String txt = links.get(0).ownText();
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	} else {
+	    System.err.println("DOI attribute has value that is not primitive.");
 	}
     }
 
@@ -399,6 +446,8 @@ public class DtmJsonProcessor {
 		String txt = links.get(0).ownText();
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	    }
+	} else {
+	    System.err.println("Source code release attribute has value that is not primitive.");
 	}
     }
 
@@ -409,6 +458,8 @@ public class DtmJsonProcessor {
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
+	} else {
+	    System.err.println("General info attribute has value that is not primitive.");
 	}
     }
 
@@ -484,7 +535,7 @@ public class DtmJsonProcessor {
 		niMap.put(compKey, compi);
 	    }
 	} else {
-	    System.err.println("value of documentation attribute is not primitive.");
+	    System.err.println("Executables  attribute has value that is not primitive.");
 	}
     }
 
@@ -516,7 +567,7 @@ public class DtmJsonProcessor {
 	    //value is just a URL so slap it on the web execution of dtm individual
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	} else {
-	    System.err.println("value of web application attribute is not primitive.");
+	    System.err.println("Web application attribute has value that is not primitive.");
 	}	
     }
 
@@ -529,7 +580,7 @@ public class DtmJsonProcessor {
 	    //value is just a URL so slap it on the website individual
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	} else {
-	    System.err.println("value of location attribute is not primitive.");
+	    System.err.println("Location attribute has value that is not primitive.");
 	}	
     }
 
@@ -555,7 +606,7 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	    }
 	} else {
-	    System.err.println("value of documentation attribute is not primitive.");
+	    System.err.println("Documentation attribute has value that is not primitive.");
 	}
     }
 
@@ -615,7 +666,7 @@ public class DtmJsonProcessor {
 		createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 	    }
 	} else {
-	    System.err.println("Value for developer is not primitive!");
+	    System.err.println("Developer attribute has value that is not primitive.");
 	}
     }
 
@@ -660,7 +711,7 @@ public class DtmJsonProcessor {
 	    }
 
 	} else {
-	    System.err.println("VALUE(S) OF PUBLICATIONSTHATUSEDRELEASE ATTRIBUTE IS(ARE) NOT PRIMITIVE");
+	    System.err.println("Publications that used release attribute has value that is not primitive.");
 	}
     }
 
