@@ -89,7 +89,7 @@ public class DtmJsonProcessor {
 	    
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
-	    System.out.println("entry set size = " + dtmEntrySet.size());
+	    //System.out.println("entry set size = " + dtmEntrySet.size());
 
 	    System.out.println("Main element is object: " + je.isJsonObject());
 
@@ -102,6 +102,7 @@ public class DtmJsonProcessor {
 	    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	    HashSet<String> uniquePathogensCovered = new HashSet<String>();
 	    HashSet<String> uniqueHostsCovered = new HashSet<String>();
+	    HashSet<String> populationsNeeded = new HashSet<String>();
 	    while(i.hasNext()) {
 		Map.Entry<String,JsonElement> e = i.next();
 		String key = e.getKey();
@@ -118,7 +119,7 @@ public class DtmJsonProcessor {
 		    //System.out.println(" " + entryTxt);
 		    if (dtmEntrySet.contains(entryTxt)) {
 			System.out.println("\t"+ key  + " is a DTM.");
-
+			baseName = key;
 			//create OWL individual for DTM
 			    //for it's dc:title, use the title entry in the JSON if available, else use the key variable
 			    //for rdfs:label, title/key plus version
@@ -188,8 +189,10 @@ public class DtmJsonProcessor {
 				JsonElement jej = ej.getValue();
 				if (jej instanceof JsonPrimitive)
 				    baseName = ((JsonPrimitive)jej).getAsString();
-				else
+				else {
 				    System.err.println("title key does not have primitive value");
+				    throw new IllegalArgumentException("title element may not be something other than primitive!");
+				}
 			    } else if (keyj.equals("version")) {
 				JsonElement jej = ej.getValue();
 				if (jej instanceof JsonPrimitive) {
@@ -243,6 +246,10 @@ public class DtmJsonProcessor {
 			//Once we've identified all the individuals we need, and we've created them, now we have to go back through
 			// and stick stuff on the individuals
 			j=dtmAttSet.iterator();
+			HashSet<String> locations = new HashSet<String>();
+			HashSet<String> pathogens = new HashSet<String>();
+			HashSet<String> hosts = new HashSet<String>();
+
 			while (j.hasNext()) {
 			    Map.Entry<String,JsonElement> ej = j.next();
 			    String keyj = ej.getKey();
@@ -287,20 +294,27 @@ public class DtmJsonProcessor {
 					    
 					    if (keyj.equals("locationCoverage")) {
 						//System.out.println("LOCATION: " + value);
-						if (!value.equals("N/A"))
+						if (!value.equals("N/A")) {
 						    uniqueLocationsCovered.add(value);
+						    locations.add(value);
+						}
 					    } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
-						if (!value.equals("N/A"))
+						if (!value.equals("N/A")) {
 						    uniquePathogensCovered.add(value);
+						    pathogens.add(value);
+						}
 					    } else if (keyj.equals("hostSpeciesIncluded")) {
-						if (!value.equals("N/A"))
+						if (!value.equals("N/A")) {
 						    uniqueHostsCovered.add(value);
+						    hosts.add(value);
+						}
 					    }
 					    
 					} else {
 					    throw new IllegalArgumentException("ERROR: element " + keyj + "has array of values that are complex.");
 					}
 				    }
+				    
 				} else { 
 				    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
 				}
@@ -310,6 +324,25 @@ public class DtmJsonProcessor {
 
 			//Now, we need to connect up all the individuals
 			connectDtmIndividuals(niMap, oo, odf, iriMap);
+
+			//System.out.println(locations.size());
+			//System.out.println(pathogens.size());
+			//System.out.println(hosts.size());
+
+			for (String loci : locations) {
+			    for (String path : pathogens) {
+				String pop = path + " in region of " + loci;
+				populationsNeeded.add(pop);
+				//System.out.println(pop);
+			    }
+			    for (String host : hosts) {
+				String pop = host + " in region of " + loci;
+				populationsNeeded.add(pop);
+				//System.out.println(pop);
+			    }
+			}
+
+
 		    }
 
 		}
@@ -346,6 +379,12 @@ public class DtmJsonProcessor {
 		System.out.println("Hosts required: ");
 		for (String host : uniqueHostsCovered) {
 		    System.out.println("\t" + host);
+		}
+		System.out.println();       
+
+		System.out.println("Populations required: ");
+		for (String pop : populationsNeeded) {
+		    System.out.println("\t" + pop);
 		}
 		System.out.println();       
 
@@ -472,12 +511,20 @@ public class DtmJsonProcessor {
 	String compIndPrefTerm = getAnnotationValueFromNamedIndividual(execInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
 
         JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-            String value = ((JsonPrimitive)je).getAsString();
-	    String[] execs = value.split(Pattern.quote(","));
+        if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    String[] execs = new String[elemArray.size()];
+	    int iExec = 0;
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		String value = ((JsonPrimitive)elemi).getAsString();
+		execs[iExec++] = value;
+	    }
+
 	    ArrayList<OWLNamedIndividual> execNis = new ArrayList<OWLNamedIndividual>();
 	    ArrayList<OWLNamedIndividual> compNis = new ArrayList<OWLNamedIndividual>();
-	    System.out.println(value + " " + execs.length);
+
 	    String labelPrefix = "";
 	    if (execs[0].contains("<a ")) {
 		Document d = Jsoup.parse(execs[0]);
@@ -488,11 +535,11 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 	    } else {
 		//otherwise, if the executable value is not html, just put whatever is in there on as a URL.
-		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), execs[0], odf, oo);
 	    }	   
 
 	    //execNis.add(oni);
-	    System.err.println("there are " + execs.length + " executables");
+	    //System.err.println("there are " + execs.length + " executables");
 	    if (execs.length > 1) {
 		for (int i=1; i<execs.length; i++) {
 		    if (execs[i].trim().startsWith("<a ")) {
@@ -535,7 +582,8 @@ public class DtmJsonProcessor {
 		niMap.put(compKey, compi);
 	    }
 	} else {
-	    System.err.println("Executables  attribute has value that is not primitive.");
+	    System.err.println("Executables  attribute has value that is not array.");
+	    throw new IllegalArgumentException("executables must be an array and isn't");
 	}
     }
 
@@ -589,7 +637,7 @@ public class DtmJsonProcessor {
 	OWLNamedIndividual oni = niMap.get("documentation");
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
-            String value = ((JsonPrimitive)je).getAsString();
+	    String value = ((JsonPrimitive)je).getAsString();
 	    //Some of the documentation is an html link to the documentation with link text.  In that case
 	    // put the link on the documentation individual with hasURL annotation, and put the link 
 	    // text on that individual as an rdfs:label annotation.
@@ -602,11 +650,44 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 	    } else {
-		//otherwise, if the documentation value is not html, just put whatever is in there on as a URL.
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		//otherwise, if the documentation value is not an <a href=... construct then if it starts with http:/// add as URL otherwise, add as label
+		if (value.startsWith("http:"))
+		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		else
+		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);		    
+	    }
+	} else if (je instanceof JsonArray) {
+	    JsonArray ja = (JsonArray)je;
+	    System.out.println("DOCUMENTATION SIZE = " + ja.size());
+	    Iterator<JsonElement> elemIter = ja.iterator();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		int iDoc = 1;
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    //Some of the documentation is an html link to the documentation with link text.  In that case
+		    // put the link on the documentation individual with hasURL annotation, and put the link 
+		    // text on that individual as an rdfs:label annotation.
+		    if (value.startsWith("<a ")) {
+			Document d = Jsoup.parse(value);
+			Elements links = d.select("a");
+			String url = links.get(0).attr("href");
+			String txt = links.get(0).ownText();
+			//System.out.println("URL IS " + url + " AND TEXT IS " + txt);
+			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+		    } else {
+			//otherwise, if the documentation value is not html, just put whatever is in there on as a URL.
+			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		    }
+		} else {
+		    throw new IllegalArgumentException("entry in list of documentation is not primitive, but should be");
+		}
+		iDoc++;
+		if (elemIter.hasNext()) oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("documentation"), iriMap.lookupAnnPropIri("editor preferred"), baseName + " documentation " + iDoc); 
 	    }
 	} else {
-	    System.err.println("Documentation attribute has value that is not primitive.");
+	    System.err.println("Documentation attribute has value that is not array!.");
 	}
     }
 
@@ -620,6 +701,17 @@ public class DtmJsonProcessor {
 	    String value = ((JsonPrimitive)je).getAsString();
 	    String[] devs = (value.contains(";")) ? value.split(Pattern.quote(";")) : value.split(Pattern.quote(","));
 	    //System.out.println("There are " + devs.length + " developers:");
+	    System.err.println("Developer attribute has value that is primitive.");
+	} else {
+	    JsonArray devArray = (JsonArray)je;
+	    String[] devs = new String[devArray.size()];
+	    Iterator<JsonElement> devIter = devArray.iterator();
+	    int iDev = 0;
+	    while (devIter.hasNext()) {
+		JsonElement devElement = devIter.next();
+		devs[iDev++] = ((JsonPrimitive)devElement).getAsString();
+	    }
+
 	    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
 	    devNis.add(devInd);
 
@@ -665,8 +757,6 @@ public class DtmJsonProcessor {
 		createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
 		createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 	    }
-	} else {
-	    System.err.println("Developer attribute has value that is not primitive.");
 	}
     }
 
@@ -738,14 +828,14 @@ public class DtmJsonProcessor {
 				JsonObject jo2 = (JsonObject)jei;
 				JsonElement jei1 = jo2.get("Disease transmission models");
 				if (jei1 != null) {
-				    System.out.println(jei1.isJsonArray());
+				    //System.out.println(jei1.isJsonArray());
 				    JsonArray ja2 = (JsonArray)jei1;
 				    Iterator<JsonElement> j = ja2.iterator();
 				    while (j.hasNext()) {
 					JsonElement jej = j.next();
 					if (jej.isJsonPrimitive()) {
 					    JsonPrimitive jp = (JsonPrimitive)jej;
-					    System.out.println("\t\t" + jp.getAsString());
+					    System.out.println("init entry set::\t\t" + jp.getAsString());
 					    dtmEntrySet.add(jp.getAsString());
 					    
 					}
@@ -781,6 +871,9 @@ public class DtmJsonProcessor {
 	OWLAnnotation oa = odf.getOWLAnnotation(la, li);
 	OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
 	oom.addAxiom(oo, oaaa);*/
+
+	//if (rdfsLabel.contains("dtm")) System.out.println(rdfsLabel + " created with IRI: " + oni.getIRI());
+
 	return oni;
     }
 
