@@ -610,12 +610,19 @@ public class DtmJsonProcessor {
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("webexecutionof");
         JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-            String value = ((JsonPrimitive)je).getAsString();
-	    //value is just a URL so slap it on the web execution of dtm individual
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+        if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    System.out.println("Web application size: " + elemArray.size());
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		String value = ((JsonPrimitive)elemi).getAsString();
+		//value is just a URL so slap it on the web execution of dtm individual
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	    }
 	} else {
 	    System.err.println("Web application attribute has value that is not primitive.");
+	    throw new IllegalArgumentException("Web application attribute must be array.");
 	}	
     }
 
@@ -629,6 +636,7 @@ public class DtmJsonProcessor {
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	} else {
 	    System.err.println("Location attribute has value that is not primitive.");
+	    throw new IllegalArgumentException("location attribute must be primitive.");
 	}	
     }
 
@@ -658,7 +666,7 @@ public class DtmJsonProcessor {
 	    }
 	} else if (je instanceof JsonArray) {
 	    JsonArray ja = (JsonArray)je;
-	    System.out.println("DOCUMENTATION SIZE = " + ja.size());
+	    //System.out.println("DOCUMENTATION SIZE = " + ja.size());
 	    Iterator<JsonElement> elemIter = ja.iterator();
 	    while (elemIter.hasNext()) {
 		JsonElement elemi = elemIter.next();
@@ -767,25 +775,31 @@ public class DtmJsonProcessor {
 	OWLNamedIndividual studyInd = niMap.get("studyexecution");
 
 	JsonElement je = e.getValue();
-	if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+
 	    ArrayList<String> pubInfo = new ArrayList<String>();
 	    ArrayList<OWLNamedIndividual> execInds = new ArrayList<OWLNamedIndividual>();
 	    ArrayList<OWLNamedIndividual> studyInds = new ArrayList<OWLNamedIndividual>();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		String value = ((JsonPrimitive)elemi).getAsString();
 
-	    if (value.contains("<li>")) {
+		if (value.contains("<li>")) {
 		    Document d = Jsoup.parse(value);
 		    Elements pubs = d.select("li");
 		    System.out.println("THERE ARE " + pubs.size() + " pubs that used release.");
 		    for (Element pub : pubs) {
 			pubInfo.add(pub.ownText().trim());
 		    }
-	    } else {
-		String[] pubs = value.split(Pattern.quote(";"));
-		//System.out.println("value = " + value);
-		//System.out.println("THERE ARE " + pubs.length + " pubs that used release.");
-		for (int i=0; i<pubs.length; i++) {
-		    pubInfo.add(pubs[i].trim());
+		} else {
+		    String[] pubs = value.split(Pattern.quote(";"));
+		    //System.out.println("value = " + value);
+		    //System.out.println("THERE ARE " + pubs.length + " pubs that used release.");
+		    for (int i=0; i<pubs.length; i++) {
+			pubInfo.add(pubs[i].trim());
+		    }
 		}
 	    }
 
@@ -802,6 +816,7 @@ public class DtmJsonProcessor {
 
 	} else {
 	    System.err.println("Publications that used release attribute has value that is not primitive.");
+	    throw new IllegalArgumentException("value for pubsThatUsedRelease cannot be primitive (must be array).");
 	}
     }
 
