@@ -63,6 +63,9 @@ public class DtmJsonProcessor {
     static String[] versionNames;
     static String[] fullNames;
 
+    static String versionSuffix;
+    static String fullName;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
@@ -120,35 +123,6 @@ public class DtmJsonProcessor {
 		    if (dtmEntrySet.contains(entryTxt)) {
 			System.out.println("\t"+ key  + " is a DTM.");
 			baseName = key;
-			//create OWL individual for DTM
-			    //for it's dc:title, use the title entry in the JSON if available, else use the key variable
-			    //for rdfs:label, title/key plus version
-			    //sourceCodeRelease is URL to release of source code - annotate individual for DTM with hasURL for this
-			    //for generalInfo key, create human readable synopsis annotation with the value
-
-			//for doi key, create individual of type 'digital object identifier', annotate with rdfs:label = value.  Create denotes
-			// relationship to dtm.
-
-			//if key is version, create software version identifier individual, and connect it to DTM with denotes.  Annotate it with 
-			//  value associated with key as rdfs:label.  If there is an executable individual connect version identifier to it with denotes.
-
-			//whereas source is URL to source code repository generally - annotate indivdiual for source code repo with hasURL for this
-
-			//executables: create individual, dc:title is label of DTM individual plus " executable", and the value here is hasURL.
-			//  also need individual for process of compiling code.  need to link DTM individual to compiling individual, compiling
-			//  individual to executable individual
-
-			//documentation: individual for documentation, is about relationship to DTM.  dc:title is "Documentation for " + rdfs:label from dtm individual
-			// ditto for userGuideAndManuals
-
-			//license: create individual, annotate with rdfs:label = value, and create part of relationship to dtm individual.
-
-			//webApplication: create individual for software execution, annotate with hasURL = value, and connect it to executable via
-			//   realizes executable.  If executable doesn't exist, do same as executables, but no hasURL on the executable.
-
-			//developer: split on commas, remove 'and', and for each entry: create individual of type IC, create individual of type
-			// legal person role (value and value's legal person role, respectively), IC is bearer of role, IC actively participates
-			// in process of writing dtm (another individual of type software development), that process has specified output dtm.
 
 			/*
 			  hostSpeciesIncluded
@@ -217,6 +191,25 @@ public class DtmJsonProcessor {
 					    System.err.println("Version element is not primitive!!!");
 					}
 				    }
+
+				    if (baseName.contains("FluTE") && versionNames.length > 1) {
+					versionSuffix = "";
+					for (int iName=0; iName<versionNames.length; iName++) {
+					    versionSuffix += versionNames[iName] + ((iName<versionNames.length-1) ? ", " : "");
+					}
+				    } else if (baseName.contains("GLEAM") && versionNames.length > 1) {
+					versionSuffix = "";
+					for (int iName=0; iName<versionNames.length; iName++) {
+					    if (versionNames[iName].contains("Server")) {
+						versionSuffix = versionNames[iName];
+					    }
+					}
+				    } else if (baseName.contains("NAADSM") && versionNames.length > 1) {
+					//for now, just set versionSuffix = versionNames[0], but requires more work.
+					versionSuffix = versionNames[0];
+				    } else {
+					versionSuffix = versionNames[0];
+				    }
 				    System.out.println("Number of versions is : " + vIndex);
 				}
 			    }
@@ -229,8 +222,9 @@ public class DtmJsonProcessor {
 
 			//System.out.println("base name = " + baseName + ", version = " + version);
 			String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
-			    ((Character.isDigit(versionNames[0].charAt(0))) ? " v" + versionNames[0] : versionNames[0]);
-			//System.out.println(baseLabel);
+			    ((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
+			fullName = baseLabel;
+			System.out.println(fullName);
 			Iterator<String> k = reqInds.iterator();
 			//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
 			IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
@@ -239,7 +233,7 @@ public class DtmJsonProcessor {
 			    String ks = k.next();
 			    IRI classIri = iriMap.lookupClassIri(ks);
 			    //System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
-			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, baseLabel + " " + ks); 
+			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, fullName + " " + ks); 
 			    niMap.put(ks, oni);
 			}
 
