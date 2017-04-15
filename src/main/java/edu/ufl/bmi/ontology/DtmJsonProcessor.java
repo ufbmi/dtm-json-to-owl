@@ -192,7 +192,7 @@ public class DtmJsonProcessor {
 					}
 				    }
 
-				    if (baseName.contains("FluTE") && versionNames.length > 1) {
+				    if ((baseName.contains("FluTE") || baseName.contains("NAADSM"))&& versionNames.length > 1) {
 					versionSuffix = "";
 					for (int iName=0; iName<versionNames.length; iName++) {
 					    versionSuffix += versionNames[iName] + ((iName<versionNames.length-1) ? ", " : "");
@@ -204,9 +204,6 @@ public class DtmJsonProcessor {
 						versionSuffix = versionNames[iName];
 					    }
 					}
-				    } else if (baseName.contains("NAADSM") && versionNames.length > 1) {
-					//for now, just set versionSuffix = versionNames[0], but requires more work.
-					versionSuffix = versionNames[0];
 				    } else {
 					versionSuffix = versionNames[0];
 				    }
@@ -406,13 +403,7 @@ public class DtmJsonProcessor {
     public static void handleVersion(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("versionid");
-        JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
-	} else {
-	    System.err.println("Version attribute has value that is not primitive.");
-	}
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
     }
 
     public static void handleSource(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
