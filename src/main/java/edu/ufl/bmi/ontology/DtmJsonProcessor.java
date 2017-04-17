@@ -3,6 +3,7 @@ package edu.ufl.bmi.ontology;
 import java.lang.StringBuilder;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
 import java.util.Iterator;
@@ -105,6 +106,7 @@ public class DtmJsonProcessor {
 	    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	    HashSet<String> uniquePathogensCovered = new HashSet<String>();
 	    HashSet<String> uniqueHostsCovered = new HashSet<String>();
+	    HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
 	    HashSet<String> populationsNeeded = new HashSet<String>();
 	    while(i.hasNext()) {
 		Map.Entry<String,JsonElement> e = i.next();
@@ -320,20 +322,22 @@ public class DtmJsonProcessor {
 			//System.out.println(pathogens.size());
 			//System.out.println(hosts.size());
 
+			ArrayList<String> popsForThisDtm = new ArrayList<String>();
 			for (String loci : locations) {
 			    for (String path : pathogens) {
 				String pop = path + " in region of " + loci;
 				populationsNeeded.add(pop);
+				popsForThisDtm.add(pop);
 				//System.out.println(pop);
 			    }
 			    for (String host : hosts) {
 				String pop = host + " in region of " + loci;
 				populationsNeeded.add(pop);
+				popsForThisDtm.add(pop);
 				//System.out.println(pop);
 			    }
 			}
-
-
+			popsNeededByDtm.put(fullName, popsForThisDtm);
 		    }
 
 		}
@@ -378,6 +382,20 @@ public class DtmJsonProcessor {
 		    System.out.println("\t" + pop);
 		}
 		System.out.println();       
+
+		FileWriter fw = new FileWriter("./pops_by_dtm.txt");
+		int iPop = 1;
+		Set<String> dtmsWithPops = popsNeededByDtm.keySet();
+		for (String dtm : dtmsWithPops) {
+		    ArrayList<String> popsNeeded = popsNeededByDtm.get(dtm);
+		    for (String pop : popsNeeded) {
+			System.out.println(iPop + "\t" + dtm + "\t" + pop);
+			fw.write(iPop + "\t" + dtm + "\t" + pop + "\n");
+			iPop++;
+		    }
+		}
+		fw.close();
+					     
 
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();
