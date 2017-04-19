@@ -12,6 +12,7 @@ public class IriLookup {
     HashMap<String, IRI> classIriMap;
     HashMap<String, IRI> objPropIriMap;
     HashMap<String, IRI> annPropIriMap;
+    HashMap<String, IRI> individIriMap;
 
     String fname;
 
@@ -20,6 +21,7 @@ public class IriLookup {
 	classIriMap = new HashMap<String, IRI>();
 	objPropIriMap = new HashMap<String, IRI>();
 	annPropIriMap = new HashMap<String, IRI>();
+	individIriMap = new HashMap<String, IRI>();
     }
 
     public void init() throws IOException {
@@ -34,6 +36,8 @@ public class IriLookup {
 		objPropIriMap.put(flds[0], IRI.create(flds[1]));
 	    } else if (flds[2].equals("annotation")) {
 		annPropIriMap.put(flds[0], IRI.create(flds[1]));
+	    } else if (flds[2].equals("individual")) {
+		individIriMap.put(flds[0], IRI.create(flds[1]));
 	    } else {
 		System.err.println("iri type is: " + flds[2] + ", line is " + line);
 	    }
@@ -50,5 +54,9 @@ public class IriLookup {
 
     public IRI lookupAnnPropIri(String key) {
 	return annPropIriMap.get(key);
+    }
+
+    public IRI lookupIndividIri(String key) {
+	return individIriMap.get(key);
     }
 }
