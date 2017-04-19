@@ -67,6 +67,8 @@ public class DtmJsonProcessor {
     static String versionSuffix;
     static String fullName;
 
+    static OWLNamedIndividual olympus;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
@@ -90,6 +92,8 @@ public class DtmJsonProcessor {
 	    } catch (OWLOntologyCreationException ooce) {
 		ooce.printStackTrace();
 	    }
+
+	    olympus = handleOlympus(odf, oo, iriMap);
 	    
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
@@ -876,6 +880,14 @@ public class DtmJsonProcessor {
 
 	    return dtmEntrySet;
 	
+    }
+
+    public static OWLNamedIndividual handleOlympus(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
+	OWLNamedIndividual oni = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("olympus"));
+	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
+	oom.addAxiom(oo,ocaa);
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
+	return oni;
     }
 
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
