@@ -93,7 +93,7 @@ public class DtmJsonProcessor {
 		ooce.printStackTrace();
 	    }
 
-	    olympus = handleOlympus(odf, oo, iriMap);
+	    olympus = createOlympusIndividuals(odf, oo, iriMap);
 	    
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
@@ -276,6 +276,8 @@ public class DtmJsonProcessor {
 				handleDeveloper(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("publicationsThatUsedRelease")) {
 				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("availableAt")) {
+				handleAvailableAt(ej, niMap, oo, odf, iriMap);
 			    } else {
 				JsonElement jeRemainder = ej.getValue();
 				if (jeRemainder instanceof JsonPrimitive) {
@@ -827,6 +829,40 @@ public class DtmJsonProcessor {
 	}
     }
 
+    public static void handleAvailableAt(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	OWLNamedIndividual executableInd = niMap.get("executable");
+	OWLNamedIndividual execConcInd = niMap.get("executableConcretization");
+
+	JsonElement je = e.getValue();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    int size = elemArray.size();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    if (value.equals("olympus")) {
+			handleOlympus(value, size, executableInd, execConcInd);
+		    } else if (value.equals("udsi")) {
+			handleUdsi(value, size, executableInd, execConcInd);
+		    } else {
+			throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'udsi'");
+		    }
+		} else {
+		    throw new IllegalArgumentException("value of availableAt must be primitive");
+		}
+	    }
+	}	
+    }
+
+    public static void handleOlympus(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd) {
+    }
+
+    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd) {
+    }
+
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
 	HashSet<String> dtmEntrySet = new HashSet<String>();
 	dtmEntrySet.add("Disease transmission models");
@@ -882,11 +918,20 @@ public class DtmJsonProcessor {
 	
     }
 
-    public static OWLNamedIndividual handleOlympus(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
+    public static OWLNamedIndividual createOlympusIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
 	OWLNamedIndividual oni = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("olympus"));
-	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
-	oom.addAxiom(oo,ocaa);
+	OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
+	oom.addAxiom(oo,ocaaTemp);
 	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
+
+	OWLNamedIndividual olympusWebsite = odf.getOWLNamedIndividual(nextIri());
+	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), olympusWebsite);
+	oom.addAxiom(oo,ocaa);
+	addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("editor preferred"), "Olympus home page", odf, oo);
+	addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("title"), "Olympus", odf, oo);
+	addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://www.psc.edu/resources/computing/olympus", odf, oo);
+
+	createOWLObjectPropertyAssertion(olympusWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
 	return oni;
     }
 

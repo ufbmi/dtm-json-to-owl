@@ -21,3 +21,4 @@ developer|dtm,codewriting,developer,legalpersonrole
 publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable
 doi|dtm,doi
+availableAt|dtm,compiling,executable,executableConcretization
