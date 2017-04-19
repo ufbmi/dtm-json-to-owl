@@ -844,9 +844,9 @@ public class DtmJsonProcessor {
 		if (elemi instanceof JsonPrimitive) {
 		    String value = ((JsonPrimitive)elemi).getAsString();
 		    if (value.equals("olympus")) {
-			handleOlympus(value, size, executableInd, execConcInd);
-		    } else if (value.equals("udsi")) {
-			handleUdsi(value, size, executableInd, execConcInd);
+			createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
+       		    } else if (value.equals("udsi")) {
+			handleUdsi(value, size, executableInd, execConcInd, iriMap);
 		    } else {
 			throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'udsi'");
 		    }
@@ -857,10 +857,7 @@ public class DtmJsonProcessor {
 	}	
     }
 
-    public static void handleOlympus(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd) {
-    }
-
-    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd) {
+    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap) {
     }
 
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
@@ -920,8 +917,9 @@ public class DtmJsonProcessor {
 
     public static OWLNamedIndividual createOlympusIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
 	OWLNamedIndividual oni = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("olympus"));
-	OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
-	oom.addAxiom(oo,ocaaTemp);
+	//Deleting this.  Olympus class assertion axiom occurs in OBC.ide OWL file, so we don't want/need to re-iterate it here.
+	//OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
+	//oom.addAxiom(oo,ocaaTemp);
 	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
 
 	OWLNamedIndividual olympusWebsite = odf.getOWLNamedIndividual(nextIri());
