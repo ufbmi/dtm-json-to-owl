@@ -54,8 +54,8 @@ import edu.ufl.bmi.misc.DtmIndividConnectRule;
 
 
 public class DtmJsonProcessor {
-    static int iriCounter = 10;
-    static String iriPrefix = "http://www.pitt.edu/dc/IDE_";
+    static long iriCounter = 1200006700L;
+    static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE";
     static int iriLen = 10;
 
     static OWLOntologyManager oom;
@@ -68,6 +68,10 @@ public class DtmJsonProcessor {
     static String fullName;
 
     static OWLNamedIndividual olympus;
+    static OWLNamedIndividual uids;
+    static OWLNamedIndividual uidsCompiling;
+    static OWLNamedIndividual uidsExecutable;
+    static OWLNamedIndividual uidsExecutableConcretization;
 
     public static void main(String[] args) {
 	try {
@@ -94,7 +98,8 @@ public class DtmJsonProcessor {
 	    }
 
 	    olympus = createOlympusIndividuals(odf, oo, iriMap);
-	    
+	    uids = createUidsIndividuals(odf, oo, iriMap);
+
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
 	    //System.out.println("entry set size = " + dtmEntrySet.size());
@@ -278,6 +283,12 @@ public class DtmJsonProcessor {
 				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("availableAt")) {
 				handleAvailableAt(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("isUdsi")) {
+				OWLNamedIndividual executableInd = niMap.get("executable");
+				OWLNamedIndividual execConcInd = niMap.get("executableConcretization");
+				JsonElement elem = ej.getValue();
+				String value = ((JsonPrimitive)elem).getAsString();
+				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
 			    } else {
 				JsonElement jeRemainder = ej.getValue();
 				if (jeRemainder instanceof JsonPrimitive) {
@@ -846,7 +857,7 @@ public class DtmJsonProcessor {
 		    if (value.equals("olympus")) {
 			createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
        		    } else if (value.equals("udsi")) {
-			handleUdsi(value, size, executableInd, execConcInd, iriMap);
+			handleUdsi(value, size, executableInd, execConcInd, iriMap, odf, oo);
 		    } else {
 			throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'udsi'");
 		    }
@@ -857,7 +868,37 @@ public class DtmJsonProcessor {
 	}	
     }
 
-    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap) {
+    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
+	
+	if (size > 1) {
+	    /*  This means that we also have Olympus, but the concretization of the executable available through UDSI is likely a different copy
+		than the one on Olympus, so we're going to clone the executable concretization.  Also it could be that the compiled executables 
+		b/w UDSI and Olympus are from different compiling processes, but I'm not going that far.  They should be identical anyway
+	    */
+	    
+	    String execConcIndPrefTerm = getAnnotationValueFromNamedIndividual(execConcInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
+	    execConcIndPrefTerm += " available through UDSI";
+	    execConcInd = createNamedIndividualWithTypeAndLabel(odf, oo,  iriMap.lookupClassIri("executableConcretization"), iriMap.lookupAnnPropIri("editor preferred"), execConcIndPrefTerm);
+	    //connect executable of DTM to concretization of executable of DTM.  If we didn't create new concretization, then it's already connected.
+	    createOWLObjectPropertyAssertion(execInd, iriMap.lookupObjPropIri("is concretized as"), execConcInd, odf, oo);
+	}
+
+	//create disposition to invoke DTM 
+	String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
+	OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
+
+	//connect concretization of UDSI to dispostion to invoke
+	createOWLObjectPropertyAssertion(uidsExecutableConcretization, iriMap.lookupObjPropIri("has basis in"), invokeDisp, odf, oo);
+
+	//create disposition to execute DTM
+	String executeDispPrefTerm = "disposition of remote service to execute " + fullName;
+	OWLNamedIndividual executeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), executeDispPrefTerm);
+
+	//connect disposition to execute to DTM concretization of executable of DTM
+	createOWLObjectPropertyAssertion(execConcInd, iriMap.lookupObjPropIri("has basis in"), executeDisp, odf, oo);
+
+	//connect dispositions
+	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);
     }
 
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
@@ -933,6 +974,40 @@ public class DtmJsonProcessor {
 	return oni;
     }
 
+    public static OWLNamedIndividual createUidsIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
+	OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
+	OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("software")), oni);
+	oom.addAxiom(oo,ocaaTemp);
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "The Apollo Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), "https://github.com/ApolloDev/simple-end-user-apollo-web-application/tree/38161eba742a9000bb610aa47419f7fb62f0c3ac", odf, oo);
+
+	OWLNamedIndividual uidsWebsite = odf.getOWLNamedIndividual(nextIri());
+	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), uidsWebsite);
+	oom.addAxiom(oo,ocaa);
+	addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("editor preferred"), "UIDS home page", odf, oo);
+	addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("title"), "UIDS home", odf, oo);
+	addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
+
+	createOWLObjectPropertyAssertion(uidsWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
+
+	uidsCompiling = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), "compiling of UIDS source to UIDS executable");
+	addAnnotationToNamedIndividual(uidsCompiling, iriMap.lookupAnnPropIri("label"), "compiling UIDS", odf, oo);
+
+	uidsExecutable = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("editor preferred"), "UIDS executable code");
+	addAnnotationToNamedIndividual(uidsExecutable, iriMap.lookupAnnPropIri("label"), "UIDS executable", odf, oo);
+
+	uidsExecutableConcretization = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableConcretization"), iriMap.lookupAnnPropIri("editor preferred"), "concretization of UIDS executable");
+	addAnnotationToNamedIndividual(uidsExecutableConcretization, iriMap.lookupAnnPropIri("label"), "UIDS executable concretization", odf, oo);
+
+	createOWLObjectPropertyAssertion(uidsCompiling, iriMap.lookupObjPropIri("has specified input"), oni, odf, oo);
+	createOWLObjectPropertyAssertion(uidsCompiling, iriMap.lookupObjPropIri("has specified output"), uidsExecutable, odf, oo);
+	createOWLObjectPropertyAssertion(uidsExecutable, iriMap.lookupObjPropIri("is concretized as"), uidsExecutableConcretization, odf, oo);
+
+	
+	return oni;
+    }
+
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
 			   OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
 	OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
@@ -986,7 +1061,7 @@ public class DtmJsonProcessor {
     }
 
     public static IRI nextIri() {
-	String counterTxt = Integer.toString(iriCounter++);
+	String counterTxt = Long.toString(iriCounter++);
 	StringBuilder sb = new StringBuilder(iriPrefix);
 	int numZero = 10-counterTxt.length();
 	for (int i=0; i<numZero; i++) 

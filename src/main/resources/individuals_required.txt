@@ -22,3 +22,4 @@ publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable
 doi|dtm,doi
 availableAt|dtm,compiling,executable,executableConcretization
+isUdsi|dtm,compiling,executable,executableConcretization
