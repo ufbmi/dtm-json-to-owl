@@ -55,7 +55,7 @@ import edu.ufl.bmi.misc.DtmIndividConnectRule;
 
 public class DtmJsonProcessor {
     static long iriCounter = 1200006700L;
-    static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE";
+    static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
     static OWLOntologyManager oom;
@@ -981,6 +981,7 @@ public class DtmJsonProcessor {
 	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
 	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "The Apollo Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
 	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), "https://github.com/ApolloDev/simple-end-user-apollo-web-application/tree/38161eba742a9000bb610aa47419f7fb62f0c3ac", odf, oo);
+	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), "The UIDS (Universal Interface to Disease Simulators) is a web application that assists a user in the construction and simulation of infectious disease scenarios (scenarios).  The UIDS xml-encodes scenarios according to the Apollo-XSD InfectiousDiseaseScenario type.  A user can construct a scenario de novo or download an existing scenario from the Apollo Library.   UIDS can transmit a scenario to a disease transmission simulator by calling the Apollo Broker service <insert URL>.  UIDS reports on the status of a requested run of a disease transmission simulator and displays maps and time series graphs of simulator output.  UIDS can also save a scenario to the Apollo Library <insert URL>.", odf, oo);
 
 	OWLNamedIndividual uidsWebsite = odf.getOWLNamedIndividual(nextIri());
 	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), uidsWebsite);
