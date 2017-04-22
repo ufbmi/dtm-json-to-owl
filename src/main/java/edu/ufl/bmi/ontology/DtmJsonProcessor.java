@@ -73,10 +73,13 @@ public class DtmJsonProcessor {
     static OWLNamedIndividual uidsExecutable;
     static OWLNamedIndividual uidsExecutableConcretization;
 
+    static FileWriter simPops;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
 	    //FileReader fr = new FileReader("./src/main/resources/software.json");
+	    simPops = new FileWriter("./simulated-populations.txt");
 	    JsonParser jp = new JsonParser();
 	    JsonElement je  = jp.parse(fr);
 
@@ -240,8 +243,10 @@ public class DtmJsonProcessor {
 			while(k.hasNext()) {
 			    String ks = k.next();
 			    IRI classIri = iriMap.lookupClassIri(ks);
-			    //System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
+			    System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
 			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, fullName + " " + ks); 
+			    if (ks.startsWith("simulat"))
+				simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
 			    niMap.put(ks, oni);
 			}
 
@@ -290,6 +295,7 @@ public class DtmJsonProcessor {
 				String value = ((JsonPrimitive)elem).getAsString();
 				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
 			    } else {
+				boolean handled = false;
 				JsonElement jeRemainder = ej.getValue();
 				if (jeRemainder instanceof JsonPrimitive) {
 				    String value = ((JsonPrimitive)jeRemainder).getAsString();
@@ -304,16 +310,19 @@ public class DtmJsonProcessor {
 					    
 					    if (keyj.equals("locationCoverage")) {
 						//System.out.println("LOCATION: " + value);
+						handled = true;
 						if (!value.equals("N/A")) {
 						    uniqueLocationsCovered.add(value);
 						    locations.add(value);
 						}
 					    } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
+						handled = true;
 						if (!value.equals("N/A")) {
 						    uniquePathogensCovered.add(value);
 						    pathogens.add(value);
 						}
 					    } else if (keyj.equals("hostSpeciesIncluded")) {
+						handled = true;
 						if (!value.equals("N/A")) {
 						    uniqueHostsCovered.add(value);
 						    hosts.add(value);
@@ -328,7 +337,7 @@ public class DtmJsonProcessor {
 				} else { 
 				    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
 				}
-				System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
+				if (!handled) System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
 			    }
 			}
 
@@ -412,7 +421,9 @@ public class DtmJsonProcessor {
 		    }
 		}
 		fw.close();
-					     
+
+	    simPops.close();
+
 
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();

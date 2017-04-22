@@ -1,5 +1,5 @@
-hostSpeciesIncluded|dtm,dataabouthost
-diseaseCoverage|dtm,dataaboutpathogen
+hostSpeciesIncluded|dtm,dataabouthost,compiling,executable,simulatingx,simulatedhostpopulation
+pathogenCoverage|dtm,dataaboutpathogen,compiling,executable,simulatingx,simulatedpathogenpopulation
 isApolloEnabled|dtm,compiling,executable,wsexecutionof
 executables|dtm,compiling,executable
 webApplication|dtm,compiling,executable,webexecutionof

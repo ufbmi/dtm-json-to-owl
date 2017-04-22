@@ -44,3 +44,7 @@ has basis in	http://purl.obolibrary.org/obo/APOLLO_SV_00000543	object property
 s-depends	http://purl.obolibrary.org/obo/BFO_0000169	object property
 disposition	http://purl.obolibrary.org/obo/BFO_0000016	class
 software	http://purl.obolibrary.org/obo/OBI_0500000	class
+simulatingx	http://purl.obolibrary.org/obo/APOLLO_SV_00000005	class
+simulatedhostpopulation	http://purl.obolibrary.org/obo/APOLLO_SV_00000031	class
+simulatedpathogenpopulation	http://purl.obolibrary.org/obo/APOLLO_SV_00000031	class
+achieves objective	http://purl.obolibrary.org/obo/OBI_0000417	object property
