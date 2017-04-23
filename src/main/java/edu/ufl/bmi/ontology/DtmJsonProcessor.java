@@ -76,6 +76,9 @@ public class DtmJsonProcessor {
     static FileWriter simPops;
 
     static HashSet<String> uniqueCms;
+    static HashSet<String> uniqueInputFormats;
+    static HashSet<String> uniqueOutputFormats;;
+
 
     public static void main(String[] args) {
 	try {
@@ -122,6 +125,9 @@ public class DtmJsonProcessor {
 	    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	    HashSet<String> uniquePathogensCovered = new HashSet<String>();
 	    HashSet<String> uniqueHostsCovered = new HashSet<String>();
+	    uniqueInputFormats = new HashSet<String>();
+	    uniqueOutputFormats = new HashSet<String>();
+	    HashSet<String> uniqueFormats = new HashSet<String>();
 	    HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
 	    HashSet<String> populationsNeeded = new HashSet<String>();
 	    while(i.hasNext()) {
@@ -137,9 +143,10 @@ public class DtmJsonProcessor {
 		if (je3.isJsonPrimitive()) {
 		    JsonPrimitive jprim = (JsonPrimitive)je3;
 		    String entryTxt = jprim.getAsString();
-		    //System.out.println(" " + entryTxt);
-		    if (dtmEntrySet.contains(entryTxt)) {
-			System.out.println("\t"+ key  + " is a DTM.");
+		    System.out.println("ACHTUNG: DIRECTORY.  directory=\"" + entryTxt + "\"");
+		    
+		    if (iriMap.lookupClassIri(entryTxt) != null) {
+			System.out.println("\t"+ key  + " is a " + entryTxt);
 			baseName = key;
 
 			/*
@@ -246,9 +253,11 @@ public class DtmJsonProcessor {
 			HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 			while(k.hasNext()) {
 			    String ks = k.next();
-			    IRI classIri = iriMap.lookupClassIri(ks);
+			    IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(entryTxt) : iriMap.lookupClassIri(ks);
 			    System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
-			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, fullName + " " + ks); 
+			    String indLabel = fullName + " " + entryTxt.substring(0,entryTxt.length()-1);
+			    indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
+			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel); 
 			    if (ks.startsWith("simulat"))
 				simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
 			    niMap.put(ks, oni);
@@ -300,6 +309,10 @@ public class DtmJsonProcessor {
 				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
 			    } else if (keyj.equals("controlMeasures")) {
 				handleControlMeasures(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("dataInputFormats")) {
+				handleDataInputFormats(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("dataOutputFormats")) {
+				handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
 			    } else {
 				boolean handled = false;
 				JsonElement jeRemainder = ej.getValue();
@@ -434,6 +447,26 @@ public class DtmJsonProcessor {
 	    for (String cm : uniqueCms) {
 		System.out.println(cm);
 	    }
+
+	    uniqueFormats.addAll(uniqueInputFormats);
+	    uniqueFormats.addAll(uniqueOutputFormats);
+
+	    System.out.println("\nInput formats:");
+	    for (String input : uniqueInputFormats) {
+		System.out.println("\t" + input);
+	    }
+
+	    System.out.println("\nOutput formats:");
+	    for (String output : uniqueOutputFormats) {
+		System.out.println("\t" + output);
+	    }
+
+	    System.out.println("\nAll formats:");
+	    for (String format : uniqueFormats) {
+		System.out.println("\t" + format);
+	    }
+
+	    
 
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();
@@ -942,6 +975,47 @@ public class DtmJsonProcessor {
 	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
 	}
     }
+
+    public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	JsonElement je = e.getValue();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    int size = elemArray.size();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    uniqueInputFormats.add(value);
+		}
+	    }
+	} else {
+	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
+	}
+    }
+
+
+    public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	JsonElement je = e.getValue();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    int size = elemArray.size();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    uniqueOutputFormats.add(value);
+		}
+	    }
+	} else {
+	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
+	}
+    }
+
+
 
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
 	HashSet<String> dtmEntrySet = new HashSet<String>();

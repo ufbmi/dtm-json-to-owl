@@ -17,9 +17,11 @@ publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
 location|dtm,website
 site|dtm,website
-developer|dtm,codewriting,developer,legalpersonrole
+developer|dtm,codewriting,developer
 publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable
 doi|dtm,doi
 availableAt|dtm,compiling,executable,executableConcretization
 isUdsi|dtm,compiling,executable,executableConcretization
+dataInputFormats|dtm,compiling,executable,executableParsingPlan,dataparsing
+dataOutputFormats|dtm,compiling,executable,executableEncodingPlan,dataencoding

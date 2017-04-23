@@ -1,7 +1,7 @@
 developer	bearer	legalpersonrole
 codewriting	has specified output	dtm
 documentation	is about	dtm
-codewriting	realizes	programminglanguage
+codewriting	achieves objective	programminglanguage
 doi	denotes	dtm
 versionid	denotes	dtm
 compiling	has specified input	dtm
@@ -9,6 +9,9 @@ compiling	has specified output	executable
 executable	is realized by	webexecutionof
 executable	is realized by	executionof
 executable	is realized by	wsexecutionof
+webexecutionof	achieves objective	executable
+executionof	achieves objective	executable
+wsexecutionof	achieves objective	executable
 license	is part of	dtm
 dataaboutpathogen	is part of	dtm
 dataabouthost	is part of	dtm
@@ -25,3 +28,6 @@ executable	is concretized as	executableConcretization
 simulatingx	achieves objective	executable
 simulatingx	has specified output	simulatedhostpopulation
 simulatingx	has specified output	simulatedpathogenpopulation
+executableParsingPlan	is part of	executable
+dataparsing	realizes	executableParsingPlan
+dataencoding	realizes	executableEncodingPlan
