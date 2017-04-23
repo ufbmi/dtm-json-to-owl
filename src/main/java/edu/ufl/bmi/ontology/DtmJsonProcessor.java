@@ -75,11 +75,15 @@ public class DtmJsonProcessor {
 
     static FileWriter simPops;
 
+    static HashSet<String> uniqueCms;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
 	    //FileReader fr = new FileReader("./src/main/resources/software.json");
 	    simPops = new FileWriter("./simulated-populations.txt");
+	    uniqueCms = new HashSet<String>();
+
 	    JsonParser jp = new JsonParser();
 	    JsonElement je  = jp.parse(fr);
 
@@ -294,6 +298,8 @@ public class DtmJsonProcessor {
 				JsonElement elem = ej.getValue();
 				String value = ((JsonPrimitive)elem).getAsString();
 				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
+			    } else if (keyj.equals("controlMeasures")) {
+				handleControlMeasures(ej, niMap, oo, odf, iriMap);
 			    } else {
 				boolean handled = false;
 				JsonElement jeRemainder = ej.getValue();
@@ -423,7 +429,11 @@ public class DtmJsonProcessor {
 		fw.close();
 
 	    simPops.close();
-
+	    
+	    System.out.println("Control measures:");
+	    for (String cm : uniqueCms) {
+		System.out.println(cm);
+	    }
 
 	} catch (IOException ioe) {
 	    ioe.printStackTrace();
@@ -876,7 +886,9 @@ public class DtmJsonProcessor {
 		    throw new IllegalArgumentException("value of availableAt must be primitive");
 		}
 	    }
-	}	
+	} else {
+	    throw new IllegalArgumentException("value of availableAt must be array");
+	}
     }
 
     public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
@@ -910,6 +922,25 @@ public class DtmJsonProcessor {
 
 	//connect dispositions
 	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);
+    }
+
+    public static void	handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	JsonElement je = e.getValue();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    int size = elemArray.size();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    uniqueCms.add(value);
+		}
+	    }
+	} else {
+	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
+	}
     }
 
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
