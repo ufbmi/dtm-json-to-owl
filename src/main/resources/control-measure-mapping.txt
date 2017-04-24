@@ -1,0 +1,28 @@
+Antibiotic prophylaxis	http://purl.obolibrary.org/obo/APOLLO_SV_00000305
+vector control interventions	http://purl.obolibrary.org/obo/APOLLO_SV_00000308
+Travel restrictions	http://purl.obolibrary.org/obo/APOLLO_SV_00000231
+case quarantines	http://purl.obolibrary.org/obo/APOLLO_SV_00000230
+Vaccination	http://purl.obolibrary.org/obo/APOLLO_SV_00000136
+travel restriction	http://purl.obolibrary.org/obo/APOLLO_SV_00000231
+liberal sick leave	http://purl.obolibrary.org/obo/APOLLO_SV_00000323
+Antiviral	http://purl.obolibrary.org/obo/APOLLO_SV_00000181
+antiviral treatment of the symptomatic	http://purl.obolibrary.org/obo/APOLLO_SV_00000181
+global school closures	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
+larviciding	http://purl.obolibrary.org/obo/APOLLO_SV_00000328
+reactive school closures	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
+indoor spraying	http://purl.obolibrary.org/obo/APOLLO_SV_00000391
+antiviral prophylaxis of the symptomatic	http://purl.obolibrary.org/obo/APOLLO_SV_00000181
+isolation	http://purl.obolibrary.org/obo/APOLLO_SV_00000230
+school closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
+Mass drug deployment	http://purl.obolibrary.org/obo/APOLLO_SV_00000304
+hospitalization with administration of intravenous antibiotics	http://purl.obolibrary.org/obo/APOLLO_SV_00000305
+vector control	http://purl.obolibrary.org/obo/APOLLO_SV_00000308
+Wolbachia	http://purl.obolibrary.org/obo/APOLLO_SV_00000390
+Antivirals	http://purl.obolibrary.org/obo/APOLLO_SV_00000181
+travel restrictions	http://purl.obolibrary.org/obo/APOLLO_SV_00000231
+quarantine	http://purl.obolibrary.org/obo/APOLLO_SV_00000327
+place closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000229
+larvicide	http://purl.obolibrary.org/obo/APOLLO_SV_00000328
+vaccination	http://purl.obolibrary.org/obo/APOLLO_SV_00000136
+quarantine	http://purl.obolibrary.org/obo/APOLLO_SV_00000327
+school closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000123

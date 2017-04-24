@@ -58,7 +58,7 @@ Disease forecasters	http:purl.obolibrary.org/obo/APOLLO_SV_00000557	class
 Pathogen evolution models	http:purl.obolibrary.org/obo/APOLLO_SV_00000544	class
 Data visualizers	http:purl.obolibrary.org/obo/APOLLO_SV_00000564	class
 Disease transmission tree estimators	http://purl.obolibrary.org/obo/APOLLO_SV_00000555	class
-Synthetic ecosystem constructors	http://purl.obolibrary.org/obo/APOLLO_SV_00000566	class
+Synthetic ecosystem constructors	http://purl.obolibrary.org/obo/APOLLO_SV_00000567	class
 Phylogenetic tree constructors	http:purl.obolibrary.org/obo/APOLLO_SV_00000563	class
 Data-format converters	http:purl.obolibrary.org/obo/APOLLO_SV_00000562	class
 Modeling platforms	http://purl.obolibrary.org/obo/APOLLO_SV_00000565	class

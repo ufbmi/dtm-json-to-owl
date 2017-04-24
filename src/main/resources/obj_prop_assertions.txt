@@ -6,9 +6,6 @@ doi	denotes	dtm
 versionid	denotes	dtm
 compiling	has specified input	dtm
 compiling	has specified output	executable
-executable	is realized by	webexecutionof
-executable	is realized by	executionof
-executable	is realized by	wsexecutionof
 webexecutionof	achieves objective	executable
 executionof	achieves objective	executable
 wsexecutionof	achieves objective	executable
@@ -29,5 +26,5 @@ simulatingx	achieves objective	executable
 simulatingx	has specified output	simulatedhostpopulation
 simulatingx	has specified output	simulatedpathogenpopulation
 executableParsingPlan	is part of	executable
-dataparsing	realizes	executableParsingPlan
-dataencoding	realizes	executableEncodingPlan
+dataparsing	achieves objective	executableParsingPlan
+dataencoding	achieves objective	executableEncodingPlan

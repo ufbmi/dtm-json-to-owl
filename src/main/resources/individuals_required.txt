@@ -12,7 +12,7 @@ directory
 version|dtm,versionid
 userGuidesAndManuals|dtm,documentation
 license|dtm,license
-controlMeasures|dtm
+controlMeasures|dtm,compiling,executable
 publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
 location|dtm,website
@@ -23,5 +23,5 @@ isOlympus|dtm,compiling,executable
 doi|dtm,doi
 availableAt|dtm,compiling,executable,executableConcretization
 isUdsi|dtm,compiling,executable,executableConcretization
-dataInputFormats|dtm,compiling,executable,executableParsingPlan,dataparsing
-dataOutputFormats|dtm,compiling,executable,executableEncodingPlan,dataencoding
+dataInputFormats|dtm,compiling,executable
+dataOutputFormats|dtm,compiling,executable

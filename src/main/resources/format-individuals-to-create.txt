@@ -1,0 +1,11 @@
+Synthia.US	Synthia.US synthetic population format	Synthetic population – Synthia.US;Synthia.US;Synthia
+Tycho (XML)	Tycho (XML) case count format	Tycho (XML)
+CSV	comma separated value format	CSV
+SPEW	Synthetic Populations and Ecosystems of the World data format	SPEW
+HDF5	Hierarchical Data Format version 5	HDF5
+PHYLIP	PHYLIP multiple sequence alignment format	PHYLIP format (sequences);PHYLIP
+PDF	Portable Document Format (Adobe)	PDF
+SVG	Scalable Vector Graphics Format	SVG
+PNG	Portable Network Graphics Format	PNG
+JSON	JavaScript Object Notation	JSON
+Newick	Newick tree format	Newick format (for the ML tree)

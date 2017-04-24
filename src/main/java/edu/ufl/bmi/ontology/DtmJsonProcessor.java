@@ -3,6 +3,7 @@ package edu.ufl.bmi.ontology;
 import java.lang.StringBuilder;
 
 import java.io.FileReader;
+import java.io.LineNumberReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
@@ -51,7 +52,7 @@ import edu.ufl.bmi.misc.IndividualsToCreate;
 import edu.ufl.bmi.misc.IriLookup;
 import edu.ufl.bmi.misc.DtmIndivConnectGuide;
 import edu.ufl.bmi.misc.DtmIndividConnectRule;
-
+import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 
 public class DtmJsonProcessor {
     static long iriCounter = 1200006700L;
@@ -79,6 +80,9 @@ public class DtmJsonProcessor {
     static HashSet<String> uniqueInputFormats;
     static HashSet<String> uniqueOutputFormats;;
 
+    static ControlMeasureIriMapping cmMap;
+
+    static HashMap<String, OWLNamedIndividual> formatInds;
 
     public static void main(String[] args) {
 	try {
@@ -97,6 +101,9 @@ public class DtmJsonProcessor {
 	    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 	    iriMap.init();
 
+	    cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
+	    cmMap.initialize();
+
 	    oom = OWLManager.createOWLOntologyManager();
 	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
 	    OWLOntology oo = null;
@@ -109,6 +116,7 @@ public class DtmJsonProcessor {
 
 	    olympus = createOlympusIndividuals(odf, oo, iriMap);
 	    uids = createUidsIndividuals(odf, oo, iriMap);
+	    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
 
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
@@ -148,7 +156,9 @@ public class DtmJsonProcessor {
 		    if (iriMap.lookupClassIri(entryTxt) != null) {
 			System.out.println("\t"+ key  + " is a " + entryTxt);
 			baseName = key;
-
+			versionSuffix = "";
+			fullName = "";
+			versionNames = null;
 			/*
 			  hostSpeciesIncluded
 			  diseaseCoverage
@@ -969,6 +979,19 @@ public class DtmJsonProcessor {
 		if (elemi instanceof JsonPrimitive) {
 		    String value = ((JsonPrimitive)elemi).getAsString();
 		    uniqueCms.add(value);
+
+		    if (cmMap.containsKey(value)) {
+			IRI classIri = cmMap.get(value);
+			String cmInstanceLabel = value + " control measure by " + fullName;
+			String simxInstanceLabel = "simulating of epidemic with " + value + " control measure " + " by " + fullName;
+			OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
+			OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
+			
+			createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
+			createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
+		    } else {
+			System.out.println("Skipping " + value + " control measure.");
+		    }
 		}
 	    }
 	} else {
@@ -988,6 +1011,25 @@ public class DtmJsonProcessor {
 		if (elemi instanceof JsonPrimitive) {
 		    String value = ((JsonPrimitive)elemi).getAsString();
 		    uniqueInputFormats.add(value);
+
+		    OWLNamedIndividual formatInd = formatInds.get(value);
+		    if (formatInd != null) {
+			String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
+			String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
+			OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"), 
+												  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
+			OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+												  iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+
+			//connect parsing to format
+			createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+			//connect parsing to plannedSpec
+			createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+			
+			//connect plannedSpec to executable
+			createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+		    }
 		}
 	    }
 	} else {
@@ -1008,6 +1050,25 @@ public class DtmJsonProcessor {
 		if (elemi instanceof JsonPrimitive) {
 		    String value = ((JsonPrimitive)elemi).getAsString();
 		    uniqueOutputFormats.add(value);
+
+		    OWLNamedIndividual formatInd = formatInds.get(value);
+		    if (formatInd != null) {
+			String planSpecLabel = "data encoding plan specification for format " + value + " as part of " + fullName;
+			String dataWritingLabel = "data encoding of file in " + value + " format by " + fullName;
+			OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableEncodingPlan"), 
+												  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
+			OWLNamedIndividual dataWritingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
+												  iriMap.lookupAnnPropIri("editor preferred"), dataWritingLabel);
+
+			//connect parsing to format
+			createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+			//connect parsing to plannedSpec
+			createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+			
+			//connect plannedSpec to executable
+			createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+		    }
 		}
 	    }
 	} else {
@@ -1185,5 +1246,25 @@ public class DtmJsonProcessor {
 	    sb.append("0");
 	sb.append(counterTxt);
 	return IRI.create(new String(sb));
+    }
+
+    public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
+	formatInds = new HashMap<String, OWLNamedIndividual>();
+	FileReader fr = new FileReader("./src/main/resources/format-individuals-to-create.txt");
+	LineNumberReader lnr = new LineNumberReader(fr);
+	String line;
+	while ((line=lnr.readLine())!=null) {
+	    String[] flds = line.split(Pattern.quote("\t"));
+	    String label = flds[0];
+	    String prefTerm = flds[1];
+	    String[] keys = flds[2].split(Pattern.quote(";"));
+
+	    OWLNamedIndividual formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"), iriMap.lookupAnnPropIri("editor preferred"), prefTerm);
+	    addAnnotationToNamedIndividual(formatInd, iriMap.lookupAnnPropIri("label"), label, odf, oo);
+
+	    for (String key : keys) {
+		formatInds.put(key, formatInd);
+	    }
+	}
     }
 }
