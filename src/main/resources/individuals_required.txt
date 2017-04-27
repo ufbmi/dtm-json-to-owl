@@ -19,9 +19,11 @@ location|dtm,website
 site|dtm,website
 developer|dtm,codewriting,developer
 publicationsAboutRelease|dtm
-isOlympus|dtm,compiling,executable
+isOlympus|dtm,compiling,executable,olympusConc
 doi|dtm,doi
 availableAt|dtm,compiling,executable,executableConcretization
-isUdsi|dtm,compiling,executable,executableConcretization
+isUdsi|dtm,compiling,executable,udsiConc
 dataInputFormats|dtm,compiling,executable
 dataOutputFormats|dtm,compiling,executable
+availableOnOlympus|dtm,compiling,executable,olympusConc
+availableOnUdsi|dtm,compiling,executable,udsiConc

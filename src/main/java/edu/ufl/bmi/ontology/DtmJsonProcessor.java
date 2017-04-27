@@ -147,11 +147,12 @@ public class DtmJsonProcessor {
 
 		JsonElement je2 = e.getValue();
 		JsonObject jo2 = (JsonObject)je2;
-		JsonElement je3 = jo2.get("directory");
+		//JsonElement je3 = jo2.get("directory");
+		JsonElement je3 = jo2.get("subtype");
 		if (je3.isJsonPrimitive()) {
 		    JsonPrimitive jprim = (JsonPrimitive)je3;
 		    String entryTxt = jprim.getAsString();
-		    System.out.println("ACHTUNG: DIRECTORY.  directory=\"" + entryTxt + "\"");
+		    System.out.println("ACHTUNG: SUBTYPE.  subtype=\"" + entryTxt + "\"");
 		    
 		    if (iriMap.lookupClassIri(entryTxt) != null) {
 			System.out.println("\t"+ key  + " is a " + entryTxt);
@@ -311,12 +312,18 @@ public class DtmJsonProcessor {
 				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("availableAt")) {
 				handleAvailableAt(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("isUdsi")) {
+			    } else if (keyj.equals("isUdsi") || keyj.equals("availableOnUdsi") || keyj.equals("availableViaUdsi") || keyj.equals("availableAtUids")) {
 				OWLNamedIndividual executableInd = niMap.get("executable");
-				OWLNamedIndividual execConcInd = niMap.get("executableConcretization");
+				OWLNamedIndividual execConcInd = niMap.get("udsiConc");
 				JsonElement elem = ej.getValue();
 				String value = ((JsonPrimitive)elem).getAsString();
 				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
+			    } else if (keyj.equals("availableOnOlympus") || keyj.equals("isOlympus") || keyj.equals("availableAtOlympus")) {
+				OWLNamedIndividual executableInd = niMap.get("executable");
+				OWLNamedIndividual execConcInd = niMap.get("olympusConc");
+				JsonElement elem = ej.getValue();
+				String value = ((JsonPrimitive)elem).getAsString();
+				createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
 			    } else if (keyj.equals("controlMeasures")) {
 				handleControlMeasures(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("dataInputFormats")) {
@@ -935,7 +942,7 @@ public class DtmJsonProcessor {
     }
 
     public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
-	
+	if (execConcInd == null) throw new IllegalArgumentException("execConcInd cannot be null");
 	if (size > 1) {
 	    /*  This means that we also have Olympus, but the concretization of the executable available through UDSI is likely a different copy
 		than the one on Olympus, so we're going to clone the executable concretization.  Also it could be that the compiled executables 
