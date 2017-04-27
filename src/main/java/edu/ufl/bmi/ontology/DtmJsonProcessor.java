@@ -960,15 +960,15 @@ public class DtmJsonProcessor {
 	String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
 	OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
 
-	//connect concretization of UDSI to dispostion to invoke
-	createOWLObjectPropertyAssertion(uidsExecutableConcretization, iriMap.lookupObjPropIri("has basis in"), invokeDisp, odf, oo);
+	//connect concretization of UDSI to dispostion to invoke - disp has basis in concretization
+	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("has basis in"), uidsExecutableConcretization, odf, oo);
 
 	//create disposition to execute DTM
 	String executeDispPrefTerm = "disposition of remote service to execute " + fullName;
 	OWLNamedIndividual executeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), executeDispPrefTerm);
 
-	//connect disposition to execute to DTM concretization of executable of DTM
-	createOWLObjectPropertyAssertion(execConcInd, iriMap.lookupObjPropIri("has basis in"), executeDisp, odf, oo);
+	//connect disposition to execute to DTM concretization of executable of DTM - execute disp has basis in exec conc
+	createOWLObjectPropertyAssertion(executeDisp, iriMap.lookupObjPropIri("has basis in"), execConcInd, odf, oo);
 
 	//connect dispositions
 	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);
