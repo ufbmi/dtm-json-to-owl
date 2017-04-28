@@ -302,7 +302,7 @@ public class DtmJsonProcessor {
 				handleDoi(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("sourceCodeRelease")) {
 				handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("generalInfo")) {
+			    } else if (keyj.equals("generalInfo") || keyj.equals("humanReadableSynopsis")) {
 				handleGeneralInfo(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("executables")) {
 				handleExecutables(ej, niMap, oo, odf, iriMap);
@@ -925,7 +925,7 @@ public class DtmJsonProcessor {
 		OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executionof"), iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(i));
 		OWLNamedIndividual studyi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("studyexecution"), iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(i));
 		
-		createOWLObjectPropertyAssertion(executableInd, iriMap.lookupObjPropIri("is realized by"), execi, odf, oo); 
+		createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("achieves objective"), executableInd, odf, oo); 
 		createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("is part of"), studyi, odf, oo); 
 
 		pubIri = pubLinks.get(pubInfo.get(i));
