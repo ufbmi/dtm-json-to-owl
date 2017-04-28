@@ -53,6 +53,7 @@ import edu.ufl.bmi.misc.IriLookup;
 import edu.ufl.bmi.misc.DtmIndivConnectGuide;
 import edu.ufl.bmi.misc.DtmIndividConnectRule;
 import edu.ufl.bmi.misc.ControlMeasureIriMapping;
+import edu.ufl.bmi.misc.PublicationLinks;
 
 public class DtmJsonProcessor {
     static long iriCounter = 1200006700L;
@@ -84,6 +85,8 @@ public class DtmJsonProcessor {
 
     static HashMap<String, OWLNamedIndividual> formatInds;
 
+    static PublicationLinks pubLinks;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
@@ -103,6 +106,9 @@ public class DtmJsonProcessor {
 
 	    cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
 	    cmMap.initialize();
+
+	    pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
+	    pubLinks.init();
 
 	    oom = OWLManager.createOWLOntologyManager();
 	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
@@ -330,6 +336,8 @@ public class DtmJsonProcessor {
 				handleDataInputFormats(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("dataOutputFormats")) {
 				handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
+			    } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
+				handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
 			    } else {
 				boolean handled = false;
 				JsonElement jeRemainder = ej.getValue();
@@ -373,7 +381,13 @@ public class DtmJsonProcessor {
 				} else { 
 				    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
 				}
-				if (!handled) System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
+				if (!handled) {
+				    System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
+				    if (keyj.equals("publicationsAboutRelease")) {
+					//System.out.println("PUB ABOUT: " + ej.getValue());
+					
+				    }
+				}
 			    }
 			}
 
@@ -883,6 +897,7 @@ public class DtmJsonProcessor {
 		    System.out.println("THERE ARE " + pubs.size() + " pubs that used release.");
 		    for (Element pub : pubs) {
 			pubInfo.add(pub.ownText().trim());
+			System.out.println("PUB USED: " + pub.ownText());
 		    }
 		} else {
 		    String[] pubs = value.split(Pattern.quote(";"));
@@ -890,6 +905,7 @@ public class DtmJsonProcessor {
 		    //System.out.println("THERE ARE " + pubs.length + " pubs that used release.");
 		    for (int i=0; i<pubs.length; i++) {
 			pubInfo.add(pubs[i].trim());
+			System.out.println("PUB USED: " + pubs[i]);
 		    }
 		}
 	    }
@@ -897,12 +913,27 @@ public class DtmJsonProcessor {
 	    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
 	    addAnnotationToNamedIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
 
+		IRI pubIri = pubLinks.get(pubInfo.get(0));
+		System.out.println("PUB USING IRI " + pubIri);
+		if (pubIri != null) {
+		    OWLNamedIndividual pub = odf.getOWLNamedIndividual(pubIri);
+		    createOWLObjectPropertyAssertion(pub, iriMap.lookupObjPropIri("is about"), studyInd, odf, oo);
+		}
+
+
 	    for (int i=1; i<pubInfo.size(); i++) {
 		OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executionof"), iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(i));
 		OWLNamedIndividual studyi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("studyexecution"), iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(i));
 		
 		createOWLObjectPropertyAssertion(executableInd, iriMap.lookupObjPropIri("is realized by"), execi, odf, oo); 
 		createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("is part of"), studyi, odf, oo); 
+
+		pubIri = pubLinks.get(pubInfo.get(i));
+		System.out.println("PUB USING IRI " + pubIri);
+		if (pubIri != null) {
+		    OWLNamedIndividual pub = odf.getOWLNamedIndividual(pubIri);
+		    createOWLObjectPropertyAssertion(pub, iriMap.lookupObjPropIri("is about"), studyi, odf, oo);
+		}
 	    }
 
 	} else {
@@ -1044,7 +1075,6 @@ public class DtmJsonProcessor {
 	}
     }
 
-
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	JsonElement je = e.getValue();
@@ -1083,6 +1113,31 @@ public class DtmJsonProcessor {
 	}
     }
 
+    public static void handlePublicationsAbout(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+	JsonElement je = e.getValue();
+	if (je instanceof JsonArray) {
+	    JsonArray elemArray = (JsonArray)je;
+	    Iterator<JsonElement> elemIter = elemArray.iterator();
+	    int size = elemArray.size();
+	    while (elemIter.hasNext()) {
+		JsonElement elemi = elemIter.next();
+		if (elemi instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)elemi).getAsString();
+		    System.out.println("PUB ABOUT " + value);
+		    IRI pubIri = pubLinks.get(value);
+		    System.out.println("PUB ABOUT IRI = " + pubIri);
+		    if (pubIri!=null) {
+			OWLNamedIndividual pub = odf.getOWLNamedIndividual(pubIri);
+			OWLNamedIndividual software = niMap.get("dtm");
+			createOWLObjectPropertyAssertion(pub, iriMap.lookupObjPropIri("is about"), software, odf, oo);
+		    }
+		}
+	    }
+	} else {
+	    throw new IllegalArgumentException("value of publicationsAboutRelease must be array");
+	}
+    }
 
 
     public static HashSet<String> initializeDtmEntrySet(JsonElement je) {
