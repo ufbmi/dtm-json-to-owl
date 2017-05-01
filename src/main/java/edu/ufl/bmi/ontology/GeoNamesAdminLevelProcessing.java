@@ -244,5 +244,4 @@ public class GeoNamesAdminLevelProcessing {
 	OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
 	oom.addAxiom(oo, oopaa);
     }
-
 }

@@ -7,12 +7,12 @@ FRED -  v2.12.0	2	2
 Open Malaria [1] -  v32	2	1
 Open Malaria [2] -  v33.1	2	1
 Open Malaria [3] -  v36.11	2	1
-Global Epidemic Simulator - beta-1.0	1 1	
+Global Epidemic Simulator - beta-1.0	1	1
 TranStat - Version 3 July 2015	0	0
 pFRED -  v0.0.4	2	2
 Apollo FluTE - apollo-flute-1.1	1	1
-FRED Windows 64 -  v2.12.0-b1.0	2 2
+FRED Windows 64 -  v2.12.0-b1.0	2	2
 Zika virus infections in childbearing women in the Americas - commit f5e0cef	4	2
 Pitt-Anthrax model -  v1.0	1	1
-Pitt-SEIR model -  v3.0	1 1
+Pitt-SEIR model -  v3.0	1	1
 NAADSM - v3.3, 4.0	1	2

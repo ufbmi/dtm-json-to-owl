@@ -84,6 +84,7 @@ public class DtmJsonProcessor {
     static ControlMeasureIriMapping cmMap;
 
     static HashMap<String, OWLNamedIndividual> formatInds;
+    static HashMap<String, OWLNamedIndividual> fullNameToExecutable;
 
     static PublicationLinks pubLinks;
 
@@ -109,6 +110,8 @@ public class DtmJsonProcessor {
 
 	    pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
 	    pubLinks.init();
+
+	    fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
 
 	    oom = OWLManager.createOWLOntologyManager();
 	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
@@ -306,6 +309,7 @@ public class DtmJsonProcessor {
 				handleGeneralInfo(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("executables")) {
 				handleExecutables(ej, niMap, oo, odf, iriMap);
+				fullNameToExecutable.put(fullName, niMap.get("executable"));
 			    } else if (keyj.equals("webApplication")) {
 				handleWebApplication(ej, niMap, oo, odf, iriMap);
 			    } else if (keyj.equals("location") || keyj.equals("site")) {
@@ -1328,5 +1332,18 @@ public class DtmJsonProcessor {
 		formatInds.put(key, formatInd);
 	    }
 	}
+    }
+
+    public static void loadSimPopsPerDtm(String fName) throws IOException {
+
+        FileReader fr = new FileReader(fName);
+        LineNumberReader lnr = new LineNumberReader(fr);
+        String line;
+        while((line=lnr.readLine())!=null) {
+            String[] flds = line.split(Pattern.quote("\t"));
+
+        }
+        lnr.close();
+        fr.close();
     }
 }

@@ -28,9 +28,9 @@
             <argument>-Xloggc:gc.log</argument> -->
             <argument>-classpath</argument>
             <classpath/>
-	      <!-- <argument>edu.ufl.bmi.ontology.DtmJsonProcessor</argument> -->
-	      <argument>edu.ufl.bmi.ontology.GeoNamesAdminLevelProcessing</argument>
-	      <argument>../../ontology/geographical-entity-ontology/tanzania-config.txt</argument>
+	      <argument>edu.ufl.bmi.ontology.DtmJsonProcessor</argument>
+	      <!-- <argument>edu.ufl.bmi.ontology.GeoNamesAdminLevelProcessing</argument>
+	      <argument>../../ontology/geographical-entity-ontology/tanzania-config.txt</argument> -->
 	    </arguments>
 	</configuration>
    </plugin>
