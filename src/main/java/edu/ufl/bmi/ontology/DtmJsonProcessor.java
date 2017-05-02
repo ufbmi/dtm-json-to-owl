@@ -88,6 +88,8 @@ public class DtmJsonProcessor {
 
     static PublicationLinks pubLinks;
 
+    static HashMap<String, String> dtmToSimInds;
+
     public static void main(String[] args) {
 	try {
 	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
@@ -130,6 +132,8 @@ public class DtmJsonProcessor {
 	    HashSet<String> allDtmAtt = new HashSet<String>();
 	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
 	    //System.out.println("entry set size = " + dtmEntrySet.size());
+
+	    initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
 
 	    System.out.println("Main element is object: " + je.isJsonObject());
 
@@ -418,6 +422,8 @@ public class DtmJsonProcessor {
 			    }
 			}
 			popsNeededByDtm.put(fullName, popsForThisDtm);
+
+			handleSimInds(niMap, oo, odf, iriMap);
 		    }
 
 		}
@@ -1298,6 +1304,37 @@ public class DtmJsonProcessor {
 	}
     }
 
+    public static void handleSimInds(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) throws IOException {
+	String simIndSetsTxt = dtmToSimInds.get(fullName);
+	if (simIndSetsTxt == null) return;
+	String[] simIndSets = simIndSetsTxt.split(Pattern.quote("|"));
+	for (String indSet : simIndSets) {
+	    String[] simInds = indSet.split(Pattern.quote(","));
+	    OWLNamedIndividual simulating = null;
+	    String simText = null;
+	    for (String s : simInds) {
+		if (s.startsWith("simulating")) {
+		    simText = fullName + " " + s;
+		    simulating = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("label"), simText);
+		    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
+		} else if (s.startsWith("host")) {
+		    String popName = fullName + " simulated " + s;
+		    OWLNamedIndividual pop = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatedhostpopulation"), iriMap.lookupAnnPropIri("label"), popName);
+		    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), pop, odf, oo);
+		    simPops.write(fullName + "\t" + simText + "\t" + pop.getIRI() + "\t" + popName + "\n");
+		}  else if (s.startsWith("pathogen")) {
+		    String popName = fullName + " simulated " + s;
+		    OWLNamedIndividual pop = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatedpathogenpopulation"), iriMap.lookupAnnPropIri("label"), popName);
+		    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), pop, odf, oo);
+		    simPops.write(fullName + "\t" + simText + "\t" + pop.getIRI() + "\t" + popName + "\n");
+		} else {
+		    throw new IllegalArgumentException("don't understand " + s);
+		}
+	    }
+	}
+    }
+
+
     public static void createOWLObjectPropertyAssertion(OWLNamedIndividual source, IRI objPropIri, OWLNamedIndividual target, OWLDataFactory odf, OWLOntology oo) {
 	OWLObjectProperty oop = odf.getOWLObjectProperty(objPropIri);
 	OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
@@ -1345,5 +1382,18 @@ public class DtmJsonProcessor {
         }
         lnr.close();
         fr.close();
+    }
+
+    public static void initializeDtmSimInds(String fName) throws IOException {
+	dtmToSimInds = new HashMap<String, String>();
+	FileReader fr = new FileReader(fName);
+	LineNumberReader lnr = new LineNumberReader(fr);
+	String line;
+	while((line=lnr.readLine())!=null) {
+	    String[] flds = line.split(Pattern.quote("\t"));
+	    dtmToSimInds.put(flds[0],flds[1]);
+	}
+	lnr.close();
+	fr.close();
     }
 }
