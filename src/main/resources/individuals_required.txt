@@ -17,6 +17,7 @@ publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
 location|dtm,website
 site|dtm,website
+website|dtm,website
 developer|dtm,codewriting,developer
 publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable,olympusConc
@@ -27,3 +28,5 @@ dataInputFormats|dtm,compiling,executable
 dataOutputFormats|dtm,compiling,executable
 availableOnOlympus|dtm,compiling,executable,olympusConc
 availableOnUdsi|dtm,compiling,executable,udsiConc
+availableOnUids|dtm,compiling,executable,udsiConc
+availableOnUIDS|dtm,compiling,executable,udsiConc
