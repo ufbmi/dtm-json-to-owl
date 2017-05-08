@@ -1,13 +1,13 @@
 FluTE -  v1.12, 1.15, 1.16	simulating1,host1,pathogen1|simulating2,host2,pathogen2
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	simulating1,host1,pathogen1
+Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	simulating1,host1,pathogen1|simulating2,host2,pathogen2
 CLARA -  v0.5	simulating1,host1,host2,pathogen1
 Dengue transmission model -  v2.0	simulating1,host1,host2,pathogen1
 Ebola transmission model - commit 720c16	simulating1,host1,pathogen1
-FRED -  v2.12.0	simulating1,host1,pathogen1	simulating2,host2,pathogen2
+FRED -  v2.12.0	simulating1,host1,pathogen1|simulating2,host2,pathogen2
 Open Malaria [1] -  v32	simulating P. vivax in Ifakara,host1,host2,pathogen1|simulating P. falciparum in Ifakara,host3,host4,pathogen2|simulating P. ovale in Ifakara,host5,host6,pathogen3|simulating P. malariae in Ifakara,host7,host8,pathogen4|simulating P. falciparum in Tanzania,host9,host10,pathogen5|simulating P. vivax in Tanzania,host11,host12,pathogen6|simulating P. ovale in Tanzania,host13,host14,pathogen7|simulating P. malariae in Tanzania,host15,host16,pathogen8
 Open Malaria [2] -  v33.1	simulating P. vivax in Ifakara,host1,host2,pathogen1|simulating P. falciparum in Ifakara,host3,host4,pathogen2|simulating P. ovale in Ifakara,host5,host6,pathogen3|simulating P. malariae in Ifakara,host7,host8,pathogen4|simulating P. falciparum in Tanzania,host9,host10,pathogen5|simulating P. vivax in Tanzania,host11,host12,pathogen6|simulating P. ovale in Tanzania,host13,host14,pathogen7|simulating P. malariae in Tanzania,host15,host16,pathogen8
 Open Malaria [3] -  v36.11	simulating P. vivax in Ifakara,host1,host2,pathogen1|simulating P. falciparum in Ifakara,host3,host4,pathogen2|simulating P. ovale in Ifakara,host5,host6,pathogen3|simulating P. malariae in Ifakara,host7,host8,pathogen4|simulating P. falciparum in Tanzania,host9,host10,pathogen5|simulating P. vivax in Tanzania,host11,host12,pathogen6|simulating P. ovale in Tanzania,host13,host14,pathogen7|simulating P. malariae in Tanzania,host15,host16,pathogen8
-Global Epidemic Simulator - beta-1.0	simulating1,host1,pathogen1
+Global Epidemic Simulator - beta-1.0	simulating1,host1,pathogen1|simulating2,host2,pathogen2
 pFRED -  v0.0.4	simulating1,host1,pathogen1|simulating2,host2,pathogen2
 Apollo FluTE - apollo-flute-1.1	simulating1,host1,pathogen1
 FRED Windows 64 -  v2.12.0-b1.0	simulating1,host1,pathogen1|simulating2,host2,pathogen2

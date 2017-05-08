@@ -1342,6 +1342,7 @@ public class DtmJsonProcessor {
 		    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
 		} else if (s.startsWith("host")) {
 		    String popName = fullName + " simulated " + s;
+		    //		    System.out.println("POP NAME: " + popName);
 		    IRI simPopIri = IRI.create(simPopIris.get(popName));
 		    OWLNamedIndividual pop = createNamedIndividualWithIriTypeAndLabel(simPopIri, odf, oo, iriMap.lookupClassIri("simulatedhostpopulation"), iriMap.lookupAnnPropIri("label"), popName);
 		    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), pop, odf, oo);

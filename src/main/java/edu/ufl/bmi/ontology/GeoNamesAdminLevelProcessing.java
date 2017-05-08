@@ -38,7 +38,7 @@ import org.semanticweb.owlapi.model.AddImport;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class GeoNamesAdminLevelProcessing {
-    static long iriCounter = 35335L;
+    static long iriCounter;
     static String iriPrefix = "http://www.pitt.edu/obc/GEO_";
     static int iriLen = 9;
 
@@ -83,6 +83,8 @@ public class GeoNamesAdminLevelProcessing {
 	    } else if (flds[0].equals("irilookup")) {
 		iriMap = new IriLookup(flds[1]);
 		iriMap.init();
+	    } else if (flds[0].equals("iriStart")) {
+		iriCounter = Long.parseLong(flds[1]);
 	    } else {
 		System.err.println("don't know what " + flds[0] + " is. Ignoring...");
 	    }
@@ -141,6 +143,7 @@ public class GeoNamesAdminLevelProcessing {
 		  flds[13] - admin 4 code
 		*/
 
+		System.out.println(flds[7]);
 		int level = Integer.parseInt(flds[7].substring(flds[7].length()-1));
 		int iLevel = level-1;
 
