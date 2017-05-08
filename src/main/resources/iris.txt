@@ -74,3 +74,7 @@ agent level ecosystem census	http://purl.obolibrary.org/obo/APOLLO_SV_00000165	c
 disease surveillance data	http://purl.obolibrary.org/obo/APOLLO_SV_00000554	class
 epidemic data set	http://purl.obolibrary.org/obo/APOLLO_SV_00000560	class
 data set creation	http://purl.obolibrary.org/obo/APOLLO_SV_00000796	class
+authors	http://www.pitt.edu/obc/AUTHORS_1	annotation
+data set date	http://purl.org/dc/elements/1.1/date	annotation
+ends during	http://purl.obolibrary.org/obo/RO_0002093	object property
+data set curation	http://purl.obolibrary.org/obo/OBI_0302914	class
