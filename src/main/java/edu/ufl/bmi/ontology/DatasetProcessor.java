@@ -74,8 +74,8 @@ public class DatasetProcessor {
     static HashSet<String> uniqueFormats;
 
     static HashMap<String, OWLNamedIndividual> formatInds;
-
-    static  HashMap<String, OWLNamedIndividual> devNis;
+    static HashMap<String, OWLNamedIndividual> devNis;
+    static HashMap<String, OWLNamedIndividual> dateNis;
 
     public static void main(String[] args) {
 		try {
@@ -98,6 +98,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
+			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
 		 	 
@@ -125,6 +126,9 @@ public class DatasetProcessor {
 				String aoc = flds[16].trim();
 				String ae = flds[17].trim();
 				String popIriTxt = (flds[19] != null) ? flds[19].trim() : null;
+				String beIriTxt = (flds[19] != null) ? flds[22].trim() : null;
+				String ecIriTxt = (flds[19] != null) ? flds[24].trim() : null;
+				String epiIriTxt = (flds[19] != null) ? flds[27].trim() : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
@@ -154,7 +158,7 @@ public class DatasetProcessor {
 					niMap.put("dataset", dataset);
 					
 			    	if (isValidFieldValue(datasetIdentifier)) {
-						//handleDoi(datasetIdentifier, niMap, oo, odf, iriMap);
+						handleDatasetIdentifier(datasetIdentifier, niMap, oo, odf, iriMap);
 			    	} 
 
 			    	if (isValidFieldValue(authors)) {
@@ -195,9 +199,7 @@ public class DatasetProcessor {
 
 			    	if (isValidFieldValue(format)) {
 						handleDataFormats(format, niMap, oo, odf, iriMap);
-
 			    	} 
-
 
 			    	if (isValidFieldValue(aoc) && aoc.toLowerCase().equals("true")) {
 						OWLNamedIndividual datasetConcInd = niMap.get("olympusConc");
@@ -212,12 +214,10 @@ public class DatasetProcessor {
 						//just treat it like any other data format, I think
 
 			    	} 
-		
+					
+					processAnyIndexingTerms(popIriTxt, beIriTxt, ecIriTxt, epiIriTxt, dataset, iriMap, odf, oo);
 				
 				}
-
-					
-
 			}
 
 			
@@ -295,21 +295,32 @@ public class DatasetProcessor {
     }
     */
 
-    public static void handleDoi(String doi, HashMap<String, OWLNamedIndividual> niMap,
+    public static void handleDatasetIdentifier(String datasetIdentifier, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual oni = niMap.get("doi");
+
+    	String url = null, idText = null;
     
-    	if (doi.contains("<a href=")) {
-		    Document d = Jsoup.parse(doi);
+    	if (datasetIdentifier.contains("<a href=")) {
+		    Document d = Jsoup.parse(datasetIdentifier);
 		    Elements links = d.select("a");
-		    String url = links.get(0).attr("href");
-		    String txt = links.get(0).ownText();
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		    url = links.get(0).attr("href");
+		    idText = links.get(0).ownText().trim();
+	
 		} else {
-			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), doi, odf, oo);
+			idText = datasetIdentifier.trim();
+			if (idText.startsWith("http://") || idText.startsWith("https://"))
+				url = idText;
+		}
+
+		IRI identifierClassIri = (idText.startsWith("10.")) ? 
+									iriMap.lookupClassIri("doi") : iriMap.lookupClassIri("identifier");
+		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
+										iriMap.lookupAnnPropIri("label"), idText);
+		if (url != null && url.length()>0) {
+			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
     }
+
     /*
     public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -481,12 +492,22 @@ public class DatasetProcessor {
 		//connect the creation process to the dataset
 		createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has specified output"), niMap.get("dataset"), odf, oo);
 		//create the time interval over which the dataset creation process occurred
-
+		OWLNamedIndividual createIntervalInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("temporal interval"),
+								iriMap.lookupAnnPropIri("editor preferred"), "interval over which " + fullName + " was created");
+		createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("occupies temporal region"), createIntervalInd, odf, oo);
 		//create the date in created variable, IF IT DOESN'T EXIST.  Question: as you just did for RTS, 
 		//  do you want to generate IRIs based on ISO 8601
-
+		OWLNamedIndividual dateInd = null;
+		if (!dateNis.containsKey(date)) {
+			dateInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("temporal interval"), 
+							iriMap.lookupAnnPropIri("label"), date);
+			dateNis.put(date,dateInd);
+		} else {
+			dateInd = dateNis.get(date);
+		}
 		//connect interval to creation date via ends during OP (i.e., the creation process ends at some 
 		//   point during the day given by the creation date)
+		createOWLObjectPropertyAssertion(createIntervalInd, iriMap.lookupObjPropIri("ends during"), dateInd, odf, oo);
     }
 /*
     public static void handlePublicationsThatUsedRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -685,6 +706,33 @@ public class DatasetProcessor {
 			} else {
 		    	System.err.println("Ignoring format: " + value);
 		    }
+    }
+
+    public static void processAnyIndexingTerms(String popIriTxt, String beIriTxt, String ecIriTxt, String epiIriTxt, 
+    		OWLNamedIndividual dataset, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
+    	if (popIriTxt != null) {
+    		processIndexing(popIriTxt, dataset, iriMap, odf, oo);
+    	} 
+    	if (beIriTxt != null) {
+    		processIndexing(beIriTxt, dataset, iriMap, odf, oo);
+    	}
+    	if (ecIriTxt != null) {
+    		processIndexing(ecIriTxt, dataset, iriMap, odf, oo);
+    	}
+    	if (epiIriTxt != null) {
+    		processIndexing(epiIriTxt, dataset, iriMap, odf, oo);
+    	}
+    }
+
+    public static void processIndexing(String iriList, OWLNamedIndividual dataset, IriLookup iriMap,
+    					 OWLDataFactory odf, OWLOntology oo) {
+    	String[] iris = iriList.split(Pattern.quote(";"));
+    	for (String iri : iris) {
+    		if (iri.length() == 0) continue;
+    		System.out.println("IRI IS " + iri);
+    		OWLNamedIndividual aboutInd = odf.getOWLNamedIndividual(IRI.create(iri));
+    		createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), aboutInd, odf, oo);
+    	}
     }
 
     /*
