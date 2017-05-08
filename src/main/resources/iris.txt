@@ -64,3 +64,13 @@ Synthetic ecosystem constructors	http://purl.obolibrary.org/obo/APOLLO_SV_000005
 Phylogenetic tree constructors	http://purl.obolibrary.org/obo/APOLLO_SV_00000563	class
 Data-format converters	http://purl.obolibrary.org/obo/APOLLO_SV_00000562	class
 Modeling platforms	http://purl.obolibrary.org/obo/APOLLO_SV_00000565	class
+host population	http://purl.obolibrary.org/obo/APOLLO_SV_00000516	class
+pathogen population	http://www.pitt.edu/obc/IDE_0000000007	class
+located in	http://purl.obolibrary.org/obo/RO_0001025	object property
+proper continuant part	http://purl.obolibrary.org/obo/BFO_0000137	object property
+population	http://purl.obolibrary.org/obo/PCO_0000001	class
+is aggregate of	http://purl.obolibrary.org/obo/BFO_0000075	object property
+agent level ecosystem census	http://purl.obolibrary.org/obo/APOLLO_SV_00000165	class
+disease surveillance data	http://purl.obolibrary.org/obo/APOLLO_SV_00000554	class
+epidemic data set	http://purl.obolibrary.org/obo/APOLLO_SV_00000560	class
+data set creation	http://purl.obolibrary.org/obo/APOLLO_SV_00000796	class
