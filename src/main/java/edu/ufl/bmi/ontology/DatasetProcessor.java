@@ -472,7 +472,7 @@ public class DatasetProcessor {
 				devNis.put(devs[i], devi);
 	    	}
 	    	addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), prefTerm, odf, oo);
-			createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("has active participant"), createInd, odf, oo);
+			createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 		}
 		//System.out.println(i);
 	    
