@@ -13,3 +13,4 @@ PNG	Portable Network Graphics Format	PNG
 JSON	JavaScript Object Notation	JSON
 Newick	Newick tree format	Newick format (for the ML tree)
 FASTA	FASTA sequence format	FASTA
+Apollo XSD 4.0.1 Epidemic	Apollo Schema Version 4.0.1	Epidemic Type	edu.pitt.apollo.types.v4__0__1.Epidemic;Apollo XSD	edu.pitt.apollo.types.v4__0__1.Epidemic

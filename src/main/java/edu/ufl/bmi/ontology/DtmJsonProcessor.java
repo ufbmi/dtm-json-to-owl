@@ -7,6 +7,8 @@ import java.io.LineNumberReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -94,430 +96,434 @@ public class DtmJsonProcessor {
     static HashMap<String, String> simPopIris;
 
     public static void main(String[] args) {
-	try {
-	    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
-	    //FileReader fr = new FileReader("./src/main/resources/software.json");
-	    simPops = new FileWriter("./simulated-populations.txt");
-	    uniqueCms = new HashSet<String>();
-
-	    JsonParser jp = new JsonParser();
-	    JsonElement je  = jp.parse(fr);
-
-	    IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
-	    itc.init();
-	    HashMap<String, HashSet<String>> indsMap = itc.getIndividualsToCreate();
-	    
-	    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
-	    iriMap.init();
-
-	    cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
-	    cmMap.initialize();
-
-	    pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
-	    pubLinks.init();
-
-	    fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
-
-	    oom = OWLManager.createOWLOntologyManager();
-	    OWLDataFactory odf = OWLManager.getOWLDataFactory();
-	    OWLOntology oo = null;
-	    IRI ontologyIRI = IRI.create("http://www.pitt.edu/dc/dtm");
-	    try {
-		oo = oom.createOntology(ontologyIRI);
-	    } catch (OWLOntologyCreationException ooce) {
-		ooce.printStackTrace();
-	    }
-
-	    olympus = createOlympusIndividuals(odf, oo, iriMap);
-	    uids = createUidsIndividuals(odf, oo, iriMap);
-	    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-
-	    HashSet<String> allDtmAtt = new HashSet<String>();
-	    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
-	    //System.out.println("entry set size = " + dtmEntrySet.size());
-
-	    initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
-	    initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
-
-	    System.out.println("Main element is object: " + je.isJsonObject());
-
-	    JsonObject jo = (JsonObject)je;
-	    System.out.println(jo.size());
-	    Set<Map.Entry<String,JsonElement>> jeSet = jo.entrySet();
-	    System.out.println(jeSet.size());
-	    Iterator<Map.Entry<String,JsonElement>> i = jeSet.iterator();
-
-	    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
-	    HashSet<String> uniquePathogensCovered = new HashSet<String>();
-	    HashSet<String> uniqueHostsCovered = new HashSet<String>();
-	    uniqueInputFormats = new HashSet<String>();
-	    uniqueOutputFormats = new HashSet<String>();
-	    HashSet<String> uniqueFormats = new HashSet<String>();
-	    HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
-	    HashSet<String> populationsNeeded = new HashSet<String>();
-	    while(i.hasNext()) {
-		Map.Entry<String,JsonElement> e = i.next();
-		String key = e.getKey();
-		//System.out.println(key);
-		if (key.equals("settings")) 
-		    continue;
-
-		JsonElement je2 = e.getValue();
-		JsonObject jo2 = (JsonObject)je2;
-		//JsonElement je3 = jo2.get("directory");
-		JsonElement je3 = jo2.get("subtype");
-		if (je3.isJsonPrimitive()) {
-		    JsonPrimitive jprim = (JsonPrimitive)je3;
-		    String entryTxt = jprim.getAsString();
-		    System.out.println("ACHTUNG: SUBTYPE.  subtype=\"" + entryTxt + "\"");
-		    
-		    if (iriMap.lookupClassIri(entryTxt) != null) {
-			System.out.println("\t"+ key  + " is a " + entryTxt);
-			baseName = key;
-			versionSuffix = "";
-			fullName = "";
-			versionNames = null;
-			/*
-			  hostSpeciesIncluded
-			  diseaseCoverage
-			  isApolloEnabled
-			  executables
-			  webApplication
-			  sourceCodeRelease
-			  documentation
-			  source
-			  generalInfo
-			  title
-			  directory
-			  version
-			  userGuidesAndManuals
-			  license
-			  controlMeasures
-			  publicationsThatUsedRelease
-			  locationCoverage
-			  location
-			  developer
-			  publicationsAboutRelease
-			  isOlympus
-			  doi
-
-			  what's source vs. sourceCodeRelease
-			*/
-
-			Set<Map.Entry<String,JsonElement>> dtmAttSet = jo2.entrySet();
-			Iterator<Map.Entry<String,JsonElement>> j = dtmAttSet.iterator();
-			HashSet<String> reqInds = new HashSet<String>();
-			while (j.hasNext()) {
-			    Map.Entry<String,JsonElement> ej = j.next();
-			    String keyj = ej.getKey();
-			    allDtmAtt.add(keyj);
-			    System.out.println("\t\t" + keyj);
-			    if (keyj.equals("title")) {
-				JsonElement jej = ej.getValue();
-				if (jej instanceof JsonPrimitive)
-				    baseName = ((JsonPrimitive)jej).getAsString();
-				else {
-				    System.err.println("title key does not have primitive value");
-				    throw new IllegalArgumentException("title element may not be something other than primitive!");
-				}
-			    } else if (keyj.equals("version")) {
-				JsonElement jej = ej.getValue();
-				if (jej instanceof JsonPrimitive) {
-				    /* versionNames = new String[1];
-				    versionNames[0] = ((JsonPrimitive)jej).getAsString();
-				    System.out.println("CAUTION: There are still version primitives!"); */
-				    throw new IllegalArgumentException("Version element may not be primitive");
-				}
-				else {
-				    //System.err.println("version key does not have primitive value");
-				    //System.err.println("it's type is instead " + jej.getClass());
-				    JsonArray versionArray = (JsonArray)jej;
-				    Iterator<JsonElement> vIter = versionArray.iterator();
-				    versionNames = new String[versionArray.size()];
-				    int vIndex = 0;
-				    while (vIter.hasNext()) {
-					JsonElement vElement = vIter.next();
-					//System.out.println("Version element is " + vElement.getClass());
-					if (vElement instanceof JsonPrimitive) {
-					    versionNames[vIndex++] = ((JsonPrimitive)vElement).getAsString();
-					} else {
-					    System.err.println("Version element is not primitive!!!");
-					}
-				    }
-
-				    if ((baseName.contains("FluTE") || baseName.contains("NAADSM"))&& versionNames.length > 1) {
-					versionSuffix = "";
-					for (int iName=0; iName<versionNames.length; iName++) {
-					    versionSuffix += versionNames[iName] + ((iName<versionNames.length-1) ? ", " : "");
-					}
-				    } else if (baseName.contains("GLEAM") && versionNames.length > 1) {
-					versionSuffix = "";
-					for (int iName=0; iName<versionNames.length; iName++) {
-					    if (versionNames[iName].contains("Server")) {
-						versionSuffix = versionNames[iName];
-					    }
-					}
-				    } else {
-					versionSuffix = versionNames[0];
-				    }
-				    System.out.println("Number of versions is : " + vIndex);
-				}
-			    }
-			    HashSet<String> indsForKey = indsMap.get(keyj);
-			    if (indsForKey != null) {
-				reqInds.addAll(indsForKey);
-				//System.out.println("adding inds for key " + keyj);
-			    }
-			}
-
-			//System.out.println("base name = " + baseName + ", version = " + version);
-			String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
-			    ((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
-			fullName = baseLabel;
-			System.out.println(fullName);
-			Iterator<String> k = reqInds.iterator();
-			//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
-			IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
-			HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
-			while(k.hasNext()) {
-			    String ks = k.next();
-			    IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(entryTxt) : iriMap.lookupClassIri(ks);
-			    System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
-			    String indLabel = fullName + " " + entryTxt.substring(0,entryTxt.length()-1);
-			    indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
-			    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel); 
-			    if (ks.startsWith("simulat"))
-				simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
-			    niMap.put(ks, oni);
-			}
-
-			//Once we've identified all the individuals we need, and we've created them, now we have to go back through
-			// and stick stuff on the individuals
-			j=dtmAttSet.iterator();
-			HashSet<String> locations = new HashSet<String>();
-			HashSet<String> pathogens = new HashSet<String>();
-			HashSet<String> hosts = new HashSet<String>();
-
-			while (j.hasNext()) {
-			    Map.Entry<String,JsonElement> ej = j.next();
-			    String keyj = ej.getKey();
-			    if (keyj.equals("title")) {
-				handleTitle(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("version")) {
-				handleVersion(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("source")) {
-				handleSource(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("license")) {
-				handleLicense(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("doi")) {
-				handleDoi(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("sourceCodeRelease")) {
-				handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("generalInfo") || keyj.equals("humanReadableSynopsis")) {
-				handleGeneralInfo(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("executables")) {
-				handleExecutables(ej, niMap, oo, odf, iriMap);
-				fullNameToExecutable.put(fullName, niMap.get("executable"));
-			    } else if (keyj.equals("webApplication")) {
-				handleWebApplication(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("location") || keyj.equals("site") || keyj.equals("website")) {
-				handleLocation(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
-				handleDocumentation(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("developer")) {
-				handleDeveloper(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("publicationsThatUsedRelease")) {
-				handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("availableAt")) {
-				handleAvailableAt(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("isUdsi") || keyj.equals("availableOnUdsi") || keyj.equals("availableViaUdsi") || keyj.equals("availableAtUids") || 
-				       keyj.equals("availableOnUids") || keyj.equals("availableOnUIDS")) {
-				OWLNamedIndividual executableInd = niMap.get("executable");
-				OWLNamedIndividual execConcInd = niMap.get("udsiConc");
-				JsonElement elem = ej.getValue();
-				String value = ((JsonPrimitive)elem).getAsString();
-				handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
-			    } else if (keyj.equals("availableOnOlympus") || keyj.equals("isOlympus") || keyj.equals("availableAtOlympus")) {
-				OWLNamedIndividual executableInd = niMap.get("executable");
-				OWLNamedIndividual execConcInd = niMap.get("olympusConc");
-				JsonElement elem = ej.getValue();
-				String value = ((JsonPrimitive)elem).getAsString();
-				createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
-			    } else if (keyj.equals("controlMeasures")) {
-				handleControlMeasures(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("dataInputFormats")) {
-				handleDataInputFormats(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("dataOutputFormats")) {
-				handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
-			    } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
-				handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
-			    } else {
-				boolean handled = false;
-				JsonElement jeRemainder = ej.getValue();
-				if (jeRemainder instanceof JsonPrimitive) {
-				    String value = ((JsonPrimitive)jeRemainder).getAsString();
-				
-				} else if (jeRemainder instanceof JsonArray) {
-				    JsonArray remArray = (JsonArray)jeRemainder;
-				    Iterator<JsonElement> remIter = remArray.iterator();
-				    while (remIter.hasNext()) {
-					JsonElement remNext = remIter.next();
-					if (remNext instanceof JsonPrimitive) {
-					    String value = ((JsonPrimitive)remNext).getAsString();
-					    
-					    if (keyj.equals("locationCoverage")) {
-						//System.out.println("LOCATION: " + value);
-						handled = true;
-						if (!value.equals("N/A")) {
-						    uniqueLocationsCovered.add(value);
-						    locations.add(value);
-						}
-					    } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
-						handled = true;
-						if (!value.equals("N/A")) {
-						    uniquePathogensCovered.add(value);
-						    pathogens.add(value);
-						}
-					    } else if (keyj.equals("hostSpeciesIncluded")) {
-						handled = true;
-						if (!value.equals("N/A")) {
-						    uniqueHostsCovered.add(value);
-						    hosts.add(value);
-						}
-					    }
-					    
-					} else {
-					    throw new IllegalArgumentException("ERROR: element " + keyj + "has array of values that are complex.");
-					}
-				    }
-				    
-				} else { 
-				    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
-				}
-				if (!handled) {
-				    System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
-				    if (keyj.equals("publicationsAboutRelease")) {
-					//System.out.println("PUB ABOUT: " + ej.getValue());
-					
-				    }
-				}
-			    }
-			}
-
-			//Now, we need to connect up all the individuals
-			connectDtmIndividuals(niMap, oo, odf, iriMap);
-
-			//System.out.println(locations.size());
-			//System.out.println(pathogens.size());
-			//System.out.println(hosts.size());
-
-			ArrayList<String> popsForThisDtm = new ArrayList<String>();
-			for (String loci : locations) {
-			    for (String path : pathogens) {
-				String pop = path + " in region of " + loci;
-				populationsNeeded.add(pop);
-				popsForThisDtm.add(pop);
-				//System.out.println(pop);
-			    }
-			    for (String host : hosts) {
-				String pop = host + " in region of " + loci;
-				populationsNeeded.add(pop);
-				popsForThisDtm.add(pop);
-				//System.out.println(pop);
-			    }
-			}
-			popsNeededByDtm.put(fullName, popsForThisDtm);
-
-			handleSimInds(niMap, oo, odf, iriMap);
-		    }
-		}
-
 		try {
-		    oom.saveOntology(oo, new FileOutputStream("./dtm-ontology.owl"));
+		    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
+		    //FileReader fr = new FileReader("./src/main/resources/software.json");
+		    simPops = new FileWriter("./simulated-populations.txt");
+		    uniqueCms = new HashSet<String>();
+
+		    JsonParser jp = new JsonParser();
+		    JsonElement je  = jp.parse(fr);
+
+		    IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
+		    itc.init();
+		    HashMap<String, HashSet<String>> indsMap = itc.getIndividualsToCreate();
+		    
+		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
+		    iriMap.init();
+
+		    cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
+		    cmMap.initialize();
+
+		    pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
+		    pubLinks.init();
+
+		    fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
+
+		    oom = OWLManager.createOWLOntologyManager();
+		    OWLDataFactory odf = OWLManager.getOWLDataFactory();
+		    OWLOntology oo = null;
+		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/dc/dtm");
+		    try {
+				oo = oom.createOntology(ontologyIRI);
+		    } catch (OWLOntologyCreationException ooce) {
+				ooce.printStackTrace();
+		    }
+
+		    olympus = createOlympusIndividuals(odf, oo, iriMap);
+		    uids = createUidsIndividuals(odf, oo, iriMap);
+		    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
+
+		    HashSet<String> allDtmAtt = new HashSet<String>();
+		    HashSet<String> dtmEntrySet = initializeDtmEntrySet(je);
+		    //System.out.println("entry set size = " + dtmEntrySet.size());
+
+		    initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
+		    initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
+
+		    System.out.println("Main element is array: " + je.isJsonArray());
+
+		    JsonArray jo = (JsonArray)je;
+		    System.out.println(jo.size());
+		    
+		    Iterator<JsonElement> i = jo.iterator();
+
+		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
+		    HashSet<String> uniquePathogensCovered = new HashSet<String>();
+		    HashSet<String> uniqueHostsCovered = new HashSet<String>();
+		    uniqueInputFormats = new HashSet<String>();
+		    uniqueOutputFormats = new HashSet<String>();
+		    HashSet<String> uniqueFormats = new HashSet<String>();
+		    HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
+		    HashSet<String> populationsNeeded = new HashSet<String>();
+		    while(i.hasNext()) {
+				JsonElement ei = i.next();
+			
+				JsonObject jo2 = (JsonObject)ei;
+			
+				/*JsonElement jeTitle = jo2.get("title");
+				String title = null;
+				if (jeTitle.isJsonPrimitive()) {
+					JsonPrimitive titlePrim = (JsonPrimitive)jeTitle;
+					title = titlePrim.getAsString();
+				} else {
+					System.err.println("title attribute is not primitive!");
+				}*/
+				JsonElement je3 = jo2.get("subtype");
+				if (je3.isJsonPrimitive()) {
+				    JsonPrimitive jprim = (JsonPrimitive)je3;
+				    String subtype = jprim.getAsString();
+				    System.out.println("ACHTUNG: SUBTYPE.  subtype=\"" + subtype + "\"");
+				    
+				   	//System.out.println("\t"+ key  + " is a " + subtype);
+					baseName = "";
+					versionSuffix = "";
+					fullName = "";
+					versionNames = null;
+					/*
+					  hostSpeciesIncluded
+					  diseaseCoverage
+					  isApolloEnabled
+					  executables
+					  webApplication
+					  sourceCodeRelease
+					  documentation
+					  source
+					  generalInfo
+					  title
+					  directory
+					  version
+					  userGuidesAndManuals
+					  license
+					  controlMeasures
+					  publicationsThatUsedRelease
+					  locationCoverage
+					  location
+					  developer
+					  publicationsAboutRelease
+					  isOlympus
+					  doi
+
+					  what's source vs. sourceCodeRelease
+					*/
+
+					Set<Map.Entry<String,JsonElement>> dtmAttSet = jo2.entrySet();
+					Iterator<Map.Entry<String,JsonElement>> j = dtmAttSet.iterator();
+					HashSet<String> reqInds = new HashSet<String>();
+					while (j.hasNext()) {
+					    Map.Entry<String,JsonElement> ej = j.next();
+					    String keyj = ej.getKey();
+					    allDtmAtt.add(keyj);
+					    System.out.println("\t\t" + keyj);
+					    if (keyj.equals("title")) {
+							JsonElement jej = ej.getValue();
+							if (jej instanceof JsonPrimitive) {
+						    	baseName = ((JsonPrimitive)jej).getAsString();
+								System.out.println("\t"+ baseName  + " is a " + subtype);
+							} else {
+						    	System.err.println("title key does not have primitive value");
+						    	throw new IllegalArgumentException("title element may not be something other than primitive!");
+							}
+					    } else if (keyj.equals("version")) {
+							JsonElement jej = ej.getValue();
+							if (jej instanceof JsonPrimitive) {
+						    	/* versionNames = new String[1];
+						    	versionNames[0] = ((JsonPrimitive)jej).getAsString();
+						    	System.out.println("CAUTION: There are still version primitives!"); */
+						    	throw new IllegalArgumentException("Version element may not be primitive");
+							} else {
+							    //System.err.println("version key does not have primitive value");
+							    //System.err.println("it's type is instead " + jej.getClass());
+							    JsonArray versionArray = (JsonArray)jej;
+							    Iterator<JsonElement> vIter = versionArray.iterator();
+							    versionNames = new String[versionArray.size()];
+							    int vIndex = 0;
+							    while (vIter.hasNext()) {
+									JsonElement vElement = vIter.next();
+									//System.out.println("Version element is " + vElement.getClass());
+									if (vElement instanceof JsonPrimitive) {
+									    versionNames[vIndex++] = ((JsonPrimitive)vElement).getAsString();
+									} else {
+									    System.err.println("Version element is not primitive!!!");
+									}
+						    	}
+
+							    if ((baseName.contains("FluTE") || baseName.contains("NAADSM"))&& versionNames.length > 1) {
+								versionSuffix = "";
+									for (int iName=0; iName<versionNames.length; iName++) {
+									    versionSuffix += versionNames[iName] + ((iName<versionNames.length-1) ? ", " : "");
+									}
+							    } else if (baseName.contains("GLEAM") && versionNames.length > 1) {
+									versionSuffix = "";
+									for (int iName=0; iName<versionNames.length; iName++) {
+									    if (versionNames[iName].contains("Server")) {
+											versionSuffix = versionNames[iName];
+									    }
+									}
+							    } else {
+									versionSuffix = versionNames[0];
+							    }
+							    System.out.println("Number of versions is : " + vIndex);
+							}
+					    }
+					    HashSet<String> indsForKey = indsMap.get(keyj);
+					    if (indsForKey != null) {
+							reqInds.addAll(indsForKey);
+							//System.out.println("adding inds for key " + keyj);
+					    }
+					}
+
+					//System.out.println("base name = " + baseName + ", version = " + version);
+					String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
+					    ((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
+					fullName = baseLabel;
+					System.out.println(fullName);
+					Iterator<String> k = reqInds.iterator();
+					//System.out.println("\t\t\treqInds.size() = " + reqInds.size());
+					IRI labelIri = iriMap.lookupAnnPropIri("editor preferred");
+					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
+					while(k.hasNext()) {
+					    String ks = k.next();
+					    IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(subtype) : iriMap.lookupClassIri(ks);
+					    System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
+					    String indLabel = fullName + " " + subtype.substring(0,subtype.length()-1);
+					    indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
+					    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel); 
+					    if (ks.startsWith("simulat"))
+						simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
+					    niMap.put(ks, oni);
+					}
+
+					//Once we've identified all the individuals we need, and we've created them, now we have to go back through
+					// and stick stuff on the individuals
+					j=dtmAttSet.iterator();
+					HashSet<String> locations = new HashSet<String>();
+					HashSet<String> pathogens = new HashSet<String>();
+					HashSet<String> hosts = new HashSet<String>();
+
+					while (j.hasNext()) {
+					    Map.Entry<String,JsonElement> ej = j.next();
+					    String keyj = ej.getKey();
+					    if (keyj.equals("title")) {
+							handleTitle(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("version")) {
+							handleVersion(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("source")) {
+							handleSource(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("license")) {
+							handleLicense(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("doi")) {
+							handleDoi(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("sourceCodeRelease")) {
+							handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("generalInfo") || keyj.equals("humanReadableSynopsis")) {
+							handleGeneralInfo(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("executables")) {
+							handleExecutables(ej, niMap, oo, odf, iriMap);
+						fullNameToExecutable.put(fullName, niMap.get("executable"));
+					    } else if (keyj.equals("webApplication")) {
+							handleWebApplication(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("location") || keyj.equals("site") || keyj.equals("website")) {
+							handleLocation(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
+							handleDocumentation(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("developer") || keyj.equals("developers")) {
+							handleDeveloper(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("publicationsThatUsedRelease")) {
+							handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("availableAt")) {
+							handleAvailableAt(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("isUdsi") || keyj.equals("availableOnUdsi") || keyj.equals("availableViaUdsi") || keyj.equals("availableAtUids") || 
+						       keyj.equals("availableOnUids") || keyj.equals("availableOnUIDS")) {
+							OWLNamedIndividual executableInd = niMap.get("executable");
+							OWLNamedIndividual execConcInd = niMap.get("udsiConc");
+							JsonElement elem = ej.getValue();
+							String value = ((JsonPrimitive)elem).getAsString();
+							handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
+					    } else if (keyj.equals("availableOnOlympus") || keyj.equals("isOlympus") || keyj.equals("availableAtOlympus")) {
+							OWLNamedIndividual executableInd = niMap.get("executable");
+							OWLNamedIndividual execConcInd = niMap.get("olympusConc");
+							JsonElement elem = ej.getValue();
+							String value = ((JsonPrimitive)elem).getAsString();
+							createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
+					    } else if (keyj.equals("controlMeasures")) {
+							handleControlMeasures(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("dataInputFormats") || keyj.equals("dataInputFormat")) {
+							handleDataInputFormats(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("dataOutputFormats")) {
+							handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
+					    } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
+							handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
+					    } else {
+							boolean handled = false;
+							JsonElement jeRemainder = ej.getValue();
+							if (jeRemainder instanceof JsonPrimitive) {
+							    String value = ((JsonPrimitive)jeRemainder).getAsString();
+							
+							} else if (jeRemainder instanceof JsonArray) {
+							    JsonArray remArray = (JsonArray)jeRemainder;
+							    Iterator<JsonElement> remIter = remArray.iterator();
+							    while (remIter.hasNext()) {
+									JsonElement remNext = remIter.next();
+									if (remNext instanceof JsonPrimitive) {
+									    String value = ((JsonPrimitive)remNext).getAsString();
+									    
+									    if (keyj.equals("locationCoverage")) {
+											//System.out.println("LOCATION: " + value);
+											handled = true;
+											if (!value.equals("N/A")) {
+											    uniqueLocationsCovered.add(value);
+											    locations.add(value);
+											}
+										    } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
+											handled = true;
+											if (!value.equals("N/A")) {
+											    uniquePathogensCovered.add(value);
+											    pathogens.add(value);
+											}
+										    } else if (keyj.equals("hostSpeciesIncluded")) {
+											handled = true;
+											if (!value.equals("N/A")) {
+											    uniqueHostsCovered.add(value);
+											    hosts.add(value);
+											}
+										    }
+									    
+									} else {
+									    throw new IllegalArgumentException("ERROR: element " + keyj + "has array of values that are complex.");
+									}
+							    }
+						    
+							} else { 
+							    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
+							}
+							if (!handled && !keyj.equals("subtype")) {
+							    System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
+							    if (keyj.equals("publicationsAboutRelease")) {
+								//System.out.println("PUB ABOUT: " + ej.getValue());
+								
+							    }
+							}
+					    }
+					}
+
+					//Now, we need to connect up all the individuals
+					connectDtmIndividuals(niMap, oo, odf, iriMap);
+
+					//System.out.println(locations.size());
+					//System.out.println(pathogens.size());
+					//System.out.println(hosts.size());
+
+					ArrayList<String> popsForThisDtm = new ArrayList<String>();
+					for (String loci : locations) {
+					    for (String path : pathogens) {
+							String pop = path + " in region of " + loci;
+							populationsNeeded.add(pop);
+							popsForThisDtm.add(pop);
+							//System.out.println(pop);
+					    }
+					    for (String host : hosts) {
+							String pop = host + " in region of " + loci;
+							populationsNeeded.add(pop);
+							popsForThisDtm.add(pop);
+							//System.out.println(pop);
+					    }
+					}
+					popsNeededByDtm.put(fullName, popsForThisDtm);
+
+					handleSimInds(niMap, oo, odf, iriMap);
+				    }
+				
+
+				try {
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					String dateTxt = df.format(new Date());
+					String owlFileName = "software-ontology-" + dateTxt + ".owl";
+				    oom.saveOntology(oo, new FileOutputStream(owlFileName));
+				} catch (IOException ioe) {
+				    ioe.printStackTrace();
+				} catch (OWLOntologyStorageException oose) {
+				    oose.printStackTrace();
+				}
+		    } //while(i.hasNext()).  i is iterating over settings plus the main payload.
+
+			Iterator<String> si = allDtmAtt.iterator();
+			while (si.hasNext()) {
+			    System.out.println(si.next());
+			}
+			
+			System.out.println(nextIri());
+			System.out.println(nextIri());
+
+			System.out.println("Locations required:");
+			for (String location : uniqueLocationsCovered) {
+			    System.out.println("\t" + location);
+			}
+			System.out.println();
+
+			System.out.println("Pathogens required:");
+			for (String pathogen : uniquePathogensCovered) {
+			    System.out.println("\t" + pathogen);
+			}
+			System.out.println();
+		    
+			System.out.println("Hosts required: ");
+			for (String host : uniqueHostsCovered) {
+			    System.out.println("\t" + host);
+			}
+			System.out.println();       
+
+			System.out.println("Populations required: ");
+			for (String pop : populationsNeeded) {
+			    System.out.println("\t" + pop);
+			}
+			System.out.println();       
+
+			FileWriter fw = new FileWriter("./pops_by_dtm.txt");
+			int iPop = 1;
+			Set<String> dtmsWithPops = popsNeededByDtm.keySet();
+			for (String dtm : dtmsWithPops) {
+			    ArrayList<String> popsNeeded = popsNeededByDtm.get(dtm);
+			    for (String pop : popsNeeded) {
+				System.out.println(iPop + "\t" + dtm + "\t" + pop);
+				fw.write(iPop + "\t" + dtm + "\t" + pop + "\n");
+				iPop++;
+			    }
+			}
+			fw.close();
+
+		    simPops.close();
+		    
+		    System.out.println("Control measures:");
+		    for (String cm : uniqueCms) {
+				System.out.println(cm);
+		    }
+
+		    uniqueFormats.addAll(uniqueInputFormats);
+		    uniqueFormats.addAll(uniqueOutputFormats);
+
+		    System.out.println("\nInput formats:");
+		    for (String input : uniqueInputFormats) {
+				System.out.println("\t" + input);
+		    }
+
+		    System.out.println("\nOutput formats:");
+		    for (String output : uniqueOutputFormats) {
+				System.out.println("\t" + output);
+		    }
+
+		    System.out.println("\nAll formats:");
+		    for (String format : uniqueFormats) {
+				System.out.println("\t" + format);
+		    }
+
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		} catch (OWLOntologyStorageException oose) {
-		    oose.printStackTrace();
+		} catch (JsonIOException jioe) {
+		    jioe.printStackTrace();
+		} catch (JsonSyntaxException jse) {
+		    jse.printStackTrace();
 		}
-	    } //while(i.hasNext()).  i is iterating over settings plus the main payload.
-
-		Iterator<String> si = allDtmAtt.iterator();
-		while (si.hasNext()) {
-		    System.out.println(si.next());
-		}
-		
-		System.out.println(nextIri());
-		System.out.println(nextIri());
-
-		System.out.println("Locations required:");
-		for (String location : uniqueLocationsCovered) {
-		    System.out.println("\t" + location);
-		}
-		System.out.println();
-
-		System.out.println("Pathogens required:");
-		for (String pathogen : uniquePathogensCovered) {
-		    System.out.println("\t" + pathogen);
-		}
-		System.out.println();
-	    
-		System.out.println("Hosts required: ");
-		for (String host : uniqueHostsCovered) {
-		    System.out.println("\t" + host);
-		}
-		System.out.println();       
-
-		System.out.println("Populations required: ");
-		for (String pop : populationsNeeded) {
-		    System.out.println("\t" + pop);
-		}
-		System.out.println();       
-
-		FileWriter fw = new FileWriter("./pops_by_dtm.txt");
-		int iPop = 1;
-		Set<String> dtmsWithPops = popsNeededByDtm.keySet();
-		for (String dtm : dtmsWithPops) {
-		    ArrayList<String> popsNeeded = popsNeededByDtm.get(dtm);
-		    for (String pop : popsNeeded) {
-			System.out.println(iPop + "\t" + dtm + "\t" + pop);
-			fw.write(iPop + "\t" + dtm + "\t" + pop + "\n");
-			iPop++;
-		    }
-		}
-		fw.close();
-
-	    simPops.close();
-	    
-	    System.out.println("Control measures:");
-	    for (String cm : uniqueCms) {
-		System.out.println(cm);
-	    }
-
-	    uniqueFormats.addAll(uniqueInputFormats);
-	    uniqueFormats.addAll(uniqueOutputFormats);
-
-	    System.out.println("\nInput formats:");
-	    for (String input : uniqueInputFormats) {
-		System.out.println("\t" + input);
-	    }
-
-	    System.out.println("\nOutput formats:");
-	    for (String output : uniqueOutputFormats) {
-		System.out.println("\t" + output);
-	    }
-
-	    System.out.println("\nAll formats:");
-	    for (String format : uniqueFormats) {
-		System.out.println("\t" + format);
-	    }
-
-	} catch (IOException ioe) {
-	    ioe.printStackTrace();
-	} catch (JsonIOException jioe) {
-	    jioe.printStackTrace();
-	} catch (JsonSyntaxException jse) {
-	    jse.printStackTrace();
-	}
     }
 
     public static void handleTitle(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -818,71 +824,71 @@ public class DtmJsonProcessor {
 
     public static void handleDeveloper(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	OWLNamedIndividual devInd = niMap.get("developer");
-	OWLNamedIndividual wrtInd = niMap.get("codewriting");
+		OWLNamedIndividual devInd = niMap.get("developer");
+		OWLNamedIndividual wrtInd = niMap.get("codewriting");
 
-	JsonElement je = e.getValue();
-	if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
-	    String[] devs = (value.contains(";")) ? value.split(Pattern.quote(";")) : value.split(Pattern.quote(","));
-	    //System.out.println("There are " + devs.length + " developers:");
-	    System.err.println("Developer attribute has value that is primitive.");
-	} else {
-	    JsonArray devArray = (JsonArray)je;
-	    String[] devs = new String[devArray.size()];
-	    Iterator<JsonElement> devIter = devArray.iterator();
-	    int iDev = 0;
-	    while (devIter.hasNext()) {
-		JsonElement devElement = devIter.next();
-		devs[iDev++] = ((JsonPrimitive)devElement).getAsString();
-	    }
-
-	    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
-	    devNis.add(devInd);
-
-	    String[] devNames = new String[devs.length];
-	    for (int i=0; i<devs.length; i++) {
-		//System.out.println("devs[i] = " + devs[i]);
-		if (devs[i].trim().startsWith("<a")) {
-		    Document d = Jsoup.parse(devs[i]);
-		    Elements links = d.select("a");
-		    String url = links.get(0).attr("href");
-		    String txt = links.get(0).ownText();
-		    devNames[i] = txt.trim();
-
-		    //System.out.println("developer name = " + devNames[i] + "\t" + txt);
-		    //System.out.println("developer href = " + url + "\t" + url);
-
-		    OWLNamedIndividual devi = null;
-		    if (i>=devNis.size()) {
-			devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
-			devNis.add(devi);
-		    } else {
-			devi = devNis.get(i);
-			addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
-		    }
-		    OWLNamedIndividual emailInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("email address"), iriMap.lookupAnnPropIri("label"), url);
-		    createOWLObjectPropertyAssertion(emailInd, iriMap.lookupObjPropIri("is contact information about"), devi, odf, oo);
+		JsonElement je = e.getValue();
+		if (je instanceof JsonPrimitive) {
+		    String value = ((JsonPrimitive)je).getAsString();
+		    String[] devs = (value.contains(";")) ? value.split(Pattern.quote(";")) : value.split(Pattern.quote(","));
+		    //System.out.println("There are " + devs.length + " developers:");
+		    System.err.println("Developer attribute has value that is primitive.");
 		} else {
-		    devNames[i] = devs[i].trim();
-		    if (i>=devNis.size()) {
-			OWLNamedIndividual devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
-			devNis.add(devi);
-			addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
-		    } else {
-			addAnnotationToNamedIndividual(devNis.get(i), iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+		    JsonArray devArray = (JsonArray)je;
+		    String[] devs = new String[devArray.size()];
+		    Iterator<JsonElement> devIter = devArray.iterator();
+		    int iDev = 0;
+		    while (devIter.hasNext()) {
+			JsonElement devElement = devIter.next();
+			devs[iDev++] = ((JsonPrimitive)devElement).getAsString();
+		    }
+
+		    ArrayList<OWLNamedIndividual> devNis = new ArrayList<OWLNamedIndividual>();
+		    devNis.add(devInd);
+
+		    String[] devNames = new String[devs.length];
+		    for (int i=0; i<devs.length; i++) {
+			//System.out.println("devs[i] = " + devs[i]);
+			if (devs[i].trim().startsWith("<a")) {
+			    Document d = Jsoup.parse(devs[i]);
+			    Elements links = d.select("a");
+			    String url = links.get(0).attr("href");
+			    String txt = links.get(0).ownText();
+			    devNames[i] = txt.trim();
+
+			    //System.out.println("developer name = " + devNames[i] + "\t" + txt);
+			    //System.out.println("developer href = " + url + "\t" + url);
+
+			    OWLNamedIndividual devi = null;
+			    if (i>=devNis.size()) {
+				devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
+				devNis.add(devi);
+			    } else {
+				devi = devNis.get(i);
+				addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+			    }
+			    OWLNamedIndividual emailInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("email address"), iriMap.lookupAnnPropIri("label"), url);
+			    createOWLObjectPropertyAssertion(emailInd, iriMap.lookupObjPropIri("is contact information about"), devi, odf, oo);
+			} else {
+			    devNames[i] = devs[i].trim();
+			    if (i>=devNis.size()) {
+					OWLNamedIndividual devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), iriMap.lookupAnnPropIri("label"), devNames[i]);
+					devNis.add(devi);
+					addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+			    } else {
+					addAnnotationToNamedIndividual(devNis.get(i), iriMap.lookupAnnPropIri("label"), devNames[i], odf, oo);
+			    }
+			}
+			//System.out.println(i);
+		    }
+
+		    for (int i=0; i<devNis.size(); i++) {
+				OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devNames[i]);
+				OWLNamedIndividual devi = devNis.get(i);
+				createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
+				createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 		    }
 		}
-		//System.out.println(i);
-	    }
-
-	    for (int i=0; i<devNis.size(); i++) {
-		OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), iriMap.lookupAnnPropIri("label"), "legal person role of " + devNames[i]);
-		OWLNamedIndividual devi = devNis.get(i);
-		createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
-		createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
-	    }
-	}
     }
 
     public static void handlePublicationsThatUsedRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -1019,111 +1025,115 @@ public class DtmJsonProcessor {
 
     public static void	handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	JsonElement je = e.getValue();
-	if (je instanceof JsonArray) {
-	    JsonArray elemArray = (JsonArray)je;
-	    Iterator<JsonElement> elemIter = elemArray.iterator();
-	    int size = elemArray.size();
-	    while (elemIter.hasNext()) {
-		JsonElement elemi = elemIter.next();
-		if (elemi instanceof JsonPrimitive) {
-		    String value = ((JsonPrimitive)elemi).getAsString();
-		    uniqueCms.add(value);
+		JsonElement je = e.getValue();
+		if (je instanceof JsonArray) {
+		    JsonArray elemArray = (JsonArray)je;
+		    Iterator<JsonElement> elemIter = elemArray.iterator();
+		    int size = elemArray.size();
+		    while (elemIter.hasNext()) {
+				JsonElement elemi = elemIter.next();
+				if (elemi instanceof JsonPrimitive) {
+				    String value = ((JsonPrimitive)elemi).getAsString();
+				    uniqueCms.add(value);
 
-		    if (cmMap.containsKey(value)) {
-			IRI classIri = cmMap.get(value);
-			String cmInstanceLabel = value + " control measure by " + fullName;
-			String simxInstanceLabel = "simulating of epidemic with " + value + " control measure " + " by " + fullName;
-			OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
-			OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
-			addAnnotationToNamedIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
-			
-			createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
-			createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
-		    } else {
-			System.out.println("Skipping " + value + " control measure.");
+				    if (cmMap.containsKey(value)) {
+						IRI classIri = cmMap.get(value);
+						String cmInstanceLabel = value + " control measure by " + fullName;
+						String simxInstanceLabel = "simulating of epidemic with " + value + " control measure by " + fullName;
+						OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
+						OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
+						addAnnotationToNamedIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+						
+						createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
+						createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
+				    } else {
+						System.out.println("Skipping " + value + " control measure.");
+				    }
+				}
 		    }
+		} else {
+		    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
 		}
-	    }
-	} else {
-	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-	}
     }
 
     public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	JsonElement je = e.getValue();
-	if (je instanceof JsonArray) {
-	    JsonArray elemArray = (JsonArray)je;
-	    Iterator<JsonElement> elemIter = elemArray.iterator();
-	    int size = elemArray.size();
-	    while (elemIter.hasNext()) {
-		JsonElement elemi = elemIter.next();
-		if (elemi instanceof JsonPrimitive) {
-		    String value = ((JsonPrimitive)elemi).getAsString();
-		    uniqueInputFormats.add(value);
+		JsonElement je = e.getValue();
+		if (je instanceof JsonArray) {
+		    JsonArray elemArray = (JsonArray)je;
+		    Iterator<JsonElement> elemIter = elemArray.iterator();
+		    int size = elemArray.size();
+		    while (elemIter.hasNext()) {
+				JsonElement elemi = elemIter.next();
+				if (elemi instanceof JsonPrimitive) {
+				    String value = ((JsonPrimitive)elemi).getAsString();
+				    uniqueInputFormats.add(value);
 
-		    OWLNamedIndividual formatInd = formatInds.get(value);
-		    if (formatInd != null) {
-			String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
-			String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
-			OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"), 
-												  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-			OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
-												  iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+				    OWLNamedIndividual formatInd = formatInds.get(value);
+				    if (formatInd != null) {
+						String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
+						String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
+						OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"), 
+															  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
+						OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+															  iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
 
-			//connect parsing to format
-			createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+						//connect parsing to format
+						createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
-			//connect parsing to plannedSpec
-			createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-			
-			//connect plannedSpec to executable
-			createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+						//connect parsing to plannedSpec
+						createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+						
+						//connect plannedSpec to executable
+						createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+				    } else {
+				    	System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + value);
+				    }
+				}
 		    }
+		} else {
+		    System.err.println("value of dataInputFormats attribute must be array. Ignoring " + je.getAsString());
 		}
-	    }
-	} else {
-	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-	}
     }
 
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	JsonElement je = e.getValue();
-	if (je instanceof JsonArray) {
-	    JsonArray elemArray = (JsonArray)je;
-	    Iterator<JsonElement> elemIter = elemArray.iterator();
-	    int size = elemArray.size();
-	    while (elemIter.hasNext()) {
-		JsonElement elemi = elemIter.next();
-		if (elemi instanceof JsonPrimitive) {
-		    String value = ((JsonPrimitive)elemi).getAsString();
-		    uniqueOutputFormats.add(value);
+		JsonElement je = e.getValue();
+		if (je instanceof JsonArray) {
+		    JsonArray elemArray = (JsonArray)je;
+		    Iterator<JsonElement> elemIter = elemArray.iterator();
+		    int size = elemArray.size();
+		    while (elemIter.hasNext()) {
+				JsonElement elemi = elemIter.next();
+				if (elemi instanceof JsonPrimitive) {
+				    String value = ((JsonPrimitive)elemi).getAsString();
+				    uniqueOutputFormats.add(value);
 
-		    OWLNamedIndividual formatInd = formatInds.get(value);
-		    if (formatInd != null) {
-			String planSpecLabel = "data encoding plan specification for format " + value + " as part of " + fullName;
-			String dataWritingLabel = "data encoding of file in " + value + " format by " + fullName;
-			OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableEncodingPlan"), 
-												  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-			OWLNamedIndividual dataWritingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
-												  iriMap.lookupAnnPropIri("editor preferred"), dataWritingLabel);
+				    OWLNamedIndividual formatInd = formatInds.get(value);
+				    if (formatInd != null) {
+						String planSpecLabel = "data encoding plan specification for format " + value + " as part of " + fullName;
+						String dataWritingLabel = "data encoding of file in " + value + " format by " + fullName;
+						OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableEncodingPlan"), 
+															  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
+						OWLNamedIndividual dataWritingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
+															  iriMap.lookupAnnPropIri("editor preferred"), dataWritingLabel);
 
-			//connect parsing to format
-			createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+						//connect parsing to format
+						createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
-			//connect parsing to plannedSpec
-			createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-			
-			//connect plannedSpec to executable
-			createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+						//connect parsing to plannedSpec
+						createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+						
+						//connect plannedSpec to executable
+						createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+				    } else {
+						    	System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + value);
+					}
+				}
 		    }
+		} else {
+		    System.err.println("value of dataOutputFormats attribute must be array.  Ignoring " + je.getAsString());
 		}
-	    }
-	} else {
-	    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-	}
     }
 
     public static void handlePublicationsAbout(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
