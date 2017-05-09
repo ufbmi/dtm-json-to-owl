@@ -98,6 +98,7 @@ public class DtmJsonProcessor {
     public static void main(String[] args) {
 		try {
 		    FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
+		    //FileReader fr = new FileReader("../digital-commons/src/main/resources/json/hardcoded-software.json")
 		    //FileReader fr = new FileReader("./src/main/resources/software.json");
 		    simPops = new FileWriter("./simulated-populations.txt");
 		    uniqueCms = new HashSet<String>();
@@ -123,7 +124,7 @@ public class DtmJsonProcessor {
 		    oom = OWLManager.createOWLOntologyManager();
 		    OWLDataFactory odf = OWLManager.getOWLDataFactory();
 		    OWLOntology oo = null;
-		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/dc/dtm");
+		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/software");
 		    try {
 				oo = oom.createOntology(ontologyIRI);
 		    } catch (OWLOntologyCreationException ooce) {

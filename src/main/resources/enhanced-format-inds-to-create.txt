@@ -1,0 +1,4 @@
+id	title	authority	URL
+SPEW.US format	SPEW.US-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.US-File-Formats
+SPEW.IPUMS format	SPEW.IPUMS-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.IPUMS-File-Formats
+SPEW.CANADA format	SPEW.CANADA-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.CANADA-File-Formats

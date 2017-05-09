@@ -81,3 +81,4 @@ data set curation	http://purl.obolibrary.org/obo/OBI_0302914	class
 temporal interval	http://purl.obolibrary.org/obo/BFO_0000038	class
 occupies temporal region	http://purl.obolibrary.org/obo/BFO_0000155	object property
 identifier	http://purl.obolibrary.org/obo/IAO_0020000	class
+owns	http://purl.obolibrary.org/obo/OMIABIS_0000008	object property

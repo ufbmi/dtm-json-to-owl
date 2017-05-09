@@ -87,7 +87,7 @@ public class DatasetProcessor {
 		    oom = OWLManager.createOWLOntologyManager();
 		    OWLDataFactory odf = OWLManager.getOWLDataFactory();
 		    OWLOntology oo = null;
-		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/dc/dataset");
+		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/dataset");
 		    try {
 				oo = oom.createOntology(ontologyIRI);
 		    } catch (OWLOntologyCreationException ooce) {
