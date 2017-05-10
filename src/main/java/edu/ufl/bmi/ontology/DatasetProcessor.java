@@ -211,6 +211,7 @@ public class DatasetProcessor {
 							niMap.put("olympusConc",datasetConcInd);
 						}
 						createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), datasetConcInd, odf, oo);
+						createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is concretized as"), datasetConcInd, odf, oo);
 			    	}		    	
 
 			    	if (isValidFieldValue(ae) && ae.toLowerCase().equals("true")) {
@@ -400,6 +401,7 @@ public class DatasetProcessor {
 									"website for " + fullName);
 		niMap.put("website", oni);
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("dataset"), odf, oo);
     }
 
 /*
