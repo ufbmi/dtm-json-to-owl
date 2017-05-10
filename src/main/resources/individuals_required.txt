@@ -18,8 +18,8 @@ locationCoverage
 location|dtm,website
 site|dtm,website
 website|dtm,website
-developer|dtm,codewriting,developer
-developers|dtm,codewriting,developer
+developer|dtm,codewriting
+developers|dtm,codewriting
 publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable,olympusConc
 doi|dtm,doi

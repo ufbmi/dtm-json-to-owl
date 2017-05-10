@@ -26,3 +26,4 @@ larvicide	http://purl.obolibrary.org/obo/APOLLO_SV_00000328
 vaccination	http://purl.obolibrary.org/obo/APOLLO_SV_00000136
 quarantine	http://purl.obolibrary.org/obo/APOLLO_SV_00000327
 school closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
+Travel restriction	http://purl.obolibrary.org/obo/APOLLO_SV_00000231

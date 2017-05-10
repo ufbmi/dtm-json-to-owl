@@ -1,4 +1,17 @@
-id	title	authority	URL
-SPEW.US format	SPEW.US-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.US-File-Formats
-SPEW.IPUMS format	SPEW.IPUMS-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.IPUMS-File-Formats
-SPEW.CANADA format	SPEW.CANADA-File-Formats	RODS Laboratory, University of Pittsburgh	https://github.com/midas-isg/data-format-repository/wiki/SPEW.CANADA-File-Formats
+name	IRI	id
+Apollo data types - v4.0.1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007000	bsg-s000701
+CDC Challenge Forecast	http://www.pitt.edu/obc/IDE_ARTICLE_1200007010	
+Epi-Data JSON	http://www.pitt.edu/obc/IDE_ARTICLE_1200007002	
+EpiCaseFormat	http://www.pitt.edu/obc/IDE_ARTICLE_1200007003	
+FASTA Sequence Format	http://www.pitt.edu/obc/IDE_ARTICLE_1200007004	bsg-s000228
+Galapagos-CSV	http://www.pitt.edu/obc/IDE_ARTICLE_1200007005	
+GeoJSON	http://www.pitt.edu/obc/IDE_ARTICLE_1200007006	
+hladish dengue transmission model v2.0	http://www.pitt.edu/obc/IDE_ARTICLE_1200007007	bsg-s000250
+newick tree format	http://www.pitt.edu/obc/IDE_ARTICLE_1200007008	
+Omnivore-CSV	http://www.pitt.edu/obc/IDE_ARTICLE_1200007009	
+PHYLIP-format	http://www.pitt.edu/obc/IDE_ARTICLE_1200007010	
+SPEW.CANADA	http://www.pitt.edu/obc/IDE_ARTICLE_1200007011	
+SPEW.IPUMS	http://www.pitt.edu/obc/IDE_ARTICLE_1200007012	
+SPEW.US	http://www.pitt.edu/obc/IDE_ARTICLE_1200007013	
+Synthia	http://www.pitt.edu/obc/IDE_ARTICLE_1200007014	
+Tycho dataset v1.0	http://www.pitt.edu/obc/IDE_ARTICLE_1200007015	
