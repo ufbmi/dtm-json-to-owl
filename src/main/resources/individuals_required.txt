@@ -24,11 +24,11 @@ publicationsAboutRelease|dtm
 isOlympus|dtm,compiling,executable,olympusConc
 doi|dtm,doi
 availableAt|dtm,compiling,executable,executableConcretization
-isUdsi|dtm,compiling,executable,udsiConc
+isUdsi|dtm,compiling,executable,uidsConc
 dataInputFormats|dtm,compiling,executable
 dataInputFormat|dtm,compiling,executable
 dataOutputFormats|dtm,compiling,executable
 availableOnOlympus|dtm,compiling,executable,olympusConc
-availableOnUdsi|dtm,compiling,executable,udsiConc
-availableOnUids|dtm,compiling,executable,udsiConc
-availableOnUIDS|dtm,compiling,executable,udsiConc
+availableOnUdsi|dtm,compiling,executable,uidsConc
+availableOnUids|dtm,compiling,executable,uidsConc
+availableOnUIDS|dtm,compiling,executable,uidsConc

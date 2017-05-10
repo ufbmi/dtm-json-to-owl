@@ -1,4 +1,4 @@
-Synthia.US	Synthia.US synthetic population format	Synthetic population – Synthia.US;Synthia.US;Synthia
+Synthia.US	Synthia.US synthetic population format	Synthetic population – Synthia.US;Synthia.US;Synthia;SYNTHIA format
 Tycho (XML)	Tycho (XML) case count format	Tycho (XML)
 CSV	comma separated value format	CSV
 SPEW	Synthetic Populations and Ecosystems of the World data format	SPEW

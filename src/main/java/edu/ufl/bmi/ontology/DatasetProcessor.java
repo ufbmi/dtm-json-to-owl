@@ -7,6 +7,8 @@ import java.io.LineNumberReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -79,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
 		try {
-		    FileReader fr = new FileReader("./src/main/resources/dataset-metadata-2017-05-08.txt");
+		    FileReader fr = new FileReader("./src/main/resources/dataset-metadata-2017-05-10.txt");
 		    LineNumberReader lnr = new LineNumberReader(fr);
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -98,6 +100,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -117,18 +120,18 @@ public class DatasetProcessor {
 				String curated = flds[7].trim();
 				String landingPage = flds[8].trim();
 				String accessPage = flds[9].trim();
-				String format = flds[10].trim();
-				String geography = flds[11].trim();
-				String apolloLocationCode = flds[12].trim();
-				String iso_3166 = flds[13].trim();
-				String iso_3166_1 = flds[14].trim();
-				String iso_3166_1_alpha_3 = flds[15].trim();
-				String aoc = flds[16].trim();
-				String ae = flds[17].trim();
-				String popIriTxt = (flds[19] != null) ? flds[19].trim() : null;
-				String beIriTxt = (flds[19] != null) ? flds[22].trim() : null;
-				String ecIriTxt = (flds[19] != null) ? flds[24].trim() : null;
-				String epiIriTxt = (flds[19] != null) ? flds[27].trim() : null;
+				String format = flds[11].trim();
+				String geography = flds[12].trim();
+				String apolloLocationCode = flds[13].trim();
+				String iso_3166 = flds[14].trim();
+				String iso_3166_1 = flds[15].trim();
+				String iso_3166_1_alpha_3 = flds[16].trim();
+				String aoc = flds[17].trim();
+				String ae = flds[18].trim();
+				String popIriTxt = (flds[20] != null) ? flds[20].trim() : null;
+				String beIriTxt = (flds[23] != null) ? flds[23].trim() : null;
+				String ecIriTxt = (flds[25] != null) ? flds[25].trim() : null;
+				String epiIriTxt = (flds[28] != null) ? flds[28].trim() : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
@@ -223,7 +226,10 @@ public class DatasetProcessor {
 			
 
 			try {
-			    oom.saveOntology(oo, new FileOutputStream("./dataset-ontology.owl"));
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				String dateTxt = df.format(new Date());
+				String owlFileName = "./dataset-ontology-" + dateTxt + ".owl";
+			    oom.saveOntology(oo, new FileOutputStream(owlFileName));
 			} catch (IOException ioe) {
 			    ioe.printStackTrace();
 			} catch (OWLOntologyStorageException oose) {
@@ -240,7 +246,22 @@ public class DatasetProcessor {
 
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		}
+		} //catch (FileNotFoundException fnfe) {
+			//fnfe.printStackTrace();
+		//}
+    }
+
+    public static void loadDevelopers(String fName, OWLDataFactory odf) throws IOException {
+    	FileReader fr = new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while ((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual devInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+    		devNis.put(flds[0], devInd);
+    	}
+    	lnr.close();
+    	fr.close();
     }
 
     public static boolean isValidFieldValue(String value) {
