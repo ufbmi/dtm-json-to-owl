@@ -90,6 +90,7 @@ public class DtmJsonProcessor {
     static HashMap<String, OWLNamedIndividual> formatInds;
     static HashMap<String, OWLNamedIndividual> fullNameToExecutable;
     static HashMap<String, OWLNamedIndividual> devNis;
+    static HashMap<String, OWLNamedIndividual> licenseNis;
 
     static PublicationLinks pubLinks;
 
@@ -122,6 +123,7 @@ public class DtmJsonProcessor {
 
 		    fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
 		    devNis = new HashMap<String, OWLNamedIndividual>();
+		    licenseNis = new HashMap<String, OWLNamedIndividual>();
 
 		    oom = OWLManager.createOWLOntologyManager();
 		    OWLDataFactory odf = OWLManager.getOWLDataFactory();
@@ -136,7 +138,7 @@ public class DtmJsonProcessor {
 		    olympus = createOlympusIndividuals(odf, oo, iriMap);
 		    uids = createUidsIndividuals(odf, oo, iriMap);
 		    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-
+			loadLicenses("./src/main/resources/license_inds.txt", odf);
 		    HashSet<String> allDtmAtt = new HashSet<String>();
 		    //System.out.println("entry set size = " + dtmEntrySet.size());
 
@@ -401,7 +403,7 @@ public class DtmJsonProcessor {
 										    }
 									    
 									} else {
-									    throw new IllegalArgumentException("ERROR: element " + keyj + "has array of values that are complex.");
+									    System.err.println("ERROR: element " + keyj + "has array of values that are complex.  Ignoring.");
 									}
 							    }
 						    
@@ -577,7 +579,7 @@ public class DtmJsonProcessor {
 
     public static void handleLicense(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual oni = niMap.get("license");
+		
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
 		    String value = ((JsonPrimitive)je).getAsString();
@@ -586,9 +588,27 @@ public class DtmJsonProcessor {
 			    Elements links = d.select("a");
 			    String url = links.get(0).attr("href");
 			    String txt = links.get(0).ownText();
+			    OWLNamedIndividual oni = null;
+			    if (licenseNis.containsKey(txt)) {
+			    	oni = licenseNis.get(txt);
+			    } else {
+			    	System.out.println("CREATING LICENSE: " + txt);
+			    	oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
+			    		iriMap.lookupAnnPropIri("editor preferred"), 
+			    		fullName + " - " + txt + " software license");
+			    }
 			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		    } else {
+		    	OWLNamedIndividual oni = null;
+		    	if (licenseNis.containsKey(value)) {
+			    	oni = licenseNis.get(value);
+			    } else {
+			    	System.out.println("CREATING LICENSE: " + value);
+			    	oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
+			    		iriMap.lookupAnnPropIri("editor preferred"), 
+			    		fullName + " - " + value + " software license");
+			    }
 				addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 		    }
 		} else {
@@ -1393,6 +1413,21 @@ public class DtmJsonProcessor {
 		}
 		lnr.close();
 		fr.close();
+    }
+
+    public static void loadLicenses(String fName, OWLDataFactory odf) throws IOException {
+    	licenseNis = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual license = odf.getOWLNamedIndividual(IRI.create(flds[0]));
+    		String[] indexTerms = flds[5].split(Pattern.quote(";"));
+    		for (String term : indexTerms) {
+    			licenseNis.put(term, license);
+    		}
+    	}
     }
 
 }

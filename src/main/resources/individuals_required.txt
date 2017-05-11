@@ -11,7 +11,7 @@ title|dtm
 directory
 version|dtm,versionid
 userGuidesAndManuals|dtm,documentation
-license|dtm,license
+license|dtm
 controlMeasures|dtm,compiling,executable
 publicationsThatUsedRelease|dtm,compiling,executable,executionof,studyexecution
 locationCoverage
