@@ -1374,18 +1374,17 @@ public class DtmJsonProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/format-individuals-to-create.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
-		    String[] flds = line.split(Pattern.quote("\t"));
-		    String label = flds[0];
-		    String prefTerm = flds[1];
-		    String[] keys = flds[2].split(Pattern.quote(";"));
+		    String[] flds = line.split(Pattern.quote("\t"), -1);
+		    String iriTxt = flds[0];
+		    String label = flds[1];
+		    String[] keys = flds[10].split(Pattern.quote(";"));
 
-		    OWLNamedIndividual formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"), iriMap.lookupAnnPropIri("editor preferred"), prefTerm);
-		    addAnnotationToNamedIndividual(formatInd, iriMap.lookupAnnPropIri("label"), label, odf, oo);
-
+		    OWLNamedIndividual formatInd = odf.getOWLNamedIndividual(IRI.create(iriTxt));
+		   
 		    for (String key : keys) {
 				formatInds.put(key, formatInd);
 		    }

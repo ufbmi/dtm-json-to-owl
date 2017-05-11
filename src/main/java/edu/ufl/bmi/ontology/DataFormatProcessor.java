@@ -68,7 +68,6 @@ public class DataFormatProcessor {
     static String[] versionNames;
     static String[] fullNames;
 
-    static String versionSuffix;
     static String fullName;
 
     static OWLNamedIndividual olympus;
@@ -81,7 +80,7 @@ public class DataFormatProcessor {
 
     public static void main(String[] args) {
 		try {
-		    FileReader fr = new FileReader("./src/main/resources/dataformat-metadata-2017-05-11.txt");
+		    FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
 		    LineNumberReader lnr = new LineNumberReader(fr);
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -110,15 +109,16 @@ public class DataFormatProcessor {
 				*/
 
 				String formatIriTxt = flds[0].trim();
-				String formatIdTxt = flds[1].trim();
-				String formatIdSource = flds[2].trim();
-				String formatType = flds[3].trim();
-				String formatTypeIriTxt = flds[4].trim();
-				String formatDescription = flds[5].trim();
-				String formatLicense = flds[6].trim();
-				String formatVersionIdTxt = flds[7].trim();
-				String formatTitle = flds[8].trim();
-				String formatIndexingTerms = flds[9].trim();
+				String name = flds[1].trim();
+				String formatIdTxt = flds[2].trim();
+				String formatIdSource = flds[3].trim();
+				String formatType = flds[4].trim();
+				String formatTypeIriTxt = flds[5].trim();
+				String formatDescription = flds[6].trim();
+				String formatLicense = flds[7].trim();
+				String formatVersionIdTxt = flds[8].trim();
+				String formatTitle = flds[9].trim();
+				String formatIndexingTerms = flds[10].trim();
 				
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + formatType + "\"");
@@ -132,8 +132,8 @@ public class DataFormatProcessor {
 					fullName = formatTitle;
 							
 					//System.out.println("base name = " + baseName + ", version = " + version);
-					String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
-				    	((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
+					String baseLabel = (formatVersionIdTxt == null || formatVersionIdTxt.length() == 0) ? baseName : baseName + " - " + 
+				    	((Character.isDigit(formatVersionIdTxt.charAt(0))) ? " v" + formatVersionIdTxt : formatVersionIdTxt);
 					fullName = baseLabel + ", data format";
 					System.out.println(fullName);
 					
@@ -142,7 +142,7 @@ public class DataFormatProcessor {
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
 					OWLNamedIndividual format = createNamedIndividualWithIriTypeAndLabel(IRI.create(formatIriTxt),
 													odf, oo, classIri, edPrefIri, fullName);
-					addAnnotationToNamedIndividual(format, edPrefIri, fullName, odf, oo);
+					addAnnotationToNamedIndividual(format, labelIri, name, odf, oo);
 
 					if (isValidFieldValue(formatTitle)) {
 						addAnnotationToNamedIndividual(format, titleIri, formatTitle, odf, oo);
@@ -230,8 +230,10 @@ public class DataFormatProcessor {
 			try {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
-				String owlFileName = "./dataset-ontology-" + dateTxt + ".owl";
-			    oom.saveOntology(oo, new FileOutputStream(owlFileName));
+				String owlFileName = "./data-format-ontology-" + dateTxt + ".owl";
+				FileOutputStream fileOut = new FileOutputStream(owlFileName);
+			    oom.saveOntology(oo, fileOut);
+			    fileOut.close();
 			} catch (IOException ioe) {
 			    ioe.printStackTrace();
 			} catch (OWLOntologyStorageException oose) {
