@@ -597,8 +597,12 @@ public class DtmJsonProcessor {
 			    		iriMap.lookupAnnPropIri("editor preferred"), 
 			    		fullName + " - " + txt + " software license");
 			    }
+			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
+			    	remove them eventually
+			    	*/
 			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
 		    } else {
 		    	OWLNamedIndividual oni = null;
 		    	if (licenseNis.containsKey(value)) {
@@ -609,7 +613,11 @@ public class DtmJsonProcessor {
 			    		iriMap.lookupAnnPropIri("editor preferred"), 
 			    		fullName + " - " + value + " software license");
 			    }
+			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
+			    	remove them eventually
+			    	*/
 				addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+				createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
 		    }
 		} else {
 		    System.err.println("License attribute has value that is not primitive.");
@@ -1107,6 +1115,12 @@ public class DtmJsonProcessor {
 				JsonElement elemi = elemIter.next();
 				if (elemi instanceof JsonPrimitive) {
 				    String value = ((JsonPrimitive)elemi).getAsString();
+				    if (value.trim().startsWith("<a href")) {
+				    	Document d = Jsoup.parse(value);
+				    	Elements links = d.select("a");
+				    	String url = links.get(0).attr("href");
+				    	value = links.get(0).ownText();
+				    }
 				    uniqueInputFormats.add(value);
 
 				    OWLNamedIndividual formatInd = formatInds.get(value);

@@ -57,8 +57,8 @@ import edu.ufl.bmi.misc.DtmIndividConnectRule;
 import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
 
-public class DatasetProcessor {
-    static long iriCounter = 1200009000L;
+public class DataFormatProcessor {
+    static long iriCounter = 1200007075L;
     static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
@@ -81,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
 		try {
-		    FileReader fr = new FileReader("./src/main/resources/dataset-metadata-2017-05-10.txt");
+		    FileReader fr = new FileReader("./src/main/resources/dataformat-metadata-2017-05-11.txt");
 		    LineNumberReader lnr = new LineNumberReader(fr);
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -89,90 +89,89 @@ public class DatasetProcessor {
 		    oom = OWLManager.createOWLOntologyManager();
 		    OWLDataFactory odf = OWLManager.getOWLDataFactory();
 		    OWLOntology oo = null;
-		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/dataset");
+		    IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/dataformat");
 		    try {
 				oo = oom.createOntology(ontologyIRI);
 		    } catch (OWLOntologyCreationException ooce) {
 				ooce.printStackTrace();
 		    }
 
-		    olympus = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("olympus"));
-		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
-	        uniqueFormats = new HashSet<String>();
-	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
+	        //devNis = new HashMap<String, OWLNamedIndividual>();
+	        //loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
-
-	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
 		 	 
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
 				System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
 
-				String dataSubtype = flds[0].trim();
-				String title = flds[1].trim();
-				String datasetIdentifier = flds[2].trim();
-				String disease = flds[3].trim();
-				String authors = flds[4].trim();
-				String created = flds[5].trim();
-				String modified = flds[6].trim();
-				String curated = flds[7].trim();
-				String landingPage = flds[8].trim();
-				String accessPage = flds[9].trim();
-				String format = flds[11].trim();
-				String geography = flds[12].trim();
-				String apolloLocationCode = flds[13].trim();
-				String iso_3166 = flds[14].trim();
-				String iso_3166_1 = flds[15].trim();
-				String iso_3166_1_alpha_3 = flds[16].trim();
-				String aoc = flds[17].trim();
-				String ae = flds[18].trim();
-				String popIriTxt = (flds[20] != null) ? flds[20].trim() : null;
-				String beIriTxt = (flds[23] != null) ? flds[23].trim() : null;
-				String ecIriTxt = (flds[25] != null) ? flds[25].trim() : null;
-				String epiIriTxt = (flds[28] != null) ? flds[28].trim() : null;
+				/* IRI	name	identifier	identifier_source	type	type_IRI	
+						description	licenses	version	title	Referecned via
+				*/
 
+				String formatIriTxt = flds[0].trim();
+				String formatIdTxt = flds[1].trim();
+				String formatIdSource = flds[2].trim();
+				String formatType = flds[3].trim();
+				String formatTypeIriTxt = flds[4].trim();
+				String formatDescription = flds[5].trim();
+				String formatLicense = flds[6].trim();
+				String formatVersionIdTxt = flds[7].trim();
+				String formatTitle = flds[8].trim();
+				String formatIndexingTerms = flds[9].trim();
+				
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
-			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
+			    System.out.println("SUBTYPE.  subtype=\"" + formatType + "\"");
 			    
 			    //Need to add dataset types to iris.txt
-			    IRI classIri = iriMap.lookupClassIri(dataSubtype);
+			    IRI classIri = iriMap.lookupClassIri("dataformat");
 			    if (classIri != null) {
 
-					System.out.println("\t"+ title + " is a " + dataSubtype);
-					baseName = title;
-					fullName = title;
+					System.out.println("\t"+ formatTitle + " is a data format");
+					baseName = formatTitle;
+					fullName = formatTitle;
 							
 					//System.out.println("base name = " + baseName + ", version = " + version);
 					String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
 				    	((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
-					fullName = baseLabel + ", " + dataSubtype;
+					fullName = baseLabel + ", data format";
 					System.out.println(fullName);
 					
 					IRI edPrefIri = iriMap.lookupAnnPropIri("editor preferred");
 					IRI labelIri = iriMap.lookupAnnPropIri("label");
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
-					OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, edPrefIri, fullName);
-					addAnnotationToNamedIndividual(dataset, titleIri, title, odf, oo);
+					OWLNamedIndividual format = createNamedIndividualWithIriTypeAndLabel(IRI.create(formatIriTxt),
+													odf, oo, classIri, edPrefIri, fullName);
+					addAnnotationToNamedIndividual(format, edPrefIri, fullName, odf, oo);
 
+					if (isValidFieldValue(formatTitle)) {
+						addAnnotationToNamedIndividual(format, titleIri, formatTitle, odf, oo);
+					}
 
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
-					niMap.put("dataset", dataset);
+					niMap.put("format", format);
 					
-			    	if (isValidFieldValue(datasetIdentifier)) {
-						handleDatasetIdentifier(datasetIdentifier, niMap, oo, odf, iriMap);
+			    	if (isValidFieldValue(formatIdTxt)) {
+						handleIdentifier(formatIdTxt, niMap, oo, odf, iriMap);
 			    	} 
 
+			    	if (isValidFieldValue(formatDescription)) {
+			    		addAnnotationToNamedIndividual(format, iriMap.lookupAnnPropIri("description"), 
+			    				formatDescription, odf, oo);
+			    	}
+
+			    	/* There's no authors attribute for data formats at present
 			    	if (isValidFieldValue(authors)) {
 			    		addAnnotationToNamedIndividual(dataset, iriMap.lookupAnnPropIri("authors"), authors, odf, oo);
 						handleDeveloper(authors, niMap, oo, odf, iriMap);
 			    	} 
+			    	*/
 
+			    /* There's no created, modified, or curated for data formats at the present time
 			    	if (isValidFieldValue(created)) {
 			    		/*for backwards compatibility with existing OBC.ide, make the dc:date of the data set, the creation 
 			    		  date
-						*/
+						
 						addAnnotationToNamedIndividual(dataset, iriMap.lookupAnnPropIri("data set date"), created, odf, oo);
 			    		handleCreationDate(created, niMap, oo, odf, iriMap);
 			    	}
@@ -180,16 +179,17 @@ public class DatasetProcessor {
 			    	if (isValidFieldValue(modified)) {
 			    		/* we're going to need a class "process of modifying a data set".  Then follow pretty much the same
 			    			outline as above.  Except there's no direct annotation on the dataset for backwards compatibility.
-			    			*/
+			    			
 			    		
 			    	}
 
 			    	if (isValidFieldValue(curated)) {
 			    		/* key question.  what's the difference betweeen modifying and curating (and maybe even creating)?
 			    			But, assuming we can define a real difference, then follows the same pattern as modifying.
-			    		*/
+			    		
 			    		
 			    	}
+			    	
 
 			    	if (isValidFieldValue(landingPage)) {
 						handleLocation(landingPage, niMap, oo, odf, iriMap);
@@ -220,7 +220,8 @@ public class DatasetProcessor {
 			    	} 
 					
 					processAnyIndexingTerms(popIriTxt, beIriTxt, ecIriTxt, epiIriTxt, dataset, iriMap, odf, oo);
-				
+				*/
+
 				}
 			}
 
@@ -318,7 +319,7 @@ public class DatasetProcessor {
     }
     */
 
-    public static void handleDatasetIdentifier(String datasetIdentifier, HashMap<String, OWLNamedIndividual> niMap,
+    public static void handleIdentifier(String datasetIdentifier, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 
     	String url = null, idText = null;
@@ -339,6 +340,7 @@ public class DatasetProcessor {
 									iriMap.lookupClassIri("doi") : iriMap.lookupClassIri("identifier");
 		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
 										iriMap.lookupAnnPropIri("label"), idText);
+		niMap.put("format identifier", idInd);
 		if (url != null && url.length()>0) {
 			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
@@ -533,177 +535,7 @@ public class DatasetProcessor {
 		//   point during the day given by the creation date)
 		createOWLObjectPropertyAssertion(createIntervalInd, iriMap.lookupObjPropIri("ends during"), dateInd, odf, oo);
     }
-/*
-    public static void handlePublicationsThatUsedRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual executableInd = niMap.get("executable");
-		OWLNamedIndividual execInd = niMap.get("executionof");
-		OWLNamedIndividual studyInd = niMap.get("studyexecution");
 
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-
-		    ArrayList<String> pubInfo = new ArrayList<String>();
-		    ArrayList<OWLNamedIndividual> execInds = new ArrayList<OWLNamedIndividual>();
-		    ArrayList<OWLNamedIndividual> studyInds = new ArrayList<OWLNamedIndividual>();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			String value = ((JsonPrimitive)elemi).getAsString();
-
-			if (value.contains("<li>")) {
-			    Document d = Jsoup.parse(value);
-			    Elements pubs = d.select("li");
-			    System.out.println("THERE ARE " + pubs.size() + " pubs that used release.");
-			    for (Element pub : pubs) {
-				pubInfo.add(pub.ownText().trim());
-				System.out.println("PUB USED: " + pub.ownText());
-			    }
-			} else {
-			    String[] pubs = value.split(Pattern.quote(";"));
-			    //System.out.println("value = " + value);
-			    //System.out.println("THERE ARE " + pubs.length + " pubs that used release.");
-			    for (int i=0; i<pubs.length; i++) {
-				pubInfo.add(pubs[i].trim());
-				System.out.println("PUB USED: " + pubs[i]);
-			    }
-			}
-		    }
-
-		    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
-		    addAnnotationToNamedIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
-
-			IRI pubIri = pubLinks.get(pubInfo.get(0));
-			System.out.println("PUB USING IRI " + pubIri);
-			if (pubIri != null) {
-			    OWLNamedIndividual pub = odf.getOWLNamedIndividual(pubIri);
-			    createOWLObjectPropertyAssertion(pub, iriMap.lookupObjPropIri("is about"), studyInd, odf, oo);
-			}
-
-
-		    for (int i=1; i<pubInfo.size(); i++) {
-			OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executionof"), iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(i));
-			OWLNamedIndividual studyi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("studyexecution"), iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(i));
-			
-			createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("achieves objective"), executableInd, odf, oo); 
-			createOWLObjectPropertyAssertion(execi, iriMap.lookupObjPropIri("is part of"), studyi, odf, oo); 
-
-			pubIri = pubLinks.get(pubInfo.get(i));
-			System.out.println("PUB USING IRI " + pubIri);
-			if (pubIri != null) {
-			    OWLNamedIndividual pub = odf.getOWLNamedIndividual(pubIri);
-			    createOWLObjectPropertyAssertion(pub, iriMap.lookupObjPropIri("is about"), studyi, odf, oo);
-			}
-		    }
-
-		} else {
-		    System.err.println("Publications that used release attribute has value that is not primitive.");
-		    throw new IllegalArgumentException("value for pubsThatUsedRelease cannot be primitive (must be array).");
-		}
-    }
-*/
-/*
-    public static void handleAvailableAt(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual executableInd = niMap.get("executable");
-		OWLNamedIndividual execConcInd = niMap.get("executableConcretization");
-
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    if (value.equals("olympus")) {
-				createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
-	       		    } else if (value.equals("udsi")) {
-				handleUdsi(value, size, executableInd, execConcInd, iriMap, odf, oo);
-			    } else {
-				throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'udsi'");
-			    }
-			} else {
-			    throw new IllegalArgumentException("value of availableAt must be primitive");
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of availableAt must be array");
-		}
-    }
-
-    public static void	handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    uniqueCms.add(value);
-
-			    if (cmMap.containsKey(value)) {
-				IRI classIri = cmMap.get(value);
-				String cmInstanceLabel = value + " control measure by " + fullName;
-				String simxInstanceLabel = "simulating of epidemic with " + value + " control measure " + " by " + fullName;
-				OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
-				OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
-				
-				createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
-				createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
-			    } else {
-				System.out.println("Skipping " + value + " control measure.");
-			    }
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-		}
-    }
-
-    public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    uniqueInputFormats.add(value);
-
-			    OWLNamedIndividual formatInd = formatInds.get(value);
-			    if (formatInd != null) {
-				String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
-				String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
-				OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"), 
-													  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-				OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
-													  iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
-
-				//connect parsing to format
-				createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
-
-				//connect parsing to plannedSpec
-				createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-				
-				//connect plannedSpec to executable
-				createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
-			    }
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-		}
-    }
-*/
     public static void handleDataFormats(String value, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	
@@ -795,6 +627,15 @@ public class DatasetProcessor {
 		oom.addAxiom(oo,ocaa);
 		addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
 
+		return oni;
+    }
+
+    public static OWLNamedIndividual createNamedIndividualWithIriTypeAndLabel(
+									      IRI individualIri, OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
+		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
+		oom.addAxiom(oo,ocaa);
+		addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
 		return oni;
     }
 

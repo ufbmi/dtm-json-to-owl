@@ -86,3 +86,4 @@ license version identifier	http://purl.obolibrary.org/obo/APOLLO_SV_00000537	cla
 license date	http://purl.org/dc/elements/1.1/date	annotation
 creating license	http://purl.obolibrary.org/obo/APOLLO_SV_00000797	class
 Data services	http://purl.obolibrary.org/obo/OBI_0001530	class
+alternative term	http://purl.obolibrary.org/obo/IAO_0000118	annotation

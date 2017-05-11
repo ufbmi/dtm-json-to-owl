@@ -109,13 +109,14 @@ public class SoftwareLicenseProcessor {
 				String created = flds[3].trim();
 				String accessPage = flds[4].trim();
 				String indexTerms = flds[5].trim();
+				String classIriTxt = flds[6].trim();
 
 		    			    
 			    //Need to add dataset types to iris.txt
-			    IRI classIri = iriMap.lookupClassIri("license");
+			    IRI classIri = IRI.create(classIriTxt);
 			    if (classIri != null) {
 
-					System.out.println("\t"+ title + " is a software license");
+					System.out.println("\t"+ title + " is a license");
 					baseName = title;
 					fullName = title;
 					versionSuffix = (version != null && version.length()>0) ? version : "";
@@ -147,6 +148,10 @@ public class SoftwareLicenseProcessor {
 			    	if (isValidFieldValue(accessPage)) {
 			    		IRI urlIri = iriMap.lookupAnnPropIri("hasURL");
 			    		addAnnotationToNamedIndividual(license, urlIri, accessPage, odf, oo);
+			    	}
+
+			    	if (isValidFieldValue(indexTerms)) {
+			    		handleIndexTerms(license, indexTerms, iriMap, odf, oo);
 			    	}
 				}
 			}
@@ -194,7 +199,8 @@ public class SoftwareLicenseProcessor {
     }
 */
     public static boolean isValidFieldValue(String value) {
-    	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a"));
+    	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
+    				&& !value.startsWith("?"));
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,
@@ -271,28 +277,7 @@ public class SoftwareLicenseProcessor {
 		}
     }
 
-    /*
-    public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	OWLNamedIndividual oni = niMap.get("dtm");
-        JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
-	    String[] htmls = value.split(Pattern.quote(","));
-	    for (String html : htmls) {
-		Document d = Jsoup.parse(html);
-		Elements links = d.select("a");
-		String url = links.get(0).attr("href");
-		String txt = links.get(0).ownText();
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-	    }
-	} else {
-	    System.err.println("Source code release attribute has value that is not primitive.");
-	}
-    }
-    */
-
-/*
+ /*
     public static void handleGeneralInfo(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("dtm");
@@ -531,107 +516,7 @@ public class SoftwareLicenseProcessor {
 		}
     }
 */
-/*
-    public static void handleAvailableAt(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual executableInd = niMap.get("executable");
-		OWLNamedIndividual execConcInd = niMap.get("executableConcretization");
 
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    if (value.equals("olympus")) {
-				createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
-	       		    } else if (value.equals("udsi")) {
-				handleUdsi(value, size, executableInd, execConcInd, iriMap, odf, oo);
-			    } else {
-				throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'udsi'");
-			    }
-			} else {
-			    throw new IllegalArgumentException("value of availableAt must be primitive");
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of availableAt must be array");
-		}
-    }
-
-    public static void	handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    uniqueCms.add(value);
-
-			    if (cmMap.containsKey(value)) {
-				IRI classIri = cmMap.get(value);
-				String cmInstanceLabel = value + " control measure by " + fullName;
-				String simxInstanceLabel = "simulating of epidemic with " + value + " control measure " + " by " + fullName;
-				OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
-				OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
-				
-				createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
-				createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
-			    } else {
-				System.out.println("Skipping " + value + " control measure.");
-			    }
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-		}
-    }
-
-    public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		JsonElement je = e.getValue();
-		if (je instanceof JsonArray) {
-		    JsonArray elemArray = (JsonArray)je;
-		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    int size = elemArray.size();
-		    while (elemIter.hasNext()) {
-			JsonElement elemi = elemIter.next();
-			if (elemi instanceof JsonPrimitive) {
-			    String value = ((JsonPrimitive)elemi).getAsString();
-			    uniqueInputFormats.add(value);
-
-			    OWLNamedIndividual formatInd = formatInds.get(value);
-			    if (formatInd != null) {
-				String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
-				String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
-				OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"), 
-													  iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-				OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
-													  iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
-
-				//connect parsing to format
-				createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
-
-				//connect parsing to plannedSpec
-				createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-				
-				//connect plannedSpec to executable
-				createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
-			    }
-			}
-		    }
-		} else {
-		    throw new IllegalArgumentException("value of controlMeasures attribute must be array");
-		}
-    }
-*/
     public static void handleDataFormats(String value, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	
@@ -659,6 +544,16 @@ public class SoftwareLicenseProcessor {
 		    	System.err.println("Ignoring format: " + value);
 		    }
     }
+
+	public static void handleIndexTerms(OWLNamedIndividual license, String indexTerms, IriLookup iriMap, 
+						OWLDataFactory odf, OWLOntology oo) {
+		String[] terms = indexTerms.split(Pattern.quote(";"));
+		for (String term : terms) {
+			if (isValidFieldValue(term)) {
+				addAnnotationToNamedIndividual(license, iriMap.lookupAnnPropIri("alternative term"), term, odf, oo);
+			}
+		}
+	}
 
     public static void processAnyIndexingTerms(String popIriTxt, String beIriTxt, String ecIriTxt, String epiIriTxt, 
     		OWLNamedIndividual dataset, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
