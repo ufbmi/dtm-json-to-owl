@@ -77,6 +77,7 @@ public class DataFormatProcessor {
     static HashMap<String, OWLNamedIndividual> formatInds;
     static HashMap<String, OWLNamedIndividual> devNis;
     static HashMap<String, OWLNamedIndividual> dateNis;
+    static HashMap<String, OWLNamedIndividual> licenseNis;
 
     public static void main(String[] args) {
 		try {
@@ -98,6 +99,7 @@ public class DataFormatProcessor {
 	        //devNis = new HashMap<String, OWLNamedIndividual>();
 	        //loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
+			loadLicenses("./src/main/resources/license_inds.txt", odf);
 		 	 
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
@@ -158,6 +160,10 @@ public class DataFormatProcessor {
 			    	if (isValidFieldValue(formatDescription)) {
 			    		addAnnotationToNamedIndividual(format, iriMap.lookupAnnPropIri("description"), 
 			    				formatDescription, odf, oo);
+			    	}
+
+			    	if (isValidFieldValue(formatLicense)) {
+			    		handleLicense(formatLicense, niMap, oo, odf, iriMap);
 			    	}
 
 			    	/* There's no authors attribute for data formats at present
@@ -469,6 +475,19 @@ public class DataFormatProcessor {
 	}
     }
 */
+
+    public static void handleLicense(String formatLicense, HashMap<String, OWLNamedIndividual> niMap, 
+    					OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+
+		if (licenseNis.containsKey(formatLicense)) {
+			OWLNamedIndividual license = licenseNis.get(formatLicense);
+			OWLNamedIndividual format = niMap.get("format");
+			createOWLObjectPropertyAssertion(license, iriMap.lookupObjPropIri("is part of"), format, odf, oo);
+		} else {
+			System.err.println("SKIPPING LICENSE: " + formatLicense);
+		}
+    }
+
     public static void handleDeveloper(String developers, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 		//OWLNamedIndividual devInd = niMap.get("developer");
@@ -684,6 +703,21 @@ public class DataFormatProcessor {
 			formatInds.put(key, formatInd);
 		    }
 		}
+    }
+
+    public static void loadLicenses(String fName, OWLDataFactory odf) throws IOException {
+    	licenseNis = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual license = odf.getOWLNamedIndividual(IRI.create(flds[0]));
+    		String[] indexTerms = flds[5].split(Pattern.quote(";"));
+    		for (String term : indexTerms) {
+    			licenseNis.put(term, license);
+    		}
+    	}
     }
 
 }

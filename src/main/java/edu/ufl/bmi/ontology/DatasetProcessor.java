@@ -81,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
 		try {
-		    FileReader fr = new FileReader("./src/main/resources/dataset-metadata-2017-05-10.txt");
+		    FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-11.txt");
 		    LineNumberReader lnr = new LineNumberReader(fr);
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -100,7 +100,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-11.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -230,7 +230,9 @@ public class DatasetProcessor {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
 				String owlFileName = "./dataset-ontology-" + dateTxt + ".owl";
-			    oom.saveOntology(oo, new FileOutputStream(owlFileName));
+				FileOutputStream fos = new FileOutputStream(owlFileName);
+			    oom.saveOntology(oo, fos);
+			    fos.close();
 			} catch (IOException ioe) {
 			    ioe.printStackTrace();
 			} catch (OWLOntologyStorageException oose) {
@@ -260,6 +262,7 @@ public class DatasetProcessor {
     		String[] flds = line.split(Pattern.quote("\t"));
     		OWLNamedIndividual devInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
     		devNis.put(flds[0], devInd);
+    		System.out.println("Loading developer " + flds[0]);
     	}
     	lnr.close();
     	fr.close();
@@ -485,15 +488,16 @@ public class DatasetProcessor {
 	    	String label = devs[i].trim();
 	    	String prefTerm = label + ", developer of " + fullName;
 	    	OWLNamedIndividual devi = null;
-	    	if (devNis.containsKey(devs[i])) {
-	    		devi = devNis.get(devs[i]);
+	    	if (devNis.containsKey(label)) {
+	    		devi = devNis.get(label);
 	    	} else {
+	    		System.out.println("CREATING DEVELOPER: "  + label);
 			 	devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), 
-			 				iriMap.lookupAnnPropIri("label"), devs[i]);
+			 				iriMap.lookupAnnPropIri("label"), label);
 			 	OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), 
-			 								iriMap.lookupAnnPropIri("label"), "legal person role of " + devs[i]);
+			 								iriMap.lookupAnnPropIri("label"), "legal person role of " + label);
 				createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
-				devNis.put(devs[i], devi);
+				devNis.put(label, devi);
 	    	}
 	    	addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), prefTerm, odf, oo);
 			createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);

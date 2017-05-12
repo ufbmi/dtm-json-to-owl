@@ -129,7 +129,8 @@ public class SoftwareLicenseProcessor {
 					IRI edPrefIri = iriMap.lookupAnnPropIri("editor preferred");
 					IRI labelIri = iriMap.lookupAnnPropIri("label");
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
-					OWLNamedIndividual license = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, edPrefIri, fullName);
+					OWLNamedIndividual license = createNamedIndividualWithIriTypeAndLabel(
+						IRI.create(iriTxt), odf, oo, classIri, edPrefIri, fullName);
 					addAnnotationToNamedIndividual(license, titleIri, title, odf, oo);
 					addAnnotationToNamedIndividual(license, labelIri, baseLabel, odf, oo);
 					addAnnotationToNamedIndividual(license, edPrefIri, fullName, odf, oo);
@@ -157,16 +158,19 @@ public class SoftwareLicenseProcessor {
 			}
 
 			
-
+			FileOutputStream fos = null;
 			try {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
 				String owlFileName = "./license-ontology-" + dateTxt + ".owl";
-			    oom.saveOntology(oo, new FileOutputStream(owlFileName));
+				fos = new FileOutputStream(owlFileName);
+			    oom.saveOntology(oo, fos);
 			} catch (IOException ioe) {
 			    ioe.printStackTrace();
 			} catch (OWLOntologyStorageException oose) {
 			    oose.printStackTrace();
+			} finally {
+				if (fos != null) fos.close();
 			}
 		     //while((line=lnr.readLine())).
 
@@ -613,13 +617,18 @@ public class SoftwareLicenseProcessor {
 
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
 			   OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
-		OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
+		return createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, classTypeIri, labelPropIri, rdfsLabel);
+    }
+
+    public static OWLNamedIndividual createNamedIndividualWithIriTypeAndLabel(
+									      IRI individualIri, OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
 		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
 		oom.addAxiom(oo,ocaa);
 		addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
-
 		return oni;
     }
+
 
     public static void addAnnotationToNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
 		OWLLiteral li = odf.getOWLLiteral(value);

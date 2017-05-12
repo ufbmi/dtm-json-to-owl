@@ -452,7 +452,9 @@ public class DtmJsonProcessor {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String dateTxt = df.format(new Date());
 					String owlFileName = "software-ontology-" + dateTxt + ".owl";
-				    oom.saveOntology(oo, new FileOutputStream(owlFileName));
+					FileOutputStream fos = new FileOutputStream(owlFileName);
+				    oom.saveOntology(oo, fos);
+				    fos.close();
 				} catch (IOException ioe) {
 				    ioe.printStackTrace();
 				} catch (OWLOntologyStorageException oose) {
