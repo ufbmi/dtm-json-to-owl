@@ -80,9 +80,10 @@ public class DatasetProcessor {
     static HashMap<String, OWLNamedIndividual> dateNis;
 
     public static void main(String[] args) {
-		try {
-		    FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-11.txt");
-		    LineNumberReader lnr = new LineNumberReader(fr);
+    	
+		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-12.txt");
+		      LineNumberReader lnr = new LineNumberReader(fr); ) {
+		    
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
 
@@ -100,7 +101,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-11.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-12.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -249,9 +250,7 @@ public class DatasetProcessor {
 
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		} //catch (FileNotFoundException fnfe) {
-			//fnfe.printStackTrace();
-		//}
+		}
     }
 
     public static void loadDevelopers(String fName, OWLDataFactory odf) throws IOException {
@@ -324,7 +323,7 @@ public class DatasetProcessor {
     public static void handleDatasetIdentifier(String datasetIdentifier, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 
-    	String url = null, idText = null;
+    	String url = null, idText = null, editorPreferred = "identifier for " + fullName;
     
     	if (datasetIdentifier.contains("<a href=")) {
 		    Document d = Jsoup.parse(datasetIdentifier);
@@ -338,13 +337,25 @@ public class DatasetProcessor {
 				url = idText;
 		}
 
-		IRI identifierClassIri = (idText.startsWith("10.")) ? 
-									iriMap.lookupClassIri("doi") : iriMap.lookupClassIri("identifier");
+		IRI identifierClassIri = null;
+		int position = idText.indexOf("//doi.org/10.");
+		if (idText.startsWith("10.")) {
+			identifierClassIri = iriMap.lookupClassIri("doi");
+		} else if (position > 0) {
+			identifierClassIri = iriMap.lookupClassIri("doi");
+			url = idText;
+			idText = idText.substring(position + 10);
+			System.out.println("New id text is: " + idText + ", url = " + url);
+		} else {
+			identifierClassIri = iriMap.lookupClassIri("identifier");
+		}
 		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
 										iriMap.lookupAnnPropIri("label"), idText);
+		addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("editor preferred"), editorPreferred, odf, oo);
 		if (url != null && url.length()>0) {
 			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
+		createOWLObjectPropertyAssertion(idInd, iriMap.lookupObjPropIri("denotes"), niMap.get("dataset"), odf, oo);
     }
 
     /*
@@ -829,22 +840,23 @@ public class DatasetProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/format-individuals-to-create.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
-		    String[] flds = line.split(Pattern.quote("\t"));
-		    String label = flds[0];
-		    String prefTerm = flds[1];
-		    String[] keys = flds[2].split(Pattern.quote(";"));
+		    String[] flds = line.split(Pattern.quote("\t"), -1);
+		    String iriTxt = flds[0];
+		    String label = flds[1];
+		    String[] keys = flds[10].split(Pattern.quote(";"));
 
-		    OWLNamedIndividual formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"), iriMap.lookupAnnPropIri("editor preferred"), prefTerm);
-		    addAnnotationToNamedIndividual(formatInd, iriMap.lookupAnnPropIri("label"), label, odf, oo);
-
+		    OWLNamedIndividual formatInd = odf.getOWLNamedIndividual(IRI.create(iriTxt));
+		   
 		    for (String key : keys) {
-			formatInds.put(key, formatInd);
+				formatInds.put(key, formatInd);
 		    }
 		}
+		lnr.close();
+		fr.close();
     }
 
 }

@@ -58,7 +58,7 @@ import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
 
 public class DataFormatProcessor {
-    static long iriCounter = 1200007075L;
+    static long iriCounter = 1200007200L;
     static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
@@ -80,9 +80,9 @@ public class DataFormatProcessor {
     static HashMap<String, OWLNamedIndividual> licenseNis;
 
     public static void main(String[] args) {
-		try {
-		    FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
-		    LineNumberReader lnr = new LineNumberReader(fr);
+    	
+		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
+		     LineNumberReader lnr = new LineNumberReader(fr);) {
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
 
@@ -251,14 +251,9 @@ public class DataFormatProcessor {
 			System.out.println(nextIri());
 			System.out.println(nextIri());
 
-		   lnr.close();
-		   fr.close();
-
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		} //catch (FileNotFoundException fnfe) {
-			//fnfe.printStackTrace();
-		//}
+		} 
     }
 
     public static void loadDevelopers(String fName, OWLDataFactory odf) throws IOException {

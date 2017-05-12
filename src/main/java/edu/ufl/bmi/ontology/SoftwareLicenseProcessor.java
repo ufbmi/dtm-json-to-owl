@@ -58,7 +58,7 @@ import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
 
 public class SoftwareLicenseProcessor {
-    static long iriCounter = 1200007000L;
+    static long iriCounter = 1200006900L;
     static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
@@ -80,9 +80,10 @@ public class SoftwareLicenseProcessor {
     static HashMap<String, OWLNamedIndividual> dateNis;
 
     public static void main(String[] args) {
-		try {
-		    FileReader fr = new FileReader("./src/main/resources/license_inds.txt");
-		    LineNumberReader lnr = new LineNumberReader(fr);
+    	
+		try ( FileReader fr = new FileReader("./src/main/resources/license_inds.txt");
+		      LineNumberReader lnr = new LineNumberReader(fr);) {
+		   
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
 
@@ -155,7 +156,7 @@ public class SoftwareLicenseProcessor {
 			    		handleIndexTerms(license, indexTerms, iriMap, odf, oo);
 			    	}
 				}
-			}
+			} //while((line=lnr.readLine()))
 
 			
 			FileOutputStream fos = null;
@@ -172,20 +173,14 @@ public class SoftwareLicenseProcessor {
 			} finally {
 				if (fos != null) fos.close();
 			}
-		     //while((line=lnr.readLine())).
+		     
 
-			
 			System.out.println(nextIri());
 			System.out.println(nextIri());
-
-		   lnr.close();
-		   fr.close();
 
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		} //catch (FileNotFoundException fnfe) {
-			//fnfe.printStackTrace();
-		//}
+		}
     }
 
 /*

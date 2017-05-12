@@ -62,7 +62,7 @@ public class DtmJsonProcessor {
     static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
-    static long reservedSimPopIriCounter = 1200007250L;
+    static long reservedSimPopIriCounter = 1200007300L;
 
     static OWLOntologyManager oom;
 
@@ -98,10 +98,14 @@ public class DtmJsonProcessor {
     static HashMap<String, String> simPopIris;
 
     public static void main(String[] args) {
-		try {
-		    //FileReader fr = new FileReader("../digital-commons/src/main/webapp/resources/hardcoded-software.json");
-		    FileReader fr = new FileReader("../digital-commons/src/main/resources/json/hardcoded-software.json");
-		    //FileReader fr = new FileReader("./src/main/resources/software.json");
+    	
+		try (/* FileReader fr = new FileReader(
+				"../digital-commons/src/main/webapp/resources/hardcoded-software.json"); */
+		       FileReader fr = new FileReader(
+		       	"../digital-commons/src/main/resources/json/hardcoded-software.json");
+		    //fr = new FileReader("./src/main/resources/software.json");
+		    ) {
+		    
 		    simPops = new FileWriter("./simulated-populations.txt");
 		    uniqueCms = new HashSet<String>();
 
@@ -1183,7 +1187,7 @@ public class DtmJsonProcessor {
 						//connect plannedSpec to executable
 						createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
 				    } else {
-						    	System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + value);
+						System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + value);
 					}
 				}
 		    }
@@ -1391,6 +1395,8 @@ public class DtmJsonProcessor {
 				formatInds.put(key, formatInd);
 		    }
 		}
+		lnr.close();
+		fr.close();
     }
 
     public static void loadSimPopsPerDtm(String fName) throws IOException {
