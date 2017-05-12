@@ -353,10 +353,10 @@ public class DtmJsonProcessor {
 					    } else if (keyj.equals("isUdsi") || keyj.equals("availableOnUdsi") || keyj.equals("availableViaUdsi") || keyj.equals("availableAtUids") || 
 						       keyj.equals("availableOnUids") || keyj.equals("availableOnUIDS")) {
 							OWLNamedIndividual executableInd = niMap.get("executable");
-							OWLNamedIndividual execConcInd = niMap.get("uidsConc");
+							OWLNamedIndividual uidsConcInd = niMap.get("uidsConc");
 							JsonElement elem = ej.getValue();
 							String value = ((JsonPrimitive)elem).getAsString();
-							handleUdsi(value, 1, executableInd, execConcInd, iriMap, odf, oo);				
+							handleUids(value, 1, executableInd, uidsConcInd, iriMap, odf, oo);				
 					    } else if (keyj.equals("availableOnOlympus") || keyj.equals("isOlympus") || keyj.equals("availableAtOlympus")) {
 							OWLNamedIndividual executableInd = niMap.get("executable");
 							OWLNamedIndividual execConcInd = niMap.get("olympusConc");
@@ -1031,7 +1031,7 @@ public class DtmJsonProcessor {
 				    if (value.equals("olympus")) {
 						createOWLObjectPropertyAssertion(olympus, iriMap.lookupObjPropIri("bearer"), execConcInd, odf, oo);
 			       	} else if (value.equals("udsi") || value.equals("uids")) {
-						handleUdsi(value, size, executableInd, execConcInd, iriMap, odf, oo);
+						handleUids(value, size, executableInd, execConcInd, iriMap, odf, oo);
 				    } else {
 						throw new IllegalArgumentException("value of availableAt must be 'olympus' or 'uids'");
 				    }
@@ -1044,21 +1044,23 @@ public class DtmJsonProcessor {
 		}
     }
 
-    public static void handleUdsi(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual execConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
-		if (execConcInd == null) throw new IllegalArgumentException("execConcInd cannot be null");
-		if (size > 1) {
+    public static void handleUids(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual uidsConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
+		if (uidsConcInd == null) throw new IllegalArgumentException("uidsConcInd cannot be null");
+		/*if (size > 1) {
 		    /*  This means that we also have Olympus, but the concretization of the executable available through UIDS is likely a different copy
 			than the one on Olympus, so we're going to clone the executable concretization.  Also it could be that the compiled executables 
 			b/w UIDS and Olympus are from different compiling processes, but I'm not going that far.  They should be identical anyway
-		    */
+		  
 		    
 		    String execConcIndPrefTerm = getAnnotationValueFromNamedIndividual(execConcInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
 		    execConcIndPrefTerm += " available through UIDS";
 		    execConcInd = createNamedIndividualWithTypeAndLabel(odf, oo,  iriMap.lookupClassIri("executableConcretization"), iriMap.lookupAnnPropIri("editor preferred"), execConcIndPrefTerm);
 		    //connect executable of DTM to concretization of executable of DTM.  If we didn't create new concretization, then it's already connected.
 		    createOWLObjectPropertyAssertion(execInd, iriMap.lookupObjPropIri("is concretized as"), execConcInd, odf, oo);
-		}
+		}*/
 
+		String uidsConcIndPrefTerm = "Concretization of " + fullName + " available through, but not as part of, UIDS";
+		addAnnotationToNamedIndividual(uidsConcInd, iriMap.lookupAnnPropIri("editor preferred"), uidsConcIndPrefTerm, odf, oo);
 		//create disposition to invoke DTM 
 		String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
 		OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
@@ -1070,8 +1072,8 @@ public class DtmJsonProcessor {
 		String executeDispPrefTerm = "disposition of remote service to execute " + fullName;
 		OWLNamedIndividual executeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), executeDispPrefTerm);
 
-		//connect disposition to execute to DTM concretization of executable of DTM - execute disp has basis in exec conc
-		createOWLObjectPropertyAssertion(executeDisp, iriMap.lookupObjPropIri("has basis in"), execConcInd, odf, oo);
+		//connect disposition to execute to DTM concretization of executable of DTM - execute disp has basis in the exec conc for uids
+		createOWLObjectPropertyAssertion(executeDisp, iriMap.lookupObjPropIri("has basis in"), uidsConcInd, odf, oo);
 
 		//connect dispositions
 		createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);

@@ -28,3 +28,5 @@ simulatingx	has specified output	simulatedpathogenpopulation
 executableParsingPlan	is part of	executable
 dataparsing	achieves objective	executableParsingPlan
 dataencoding	achieves objective	executableEncodingPlan
+executable	is concretized as	olympusConc
+executable	is concretized as	uidsConc
