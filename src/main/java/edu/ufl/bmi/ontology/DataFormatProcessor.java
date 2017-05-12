@@ -347,6 +347,7 @@ public class DataFormatProcessor {
 		if (url != null && url.length()>0) {
 			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
+		createOWLObjectPropertyAssertion(idInd, iriMap.lookupObjPropIri("denotes"), niMap.get("format"), odf, oo);
     }
 
     /*
