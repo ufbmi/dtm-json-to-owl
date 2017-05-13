@@ -1229,7 +1229,8 @@ public class DtmJsonProcessor {
 		//Deleting this.  Olympus class assertion axiom occurs in OBC.ide OWL file, so we don't want/need to re-iterate it here.
 		//OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
 		//oom.addAxiom(oo,ocaaTemp);
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
+		//The label is now asserted in the OBC.ide OWL File so we don't need to assert it here
+		//addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
 
 		OWLNamedIndividual olympusWebsite = odf.getOWLNamedIndividual(nextIri());
 		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), olympusWebsite);
@@ -1237,6 +1238,8 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("editor preferred"), "Olympus home page", odf, oo);
 		addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("title"), "Olympus", odf, oo);
 		addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://www.psc.edu/resources/computing/olympus", odf, oo);
+		addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("authors"), "Pittsburgh Supercomputing Center", odf, oo);
+		addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("published date"), "2016-03-02", odf, oo);
 
 		createOWLObjectPropertyAssertion(olympusWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
 		return oni;
@@ -1257,7 +1260,7 @@ public class DtmJsonProcessor {
 		addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("editor preferred"), "UIDS home page", odf, oo);
 		addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("title"), "UIDS home", odf, oo);
 		addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
-
+		addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
 		createOWLObjectPropertyAssertion(uidsWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
 
 		uidsCompiling = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), "compiling of UIDS source to UIDS executable");
