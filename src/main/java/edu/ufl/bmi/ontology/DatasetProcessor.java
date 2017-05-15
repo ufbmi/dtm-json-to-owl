@@ -101,7 +101,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-12.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-14.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -853,6 +853,7 @@ public class DatasetProcessor {
 		   
 		    for (String key : keys) {
 				formatInds.put(key, formatInd);
+				System.out.println("Data format key = '" + key + "'");
 		    }
 		}
 		lnr.close();
