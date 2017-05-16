@@ -85,7 +85,7 @@ owns	http://purl.obolibrary.org/obo/OMIABIS_0000008	object property
 license version identifier	http://purl.obolibrary.org/obo/APOLLO_SV_00000537	class
 license date	http://purl.org/dc/elements/1.1/date	annotation
 creating license	http://purl.obolibrary.org/obo/APOLLO_SV_00000797	class
-Data services	http://purl.obolibrary.org/obo/OBI_0001530	class
+Data services	http://purl.obolibrary.org/obo/APOLLO_SV_00000799	class
 alternative term	http://purl.obolibrary.org/obo/IAO_0000118	annotation
 description	http://purl.org/dc/elements/1.1/description	annotation
 published date	http://purl.org/dc/elements/1.1/date	annotation

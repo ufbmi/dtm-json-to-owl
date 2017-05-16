@@ -602,11 +602,12 @@ public class DtmJsonProcessor {
 			    	oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
 			    		iriMap.lookupAnnPropIri("editor preferred"), 
 			    		fullName + " - " + txt + " software license");
+			    	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 			    }
 			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
 			    	remove them eventually
 			    	*/
-			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+			    
 			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 			    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
 		    } else {
@@ -618,11 +619,12 @@ public class DtmJsonProcessor {
 			    	oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
 			    		iriMap.lookupAnnPropIri("editor preferred"), 
 			    		fullName + " - " + value + " software license");
+			    	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 			    }
 			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
 			    	remove them eventually
 			    	*/
-				addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+				
 				createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
 		    }
 		} else {
