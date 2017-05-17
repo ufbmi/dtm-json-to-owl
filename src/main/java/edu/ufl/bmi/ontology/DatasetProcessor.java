@@ -81,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
     	
-		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-12.txt");
+		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-16.txt");
 		      LineNumberReader lnr = new LineNumberReader(fr); ) {
 		    
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
@@ -101,7 +101,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-14.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-16.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -338,13 +338,13 @@ public class DatasetProcessor {
 		}
 
 		IRI identifierClassIri = null;
-		int position = idText.indexOf("//doi.org/10.");
+		int position = idText.indexOf("doi.org/10.");
 		if (idText.startsWith("10.")) {
 			identifierClassIri = iriMap.lookupClassIri("doi");
 		} else if (position > 0) {
 			identifierClassIri = iriMap.lookupClassIri("doi");
 			url = idText;
-			idText = idText.substring(position + 10);
+			idText = idText.substring(position + 8);
 			System.out.println("New id text is: " + idText + ", url = " + url);
 		} else {
 			identifierClassIri = iriMap.lookupClassIri("identifier");

@@ -81,7 +81,7 @@ public class DataFormatProcessor {
 
     public static void main(String[] args) {
     	
-		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
+		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-16T1130.txt");
 		     LineNumberReader lnr = new LineNumberReader(fr);) {
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();

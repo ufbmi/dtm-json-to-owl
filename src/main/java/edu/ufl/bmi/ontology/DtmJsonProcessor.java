@@ -412,9 +412,22 @@ public class DtmJsonProcessor {
 							    }
 						    
 							} else { 
-							    System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
+							    //System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
+							    //System.err.println(jeRemainder);
+							    JsonObject remObject = (JsonObject)jeRemainder;
+							    Set<Map.Entry<String,JsonElement>> remEntrySet = remObject.entrySet();
+							    for (Map.Entry<String, JsonElement> remEntryi : remEntrySet) {
+							    	String key = remEntryi.getKey();
+							    	JsonElement remElem = remEntryi.getValue();
+							    	//System.err.println("\t" + key + " == " + remElem.isJsonPrimitive());
+							    	if (key.equals("identifier")) {
+							    		handleIdentifier(remElem, niMap, oo, odf, iriMap);
+							    	} else {
+							    		System.out.println("WARNING: assuming that handling of " + key + " attribute in remainder will occur in manual, post-processing step. values " + remElem);
+							    	}
+							    }
 							}
-							if (!handled && !keyj.equals("subtype")) {
+							if (!handled && !keyj.equals("subtype") && !keyj.equals("identifier")) {
 							    System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
 							    if (keyj.equals("publicationsAboutRelease")) {
 								//System.out.println("PUB ABOUT: " + ej.getValue());
@@ -647,6 +660,37 @@ public class DtmJsonProcessor {
 		} else {
 		    System.err.println("DOI attribute has value that is not primitive.");
 		}
+    }
+
+    public static void handleIdentifier(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+    	String value = elem.getAsString().trim();
+  		String idText = value, url = "";
+    	if (value.startsWith("<a href")) {
+   			Document d = Jsoup.parse(value);
+		    Elements links = d.select("a");
+		    url = links.get(0).attr("href");
+		    idText = links.get(0).ownText();
+    	}
+    	IRI identifierClassIri = null;
+		int position = idText.indexOf("doi.org/10.");
+		if (idText.startsWith("10.")) {
+			identifierClassIri = iriMap.lookupClassIri("doi");
+		} else if (position > 0) {
+			identifierClassIri = iriMap.lookupClassIri("doi");
+			if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
+			url = idText;
+			idText = idText.substring(position + 8);
+			//System.out.println("New id text is: " + idText + ", url = " + url);
+		} else {
+			identifierClassIri = iriMap.lookupClassIri("identifier");
+		}
+    	
+    	OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri,
+    								iriMap.lookupAnnPropIri("label"), idText);
+    	if (url.length() > 0) {
+    		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+    	}
     }
 
     public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -1124,7 +1168,7 @@ public class DtmJsonProcessor {
 		    while (elemIter.hasNext()) {
 				JsonElement elemi = elemIter.next();
 				if (elemi instanceof JsonPrimitive) {
-				    String value = ((JsonPrimitive)elemi).getAsString();
+				    String value = ((JsonPrimitive)elemi).getAsString().trim();
 				    if (value.trim().startsWith("<a href")) {
 				    	Document d = Jsoup.parse(value);
 				    	Elements links = d.select("a");
@@ -1387,7 +1431,7 @@ public class DtmJsonProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-16T1130.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
@@ -1399,6 +1443,7 @@ public class DtmJsonProcessor {
 		    OWLNamedIndividual formatInd = odf.getOWLNamedIndividual(IRI.create(iriTxt));
 		   
 		    for (String key : keys) {
+		    		System.out.println(key + "\t" + iriTxt);
 				formatInds.put(key, formatInd);
 		    }
 		}
