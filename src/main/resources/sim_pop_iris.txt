@@ -2,10 +2,10 @@ FluTE -  v1.12, 1.15, 1.16	FluTE -  v1.12, 1.15, 1.16 simulating1	http://www.pit
 FluTE -  v1.12, 1.15, 1.16	FluTE -  v1.12, 1.15, 1.16 simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007002	FluTE -  v1.12, 1.15, 1.16 simulated pathogen1
 FluTE -  v1.12, 1.15, 1.16	FluTE -  v1.12, 1.15, 1.16 simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007004	FluTE -  v1.12, 1.15, 1.16 simulated host2
 FluTE -  v1.12, 1.15, 1.16	FluTE -  v1.12, 1.15, 1.16 simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007005	FluTE -  v1.12, 1.15, 1.16 simulated pathogen2
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007007	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulated host1
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007008	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulated pathogen1
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007184	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulated host2
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007185	Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server simulated pathogen2
+GLEAM - v2.0 - GLEAM Server	GLEAM - v2.0 - GLEAM Server simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007007	GLEAM - v2.0 - GLEAM Server simulated host1
+GLEAM - v2.0 - GLEAM Server	GLEAM - v2.0 - GLEAM Server simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007008	GLEAM - v2.0 - GLEAM Server simulated pathogen1
+GLEAM - v2.0 - GLEAM Server	GLEAM - v2.0 - GLEAM Server simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007184	GLEAM - v2.0 - GLEAM Server simulated host2
+GLEAM - v2.0 - GLEAM Server	GLEAM - v2.0 - GLEAM Server simulating2	http://www.pitt.edu/obc/IDE_ARTICLE_1200007185	GLEAM - v2.0 - GLEAM Server simulated pathogen2
 CLARA -  v0.5	CLARA -  v0.5 simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007010	CLARA -  v0.5 simulated host1
 CLARA -  v0.5	CLARA -  v0.5 simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007011	CLARA -  v0.5 simulated host2
 CLARA -  v0.5	CLARA -  v0.5 simulating1	http://www.pitt.edu/obc/IDE_ARTICLE_1200007012	CLARA -  v0.5 simulated pathogen1

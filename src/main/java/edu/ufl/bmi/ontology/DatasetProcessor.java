@@ -81,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
     	
-		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-16.txt");
+		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-17.txt");
 		      LineNumberReader lnr = new LineNumberReader(fr); ) {
 		    
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
@@ -109,8 +109,7 @@ public class DatasetProcessor {
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
-				System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
-
+				
 				String dataSubtype = flds[0].trim();
 				String title = flds[1].trim();
 				String datasetIdentifier = flds[2].trim();
@@ -149,7 +148,7 @@ public class DatasetProcessor {
 					String baseLabel = (versionNames == null) ? baseName : baseName + " - " + 
 				    	((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
 					fullName = baseLabel + ", " + dataSubtype;
-					System.out.println(fullName);
+					System.out.println("\t" + fullName);
 					
 					IRI edPrefIri = iriMap.lookupAnnPropIri("editor preferred");
 					IRI labelIri = iriMap.lookupAnnPropIri("label");
@@ -261,7 +260,7 @@ public class DatasetProcessor {
     		String[] flds = line.split(Pattern.quote("\t"));
     		OWLNamedIndividual devInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
     		devNis.put(flds[0], devInd);
-    		System.out.println("Loading developer " + flds[0]);
+    		//System.out.println("Loading developer " + flds[0]);
     	}
     	lnr.close();
     	fr.close();
@@ -269,7 +268,7 @@ public class DatasetProcessor {
 
     public static boolean isValidFieldValue(String value) {
     	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
-    				&& !value.startsWith("?"));
+    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development"));
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,
@@ -486,9 +485,7 @@ public class DatasetProcessor {
 
     	OWLNamedIndividual createInd = null;
 		if (!niMap.containsKey("data set creation")) {
-			createInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("data set creation"),
-							iriMap.lookupAnnPropIri("label"), "process of creating " + fullName);
-			niMap.put("data set creation", createInd);
+			createInd = createIndividualForDatasetCreation(odf, oo, iriMap, niMap);
 		} else {
 			createInd = niMap.get("data set creation");
 		}
@@ -497,12 +494,15 @@ public class DatasetProcessor {
 
 	    for (int i=0; i<devs.length; i++) {
 	    	String label = devs[i].trim();
+	    	//ok, the DATS gets crazy at times.  Anonymous?  Really?
+	    	if (label.toLowerCase().equals("anonymous")) continue;
+
 	    	String prefTerm = label + ", developer of " + fullName;
 	    	OWLNamedIndividual devi = null;
 	    	if (devNis.containsKey(label)) {
 	    		devi = devNis.get(label);
 	    	} else {
-	    		System.out.println("CREATING DEVELOPER: "  + label);
+	    		System.err.println("CREATING DEVELOPER: "  + label);
 			 	devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), 
 			 				iriMap.lookupAnnPropIri("label"), label);
 			 	OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), 
@@ -517,19 +517,25 @@ public class DatasetProcessor {
 	    
     }
 
+    public static OWLNamedIndividual createIndividualForDatasetCreation(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap, 
+    						HashMap<String, OWLNamedIndividual> niMap) {
+    	OWLNamedIndividual createInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("data set creation"),
+											iriMap.lookupAnnPropIri("label"), "process of creating " + fullName);
+		niMap.put("data set creation", createInd);
+		createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has specified output"), niMap.get("dataset"), odf, oo);
+		return createInd;
+    }
+
     public static void handleCreationDate(String date, HashMap<String, OWLNamedIndividual> niMap, 
     				OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
     	//create the dataset creation process if it doesn't exist
 		OWLNamedIndividual createInd = null;
 		if (!niMap.containsKey("data set creation")) {
-			createInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("data set creation"),
-							iriMap.lookupAnnPropIri("label"), "process of creating " + fullName);
-			niMap.put("data set creation", createInd);
+			createInd = createIndividualForDatasetCreation(odf, oo, iriMap, niMap);
 		} else {
 			createInd = niMap.get("data set creation");
 		}
-		//connect the creation process to the dataset
-		createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has specified output"), niMap.get("dataset"), odf, oo);
+		
 		//create the time interval over which the dataset creation process occurred
 		OWLNamedIndividual createIntervalInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("temporal interval"),
 								iriMap.lookupAnnPropIri("editor preferred"), "interval over which " + fullName + " was created");
@@ -724,24 +730,22 @@ public class DatasetProcessor {
 	
 		    uniqueFormats.add(value);
 
-		    // if dataset creating process not available, create and store it
-		    OWLNamedIndividual createInd = null;
-		    if (!niMap.containsKey("data set creation")) {
-				createInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("data set creation"),
-							iriMap.lookupAnnPropIri("label"), "process of creating " + fullName);
-				niMap.put("data set creation", createInd);
-		    } else {
-		    	createInd = niMap.get("data set creation");
-		    }
-
 		    OWLNamedIndividual formatInd = formatInds.get(value);
+		    //although the entry for format might not be complete garbage, it still might not be something
+		    // that we processed in DataFormatProcessor.java
 		    if (formatInd != null) {
+		    	// if dataset creating process not yet available, create and store it
+		    	OWLNamedIndividual createInd = null;
+		    	if (!niMap.containsKey("data set creation")) {
+					createInd = createIndividualForDatasetCreation(odf, oo, iriMap, niMap);
+		    	} else {
+		    		createInd = niMap.get("data set creation");
+		    	}
 				/* connect data creating process to the format.  Specifically, if data are conformant with a particular 
 					specification, then it's because there was a planned process (the data creation process) achieved
 					the objective of the specification, itself a plan for creating data in a certain structure/semantics
 					*/
 				createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
-
 			} else {
 		    	System.err.println("Ignoring format: " + value);
 		    }
@@ -768,7 +772,7 @@ public class DatasetProcessor {
     	String[] iris = iriList.split(Pattern.quote(";"));
     	for (String iri : iris) {
     		if (iri.length() == 0) continue;
-    		System.out.println("IRI IS " + iri);
+    		//System.out.println("IRI IS " + iri);
     		OWLNamedIndividual aboutInd = odf.getOWLNamedIndividual(IRI.create(iri));
     		createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), aboutInd, odf, oo);
     	}
@@ -840,20 +844,20 @@ public class DatasetProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-11T1355.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
 		    String[] flds = line.split(Pattern.quote("\t"), -1);
 		    String iriTxt = flds[0];
 		    String label = flds[1];
-		    String[] keys = flds[10].split(Pattern.quote(";"));
+		    String[] keys = flds[14].split(Pattern.quote(";"));
 
 		    OWLNamedIndividual formatInd = odf.getOWLNamedIndividual(IRI.create(iriTxt));
 		   
 		    for (String key : keys) {
 				formatInds.put(key, formatInd);
-				System.out.println("Data format key = '" + key + "'");
+				// System.out.println("Data format key = '" + key + "'");
 		    }
 		}
 		lnr.close();

@@ -81,7 +81,7 @@ public class DataFormatProcessor {
 
     public static void main(String[] args) {
     	
-		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-16T1130.txt");
+		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
 		     LineNumberReader lnr = new LineNumberReader(fr);) {
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -104,7 +104,7 @@ public class DataFormatProcessor {
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
-				System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
+				//System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
 
 				/* IRI	name	identifier	identifier_source	type	type_IRI	
 						description	licenses	version	title	Referecned via
@@ -119,8 +119,12 @@ public class DataFormatProcessor {
 				String formatDescription = flds[6].trim();
 				String formatLicense = flds[7].trim();
 				String formatVersionIdTxt = flds[8].trim();
-				String formatTitle = flds[9].trim();
-				String formatIndexingTerms = flds[10].trim();
+				String formatHumanReadableSpecValue = flds[9].trim();
+				String formatHumanReadableSpecIri = flds[10].trim();
+				String formatMachineReadableSpecValue = flds[11].trim();
+				String formatMachineReadableSpecIri = flds[12].trim();
+				String formatTitle = flds[13].trim();
+				String formatIndexingTerms = flds[14].trim();
 				
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + formatType + "\"");
@@ -130,21 +134,22 @@ public class DataFormatProcessor {
 			    if (classIri != null) {
 
 					System.out.println("\t"+ formatTitle + " is a data format");
-					baseName = formatTitle;
-					fullName = formatTitle;
+
 							
 					//System.out.println("base name = " + baseName + ", version = " + version);
-					String baseLabel = (formatVersionIdTxt == null || formatVersionIdTxt.length() == 0) ? baseName : baseName + " - " + 
-				    	((Character.isDigit(formatVersionIdTxt.charAt(0))) ? " v" + formatVersionIdTxt : formatVersionIdTxt);
-					fullName = baseLabel + ", data format";
-					System.out.println(fullName);
+					String versionSuffix = (formatVersionIdTxt == null || formatVersionIdTxt.length() == 0) ? "" : " - " + 
+				    	((Character.isDigit(formatVersionIdTxt.charAt(0))) ? "v" + formatVersionIdTxt : formatVersionIdTxt);
+					
+					baseName = name + versionSuffix;
+					fullName = formatTitle + versionSuffix + ", data format";
+					System.out.println("\t" + fullName);
 					
 					IRI edPrefIri = iriMap.lookupAnnPropIri("editor preferred");
 					IRI labelIri = iriMap.lookupAnnPropIri("label");
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
 					OWLNamedIndividual format = createNamedIndividualWithIriTypeAndLabel(IRI.create(formatIriTxt),
 													odf, oo, classIri, edPrefIri, fullName);
-					addAnnotationToNamedIndividual(format, labelIri, name, odf, oo);
+					addAnnotationToNamedIndividual(format, labelIri, baseName, odf, oo);
 
 					if (isValidFieldValue(formatTitle)) {
 						addAnnotationToNamedIndividual(format, titleIri, formatTitle, odf, oo);
@@ -164,6 +169,18 @@ public class DataFormatProcessor {
 
 			    	if (isValidFieldValue(formatLicense)) {
 			    		handleLicense(formatLicense, niMap, oo, odf, iriMap);
+			    	}
+
+			    	if (isValidFieldValue(formatVersionIdTxt)) {
+			    		handleVersionId(formatVersionIdTxt, niMap, oo, odf, iriMap);
+			    	}
+
+			    	if (isValidFieldValue(formatHumanReadableSpecValue)) {
+			    		handleHumanReadableSpec(formatHumanReadableSpecValue, niMap, oo, odf, iriMap);
+			    	}
+
+			    	if (isValidFieldValue(formatMachineReadableSpecIri)) {
+			    		handleMachineReadableSpec(formatMachineReadableSpecIri, niMap, oo, odf, iriMap);
 			    	}
 
 			    	/* There's no authors attribute for data formats at present
@@ -472,6 +489,15 @@ public class DataFormatProcessor {
     }
 */
 
+    public static void handleVersionId(String versionIdTxt, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("version number"),
+									iriMap.lookupAnnPropIri("label"), versionIdTxt);
+		niMap.put("versionid",oni);
+		createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("format"), odf, oo);
+    }
+
+
     public static void handleLicense(String formatLicense, HashMap<String, OWLNamedIndividual> niMap, 
     					OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 
@@ -636,6 +662,17 @@ public class DataFormatProcessor {
     }
     */
 
+	public static void handleHumanReadableSpec(String formatHumanReadableSpecValue, 
+						HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, 
+						OWLDataFactory odf, IriLookup iriMap) {
+		//make it a website that is about the format
+	}
+			    	
+	public static void handleMachineReadableSpec(String formatMachineReadableSpecIri, 
+						HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, 
+						OWLDataFactory odf, IriLookup iriMap) {
+
+	}
 
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
 			   OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {

@@ -1,5 +1,5 @@
 FluTE -  v1.12, 1.15, 1.16	simulating1,host1,pathogen1|simulating2,host2,pathogen2
-Global Epidemic and Mobility Model (GLEAM) - v2.0 - GLEAM Server	simulating1,host1,pathogen1|simulating2,host2,pathogen2
+GLEAM - v2.0 - GLEAM Server	simulating1,host1,pathogen1|simulating2,host2,pathogen2
 CLARA -  v0.5	simulating1,host1,host2,pathogen1
 Dengue transmission model -  v2.0	simulating1,host1,host2,pathogen1
 Ebola transmission model - commit 720c16	simulating1,host1,pathogen1

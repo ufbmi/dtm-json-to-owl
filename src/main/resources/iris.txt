@@ -93,3 +93,4 @@ mortality data	http://purl.obolibrary.org/obo/APOLLO_SV_00000542	class
 disease surveillance data	http://purl.obolibrary.org/obo/APOLLO_SV_00000554	class
 case series data	http://purl.obolibrary.org/obo/APOLLO_SV_00000559	class
 infectious disease scenario	http://purl.obolibrary.org/obo/APOLLO_SV_00000184	class
+version number	http://purl.obolibrary.org/obo/IAO_0000129	class

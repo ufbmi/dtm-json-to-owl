@@ -102,8 +102,7 @@ public class SoftwareLicenseProcessor {
 		   	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
-				System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
-
+				
 				String iriTxt = flds[0].trim();
 				String title = flds[1].trim();
 				String version = flds[2].trim();
@@ -125,7 +124,7 @@ public class SoftwareLicenseProcessor {
 					//System.out.println("base name = " + baseName + ", version = " + version);
 					String baseLabel = baseName + " " + versionSuffix;
 					fullName = baseLabel + ", software license";
-					System.out.println(title + "\n" + baseLabel + "\n" + fullName);
+					System.out.println("\t\t" + title + "\n\t\t" + baseLabel + "\n\t\t" + fullName);
 					
 					IRI edPrefIri = iriMap.lookupAnnPropIri("editor preferred");
 					IRI labelIri = iriMap.lookupAnnPropIri("label");
@@ -145,6 +144,10 @@ public class SoftwareLicenseProcessor {
 						*/
 						addAnnotationToNamedIndividual(license, iriMap.lookupAnnPropIri("license date"), created, odf, oo);
 			    		handleCreationDate(created, niMap, oo, odf, iriMap);
+			    	}
+
+			    	if (isValidFieldValue(version)) {
+			    		handleVersionId(version, niMap, oo, odf, iriMap);
 			    	}
 
 			    	if (isValidFieldValue(accessPage)) {
@@ -414,6 +417,14 @@ public class SoftwareLicenseProcessor {
     }
     */
 
+     public static void handleVersionId(String versionIdTxt, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("version number"),
+									iriMap.lookupAnnPropIri("label"), versionIdTxt);
+		niMap.put("versionid",oni);
+		createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("license"), odf, oo);
+    }
+
     public static void handleCreationDate(String date, HashMap<String, OWLNamedIndividual> niMap, 
     				OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
     	//create the dataset creation process if it doesn't exist
@@ -575,7 +586,7 @@ public class SoftwareLicenseProcessor {
     	String[] iris = iriList.split(Pattern.quote(";"));
     	for (String iri : iris) {
     		if (iri.length() == 0) continue;
-    		System.out.println("IRI IS " + iri);
+    		//System.out.println("IRI IS " + iri);
     		OWLNamedIndividual aboutInd = odf.getOWLNamedIndividual(IRI.create(iri));
     		createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), aboutInd, odf, oo);
     	}

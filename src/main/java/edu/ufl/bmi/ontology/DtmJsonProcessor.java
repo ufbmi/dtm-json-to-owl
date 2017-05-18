@@ -149,8 +149,6 @@ public class DtmJsonProcessor {
 		    initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
 		    initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
 
-		    System.out.println("Main element is array: " + je.isJsonArray());
-
 		    JsonArray jo = (JsonArray)je;
 		    System.out.println(jo.size());
 		    
@@ -181,7 +179,7 @@ public class DtmJsonProcessor {
 				if (je3.isJsonPrimitive()) {
 				    JsonPrimitive jprim = (JsonPrimitive)je3;
 				    String subtype = jprim.getAsString();
-				    System.out.println("ACHTUNG: SUBTYPE.  subtype=\"" + subtype + "\"");
+				    System.out.println("SUBTYPE.  subtype=\"" + subtype + "\"");
 				    
 				   	//System.out.println("\t"+ key  + " is a " + subtype);
 					baseName = "";
@@ -300,7 +298,7 @@ public class DtmJsonProcessor {
 					while(k.hasNext()) {
 					    String ks = k.next();
 					    IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(subtype) : iriMap.lookupClassIri(ks);
-					    System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
+					    //System.out.println("\t\t\t'" + ks + "'\t" + classIri); 
 					    String indLabel = fullName + " " + subtype.substring(0,subtype.length()-1);
 					    indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
 					    OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel); 
@@ -616,12 +614,12 @@ public class DtmJsonProcessor {
 			    		iriMap.lookupAnnPropIri("editor preferred"), 
 			    		fullName + " - " + txt + " software license");
 			    	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+			    	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 			    }
 			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
 			    	remove them eventually
 			    	*/
-			    
-			    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			    		    
 			    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
 		    } else {
 		    	OWLNamedIndividual oni = null;
@@ -691,6 +689,7 @@ public class DtmJsonProcessor {
     	if (url.length() > 0) {
     		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
     	}
+    	createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("dtm"), odf, oo);
     }
 
     public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -757,7 +756,11 @@ public class DtmJsonProcessor {
 				addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 			} else {
 				//otherwise, if the executable value is not html, just put whatever is in there on as a URL.
-				addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), execs[0], odf, oo);
+				if (execs[0].startsWith("http")) {
+					addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), execs[0], odf, oo);
+				} else {
+					addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), execs[0], odf, oo);
+				}
 			}	   
 
 		    //execNis.add(oni);
@@ -782,9 +785,14 @@ public class DtmJsonProcessor {
 				    } else {
 						String newExecIndPrefTerm = execIndPrefTerm + " " + execs[i];
 						String newCompIndPrefTerm = "compiling to " + newExecIndPrefTerm;
-						OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("hasURL"), execs[i].trim());
+						OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm);
 						OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), newCompIndPrefTerm);
-						addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm, odf, oo);			
+						
+						if (execs[i].startsWith("http")) {
+							addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), execs[i].trim() , odf, oo);
+						} else {
+							addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("label"), execs[i].trim() , odf, oo);
+						}
 
 						execNis.add(execi);
 						compNis.add(compi);
@@ -833,7 +841,7 @@ public class DtmJsonProcessor {
         if (je instanceof JsonArray) {
 		    JsonArray elemArray = (JsonArray)je;
 		    Iterator<JsonElement> elemIter = elemArray.iterator();
-		    System.out.println("Web application size: " + elemArray.size());
+		    //System.out.println("Web application size: " + elemArray.size());
 		    while (elemIter.hasNext()) {
 				JsonElement elemi = elemIter.next();
 				String value = ((JsonPrimitive)elemi).getAsString();
@@ -953,6 +961,7 @@ public class DtmJsonProcessor {
 				    String url = links.get(0).attr("href");
 				    String txt = links.get(0).ownText();
 				    devNames[i] = txt.trim();
+
 
 				    //System.out.println("developer name = " + devNames[i] + "\t" + txt);
 				    //System.out.println("developer href = " + url + "\t" + url);
@@ -1149,7 +1158,7 @@ public class DtmJsonProcessor {
 						createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
 						createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
 				    } else {
-						System.out.println("Skipping " + value + " control measure.");
+						System.err.println("Skipping " + value + " control measure.");
 				    }
 				}
 		    }
@@ -1380,7 +1389,7 @@ public class DtmJsonProcessor {
 		    for (String s : simInds) {
 				if (s.startsWith("simulating")) {
 				    simText = fullName + " " + s;
-				    simulating = createNamedIndividualWithIriTypeAndLabel(nextSimPopIri(), odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("label"), simText);
+				    simulating = createNamedIndividualWithIriTypeAndLabel(nextSimPopIri(), odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simText);
 				    createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
 				} else if (s.startsWith("host")) {
 				    String popName = fullName + " simulated " + s;
@@ -1431,19 +1440,18 @@ public class DtmJsonProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-16T1130.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
 		    String[] flds = line.split(Pattern.quote("\t"), -1);
 		    String iriTxt = flds[0];
 		    String label = flds[1];
-		    String[] keys = flds[10].split(Pattern.quote(";"));
+		    String[] keys = flds[14].split(Pattern.quote(";"));
 
 		    OWLNamedIndividual formatInd = odf.getOWLNamedIndividual(IRI.create(iriTxt));
 		   
 		    for (String key : keys) {
-		    		System.out.println(key + "\t" + iriTxt);
 				formatInds.put(key, formatInd);
 		    }
 		}
