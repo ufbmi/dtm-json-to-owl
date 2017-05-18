@@ -660,7 +660,7 @@ public class SoftwareLicenseProcessor {
 		sb.append(counterTxt);
 		return IRI.create(new String(sb));
     }
-
+/*
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
 		FileReader fr = new FileReader("./src/main/resources/format-individuals-to-create.txt");
@@ -680,5 +680,6 @@ public class SoftwareLicenseProcessor {
 		    }
 		}
     }
-
+    */
+    
 }

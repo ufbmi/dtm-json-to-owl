@@ -81,7 +81,7 @@ public class DatasetProcessor {
 
     public static void main(String[] args) {
     	
-		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-17.txt");
+		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-18.txt");
 		      LineNumberReader lnr = new LineNumberReader(fr); ) {
 		    
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
@@ -101,7 +101,7 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-16.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-18.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
@@ -201,7 +201,7 @@ public class DatasetProcessor {
 			    	}
 
 			    	if (isValidFieldValue(format)) {
-						handleDataFormats(format, niMap, oo, odf, iriMap);
+						handleDataFormats(format, dataSubtype, niMap, oo, odf, iriMap);
 			    	} 
 
 			    	if (isValidFieldValue(aoc) && aoc.toLowerCase().equals("true")) {
@@ -725,12 +725,23 @@ public class DatasetProcessor {
 		}
     }
 */
-    public static void handleDataFormats(String value, HashMap<String, OWLNamedIndividual> niMap,
+    public static void handleDataFormats(String value, String subtype, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	
 		    uniqueFormats.add(value);
 
 		    OWLNamedIndividual formatInd = formatInds.get(value);
+		    if (formatInd == null && value.equals("Apollo XSD")) {
+		    	if (subtype.equals("case series data")) {
+		    		formatInd = formatInds.get("APOLLO:CaseSeries-v4.0.1");
+		    	} else if (subtype.equals("epidemic data set")) {
+		    		formatInd = formatInds.get("APOLLO:Epidemic-v4.0.1");
+		    	} else if (subtype.equals("infectious disease scenario")) {
+					formatInd = formatInds.get("APOLLO:InfectiousDiseaseScenario-v4.0.1");
+		    	} else {
+		    		System.err.println("Format is " + value + ", and subtype is " + subtype);
+		    	}
+		    }
 		    //although the entry for format might not be complete garbage, it still might not be something
 		    // that we processed in DataFormatProcessor.java
 		    if (formatInd != null) {

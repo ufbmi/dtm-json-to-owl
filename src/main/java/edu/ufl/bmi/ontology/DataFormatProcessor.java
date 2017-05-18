@@ -135,7 +135,8 @@ public class DataFormatProcessor {
 
 					System.out.println("\t"+ formatTitle + " is a data format");
 
-							
+					//Matt's parsing of DATS slipped in a string value of "null", so that caused weirdness
+					if (!isValidFieldValue(formatVersionIdTxt)) formatVersionIdTxt = "";		
 					//System.out.println("base name = " + baseName + ", version = " + version);
 					String versionSuffix = (formatVersionIdTxt == null || formatVersionIdTxt.length() == 0) ? "" : " - " + 
 				    	((Character.isDigit(formatVersionIdTxt.charAt(0))) ? "v" + formatVersionIdTxt : formatVersionIdTxt);
@@ -665,13 +666,20 @@ public class DataFormatProcessor {
 	public static void handleHumanReadableSpec(String formatHumanReadableSpecValue, 
 						HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, 
 						OWLDataFactory odf, IriLookup iriMap) {
-		//make it a website that is about the format
+		//make it a documentation that is about the format: if it's URL, add it as hasURL annotation, else label
+		IRI annPropIri = (formatHumanReadableSpecValue.startsWith("http")) ?
+							iriMap.lookupAnnPropIri("hasURL") : iriMap.lookupAnnPropIri("label");
+		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("documentation"),
+									annPropIri, formatHumanReadableSpecValue);
+		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "human readable specification for " + 
+										fullName, odf, oo);
 	}
 			    	
 	public static void handleMachineReadableSpec(String formatMachineReadableSpecIri, 
 						HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, 
 						OWLDataFactory odf, IriLookup iriMap) {
-
+		//add it as URL on format individual itself
+		addAnnotationToNamedIndividual(niMap.get("format"), iriMap.lookupAnnPropIri("hasURL"), formatMachineReadableSpecIri, odf, oo);
 	}
 
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
@@ -718,6 +726,7 @@ public class DataFormatProcessor {
 		return IRI.create(new String(sb));
     }
 
+/*
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
 		FileReader fr = new FileReader("./src/main/resources/format-individuals-to-create.txt");
@@ -737,7 +746,7 @@ public class DataFormatProcessor {
 		    }
 		}
     }
-
+*/
     public static void loadLicenses(String fName, OWLDataFactory odf) throws IOException {
     	licenseNis = new HashMap<String, OWLNamedIndividual>();
     	FileReader fr =  new FileReader(fName);
