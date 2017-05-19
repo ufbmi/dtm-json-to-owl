@@ -673,6 +673,7 @@ public class DataFormatProcessor {
 									annPropIri, formatHumanReadableSpecValue);
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "human readable specification for " + 
 										fullName, odf, oo);
+		createOWLObjectPropertyAssertion(oni, iriMap.lookupAnnPropIri("is about"), niMap.get("format"), odf, oo);
 	}
 			    	
 	public static void handleMachineReadableSpec(String formatMachineReadableSpecIri, 
