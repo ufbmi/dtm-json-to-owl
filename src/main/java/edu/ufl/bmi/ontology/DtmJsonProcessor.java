@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
@@ -96,16 +97,27 @@ public class DtmJsonProcessor {
 
     static HashMap<String, String> dtmToSimInds;
     static HashMap<String, String> simPopIris;
-     static HashMap<String, OWLNamedIndividual> websiteInds;
+    static HashMap<String, OWLNamedIndividual> websiteInds;
+    static Properties p;
 
     public static void main(String[] args) {
-    	
-		try (/* FileReader fr = new FileReader(
-				"../digital-commons/src/main/webapp/resources/hardcoded-software.json"); */
-		       FileReader fr = new FileReader(
-		       	"../digital-commons/src/main/resources/json/hardcoded-software.json");
-		    //fr = new FileReader("./src/main/resources/software.json");
-		    ) {
+    	FileReader fr = null;
+    	LineNumberReader lnr = null;
+    	FileOutputStream fos = null;
+    	FileWriter fw = null;
+    	FileWriter devOut = null;
+
+		try ( FileReader pr = new FileReader(args[0]); ) {
+
+			p = new Properties();
+			p.load(pr);
+
+			//fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
+			fr = new FileReader(p.getProperty("software_info"));
+			lnr = new LineNumberReader(fr);
+
+		    IriLookup iriMap = new IriLookup(p.getProperty("iris"));
+		    iriMap.init();
 		    
 		    simPops = new FileWriter("./simulated-populations.txt");
 		    uniqueCms = new HashSet<String>();
@@ -113,17 +125,17 @@ public class DtmJsonProcessor {
 		    JsonParser jp = new JsonParser();
 		    JsonElement je  = jp.parse(fr);
 
-		    IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
+		    //IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
+		    IndividualsToCreate itc = new IndividualsToCreate(p.getProperty("inds_required"));
 		    itc.init();
 		    HashMap<String, HashSet<String>> indsMap = itc.getIndividualsToCreate();
 		    
-		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
-		    iriMap.init();
-
-		    cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
+		   //cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
+		    cmMap = new ControlMeasureIriMapping(p.getProperty("cm_mapping"));
 		    cmMap.initialize();
 
-		    pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
+		    //pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
+		    pubLinks = new PublicationLinks(p.getProperty("pubs_info"));
 		    pubLinks.init();
 
 		    fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
@@ -143,13 +155,17 @@ public class DtmJsonProcessor {
 		    olympus = createOlympusIndividuals(odf, oo, iriMap);
 		    uids = createUidsIndividuals(odf, oo, iriMap);
 		    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-			loadLicenses("./src/main/resources/license_inds.txt", odf);
-			loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
+			loadLicenses(p.getProperty("license_info"), odf);
+			String websiteFname = p.getProperty("website_ind");
+	        websiteFname = websiteFname.replace("<date>", args[1].trim()).trim();
+		 	loadWebsites(websiteFname, odf);
 		    HashSet<String> allDtmAtt = new HashSet<String>();
 		    //System.out.println("entry set size = " + dtmEntrySet.size());
 
-		    initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
-		    initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
+		    //initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
+		    initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
+		    //initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
+		    initializeSimPopIris(p.getProperty("sim_pop_iri"));
 
 		    JsonArray jo = (JsonArray)je;
 		    System.out.println(jo.size());
@@ -469,11 +485,8 @@ public class DtmJsonProcessor {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String dateTxt = df.format(new Date());
 					String owlFileName = "software-ontology-" + dateTxt + ".owl";
-					FileOutputStream fos = new FileOutputStream(owlFileName);
+					fos = new FileOutputStream(owlFileName);
 				    oom.saveOntology(oo, fos);
-				    fos.close();
-				} catch (IOException ioe) {
-				    ioe.printStackTrace();
 				} catch (OWLOntologyStorageException oose) {
 				    oose.printStackTrace();
 				}
@@ -511,7 +524,7 @@ public class DtmJsonProcessor {
 			}
 			System.out.println();       
 
-			FileWriter fw = new FileWriter("./pops_by_dtm.txt");
+			fw = new FileWriter("./pops_by_dtm.txt");
 			int iPop = 1;
 			Set<String> dtmsWithPops = popsNeededByDtm.keySet();
 			for (String dtm : dtmsWithPops) {
@@ -522,11 +535,8 @@ public class DtmJsonProcessor {
 				iPop++;
 			    }
 			}
-			fw.close();
 
-		    simPops.close();
-
-		    FileWriter devOut = new FileWriter("./developer_iris.txt");
+		    devOut = new FileWriter("./developer_iris.txt");
 		    Set<String> devs = devNis.keySet();
 		    for (String dev : devs) {
 		    	OWLNamedIndividual devInd = devNis.get(dev);
@@ -563,6 +573,17 @@ public class DtmJsonProcessor {
 		    jioe.printStackTrace();
 		} catch (JsonSyntaxException jse) {
 		    jse.printStackTrace();
+		} finally {
+			try {
+				if (fw != null) fw.close();
+				if (fos != null) fos.close();
+				if (lnr != null) lnr.close();
+				if (fr != null) fr.close();
+				if (simPops != null) simPops.close();
+				if (devOut != null) devOut.close();
+			} catch (IOException ioe) {
+				//just eat it, eat it, don't you make me repeat it!
+			}
 		}
     }
 
@@ -1366,7 +1387,8 @@ public class DtmJsonProcessor {
     }
 
     public static void connectDtmIndividuals(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		DtmIndivConnectGuide rules = new DtmIndivConnectGuide("./src/main/resources/obj_prop_assertions.txt");
+		//DtmIndivConnectGuide rules = new DtmIndivConnectGuide("./src/main/resources/obj_prop_assertions.txt");
+		DtmIndivConnectGuide rules = new DtmIndivConnectGuide(p.getProperty("op_assertions"));
 		try {
 		    rules.init();
 		    ArrayList<DtmIndividConnectRule> rulesList = rules.getRules();
@@ -1448,7 +1470,8 @@ public class DtmJsonProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
+		//FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
+		FileReader fr = new FileReader(p.getProperty("format_info"));
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
@@ -1517,6 +1540,8 @@ public class DtmJsonProcessor {
     			licenseNis.put(term, license);
     		}
     	}
+    	lnr.close();
+    	fr.close();
     }
 
     public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
@@ -1529,5 +1554,7 @@ public class DtmJsonProcessor {
     		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
     		websiteInds.put(flds[0], website);
     	}
+    	lnr.close();
+    	fr.close();
     }
 }

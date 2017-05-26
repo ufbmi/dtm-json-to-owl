@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
@@ -80,13 +81,25 @@ public class DatasetProcessor {
     static HashMap<String, OWLNamedIndividual> dateNis;
     static HashMap<String, OWLNamedIndividual> licenseNis;
 	static HashMap<String, OWLNamedIndividual> websiteInds;
+    static Properties p;
 
     public static void main(String[] args) {
-    	
-		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-25.txt");
-		      LineNumberReader lnr = new LineNumberReader(fr); ) {
-		    
-		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
+    	FileReader fr = null;
+    	LineNumberReader lnr = null;
+    	FileOutputStream fos = null;
+    	FileWriter fw = null;
+    	FileWriter devOut = null;
+
+		try ( FileReader pr = new FileReader(args[0]); ) {
+
+			p = new Properties();
+			p.load(pr);
+
+			//fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
+			fr = new FileReader(p.getProperty("dataset_info"));
+			lnr = new LineNumberReader(fr);
+
+		    IriLookup iriMap = new IriLookup(p.getProperty("iris"));
 		    iriMap.init();
 
 		    oom = OWLManager.createOWLOntologyManager();
@@ -103,12 +116,16 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-22.txt", odf);
+	        String developerFname = p.getProperty("developer_ind");
+	        developerFname = developerFname.replace("<date>", args[1].trim()).trim();
+	        loadDevelopers(developerFname, odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-	        loadLicenses("./src/main/resources/license_inds.txt", odf);
-		 	loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
+	        loadLicenses(p.getProperty("license_info"), odf);
+	        String websiteFname = p.getProperty("website_ind");
+	        websiteFname = websiteFname.replace("<date>", args[1].trim());
+		 	loadWebsites(websiteFname, odf);
 
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
@@ -245,32 +262,36 @@ public class DatasetProcessor {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
 				String owlFileName = "./dataset-ontology-" + dateTxt + ".owl";
-				FileOutputStream fos = new FileOutputStream(owlFileName);
+				fos = new FileOutputStream(owlFileName);
 			    oom.saveOntology(oo, fos);
-			    fos.close();
-			} catch (IOException ioe) {
-			    ioe.printStackTrace();
+			 
 			} catch (OWLOntologyStorageException oose) {
 			    oose.printStackTrace();
 			}
 		     //while((line=lnr.readLine())).
 			
-			FileWriter fw = new FileWriter("websites.txt");
+			fw = new FileWriter("websites.txt");
 			Set<String> keys = websiteInds.keySet();
 			for (String key : keys) {
 				OWLNamedIndividual oni = websiteInds.get(key);
 				fw.write(key + "\t" + oni.getIRI() + "\n");
 			}
-			fw.close();
+
 			
 			System.out.println(nextIri());
 			System.out.println(nextIri());
 
-		   lnr.close();
-		   fr.close();
-
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
+		} finally {
+			try {
+				if (fw != null) fw.close();
+				if (fos != null) fos.close();
+				if (lnr != null) lnr.close();
+				if (fr != null) fr.close();
+			} catch (IOException ioe) {
+				//just eat it, eat it, don't you make me repeat it!
+			}
 		}
     }
 
@@ -899,7 +920,7 @@ public class DatasetProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
+		FileReader fr = new FileReader(p.getProperty("format_info"));
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {

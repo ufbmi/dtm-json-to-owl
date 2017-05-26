@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
@@ -80,11 +81,24 @@ public class DataFormatProcessor {
     static HashMap<String, OWLNamedIndividual> licenseNis;
     static HashMap<String, OWLNamedIndividual> websiteInds;
 
+    static Properties p;
+
     public static void main(String[] args) {
-    	
-		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
-		     LineNumberReader lnr = new LineNumberReader(fr);) {
-		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
+    	FileReader fr = null;
+    	LineNumberReader lnr = null;
+    	FileOutputStream fos = null;
+    	FileWriter fw = null;
+
+		try ( FileReader pr = new FileReader(args[0]); ) {
+
+			p = new Properties();
+			p.load(pr);
+
+			//fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
+			fr = new FileReader(p.getProperty("format_info"));
+			lnr = new LineNumberReader(fr);
+
+		    IriLookup iriMap = new IriLookup(p.getProperty("iris"));
 		    iriMap.init();
 
 		    oom = OWLManager.createOWLOntologyManager();
@@ -100,8 +114,10 @@ public class DataFormatProcessor {
 	        //devNis = new HashMap<String, OWLNamedIndividual>();
 	        //loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
-			loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
-			loadLicenses("./src/main/resources/license_inds.txt", odf);
+			String websiteFname = p.getProperty("website_ind");
+	        websiteFname = websiteFname.replace("<date>", args[1].trim()).trim();
+		 	loadWebsites(websiteFname, odf);
+			loadLicenses(p.getProperty("license_info"), odf);
 		 	 
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
@@ -257,30 +273,35 @@ public class DataFormatProcessor {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
 				String owlFileName = "./data-format-ontology-" + dateTxt + ".owl";
-				FileOutputStream fileOut = new FileOutputStream(owlFileName);
-			    oom.saveOntology(oo, fileOut);
-			    fileOut.close();
-			} catch (IOException ioe) {
-			    ioe.printStackTrace();
+				fos = new FileOutputStream(owlFileName);
+			    oom.saveOntology(oo, fos);
 			} catch (OWLOntologyStorageException oose) {
 			    oose.printStackTrace();
 			}
 		     //while((line=lnr.readLine())).
 			
-			FileWriter fw = new FileWriter("websites.txt");
+			fw = new FileWriter("websites.txt");
 			Set<String> keys = websiteInds.keySet();
 			for (String key : keys) {
 				OWLNamedIndividual oni = websiteInds.get(key);
 				fw.write(key + "\t" + oni.getIRI() + "\n");
 			}
-			fw.close();
 			
 			System.out.println(nextIri());
 			System.out.println(nextIri());
 
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
-		} 
+		} finally {
+			try {
+				if (fw != null) fw.close();
+				if (fos != null) fos.close();
+				if (lnr != null) lnr.close();
+				if (fr != null) fr.close();
+			} catch (IOException ioe) {
+				//just eat it, eat it, don't you make me repeat it!
+			}
+		}
     }
 
     public static void loadDevelopers(String fName, OWLDataFactory odf) throws IOException {
@@ -784,6 +805,8 @@ public class DataFormatProcessor {
     			licenseNis.put(term, license);
     		}
     	}
+    	lnr.close();
+    	fr.close();
     }
 
     public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
@@ -796,6 +819,8 @@ public class DataFormatProcessor {
     		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
     		websiteInds.put(flds[0], website);
     	}
+    	lnr.close();
+    	fr.close();
     }
 
 }

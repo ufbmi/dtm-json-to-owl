@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
@@ -80,12 +81,23 @@ public class SoftwareLicenseProcessor {
     static HashMap<String, OWLNamedIndividual> dateNis;
     static HashMap<String, OWLNamedIndividual> websiteInds;
 
+    static Properties p;
+
     public static void main(String[] args) {
-    	
-		try ( FileReader fr = new FileReader("./src/main/resources/license_inds.txt");
-		      LineNumberReader lnr = new LineNumberReader(fr);) {
+    	FileReader fr = null;
+    	LineNumberReader lnr = null;
+    	FileOutputStream fos = null;
+    	FileWriter fw = null;
+
+		try ( FileReader pr = new FileReader(args[0]); ) {
 		   
-		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
+		   p = new Properties();
+		   p.load(pr);
+
+		   fr = new FileReader(p.getProperty("license_info"));
+		   lnr = new LineNumberReader(fr);
+
+		    IriLookup iriMap = new IriLookup(p.getProperty("iris"));
 		    iriMap.init();
 
 		    oom = OWLManager.createOWLOntologyManager();
@@ -164,7 +176,7 @@ public class SoftwareLicenseProcessor {
 			} //while((line=lnr.readLine()))
 
 			
-			FileOutputStream fos = null;
+			
 			try {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				String dateTxt = df.format(new Date());
@@ -175,24 +187,30 @@ public class SoftwareLicenseProcessor {
 			    ioe.printStackTrace();
 			} catch (OWLOntologyStorageException oose) {
 			    oose.printStackTrace();
-			} finally {
-				if (fos != null) fos.close();
-			}
+			} 
 
-			FileWriter fw = new FileWriter("websites.txt");
+			fw = new FileWriter("websites.txt");
 			Set<String> keys = websiteInds.keySet();
 			for (String key : keys) {
 				OWLNamedIndividual oni = websiteInds.get(key);
 				fw.write(key + "\t" + oni.getIRI() + "\n");
 			}
-			fw.close();
-		     
+			
 
 			System.out.println(nextIri());
 			System.out.println(nextIri());
 
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
+		} finally {
+			try {
+				if (fos != null) fos.close();
+				if (lnr != null) lnr.close();
+				if (fr != null) fr.close();
+				if (fw != null) fw.close();
+			} catch (IOException ioe) {
+				//just eat it, eat it, don't you make me repeat it!
+			}
 		}
     }
 
