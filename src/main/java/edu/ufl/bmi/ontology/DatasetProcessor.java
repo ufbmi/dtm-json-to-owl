@@ -78,6 +78,7 @@ public class DatasetProcessor {
     static HashMap<String, OWLNamedIndividual> formatInds;
     static HashMap<String, OWLNamedIndividual> devNis;
     static HashMap<String, OWLNamedIndividual> dateNis;
+    static HashMap<String, OWLNamedIndividual> licenseNis;
 	static HashMap<String, OWLNamedIndividual> websiteInds;
 
     public static void main(String[] args) {
@@ -106,6 +107,7 @@ public class DatasetProcessor {
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
+	        loadLicenses("./src/main/resources/license_inds.txt", odf);
 		 	loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
 
 		 	String line;
@@ -114,6 +116,7 @@ public class DatasetProcessor {
 				
 				String dataSubtype = flds[0].trim();
 				String title = flds[1].trim();
+				String description = flds[2].trim();
 				String datasetIdentifier = flds[3].trim();
 				String disease = flds[4].trim();
 				String authors = flds[5].trim();
@@ -130,10 +133,11 @@ public class DatasetProcessor {
 				String iso_3166_1_alpha_3 = flds[17].trim();
 				String aoc = flds[18].trim();
 				String ae = flds[19].trim();
-				String popIriTxt = (flds[21] != null) ? flds[21].trim() : null;
-				String beIriTxt = (flds[24] != null) ? flds[24].trim() : null;
-				String ecIriTxt = (flds[26] != null) ? flds[26].trim() : null;
-				String epiIriTxt = (flds[29] != null) ? flds[29].trim() : null;
+				String license = flds[20].trim();
+				String popIriTxt = (flds[22] != null) ? flds[22].trim() : null;
+				String beIriTxt = (flds[25] != null) ? flds[25].trim() : null;
+				String ecIriTxt = (flds[27] != null) ? flds[27].trim() : null;
+				String epiIriTxt = (flds[30] != null) ? flds[30].trim() : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
@@ -162,6 +166,11 @@ public class DatasetProcessor {
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 					niMap.put("dataset", dataset);
 					
+					if (isValidFieldValue(description)) {
+						addAnnotationToNamedIndividual(dataset, iriMap.lookupAnnPropIri("description"),
+							description, odf, oo);
+					}
+
 			    	if (isValidFieldValue(datasetIdentifier)) {
 						handleDatasetIdentifier(datasetIdentifier, niMap, oo, odf, iriMap);
 			    	} 
@@ -220,6 +229,10 @@ public class DatasetProcessor {
 						//just treat it like any other data format, I think
 
 			    	} 
+
+			    	if (isValidFieldValue(license)) {
+			    		handleLicense(license, niMap, oo, odf, iriMap);
+			    	}
 					
 					processAnyIndexingTerms(popIriTxt, beIriTxt, ecIriTxt, epiIriTxt, dataset, iriMap, odf, oo);
 				
@@ -781,6 +794,18 @@ public class DatasetProcessor {
 		    }
     }
 
+
+    public static void handleLicense(String licenseName, HashMap<String, OWLNamedIndividual> niMap, 
+    					OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+		if (licenseNis.containsKey(licenseName)) {
+			OWLNamedIndividual license = licenseNis.get(licenseName);
+			OWLNamedIndividual format = niMap.get("dataset");
+			createOWLObjectPropertyAssertion(license, iriMap.lookupObjPropIri("is part of"), format, odf, oo);
+		} else {
+			System.err.println("SKIPPING LICENSE: " + licenseName);
+		}
+    }
+
     public static void processAnyIndexingTerms(String popIriTxt, String beIriTxt, String ecIriTxt, String epiIriTxt, 
     		OWLNamedIndividual dataset, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
     	if (popIriTxt != null) {
@@ -894,6 +919,22 @@ public class DatasetProcessor {
 		fr.close();
     }
 
+    public static void loadLicenses(String fName, OWLDataFactory odf) throws IOException {
+    	licenseNis = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual license = odf.getOWLNamedIndividual(IRI.create(flds[0]));
+    		String[] indexTerms = flds[5].split(Pattern.quote(";"));
+    		for (String term : indexTerms) {
+    			licenseNis.put(term, license);
+    		}
+    	}
+    	lnr.close();
+    	fr.close();
+    }
 
     public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
     	websiteInds = new HashMap<String, OWLNamedIndividual>();
@@ -905,6 +946,8 @@ public class DatasetProcessor {
     		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
     		websiteInds.put(flds[0], website);
     	}
+    	lnr.close();
+    	fr.close();
     }
 
 }
