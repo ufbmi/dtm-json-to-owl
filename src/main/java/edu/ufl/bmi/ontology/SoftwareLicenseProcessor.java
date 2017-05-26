@@ -78,6 +78,7 @@ public class SoftwareLicenseProcessor {
     static HashMap<String, OWLNamedIndividual> formatInds;
     static HashMap<String, OWLNamedIndividual> devNis;
     static HashMap<String, OWLNamedIndividual> dateNis;
+    static HashMap<String, OWLNamedIndividual> websiteInds;
 
     public static void main(String[] args) {
     	
@@ -98,6 +99,7 @@ public class SoftwareLicenseProcessor {
 		    }
 
 		    dateNis = new HashMap<String, OWLNamedIndividual>();
+		    websiteInds = new HashMap<String, OWLNamedIndividual>();
 
 		   	String line;
 		    while((line=lnr.readLine())!=null) {
@@ -176,6 +178,14 @@ public class SoftwareLicenseProcessor {
 			} finally {
 				if (fos != null) fos.close();
 			}
+
+			FileWriter fw = new FileWriter("websites.txt");
+			Set<String> keys = websiteInds.keySet();
+			for (String key : keys) {
+				OWLNamedIndividual oni = websiteInds.get(key);
+				fw.write(key + "\t" + oni.getIRI() + "\n");
+			}
+			fw.close();
 		     
 
 			System.out.println(nextIri());
@@ -317,6 +327,7 @@ public class SoftwareLicenseProcessor {
 		niMap.put("website", oni);
 	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("dataset"), odf, oo);
+	    websiteInds.put(url, oni);
     }
 
 /*

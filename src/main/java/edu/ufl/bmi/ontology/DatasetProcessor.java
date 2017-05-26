@@ -78,10 +78,11 @@ public class DatasetProcessor {
     static HashMap<String, OWLNamedIndividual> formatInds;
     static HashMap<String, OWLNamedIndividual> devNis;
     static HashMap<String, OWLNamedIndividual> dateNis;
+	static HashMap<String, OWLNamedIndividual> websiteInds;
 
     public static void main(String[] args) {
     	
-		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-18.txt");
+		try ( FileReader fr = new FileReader("./src/main/resources/dataset_metadata-2017-05-25.txt");
 		      LineNumberReader lnr = new LineNumberReader(fr); ) {
 		    
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
@@ -101,37 +102,38 @@ public class DatasetProcessor {
 		    HashSet<String> uniqueLocationsCovered = new HashSet<String>();
 	        uniqueFormats = new HashSet<String>();
 	        devNis = new HashMap<String, OWLNamedIndividual>();
-	        loadDevelopers("./src/main/resources/developer_iris-2017-05-18.txt", odf);
+	        loadDevelopers("./src/main/resources/developer_iris-2017-05-22.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
 
 	        loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-		 	 
+		 	loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
+
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
 				
 				String dataSubtype = flds[0].trim();
 				String title = flds[1].trim();
-				String datasetIdentifier = flds[2].trim();
-				String disease = flds[3].trim();
-				String authors = flds[4].trim();
-				String created = flds[5].trim();
-				String modified = flds[6].trim();
-				String curated = flds[7].trim();
-				String landingPage = flds[8].trim();
-				String accessPage = flds[9].trim();
-				String format = flds[11].trim();
-				String geography = flds[12].trim();
-				String apolloLocationCode = flds[13].trim();
-				String iso_3166 = flds[14].trim();
-				String iso_3166_1 = flds[15].trim();
-				String iso_3166_1_alpha_3 = flds[16].trim();
-				String aoc = flds[17].trim();
-				String ae = flds[18].trim();
-				String popIriTxt = (flds[20] != null) ? flds[20].trim() : null;
-				String beIriTxt = (flds[23] != null) ? flds[23].trim() : null;
-				String ecIriTxt = (flds[25] != null) ? flds[25].trim() : null;
-				String epiIriTxt = (flds[28] != null) ? flds[28].trim() : null;
+				String datasetIdentifier = flds[3].trim();
+				String disease = flds[4].trim();
+				String authors = flds[5].trim();
+				String created = flds[6].trim();
+				String modified = flds[7].trim();
+				String curated = flds[8].trim();
+				String landingPage = flds[9].trim();
+				String accessPage = flds[10].trim();
+				String format = flds[12].trim();
+				String geography = flds[13].trim();
+				String apolloLocationCode = flds[14].trim();
+				String iso_3166 = flds[15].trim();
+				String iso_3166_1 = flds[16].trim();
+				String iso_3166_1_alpha_3 = flds[17].trim();
+				String aoc = flds[18].trim();
+				String ae = flds[19].trim();
+				String popIriTxt = (flds[21] != null) ? flds[21].trim() : null;
+				String beIriTxt = (flds[24] != null) ? flds[24].trim() : null;
+				String ecIriTxt = (flds[26] != null) ? flds[26].trim() : null;
+				String epiIriTxt = (flds[29] != null) ? flds[29].trim() : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
@@ -155,7 +157,7 @@ public class DatasetProcessor {
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
 					OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, edPrefIri, fullName);
 					addAnnotationToNamedIndividual(dataset, titleIri, title, odf, oo);
-
+					addAnnotationToNamedIndividual(dataset, labelIri, baseLabel, odf, oo);
 
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 					niMap.put("dataset", dataset);
@@ -239,7 +241,14 @@ public class DatasetProcessor {
 			    oose.printStackTrace();
 			}
 		     //while((line=lnr.readLine())).
-
+			
+			FileWriter fw = new FileWriter("websites.txt");
+			Set<String> keys = websiteInds.keySet();
+			for (String key : keys) {
+				OWLNamedIndividual oni = websiteInds.get(key);
+				fw.write(key + "\t" + oni.getIRI() + "\n");
+			}
+			fw.close();
 			
 			System.out.println(nextIri());
 			System.out.println(nextIri());
@@ -411,10 +420,20 @@ public class DatasetProcessor {
 
     public static void handleLocation(String url, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("website"), iriMap.lookupAnnPropIri("editor preferred"), 
-									"website for " + fullName);
+  		OWLNamedIndividual oni = null;
+    	String term = "website for " + fullName;
+
+    	if (websiteInds.containsKey(url)) {
+    		oni = websiteInds.get(url);
+    		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("alternative term"), term, odf, oo);
+    	} else {
+			oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("website"), iriMap.lookupAnnPropIri("editor preferred"), 
+									term);
+			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			websiteInds.put(url, oni);
+		}
+
 		niMap.put("website", oni);
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("dataset"), odf, oo);
     }
 
@@ -855,7 +874,7 @@ public class DatasetProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
@@ -873,6 +892,19 @@ public class DatasetProcessor {
 		}
 		lnr.close();
 		fr.close();
+    }
+
+
+    public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
+    	websiteInds = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+    		websiteInds.put(flds[0], website);
+    	}
     }
 
 }

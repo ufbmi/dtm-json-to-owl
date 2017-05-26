@@ -96,6 +96,7 @@ public class DtmJsonProcessor {
 
     static HashMap<String, String> dtmToSimInds;
     static HashMap<String, String> simPopIris;
+     static HashMap<String, OWLNamedIndividual> websiteInds;
 
     public static void main(String[] args) {
     	
@@ -143,6 +144,7 @@ public class DtmJsonProcessor {
 		    uids = createUidsIndividuals(odf, oo, iriMap);
 		    loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
 			loadLicenses("./src/main/resources/license_inds.txt", odf);
+			loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
 		    HashSet<String> allDtmAtt = new HashSet<String>();
 		    //System.out.println("entry set size = " + dtmEntrySet.size());
 
@@ -860,13 +862,19 @@ public class DtmJsonProcessor {
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive)je).getAsString();
-	    //value is just a URL so slap it on the website individual
-	    //System.out.println("WEBSITE URL = " + value + ", " + iriMap.lookupAnnPropIri("hasURL") + ", " + odf + "," + oo + ", " + oni);
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
-	} else {
-	    System.err.println("Location attribute has value that is not primitive.");
-	    throw new IllegalArgumentException("location attribute must be primitive.");
-	}	
+		    //value is just a URL so slap it on the website individual
+		    //System.out.println("WEBSITE URL = " + value + ", " + iriMap.lookupAnnPropIri("hasURL") + ", " + odf + "," + oo + ", " + oni);
+		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+
+		    if (websiteInds.containsKey(value)) {
+		    	System.err.println("Possible duplicate website. Attribute value is: " + value + ", and " +
+		    		"there was a website with the same URL created previously with IRI " + websiteInds.get(value).getIRI() +
+		    		". The current IRI is " + oni.getIRI());
+		    }
+		} else {
+		    System.err.println("Location attribute has value that is not primitive.");
+		    throw new IllegalArgumentException("location attribute must be primitive.");
+		}	
     }
 
     public static void handleDocumentation(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
@@ -1440,7 +1448,7 @@ public class DtmJsonProcessor {
 
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
-		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
+		FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {
@@ -1511,4 +1519,15 @@ public class DtmJsonProcessor {
     	}
     }
 
+    public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
+    	websiteInds = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+    		websiteInds.put(flds[0], website);
+    	}
+    }
 }

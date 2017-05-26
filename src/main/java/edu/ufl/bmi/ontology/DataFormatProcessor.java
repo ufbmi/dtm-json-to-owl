@@ -78,10 +78,11 @@ public class DataFormatProcessor {
     static HashMap<String, OWLNamedIndividual> devNis;
     static HashMap<String, OWLNamedIndividual> dateNis;
     static HashMap<String, OWLNamedIndividual> licenseNis;
+    static HashMap<String, OWLNamedIndividual> websiteInds;
 
     public static void main(String[] args) {
     	
-		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-17T2000.txt");
+		try (FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
 		     LineNumberReader lnr = new LineNumberReader(fr);) {
 		    IriLookup iriMap = new IriLookup("./src/main/resources/iris.txt");
 		    iriMap.init();
@@ -99,6 +100,7 @@ public class DataFormatProcessor {
 	        //devNis = new HashMap<String, OWLNamedIndividual>();
 	        //loadDevelopers("./src/main/resources/developer_iris-2017-05-10.txt", odf);
 			dateNis = new HashMap<String, OWLNamedIndividual>();
+			loadWebsites("./src/main/resources/websites-2017-05-25.txt", odf);
 			loadLicenses("./src/main/resources/license_inds.txt", odf);
 		 	 
 		 	String line;
@@ -264,7 +266,14 @@ public class DataFormatProcessor {
 			    oose.printStackTrace();
 			}
 		     //while((line=lnr.readLine())).
-
+			
+			FileWriter fw = new FileWriter("websites.txt");
+			Set<String> keys = websiteInds.keySet();
+			for (String key : keys) {
+				OWLNamedIndividual oni = websiteInds.get(key);
+				fw.write(key + "\t" + oni.getIRI() + "\n");
+			}
+			fw.close();
 			
 			System.out.println(nextIri());
 			System.out.println(nextIri());
@@ -422,11 +431,21 @@ public class DataFormatProcessor {
 
     public static void handleLocation(String url, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("website"), iriMap.lookupAnnPropIri("editor preferred"), 
-									"website for " + fullName);
+
+    	OWLNamedIndividual oni = null;
+    	String term = "website for " + fullName;
+
+    	if (websiteInds.containsKey(url)) {
+    		oni = websiteInds.get(url);
+    		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("alternative term"), term, odf, oo);
+    	} else {
+			oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("website"), iriMap.lookupAnnPropIri("editor preferred"), 
+									term);
+			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			websiteInds.put(url, oni);
+		}
 		niMap.put("website", oni);
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("dataset"), odf, oo);
+	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("format"), odf, oo);
     }
 
 /*
@@ -673,7 +692,11 @@ public class DataFormatProcessor {
 									annPropIri, formatHumanReadableSpecValue);
 		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "human readable specification for " + 
 										fullName, odf, oo);
-		createOWLObjectPropertyAssertion(oni, iriMap.lookupAnnPropIri("is about"), niMap.get("format"), odf, oo);
+		OWLNamedIndividual format = niMap.get("format");
+		//if (oni == null) System.err.println("oni is null.");
+		//if (iriMap.lookupAnnPropIri("is about") == null) System.err.println("is about is null.");
+		//if (format == null) System.err.println("format is null.");
+		createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("format"), odf, oo);
 	}
 			    	
 	public static void handleMachineReadableSpec(String formatMachineReadableSpecIri, 
@@ -760,6 +783,18 @@ public class DataFormatProcessor {
     		for (String term : indexTerms) {
     			licenseNis.put(term, license);
     		}
+    	}
+    }
+
+    public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
+    	websiteInds = new HashMap<String, OWLNamedIndividual>();
+    	FileReader fr =  new FileReader(fName);
+    	LineNumberReader lnr = new LineNumberReader(fr);
+    	String line;
+    	while((line=lnr.readLine())!=null) {
+    		String[] flds = line.split(Pattern.quote("\t"));
+    		OWLNamedIndividual website = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+    		websiteInds.put(flds[0], website);
     	}
     }
 
