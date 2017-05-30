@@ -686,33 +686,39 @@ public class DtmJsonProcessor {
     public static void handleIdentifier(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
     	String value = elem.getAsString().trim();
-  		String idText = value, url = "";
-    	if (value.startsWith("<a href")) {
-   			Document d = Jsoup.parse(value);
-		    Elements links = d.select("a");
-		    url = links.get(0).attr("href");
-		    idText = links.get(0).ownText();
+
+    	if (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
+    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development") 
+    				&& !value.toLowerCase().equals("identifier will be created at time of release")) {
+    
+	  		String idText = value, url = "";
+	    	if (value.startsWith("<a href")) {
+	   			Document d = Jsoup.parse(value);
+			    Elements links = d.select("a");
+			    url = links.get(0).attr("href");
+			    idText = links.get(0).ownText();
+	    	}
+	    	IRI identifierClassIri = null;
+			int position = idText.indexOf("doi.org/10.");
+			if (idText.startsWith("10.")) {
+				identifierClassIri = iriMap.lookupClassIri("doi");
+			} else if (position > 0) {
+				identifierClassIri = iriMap.lookupClassIri("doi");
+				if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
+				url = idText;
+				idText = idText.substring(position + 8);
+				//System.out.println("New id text is: " + idText + ", url = " + url);
+			} else {
+				identifierClassIri = iriMap.lookupClassIri("identifier");
+			}
+	    	
+	    	OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri,
+	    								iriMap.lookupAnnPropIri("label"), idText);
+	    	if (url.length() > 0) {
+	    		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	    	}
+	    	createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("dtm"), odf, oo);
     	}
-    	IRI identifierClassIri = null;
-		int position = idText.indexOf("doi.org/10.");
-		if (idText.startsWith("10.")) {
-			identifierClassIri = iriMap.lookupClassIri("doi");
-		} else if (position > 0) {
-			identifierClassIri = iriMap.lookupClassIri("doi");
-			if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
-			url = idText;
-			idText = idText.substring(position + 8);
-			//System.out.println("New id text is: " + idText + ", url = " + url);
-		} else {
-			identifierClassIri = iriMap.lookupClassIri("identifier");
-		}
-    	
-    	OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri,
-    								iriMap.lookupAnnPropIri("label"), idText);
-    	if (url.length() > 0) {
-    		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-    	}
-    	createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("dtm"), odf, oo);
     }
 
     public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,

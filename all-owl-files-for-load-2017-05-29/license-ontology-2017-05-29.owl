@@ -1,0 +1,684 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.pitt.edu/mdc/software_license#"
+     xml:base="http://www.pitt.edu/mdc/software_license"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:obo="http://purl.obolibrary.org/obo/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <owl:Ontology rdf:about="http://www.pitt.edu/mdc/software_license"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/ERO_0000480 -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/ERO_0000480"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000111 -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000111"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000118 -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000118"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/date -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/date"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/title -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000155 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000155"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000219 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000219"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000299 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/OBI_0000299"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/RO_0002093 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0002093"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/APOLLO_SV_00000535 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/APOLLO_SV_00000797 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/APOLLO_SV_00000798 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/APOLLO_SV_00000798"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000038 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000038"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000129 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000129"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000005 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000005">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://www.apache.org/licenses/LICENSE-2.0</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache License Version 2.0, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache 2.0</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache License 2.0</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache V2.0</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2004-01</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache License</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apache License Version 2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000046 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000046">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://www.gnu.org/licenses/gpl-3.0.html</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License version 3, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU Public License</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GPL</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GPLv3</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-06-29</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License version 3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000047 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000047">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.gnu.org/licenses/gpl-2.0.html</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License version 2, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GPL (GNU General Public License)</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GPL (GNU General Public License), version 2</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1991-06</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU General Public License version 2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000065 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000065">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000798"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://creativecommons.org/licenses/by/4.0/legalcode</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License 4.0 International 4.0, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CC BY 4.0</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013-11-25</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License 4.0 International</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License 4.0 International 4.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000070 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000070">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://www.gnu.org/licenses/agpl-3.0.en.html</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU Affero General Public License Version 3, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU Affero General Public License</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-11-19</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU Affero General Public License</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GNU Affero General Public License Version 3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000075 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000075">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000798"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://creativecommons.org/licenses/by-sa/3.0/legalcode</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (Unported) 3.0, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CCPL</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://www.tycho.pitt.edu/legal/license_agreement.html</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-02-23</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (Unported)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (Unported) 3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000076 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000076">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000798"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://creativecommons.org/licenses/by/3.0/us/legalcode</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (United States) 3.0, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CC BY 3.0</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CC BY 3.0 (US)</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CC BY 3.0 US</obo:IAO_0000118>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Creative Commons Attribution 3.0 United States</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-02-23</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (United States)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">creative commons Attribution License (United States) 3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_9000074 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_9000074">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://tldrlegal.com/license/mit-license#fulltext</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIT License (Expat) , software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIT</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1988</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIT License (Expat)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIT License (Expat) </rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070000 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070000">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000535"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://matt.might.net/articles/crapl/</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Community Research and Academic Programming License v0 BETA 1, software license</obo:IAO_0000111>
+        <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CRAPL v0.1 License</obo:IAO_0000118>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2010-07-26</dc:date>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Community Research and Academic Programming License</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Community Research and Academic Programming License v0 BETA 1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006900 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006900">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006901"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000046"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating GNU General Public License version 3, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006901 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006901">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006902"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which GNU General Public License version 3, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006902 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006902">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-06-29</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006903 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006903">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000046"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">version 3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006904 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006904">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006905"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating GNU General Public License version 2, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006905 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006905">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006906"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which GNU General Public License version 2, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006906 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006906">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1991-06</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006907 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006907">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">version 2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006908 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006908">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006909"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating Apache License Version 2.0, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006909 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006909">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006910"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which Apache License Version 2.0, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006910 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006910">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2004-01</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006911 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006911">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Version 2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006912 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006912">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006913"/>
+        <obo:OBI_0000299 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070000"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating Community Research and Academic Programming License v0 BETA 1, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006913 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006913">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006914"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which Community Research and Academic Programming License v0 BETA 1, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006914 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006914">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2010-07-26</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006915 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006915">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070000"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v0 BETA 1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006916 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006916">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006917"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000070"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating GNU Affero General Public License Version 3, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006917 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006917">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006918"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which GNU Affero General Public License Version 3, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006918 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006918">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-11-19</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006919 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006919">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000070"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Version 3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006920 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006920">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006921"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_9000074"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating MIT License (Expat) , software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006921 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006921">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006922"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which MIT License (Expat) , software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006922 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006922">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1988</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006923 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006923">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006924"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000076"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating creative commons Attribution License (United States) 3.0, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006924 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006924">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006925"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which creative commons Attribution License (United States) 3.0, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006925 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006925">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2007-02-23</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006926 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006926">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000076"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006927 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006927">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006928"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000075"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating creative commons Attribution License (Unported) 3.0, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006928 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006928">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006925"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which creative commons Attribution License (Unported) 3.0, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006929 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006929">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000075"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006930 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006930">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/APOLLO_SV_00000797"/>
+        <obo:BFO_0000155 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006931"/>
+        <obo:OBI_0000299 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000065"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">process of creating creative commons Attribution License 4.0 International 4.0, software license</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006931 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006931">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <obo:RO_0002093 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLE_1200006932"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">interval over which creative commons Attribution License 4.0 International 4.0, software license was created</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006932 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006932">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000038"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013-11-25</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200006933 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200006933">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000065"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 5.0.5.20170104-0800) https://github.com/owlcs/owlapi/ -->
+
+

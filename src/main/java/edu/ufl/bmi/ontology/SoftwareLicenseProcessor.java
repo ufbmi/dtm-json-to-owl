@@ -228,9 +228,11 @@ public class SoftwareLicenseProcessor {
     	fr.close();
     }
 */
+
     public static boolean isValidFieldValue(String value) {
     	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
-    				&& !value.startsWith("?"));
+    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development") 
+    				&& !value.toLowerCase().equals("identifier will be created at time of release"));
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,

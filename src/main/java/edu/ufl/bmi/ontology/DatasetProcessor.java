@@ -311,7 +311,8 @@ public class DatasetProcessor {
 
     public static boolean isValidFieldValue(String value) {
     	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
-    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development"));
+    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development") 
+    				&& !value.toLowerCase().equals("identifier will be created at time of release"));
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,
@@ -847,6 +848,7 @@ public class DatasetProcessor {
     					 OWLDataFactory odf, OWLOntology oo) {
     	String[] iris = iriList.split(Pattern.quote(";"));
     	for (String iri : iris) {
+    		iri = iri.trim();
     		if (iri.length() == 0) continue;
     		//System.out.println("IRI IS " + iri);
     		OWLNamedIndividual aboutInd = odf.getOWLNamedIndividual(IRI.create(iri));
