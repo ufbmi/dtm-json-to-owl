@@ -156,7 +156,7 @@ public class DtmJsonProcessor {
             JsonArray jo = null;
             JsonParser jp = new JsonParser();
             String softwareMetadataLocation = p.getProperty("software_info");
-            boolean USING_MDC_DATA_GITHUB = false;
+            boolean USING_MDC_DATA_GITHUB = true;
             if (!USING_MDC_DATA_GITHUB) {
                 fr = new FileReader(softwareMetadataLocation);
                 lnr = new LineNumberReader(fr);
@@ -577,6 +577,11 @@ public class DtmJsonProcessor {
             for (String dev : devs) {
                 OWLNamedIndividual devInd = devNis.get(dev);
                 devOut.write(dev + "\t" + devInd.getIRI() + "\n");
+                if (dev.equals("Shawn T. Brown")) devOut.write("Shawn Brown\t" + devInd.getIRI() + "\n");
+                if (dev.contains("Bill")) {
+                        String devAlt = dev.replace("Bill","William");
+                        devOut.write(devAlt + "\t" + devInd.getIRI() + "\n");
+                }
             }
             devOut.close();
 

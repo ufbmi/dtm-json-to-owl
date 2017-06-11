@@ -143,14 +143,14 @@ public class DatasetProcessor {
 				String landingPage = flds[9].trim();
 				String accessPage = flds[10].trim();
 				String format = flds[12].trim();
-				String geography = flds[13].trim();
-				String apolloLocationCode = flds[14].trim();
-				String iso_3166 = flds[15].trim();
-				String iso_3166_1 = flds[16].trim();
-				String iso_3166_1_alpha_3 = flds[17].trim();
-				String aoc = flds[18].trim();
-				String ae = flds[19].trim();
-				String license = flds[20].trim();
+				String geography = flds[14].trim();
+				String apolloLocationCode = flds[15].trim();
+				String iso_3166 = flds[16].trim();
+				String iso_3166_1 = flds[17].trim();
+				String iso_3166_1_alpha_3 = flds[18].trim();
+				String aoc = flds[19].trim();
+				String ae = flds[20].trim();
+				String license = flds[13].trim();
 				String popIriTxt = (flds[22] != null) ? flds[22].trim() : null;
 				String beIriTxt = (flds[25] != null) ? flds[25].trim() : null;
 				String ecIriTxt = (flds[27] != null) ? flds[27].trim() : null;
@@ -830,7 +830,8 @@ public class DatasetProcessor {
 
     public static void processAnyIndexingTerms(String popIriTxt, String beIriTxt, String ecIriTxt, String epiIriTxt, 
     		OWLNamedIndividual dataset, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
-    	if (popIriTxt != null) {
+    	//only process the populations if there's no epidemic IRIs.  Else the epidemic IRIs take care of the populations for us.
+    	if (popIriTxt != null && (epiIriTxt == null || epiIriTxt.length() == 0)) {
     		processIndexing(popIriTxt, dataset, iriMap, odf, oo);
     	} 
     	if (beIriTxt != null) {
