@@ -27,5 +27,5 @@ vaccination	http://purl.obolibrary.org/obo/APOLLO_SV_00000136
 quarantine	http://purl.obolibrary.org/obo/APOLLO_SV_00000327
 school closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
 Travel restriction	http://purl.obolibrary.org/obo/APOLLO_SV_00000231
-zoo-prophylaxis control measure	http://purl.obolibrary.org/obo/APOLLO_SV_00000573
+zoo-prophylaxis	http://purl.obolibrary.org/obo/APOLLO_SV_00000573
 odour-baited traps	http://purl.obolibrary.org/obo/APOLLO_SV_00000572

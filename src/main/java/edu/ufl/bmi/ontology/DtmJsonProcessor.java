@@ -423,7 +423,17 @@ public class DtmJsonProcessor {
                             handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
-                        } else {
+                        } 
+                        /* attributes specific to disease forecasters */
+                        else if (keyj.equals("diseases")) {
+                            handleDiseases(ej, niMap, oo, odf, iriMap);
+                        } else if (keyj.equals("region")) {
+                            handleRegion(ej, niMap, oo, odf, iriMap);
+                        }
+                        //end attributes specific to disease forecasters
+
+
+                        else {
                             boolean handled = false;
                             JsonElement jeRemainder = ej.getValue();
                             if (jeRemainder instanceof JsonPrimitive) {
@@ -1173,6 +1183,16 @@ public class DtmJsonProcessor {
         } else {
             throw new IllegalArgumentException("value of availableAt must be array");
         }
+    }
+
+    public static void handleDiseases(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+                                         OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+
+    }
+                      
+    public static void handleRegion(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+                                         OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+
     }
 
     public static void handleUids(String value, int size, OWLNamedIndividual execInd, OWLNamedIndividual uidsConcInd, IriLookup iriMap, OWLDataFactory odf, OWLOntology oo) {
