@@ -1,0 +1,9 @@
+1	aggregate of disease courses in which an acute respiratory illness is a participant in <region> from October <start year> through May <end year>	
+2	disease course of one host in <region> that is a proper occurrent part of the aggregate of disease courses that have an acute respiratory illness phenotype as participant in <region> from October <start year> through May <end year>	
+3	disease of one host in <region>	
+4	a host in <region>	
+5	dataset about aggregate of disease courses in which an acute respiratory illness is a participant in <region> from October <start year> through May <end year>
+1	has proper occurrent part	2
+2	realizes	3
+3	inheres in	4
+<population>	is aggregate of	4

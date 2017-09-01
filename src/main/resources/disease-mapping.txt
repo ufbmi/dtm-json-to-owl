@@ -1,0 +1,3 @@
+Dengue	http://purl.obolibrary.org/obo/DOID_12205
+Influenza	http://purl.obolibrary.org/obo/APOLLO_SV_00000574
+Zika		http://purl.obolibrary.org/obo/DOID_0060478
