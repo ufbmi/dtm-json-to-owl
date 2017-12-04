@@ -216,6 +216,8 @@ public class DtmJsonProcessor {
             HashSet<String> uniqueFormats = new HashSet<String>();
             HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
             HashSet<String> populationsNeeded = new HashSet<String>();
+            
+            // this outer loop for iterator "i" processes one software/data service at a time
             while (i.hasNext()) {
                 JsonElement ei = i.next();
 
@@ -317,7 +319,7 @@ public class DtmJsonProcessor {
                             reqInds.addAll(indsForKey);
                             //System.out.println("adding inds for key " + keyj);
                         }
-                    }
+                    } // end while (j.hasNext())
                     //System.out.println();
 
 
@@ -361,7 +363,7 @@ public class DtmJsonProcessor {
                         if (ks.startsWith("simulat"))
                             simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
                         niMap.put(ks, oni);
-                    }
+                    } // end while k.hasNext()
 
                     //Once we've identified all the individuals we need, and we've created them, now we have to go back through
                     // and stick stuff on the individuals
@@ -381,7 +383,7 @@ public class DtmJsonProcessor {
                             handleSource(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("license")) {
                             handleLicense(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("doi")) {
+                        } else if (keyj.equals("doi")) {  //this attribute appears to be obsolete. Identifier is used.
                             handleDoi(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("sourceCodeRelease")) {
                             handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
@@ -424,56 +426,107 @@ public class DtmJsonProcessor {
                         } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
                         } 
-                        /* attributes specific to disease forecasters */
+                        /* 
+                        	Handle attributes specific to disease forecasters.  It might be better just
+                        		to connect all of them in batch at the end. 
+                        */
                         else if (keyj.equals("diseases")) {
                             handleDiseases(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("region")) {
                             handleRegion(ej, niMap, oo, odf, iriMap);
                         }
-                        //end attributes specific to disease forecasters
+                        /* 
+                        	End attributes specific to disease forecasters
+                       */
 
 
                         else {
+                        	/* Supposedly if we get here, then it's an attribute we don't know 
+                        		how to handle yet.  However, inexplicably, we handle some still
+                        		below and I'm still trying to figure out why I did that.  Right
+                        		now, it appears to be that we don't handle the attribute directly
+                        		here in the code, but in a manual, post-processing step.
+                        	*/
                             boolean handled = false;
+                            /*
+                            	Get the value of the attribute & report it out too.
+                            */
                             JsonElement jeRemainder = ej.getValue();
                             if (jeRemainder instanceof JsonPrimitive) {
+                            	//If the value is primitive, it looks like we just eat it, which is odd.
                                 String value = ((JsonPrimitive) jeRemainder).getAsString();
-
                             } else if (jeRemainder instanceof JsonArray) {
+                            	/*
+                            		Otherwise if the value is an array, we get the array. We can handle array
+                            			values above so not sure why I moved this code down here.
+                            	*/
                                 JsonArray remArray = (JsonArray) jeRemainder;
                                 Iterator<JsonElement> remIter = remArray.iterator();
+                                /*
+                                	Iterate through the array, which is the value of the attribute we don't
+                                	 	know about yet.
+                               	*/
                                 while (remIter.hasNext()) {
+                                	/*
+                                		For the next element in the array...
+                                	*/
                                     JsonElement remNext = remIter.next();
                                     if (remNext instanceof JsonPrimitive) {
+                                    	// If it is a primitive, and the key is location coverage...
                                         String value = ((JsonPrimitive) remNext).getAsString();
 
                                         if (keyj.equals("locationCoverage")) {
                                             //System.out.println("LOCATION: " + value);
                                             handled = true;
                                             if (!value.equals("N/A")) {
+                                            	/*  
+                                            		Here, we just record the values of locations covered,
+                                            			we don't actually "handle" them in the sense of 
+                                            			connecting the software or data service to them
+                                            	*/
                                                 uniqueLocationsCovered.add(value);
                                                 locations.add(value);
                                             }
                                         } else if (keyj.equals("diseaseCoverage") || keyj.equals("pathogenCoverage")) {
                                             handled = true;
                                             if (!value.equals("N/A")) {
+                                            	/*
+                                            		Same thing for disease/pathogen coverage.  Just note the value,
+                                            			but we don't connect the software to the particular disease
+                                            			or pathogen in this code.
+                                            	*/
                                                 uniquePathogensCovered.add(value);
                                                 pathogens.add(value);
                                             }
                                         } else if (keyj.equals("hostSpeciesIncluded")) {
                                             handled = true;
                                             if (!value.equals("N/A")) {
+                                            	/*
+                                            		Same thing for host coverage.  Just note the value,
+                                            			but we don't connect the software to the particular host
+                                            			in this code.
+                                            	*/
                                                 uniqueHostsCovered.add(value);
                                                 hosts.add(value);
                                             }
                                         }
 
                                     } else {
+                                    	/*
+                                    		 If we get here, we have an array of things that are not mere strings.
+
+                                    		 The only attribute like this is the dataServiceDescriptor or something
+                                    		 	like that.
+                                    	*/
                                         System.err.println("ERROR: element " + keyj + "has array of values that are complex.  Ignoring.");
                                     }
                                 }
 
                             } else {
+                            	/*
+                            		If we get here, we have neither a String value, nor an Array value,
+                            		 but an object value, for the key for which we don't know how to process
+                            	*/
                                 //System.err.println("jeRemainder instanceof " + jeRemainder.getClass());
                                 //System.err.println(jeRemainder);
                                 JsonObject remObject = (JsonObject) jeRemainder;
@@ -482,6 +535,11 @@ public class DtmJsonProcessor {
                                     String key = remEntryi.getKey();
                                     JsonElement remElem = remEntryi.getValue();
                                     //System.err.println("\t" + key + " == " + remElem.isJsonPrimitive());
+                                    /* 
+                                    	Identifier lives here, because we don't hadnle it above.  But I 
+                                    		think we just need to move it above and everything should still
+                                    		work fine
+                                    */
                                     if (key.equals("identifier")) {
                                         handleIdentifier(remElem, niMap, oo, odf, iriMap);
                                     } else {
@@ -497,7 +555,7 @@ public class DtmJsonProcessor {
                                 }
                             }
                         }
-                    }
+                    } // end while (j.hasNext())
 
                     //Now, we need to connect up all the individuals
                     connectDtmIndividuals(niMap, oo, odf, iriMap);
@@ -536,40 +594,72 @@ public class DtmJsonProcessor {
                 } catch (OWLOntologyStorageException oose) {
                     oose.printStackTrace();
                 }
-            } //while(i.hasNext()).  i is iterating over settings plus the main payload.
+            } /* while(i.hasNext()).  i is iterating over settings plus the main payload, which
+            		is all the software apps and data services.  In new JSON retrieved by API, 
+            		there are no settings any longer */
 
+           	/*
+           		This code merely iterates over all the attributes specified by all the software
+           			and data services collectively, and prints them out.  It's handy to have a 
+           			complete list of everything used.
+           	*/
             Iterator<String> si = allDtmAtt.iterator();
             while (si.hasNext()) {
                 System.out.println(si.next());
             }
 
+            /*
+            	This code helpfully prints out where the program left off with IRI 
+            		generation, so that any other programs needing to pick up where
+            		this one left off can do so.
+            */
             System.out.println(nextIri());
             System.out.println(nextIri());
 
+            /*
+            	This code displays all the geographical regions encountered across 
+            	 all software and data services.
+            */
             System.out.println("Locations required:");
             for (String location : uniqueLocationsCovered) {
                 System.out.println("\t" + location);
             }
             System.out.println();
 
+            /*
+            	This code displays all the pathogens encountered across all sofware
+            		and data services.
+            */
             System.out.println("Pathogens required:");
             for (String pathogen : uniquePathogensCovered) {
                 System.out.println("\t" + pathogen);
             }
             System.out.println();
 
+            /*
+            	This code displays all the hosts encountered across all software and
+            		data services.
+            */
             System.out.println("Hosts required: ");
             for (String host : uniqueHostsCovered) {
                 System.out.println("\t" + host);
             }
             System.out.println();
 
+            /*
+            	This code displays all the pathogen+geographical region and 
+            		host+geographical region combinations required.
+            */
             System.out.println("Populations required: ");
             for (String pop : populationsNeeded) {
                 System.out.println("\t" + pop);
             }
             System.out.println();
 
+            /*
+            	This code writes to a file all the populations (host and pathogen)
+            		that are required for each DTM.
+            */
             fw = new FileWriter("./pops_by_dtm.txt");
             int iPop = 1;
             Set<String> dtmsWithPops = popsNeededByDtm.keySet();
@@ -582,6 +672,10 @@ public class DtmJsonProcessor {
                 }
             }
 
+            /*
+            	This code outputs all the IRIs that were assigned to individuals created
+            		to represent developers of software and data services.
+            */
             devOut = new FileWriter("./developer_iris.txt");
             Set<String> devs = devNis.keySet();
             for (String dev : devs) {
@@ -595,24 +689,42 @@ public class DtmJsonProcessor {
             }
             devOut.close();
 
+            /*
+            	This code displays all the unique control measures encountered across
+            		all DTMs.
+            */
             System.out.println("Control measures:");
             for (String cm : uniqueCms) {
                 System.out.println(cm);
             }
 
+            /*
+            	This code combines all the input/output formats into a single, unique
+            		list.
+            */
             uniqueFormats.addAll(uniqueInputFormats);
             uniqueFormats.addAll(uniqueOutputFormats);
 
+            /*
+            	Display all the unique input formats encountered
+           	*/
             System.out.println("\nInput formats:");
             for (String input : uniqueInputFormats) {
                 System.out.println("\t" + input);
             }
 
+            /*
+            	Display all the unique output formats encountered
+            */
             System.out.println("\nOutput formats:");
             for (String output : uniqueOutputFormats) {
                 System.out.println("\t" + output);
             }
 
+            /*
+            	Display the entire list of unique formats across all
+            		input & output
+            */
             System.out.println("\nAll formats:");
             for (String format : uniqueFormats) {
                 System.out.println("\t" + format);
@@ -626,6 +738,9 @@ public class DtmJsonProcessor {
             jse.printStackTrace();
         } finally {
             try {
+            	/*
+            		Close everything down
+            	*/
                 if (fw != null) fw.close();
                 if (fos != null) fos.close();
                 if (lnr != null) lnr.close();
@@ -634,28 +749,51 @@ public class DtmJsonProcessor {
                 if (devOut != null) devOut.close();
             } catch (IOException ioe) {
                 //just eat it, eat it, don't you make me repeat it!
+                //Strangely, this is the correct thing to do in this situation: yay, java!
             }
         }
     }
 
+    /*
+    	This code handles the title attribute in the JSON for the software/data service
+    */
     public static void handleTitle(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                    OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+        //Get the individual for the current software application.  Despite the name "dtm", works for 
+        //  all kinds of software.
         OWLNamedIndividual oni = niMap.get("dtm");
+
+        //Get the value of the title attribute...
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive) je).getAsString();
+            // ...and add it to the individual as a dc:title annotation
             addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("title"), value, odf, oo);
         } else {
+        	//If we get here, then there's a problem in the JSON
             System.err.println("Title attribute has value that is not primitive.");
         }
     }
 
+   /*
+    	This code handles the version attribute in the JSON for the software/data service
+    */
     public static void handleVersion(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                      OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+        //Get the individual we created to represent the software version identifier
         OWLNamedIndividual oni = niMap.get("versionid");
+        // ...and add a label annotation to it with the value of the version attribute in the JSON
         addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
     }
 
+   /*
+    	This code handles the source attribute in the JSON for the software/data service.
+
+    	"source" here means "source code", and even more precisely, we typically get a URL to 
+    		the source code of the particular version of the software specified by version id.
+
+    	Thus, it's a different URL than to the entire source code repository.
+    */
     public static void handleSource(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                     OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("sourcerepository");
@@ -668,21 +806,32 @@ public class DtmJsonProcessor {
         }
     }
 
+   /*
+    	This code handles the license attribute in the JSON for the software/data service
+    */
     public static void handleLicense(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                      OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 
+    	//get the value of the license attribute from the JSON...
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive) je).getAsString();
+            //if we got some HTML with a link instead of just plain text...
             if (value.contains("<a ")) {
+            	//...then parse out the text and URL separately
                 Document d = Jsoup.parse(value);
                 Elements links = d.select("a");
                 String url = links.get(0).attr("href");
                 String txt = links.get(0).ownText();
                 OWLNamedIndividual oni = null;
                 if (licenseNis.containsKey(txt)) {
+                	/* If the license individual exists already, then get it.  It will already have
+                		  annotations including any URL.  We can safely eat the value of the license
+                	 	attribute in this case.
+                	 */
                     oni = licenseNis.get(txt);
                 } else {
+                	//else, create the license individual and add text/URL annotations to it.
                     System.out.println("CREATING LICENSE: " + txt);
                     oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
                             iriMap.lookupAnnPropIri("editor preferred"),
@@ -694,8 +843,12 @@ public class DtmJsonProcessor {
 			    	remove them eventually
 			    	*/
 
+			    //finally, state that the license is part of the overall software application (or data service)
                 createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
             } else {
+            	/* Otherwise we have just a plain text value for the license attribute in the JSON, and it's
+            		the same routine as before
+            	*/
                 OWLNamedIndividual oni = null;
                 if (licenseNis.containsKey(value)) {
                     oni = licenseNis.get(value);
@@ -710,13 +863,20 @@ public class DtmJsonProcessor {
 			    	remove them eventually
 			    	*/
 
+			    //finally, state that the license is part of the overall software application (or data service)
                 createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is part of"), niMap.get("dtm"), odf, oo);
             }
         } else {
+        	/* 
+        		If we get here, then we got malformed JSON, so report the error
+        	*/
             System.err.println("License attribute has value that is not primitive.");
         }
     }
 
+    /*
+    	This code handles 
+    */
     public static void handleDoi(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("doi");
