@@ -87,6 +87,12 @@ public class DtmJsonProcessor {
     static HashMap<String, String> simPopIris;
     static HashMap<String, OWLNamedIndividual> websiteInds;
 	static HashSet<String> allDtmAtt;
+	static HashSet<String> uniqueLocationsCovered;
+    static HashSet<String> uniquePathogensCovered;
+    static HashSet<String> uniqueHostsCovered;
+	static HashSet<String> uniqueFormats;
+    static HashMap<String, ArrayList<String>> popsNeededByDtm;
+    static HashSet<String> populationsNeeded;
 
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
@@ -112,38 +118,16 @@ public class DtmJsonProcessor {
             JsonArray jo = null;
             JsonParser jp = new JsonParser();
             String softwareMetadataLocation = p.getProperty("software_info");
-            boolean USING_MDC_DATA_GITHUB = true;
-            if (!USING_MDC_DATA_GITHUB) {
-                fr = new FileReader(softwareMetadataLocation);
-                lnr = new LineNumberReader(fr);
-                JsonElement je = jp.parse(fr);
-                jo = (JsonArray) je;
-            } else {
-                //get root of software entries in mdc-data
-                //i.e. ../mdc-data/json/mdc/isg/pitt/edu/v1_0/
-                File directory = new File(softwareMetadataLocation);
+          
+            fr = new FileReader(softwareMetadataLocation);
+            lnr = new LineNumberReader(fr);
+            JsonElement je = jp.parse(fr);
 
-                //now get all subdirs like "DiseaseTransmissionModel" or "ModelingPlatforms"
-                File[] dirs = directory.listFiles(File::isDirectory);
+            /*
+            	The file is an array of JSON objects, one per digital object
+            */
+            jo = (JsonArray) je;
 
-                //now iterate over all subdirs and add every .json file to the "files" list
-                List<File> files = new ArrayList<>();
-                for (File subdir : dirs) {
-                    File[] subDirFiles = subdir.listFiles((dir, name) -> {
-                        return name.toLowerCase().endsWith(".json");
-                    });
-                   files.addAll(Arrays.asList(subDirFiles));
-                }
-
-                //make a JsonArray to match the way the program wants the data
-                JsonArray ja = new JsonArray();
-                //parse each metadata file and add it to the JsonArray
-                for (File jsonFile : files) {
-                    JsonElement je = jp.parse(new FileReader(jsonFile));
-                    ja.add(je);
-                }
-                jo = ja;
-            }
             //just want to make sure the "software-ontology-YYY-MM-DD" file write Elements in
             //the same order, so let's sort the JsonArray
             jo = sortForEasyValidation(jo);
@@ -163,31 +147,40 @@ public class DtmJsonProcessor {
             i = jo.iterator();
             System.out.println(jo.size());
 
-
-            HashSet<String> uniqueLocationsCovered = new HashSet<String>();
-            HashSet<String> uniquePathogensCovered = new HashSet<String>();
-            HashSet<String> uniqueHostsCovered = new HashSet<String>();
-            uniqueInputFormats = new HashSet<String>();
-            uniqueOutputFormats = new HashSet<String>();
-            HashSet<String> uniqueFormats = new HashSet<String>();
-            HashMap<String, ArrayList<String>> popsNeededByDtm = new HashMap<String, ArrayList<String>>();
-            HashSet<String> populationsNeeded = new HashSet<String>();
-            
             // this outer loop for iterator "i" processes one software/data service at a time
             while (i.hasNext()) {
+            	/* 
+            		Get the next element in the array, which is the JSON object that represents
+            			a digital object.
+            	*/
                 JsonElement ei = i.next();
-
                 JsonObject jo2 = (JsonObject) ei;
 
-				/*JsonElement jeTitle = jo2.get("title");
-                String title = null;
-				if (jeTitle.isJsonPrimitive()) {
-					JsonPrimitive titlePrim = (JsonPrimitive)jeTitle;
-					title = titlePrim.getAsString();
+				/*
+					Get the type attribute, and check its value.  If it's neither software, 
+						nor data service, skip it.
+				*/
+				JsonElement typeElem = jo2.get("type");
+				if (typeElem.isJsonPrimitive()) {
+					JsonPrimitive typeValue = (JsonPrimitive)typeElem;
+					String type = typeValue.getAsString();
+					if (type.equals("edu.pitt.isg.mdc.dats2_2.Dataset") ||
+						type.equals("edu.pitt.isg.mdc.dats2_2.DataStandard"))
+						continue;
 				} else {
-					System.err.println("title attribute is not primitive!");
-				}*/
-                JsonElement je3 = jo2.get("subtype");
+					// else it's an error!
+					System.err.println("Bad JSON - type element should be primitive.");
+				}
+
+				/*
+					Now, the guts of the thing are in the "content" attribute, as a nested
+						JSON object.
+				*/
+				JsonElement contentElem = jo2.get("content");
+				JsonObject contentObject = (JsonObject)contentElem;
+
+
+                JsonElement je3 = contentObject.get("subtype");
                 if (je3.isJsonPrimitive()) {
                     JsonPrimitive jprim = (JsonPrimitive) je3;
                     String subtype = jprim.getAsString();
@@ -225,7 +218,7 @@ public class DtmJsonProcessor {
 					  what's source vs. sourceCodeRelease
 					*/
 
-                    Set<Map.Entry<String, JsonElement>> dtmAttSet = jo2.entrySet();
+                    Set<Map.Entry<String, JsonElement>> dtmAttSet = contentObject.entrySet();
                     Iterator<Map.Entry<String, JsonElement>> j = dtmAttSet.iterator();
                     HashSet<String> reqInds = new HashSet<String>();
                     while (j.hasNext()) {
@@ -772,6 +765,17 @@ public class DtmJsonProcessor {
            	
              initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
              initializeSimPopIris(p.getProperty("sim_pop_iri"));
+
+
+            uniqueLocationsCovered = new HashSet<String>();
+            uniquePathogensCovered = new HashSet<String>();
+            uniqueHostsCovered = new HashSet<String>();
+            uniqueInputFormats = new HashSet<String>();
+            uniqueOutputFormats = new HashSet<String>();
+            uniqueFormats = new HashSet<String>();
+            popsNeededByDtm = new HashMap<String, ArrayList<String>>();
+            populationsNeeded = new HashSet<String>();
+
         } catch (IOException ioe) {
         	ioe.printStackTrace();
         } finally {
