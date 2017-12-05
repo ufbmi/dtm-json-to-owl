@@ -422,9 +422,14 @@ public class DtmJsonProcessor {
                                 		For the next element in the array...
                                 	*/
                                     JsonElement remNext = remIter.next();
-                                    if (remNext instanceof JsonPrimitive) {
-                                    	// If it is a primitive, and the key is location coverage...
-                                        String value = ((JsonPrimitive) remNext).getAsString();
+                                    if (remNext instanceof JsonObject) {
+                                    	// If it is a JSON object, and the key is location coverage...
+                                        JsonElement idElem = remNext.getAsJsonObject().get("identifier");
+                                        if (idElem == null) {
+                                            System.out.println("WARNING: ignoring " + keyj + " attribute.");
+                                            continue;
+                                        }
+                                        String value = idElem.getAsJsonObject().get("identifierDescription").getAsString();
 
                                         if (keyj.equals("locationCoverage")) {
                                             //System.out.println("LOCATION: " + value);
@@ -464,12 +469,12 @@ public class DtmJsonProcessor {
 
                                     } else {
                                     	/*
-                                    		 If we get here, we have an array of things that are not mere strings.
+                                    		 If we get here, we have an array of things that are mere strings.
 
                                     		 The only attribute like this is the dataServiceDescriptor or something
                                     		 	like that.
                                     	*/
-                                        System.err.println("ERROR: element " + keyj + "has array of values that are complex.  Ignoring.");
+                                        System.err.println("ERROR: element " + keyj + " has array of values that are string.  Ignoring.");
                                     }
                                 }
 
@@ -1927,7 +1932,21 @@ public class DtmJsonProcessor {
 
         Collections.sort(jsonList, new Comparator<JsonElement>() {
             public int compare(JsonElement a, JsonElement b) {
-                return a.getAsJsonObject().get("title").toString().compareTo(b.getAsJsonObject().get("title").toString());
+                if (a == null || b == null) {
+                    System.err.println(a + "\n\n" + b);
+                }
+                
+                JsonElement aTitle = a.getAsJsonObject().get("content").getAsJsonObject().get("title");
+                if (aTitle == null) aTitle = a.getAsJsonObject().get("content").getAsJsonObject().get("name");
+                
+                JsonElement bTitle = b.getAsJsonObject().get("content").getAsJsonObject().get("title");
+                if (bTitle == null) bTitle = b.getAsJsonObject().get("content").getAsJsonObject().get("name");
+                
+                if (aTitle == null || bTitle == null) {
+                    System.err.println(aTitle + "\t" + bTitle);
+                    System.err.println(a + "\n\n" + b);
+                }
+                return aTitle.toString().compareTo(bTitle.toString());
             }
         });
 
