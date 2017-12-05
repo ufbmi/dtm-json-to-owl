@@ -86,6 +86,17 @@ public class DtmJsonProcessor {
     static HashMap<String, String> dtmToSimInds;
     static HashMap<String, String> simPopIris;
     static HashMap<String, OWLNamedIndividual> websiteInds;
+	static HashSet<String> allDtmAtt;
+
+	static IriLookup iriMap;
+	static IndividualsToCreate itc;
+	static HashMap<String, HashSet<String>> indsMap;
+
+	static OWLDataFactory odf;
+	static OWLOntology oo;
+
+	static IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/software");
+
     static Properties p;
 
      public static void main(String[] args) {
@@ -95,64 +106,9 @@ public class DtmJsonProcessor {
         FileWriter fw = null;
         FileWriter devOut = null;
 
-        try (FileReader pr = new FileReader(args[0]);) {
+        initialize(args);
 
-            p = new Properties();
-            p.load(pr);
-
-            //fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
-
-
-            IriLookup iriMap = new IriLookup(p.getProperty("iris"));
-            iriMap.init();
-
-            simPops = new FileWriter("./simulated-populations.txt");
-            uniqueCms = new HashSet<String>();
-
-
-            //IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
-            IndividualsToCreate itc = new IndividualsToCreate(p.getProperty("inds_required"));
-            itc.init();
-            HashMap<String, HashSet<String>> indsMap = itc.getIndividualsToCreate();
-
-            //cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
-            cmMap = new ControlMeasureIriMapping(p.getProperty("cm_mapping"));
-            cmMap.initialize();
-
-            //pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
-            pubLinks = new PublicationLinks(p.getProperty("pubs_info"));
-            pubLinks.init();
-
-            fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
-            devNis = new HashMap<String, OWLNamedIndividual>();
-            licenseNis = new HashMap<String, OWLNamedIndividual>();
-
-            oom = OWLManager.createOWLOntologyManager();
-            OWLDataFactory odf = OWLManager.getOWLDataFactory();
-            OWLOntology oo = null;
-            IRI ontologyIRI = IRI.create("http://www.pitt.edu/mdc/software");
-            try {
-                oo = oom.createOntology(ontologyIRI);
-            } catch (OWLOntologyCreationException ooce) {
-                ooce.printStackTrace();
-            }
-
-            olympus = createOlympusIndividuals(odf, oo, iriMap);
-            uids = createUidsIndividuals(odf, oo, iriMap);
-            loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
-            loadLicenses(p.getProperty("license_info"), odf);
-            String websiteFname = p.getProperty("website_ind");
-            websiteFname = websiteFname.replace("<date>", args[1].trim()).trim();
-            loadWebsites(websiteFname, odf);
-            HashSet<String> allDtmAtt = new HashSet<String>();
-            //System.out.println("entry set size = " + dtmEntrySet.size());
-
-            //initializeDtmSimInds("./src/main/resources/dtm_sim_inds.txt");
-            initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
-            //initializeSimPopIris("./src/main/resources/sim_pop_iris.txt");
-            initializeSimPopIris(p.getProperty("sim_pop_iri"));
-
-
+        try {
             JsonArray jo = null;
             JsonParser jp = new JsonParser();
             String softwareMetadataLocation = p.getProperty("software_info");
@@ -425,6 +381,8 @@ public class DtmJsonProcessor {
                             handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
+                        } else if (keyj.equals("identifier")) {
+                            handleIdentifier(ej.getValue(), niMap, oo, odf, iriMap);
                         } 
                         /* 
                         	Handle attributes specific to disease forecasters.  It might be better just
@@ -536,18 +494,18 @@ public class DtmJsonProcessor {
                                     JsonElement remElem = remEntryi.getValue();
                                     //System.err.println("\t" + key + " == " + remElem.isJsonPrimitive());
                                     /* 
-                                    	Identifier lives here, because we don't hadnle it above.  But I 
+                                    	Identifier lives here, because we don't handle it above.  But I 
                                     		think we just need to move it above and everything should still
                                     		work fine
-                                    */
+                                    
                                     if (key.equals("identifier")) {
                                         handleIdentifier(remElem, niMap, oo, odf, iriMap);
-                                    } else {
+                                    } else {*/
                                         System.out.println("WARNING: assuming that handling of " + key + " attribute in remainder will occur in manual, post-processing step. values " + remElem);
-                                    }
+                                    //}
                                 }
                             }
-                            if (!handled && !keyj.equals("subtype") && !keyj.equals("identifier")) {
+                            if (!handled && !keyj.equals("subtype")) { //} && !keyj.equals("identifier")) {
                                 System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
                                 if (keyj.equals("publicationsAboutRelease")) {
                                     //System.out.println("PUB ABOUT: " + ej.getValue());
@@ -754,6 +712,81 @@ public class DtmJsonProcessor {
         }
     }
 
+    protected static void initialize(String[] args) {
+    	FileReader fr = null;
+
+        try (FileReader pr = new FileReader(args[0]);) {
+
+        	/* 
+        		The properties tell this program where to find various resources, including
+        			where to find a mapping from short text "handles" to needed IRIs.
+        	*/
+            p = new Properties();
+            p.load(pr);
+
+            simPops = new FileWriter("./simulated-populations.txt");
+
+
+
+            //cmMap = new ControlMeasureIriMapping("./src/main/resources/control-measure-mapping.txt");
+            cmMap = new ControlMeasureIriMapping(p.getProperty("cm_mapping"));
+            cmMap.initialize();
+
+            //pubLinks = new PublicationLinks("./src/main/resources/pubs_about_using.txt");
+            pubLinks = new PublicationLinks(p.getProperty("pubs_info"));
+            pubLinks.init();
+
+            fullNameToExecutable = new HashMap<String, OWLNamedIndividual>();
+            devNis = new HashMap<String, OWLNamedIndividual>();
+            licenseNis = new HashMap<String, OWLNamedIndividual>();
+
+            oom = OWLManager.createOWLOntologyManager();
+
+            allDtmAtt = new HashSet<String>();
+
+            iriMap = new IriLookup(p.getProperty("iris"));
+            iriMap.init();
+
+           
+            //IndividualsToCreate itc = new IndividualsToCreate("./src/main/resources/individuals_required.txt");
+            itc = new IndividualsToCreate(p.getProperty("inds_required"));
+            itc.init();
+            indsMap = itc.getIndividualsToCreate();
+
+
+           odf = OWLManager.getOWLDataFactory();
+                       
+            try {
+                oo = oom.createOntology(ontologyIRI);
+            } catch (OWLOntologyCreationException ooce) {
+                ooce.printStackTrace();
+            }
+
+            olympus = createOlympusIndividuals(odf, oo, iriMap);
+            uids = createUidsIndividuals(odf, oo, iriMap);
+            loadAndCreateDataFormatIndividuals(odf, oo, iriMap);
+            loadLicenses(p.getProperty("license_info"), odf);
+            String websiteFname = p.getProperty("website_ind");
+            websiteFname = websiteFname.replace("<date>", args[1].trim()).trim();
+            loadWebsites(websiteFname, odf);
+           	
+             initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
+             initializeSimPopIris(p.getProperty("sim_pop_iri"));
+        } catch (IOException ioe) {
+        	ioe.printStackTrace();
+        } finally {
+            try {
+                if (fr != null) fr.close();
+            } catch (IOException ioe) {
+                //just eat it, eat it, don't you make me repeat it!
+                //Strangely, this is the correct thing to do in this situation: yay, java!
+            }
+        }
+
+
+        uniqueCms = new HashSet<String>();
+    }
+
     /*
     	This code handles the title attribute in the JSON for the software/data service
     */
@@ -790,9 +823,7 @@ public class DtmJsonProcessor {
     	This code handles the source attribute in the JSON for the software/data service.
 
     	"source" here means "source code", and even more precisely, we typically get a URL to 
-    		the source code of the particular version of the software specified by version id.
-
-    	Thus, it's a different URL than to the entire source code repository.
+    		the entire source code repository.
     */
     public static void handleSource(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                     OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -875,7 +906,8 @@ public class DtmJsonProcessor {
     }
 
     /*
-    	This code handles 
+    	This code handles the DOI attribute.  It is now obsolete, as no software or data services have
+    		a DOI attribute any longer.
     */
     public static void handleDoi(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -894,15 +926,38 @@ public class DtmJsonProcessor {
         }
     }
 
+   /*
+    	This code handles the identifier attribute.  
+    */
     public static void handleIdentifier(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
                                         OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-        String value = elem.getAsString().trim();
+        /*
+        	Unlike most if not all other attributes, the value of the identifier attribute is 
+        		an object.  So we have to unpack it.
+       	*/
+       	String value = "";
+        JsonObject valueAsObject = (JsonObject) elem;
+        Set<Map.Entry<String, JsonElement>> objectEntrySet = valueAsObject.entrySet();
+        for (Map.Entry<String, JsonElement> entryi : objectEntrySet) {
+            String key = entryi.getKey();
+            JsonElement entryElem = entryi.getValue();
+            value = entryElem.getAsString().trim();
+            break;
+        }
 
+        /*
+        	Filter out bogus identifier values like the string "null", empty values (length is zero), 
+        	 	n/a (it's always "a"!), "?", "under development", and "idnetifer will be created at 
+        	 	time of release".
+       	*/
         if (value != null && !value.equals("null") && value.length() > 0 && !value.toLowerCase().equals("n/a")
                 && !value.startsWith("?") && !value.toLowerCase().equals("under development")
                 && !value.toLowerCase().equals("identifier will be created at time of release")) {
 
             String idText = value, url = "";
+        	/*
+        		If we get a value with <a href, then it's embedded in HTML, so parse out the URL and text
+        	*/
             if (value.startsWith("<a href")) {
                 Document d = Jsoup.parse(value);
                 Elements links = d.select("a");
@@ -910,28 +965,53 @@ public class DtmJsonProcessor {
                 idText = links.get(0).ownText();
             }
             IRI identifierClassIri = null;
+            /*
+            	Is it a Digital Obect Identifier?  If so, then we want to rdf:type it as a DOI instead
+            		of a regular software identifier
+            */
             int position = idText.indexOf("doi.org/10.");
             if (idText.startsWith("10.")) {
                 identifierClassIri = iriMap.lookupClassIri("doi");
             } else if (position > 0) {
-                identifierClassIri = iriMap.lookupClassIri("doi");
+            	identifierClassIri = iriMap.lookupClassIri("doi");
 				if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
                 url = idText;
                 idText = idText.substring(position + 8);
                 //System.out.println("New id text is: " + idText + ", url = " + url);
             } else {
+            	/*
+            		If it is not a DOI, then just use the regular identifier class
+            	*/
                 identifierClassIri = iriMap.lookupClassIri("identifier");
             }
 
+            /*
+            	Create the identifier individual, with the idText as the label
+            */
             OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri,
                     iriMap.lookupAnnPropIri("label"), idText);
+            /*
+            	If there's a URL associated with it, which is always true for DOIs (we either get one or
+            		create one), then add the URL to the individual as well.
+            */
             if (url.length() > 0) {
                 addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
             }
+
+            /*
+            	Assert that the identifier/DOI denotes the software/data service
+            */
             createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("dtm"), odf, oo);
         }
     }
 
+  /*
+    	This code handles the source code release attribute in the JSON for the software/data service.
+
+    	"source" here means "source code", and even more precisely, we typically get a URL to 
+    		the specific release version within the source code repository (i.e., it is a 
+    		different URL than to the entire source code repository).
+    */
     public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                                OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("dtm");
@@ -951,6 +1031,10 @@ public class DtmJsonProcessor {
         }
     }
 
+  	/*
+    	This code handles the "human readable synopsis" attribute, which used to be called "general info", 
+    		which explains the historical name of the method.
+    */
     public static void handleGeneralInfo(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                          OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("dtm");
@@ -963,31 +1047,55 @@ public class DtmJsonProcessor {
         }
     }
 
+  	/*
+    	This code handles the "executables" attribute.
+    */
     public static void handleExecutables(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                          OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+        //get the executable individual we already created
         OWLNamedIndividual execInd = niMap.get("executable");
+        //get the compiling process individual we already created
         OWLNamedIndividual compInd = niMap.get("compiling");
 
+        //get the preferred term from the executable individual
         String execIndPrefTerm = getAnnotationValueFromNamedIndividual(execInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
+        //get the preferred term from the compiling individual
         String compIndPrefTerm = getAnnotationValueFromNamedIndividual(execInd, iriMap.lookupAnnPropIri("editor preferred"), oo);
 
+        /*
+        	There actually might be multiple executables, which we don't really know until we get here
+        */
         JsonElement je = e.getValue();
         if (je instanceof JsonArray) {
             JsonArray elemArray = (JsonArray) je;
             Iterator<JsonElement> elemIter = elemArray.iterator();
             String[] execs = new String[elemArray.size()];
             int iExec = 0;
+            /*
+            	Accumulate all the values for the executable attribute.  The values are always in a JSON
+            		array, even if there's only one value.
+            */
             while (elemIter.hasNext()) {
                 JsonElement elemi = elemIter.next();
                 String value = ((JsonPrimitive) elemi).getAsString();
                 execs[iExec++] = value;
             }
 
+            /*
+            	So we have to create new individuals for the additional executables if there are more than two, 
+            		and new compiling process individuals.  We assume that each executable is the result of 
+            		a different compiling process, although it is conceivable that one big "build" process
+            		could create all of them.  We just don't know.
+            */
             ArrayList<OWLNamedIndividual> execNis = new ArrayList<OWLNamedIndividual>();
             ArrayList<OWLNamedIndividual> compNis = new ArrayList<OWLNamedIndividual>();
 
             String labelPrefix = "";
             if (execs[0].contains("<a ")) {
+            	/*
+            		We often get URLs embedded in <a href= with a text value, so parse all that out
+            			of the HTML
+            	*/
                 Document d = Jsoup.parse(execs[0]);
                 Elements links = d.select("a");
                 String url = links.get(0).attr("href");
@@ -1056,6 +1164,12 @@ public class DtmJsonProcessor {
         }
     }
 
+    /*
+    	This method takes a named individual, the IRI of an annotation property, and returns the literal value
+    		of any annotations the individual has using the annotation property.
+
+    		It's an easy way to get the label, preferred term, URL, etc. from an individual
+    */
     public static String getAnnotationValueFromNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, OWLOntology oo) {
         String annValue = null;
 
@@ -1074,6 +1188,10 @@ public class DtmJsonProcessor {
         return annValue;
     }
 
+    /*
+    	This method handles the "web application" attribute.  Typically it's a URL to a web page that 
+    		interactively runs the software in real time for a user.
+    */
     public static void handleWebApplication(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                             OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("webexecutionof");
@@ -1094,6 +1212,13 @@ public class DtmJsonProcessor {
         }
     }
 
+    /*
+    	This method handles the "website" attribute, which used to be called "location", hence the 
+    		historical name.  The website typically differs from the source code repository in that
+    		it's more documentation for the software with links to source code, executables, other
+    		documents (especially PDF user guides), etc.  It's more descriptive of the software
+    		than the actual location of the software itself.
+    */
     public static void handleLocation(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                       OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("website");
@@ -1115,6 +1240,10 @@ public class DtmJsonProcessor {
         }
     }
 
+    /*
+    	This method handles the "documentation" attribute. Typically we get URLs to PDFs and websites
+    		for user guides, developer guides, etc.
+    */
     public static void handleDocumentation(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                            OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         OWLNamedIndividual oni = niMap.get("documentation");
