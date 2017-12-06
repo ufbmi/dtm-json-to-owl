@@ -1312,18 +1312,40 @@ public class DtmJsonProcessor {
         }
     }
 
+    /*
+    	This method handles the "developers" attribute, whose value(s) represents the people and/or
+    		organizations involved in the creation of the software source code. Regardless of how 
+    		many developers there are (even if there's just one), the values are in a JSON array.
+    */
     public static void handleDeveloper(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                        OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+        /*
+        	We connect developers to the software through the process of writing it, so we have both the 
+        		developer individual and the codewriting individual.
+        */
         OWLNamedIndividual devInd = niMap.get("developer");
         OWLNamedIndividual wrtInd = niMap.get("codewriting");
 
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
+        	/*
+        		This should no longer happen.  In early version of the JSON, occasionally the 
+        			developers were a primitive value and multiple developers names were
+        			separated by commas.
+        	*/
             String value = ((JsonPrimitive) je).getAsString();
             String[] devs = (value.contains(";")) ? value.split(Pattern.quote(";")) : value.split(Pattern.quote(","));
             //System.out.println("There are " + devs.length + " developers:");
+
+            //Because this situation shouldn't happen any more, report it out as an error:
             System.err.println("Developer attribute has value that is primitive.");
         } else {
+        	/*
+        		This is what we expect: developer values are in JsonArray even if just one.
+
+        		If there's no developers specified by JSON, then we shouldn't even have the
+        		attribute.
+        	*/
             JsonArray devArray = (JsonArray) je;
             String[] devs = new String[devArray.size()];
             Iterator<JsonElement> devIter = devArray.iterator();
@@ -1729,11 +1751,20 @@ public class DtmJsonProcessor {
         return oni;
     }
 
+   /*
+    	This method is a facade in front of the OWLAPI to simplify creating a new individual with its
+    		first text-based (i.e. literal) annotation.  The IRI assigned to the individual is 
+    		created by calling the nextIri() method.
+    */
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(
             OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
         return createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, classTypeIri, labelPropIri, rdfsLabel);
     }
 
+   /*
+    	This method is a facade in front of the OWLAPI to simplify creating a new individual with its
+    		first text-based (i.e. literal) annotation and the given IRI.
+    */
     public static OWLNamedIndividual createNamedIndividualWithIriTypeAndLabel(
             IRI individualIri, OWLDataFactory odf, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
         OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
@@ -1743,6 +1774,9 @@ public class DtmJsonProcessor {
         return oni;
     }
 
+    /*
+    	This method is a facade in front of the OWLAPI to simplify adding an annotation to an individual.
+    */
     public static void addAnnotationToNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
         OWLLiteral li = odf.getOWLLiteral(value);
         OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
@@ -1806,13 +1840,20 @@ public class DtmJsonProcessor {
         }
     }
 
-
+    /*
+    	This code is a facade in front of the OWLAPI that simplifies creating an object property assertion
+    		to connect two OWLIndividuals using an OWLObjectProperty (a.k.a relation).
+    */
     public static void createOWLObjectPropertyAssertion(OWLNamedIndividual source, IRI objPropIri, OWLNamedIndividual target, OWLDataFactory odf, OWLOntology oo) {
         OWLObjectProperty oop = odf.getOWLObjectProperty(objPropIri);
         OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
         oom.addAxiom(oo, oopaa);
     }
 
+    /*
+    	The method that generates sequentially numbered IRIs using the proper 
+    		base for the OBC
+    */
     public static IRI nextIri() {
         String counterTxt = Long.toString(iriCounter++);
         StringBuilder sb = new StringBuilder(iriPrefix);
@@ -1833,6 +1874,13 @@ public class DtmJsonProcessor {
         return IRI.create(new String(sb));
     }
 
+    /*
+    	Using separate Python code, we parse out and manually curate information from the DATS 2.2
+    		representations of data formats in the MDC.  In separate Java code, we load in that 
+    		curated data and create an OWLIndividual for each data format.  That code also outputs
+    		a mapping from data format ID to IRI.  Here, we load in that mapping so we can connect
+    		software/data services to thier input and output formats.
+    */
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
         formatInds = new HashMap<String, OWLNamedIndividual>();
         //FileReader fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt");
@@ -1892,6 +1940,17 @@ public class DtmJsonProcessor {
         fr.close();
     }
 
+    /*
+    	Although the MDC does not treat content licenses (a category that includes software
+    	licenses including open-source licenses) as full-fledged digital objects, we do.
+
+    	We map all the non-computable variety of strings for open-source licenses to a single
+    		OWLIndividual, and connect the software/data format to the individual that 
+    		represents the license under which it is released.
+
+    	Therefore, we have better semantics and can query, for example, reliably by license.
+    		For example, we can query for all artifacts licensed under the Apache 2.0 license.
+    */
     public static void loadLicenses(String fName, OWLDataFactory odf) throws IOException {
         licenseNis = new HashMap<String, OWLNamedIndividual>();
         FileReader fr = new FileReader(fName);
@@ -1909,6 +1968,13 @@ public class DtmJsonProcessor {
         fr.close();
     }
 
+    /*
+    	To ensure that the website for each digital object gets the same IRI every time,
+    		we have pre-curated a mapping from the URL of the website to the IRI of an 
+    		OWLIndividual that represents it.  Here we load the IRIs for the OWLIndividuals
+    		for the websites, create the OWLIndividual using the IRI,
+    		and hash them by their URLs.  
+    */
     public static void loadWebsites(String fName, OWLDataFactory odf) throws IOException {
         websiteInds = new HashMap<String, OWLNamedIndividual>();
         FileReader fr = new FileReader(fName);
@@ -1923,6 +1989,11 @@ public class DtmJsonProcessor {
         fr.close();
     }
 
+    /*
+    	This method sorts the digital objects we get from the MDC API to ensure that we 
+    		process them in exactly the same order every time (modulo new objects and 
+    		the degenerate case where the title or name of one or more objects changes).
+    */
     private static JsonArray sortForEasyValidation(JsonArray jsonArray) {
         JsonArray sortedJsonArray = new JsonArray();
         List<JsonElement> jsonList = new ArrayList<JsonElement>();
@@ -1931,6 +2002,12 @@ public class DtmJsonProcessor {
         }
 
         Collections.sort(jsonList, new Comparator<JsonElement>() {
+        	/*
+        		We'll sort digital objects by title.  However, the data formats do not have
+        			a title attribute, so if the title does not exist (i.e., either aTitle
+        			or bTitle JsonElement is null), then we'll get the name attribute and 
+        			use it instead.
+        	*/
             public int compare(JsonElement a, JsonElement b) {
                 if (a == null || b == null) {
                     System.err.println(a + "\n\n" + b);
