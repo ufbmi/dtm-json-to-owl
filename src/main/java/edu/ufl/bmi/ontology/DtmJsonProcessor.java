@@ -94,6 +94,10 @@ public class DtmJsonProcessor {
     static HashMap<String, ArrayList<String>> popsNeededByDtm;
     static HashSet<String> populationsNeeded;
 
+    static HashMap<String, String> forecasterIdToName;
+    static HashMap<String, ArrayList<String>> forecasterIdToRegionCategories;
+    static HashMap<String, String> forecasterIdToYears;
+
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
 	static HashMap<String, HashSet<String>> indsMap;
@@ -781,6 +785,8 @@ public class DtmJsonProcessor {
             popsNeededByDtm = new HashMap<String, ArrayList<String>>();
             populationsNeeded = new HashSet<String>();
 
+            initializeForecasterInfo();
+
         } catch (IOException ioe) {
         	ioe.printStackTrace();
         } finally {
@@ -794,6 +800,27 @@ public class DtmJsonProcessor {
 
 
         uniqueCms = new HashSet<String>();
+    }
+
+    public static void initializeForecasterInfo() {
+    	forecasterIdToName = new HashMap<String, String>();
+    	forecasterIdToRegionCategories = new HashMap<String, ArrayList<String>>();
+    	forecasterIdToYears = new HashMap<String, String>();
+
+    	try (FileReader fr1 = new FileReader(p.getProperty("***create one for forecaster region time"));
+    		 ) {
+    		
+    		LineNumberReader lnr1 = new LineNumberReader(fr1);
+    		String line;
+    		while ((line=lnr1.readLine())!=null) {
+    			String[] flds = line.split(Pattern.quote("\t"));
+    		}
+    	} catch (IOException ioe) {
+    		ioe.printStackTrace();
+    	} 
+
+    	// FileReader fr2 = new FileReader(p.getProperty("***create one for region time to pop IRIs"));
+    	//if (fr2 != null) fr2.close;
     }
 
     /*
