@@ -1,0 +1,304 @@
+2013	region of Connecticut	http://www.pitt.edu/obc/IDE_0000002354	http://www.pitt.edu/obc/IDE_0000001121
+2013	region of Netherlands	http://www.pitt.edu/obc/IDE_0000002359	http://www.pitt.edu/obc/IDE_0000000850
+2013	region of Belgium	http://www.pitt.edu/obc/IDE_0000002364	http://www.pitt.edu/obc/IDE_0000000949
+2013	region of Spain	http://www.pitt.edu/obc/IDE_0000002369	http://www.pitt.edu/obc/IDE_0000000882
+2013	region of New Zealand	http://www.pitt.edu/obc/IDE_0000002374	http://www.pitt.edu/obc/IDE_0000000947
+2013	region of West Virginia	http://www.pitt.edu/obc/IDE_0000002379	http://www.pitt.edu/obc/IDE_0000001103
+2013	region of Missouri	http://www.pitt.edu/obc/IDE_0000002384	http://www.pitt.edu/obc/IDE_0000001115
+2013	region of Virginia	http://www.pitt.edu/obc/IDE_0000002389	http://www.pitt.edu/obc/IDE_0000001124
+2013	region of Idaho	http://www.pitt.edu/obc/IDE_0000002394	http://www.pitt.edu/obc/IDE_0000001110
+2013	region of North Dakota	http://www.pitt.edu/obc/IDE_0000002399	http://www.pitt.edu/obc/IDE_0000001101
+2013	region of Wyoming	http://www.pitt.edu/obc/IDE_0000002404	http://www.pitt.edu/obc/IDE_0000001091
+2013	region of Indiana	http://www.pitt.edu/obc/IDE_0000002409	http://www.pitt.edu/obc/IDE_0000001123
+2013	region of Oklahoma	http://www.pitt.edu/obc/IDE_0000002414	http://www.pitt.edu/obc/IDE_0000001107
+2013	region of New Jersey	http://www.pitt.edu/obc/IDE_0000002419	http://www.pitt.edu/obc/IDE_0000001097
+2013	region of Nebraska	http://www.pitt.edu/obc/IDE_0000002424	http://www.pitt.edu/obc/IDE_0000001119
+2013	HRSA region 10	http://www.pitt.edu/obc/IDE_0000002429	http://www.pitt.edu/obc/IDE_0000001937
+2013	region of California	http://www.pitt.edu/obc/IDE_0000002434	http://www.pitt.edu/obc/IDE_0000000127
+2013	region of Delaware	http://www.pitt.edu/obc/IDE_0000002439	http://www.pitt.edu/obc/IDE_0000001104
+2013	region of Mississippi	http://www.pitt.edu/obc/IDE_0000002444	http://www.pitt.edu/obc/IDE_0000001137
+2013	HRSA region 8	http://www.pitt.edu/obc/IDE_0000002449	http://www.pitt.edu/obc/IDE_0000001935
+2013	HRSA region 9	http://www.pitt.edu/obc/IDE_0000002454	http://www.pitt.edu/obc/IDE_0000001936
+2013	region of Rhode Island	http://www.pitt.edu/obc/IDE_0000002459	http://www.pitt.edu/obc/IDE_0000001135
+2013	HRSA region 4	http://www.pitt.edu/obc/IDE_0000002464	http://www.pitt.edu/obc/IDE_0000001931
+2013	region of New Mexico	http://www.pitt.edu/obc/IDE_0000002469	http://www.pitt.edu/obc/IDE_0000001108
+2013	HRSA region 5	http://www.pitt.edu/obc/IDE_0000002474	http://www.pitt.edu/obc/IDE_0000001932
+2013	HRSA region 6	http://www.pitt.edu/obc/IDE_0000002479	http://www.pitt.edu/obc/IDE_0000001933
+2013	HRSA region 7	http://www.pitt.edu/obc/IDE_0000002484	http://www.pitt.edu/obc/IDE_0000001934
+2013	region of Oregon	http://www.pitt.edu/obc/IDE_0000002489	http://www.pitt.edu/obc/IDE_0000001141
+2013	region of Canada	http://www.pitt.edu/obc/IDE_0000002494	http://www.pitt.edu/obc/IDE_0000000356
+2013	region of Colorado	http://www.pitt.edu/obc/IDE_0000002499	http://www.pitt.edu/obc/IDE_0000001131
+2013	region of Denmark	http://www.pitt.edu/obc/IDE_0000002504	http://www.pitt.edu/obc/IDE_0000001938
+2013	region of Arizona	http://www.pitt.edu/obc/IDE_0000002509	http://www.pitt.edu/obc/IDE_0000001102
+2013	region of Wisconsin	http://www.pitt.edu/obc/IDE_0000002514	http://www.pitt.edu/obc/IDE_0000001144
+2013	region of New York	http://www.pitt.edu/obc/IDE_0000002519	http://www.pitt.edu/obc/IDE_0000001099
+2013	region of Washington D.C.	http://www.pitt.edu/obc/IDE_0000002524	http://www.pitt.edu/obc/IDE_0000001128
+2013	region of Ohio	http://www.pitt.edu/obc/IDE_0000002529	http://www.pitt.edu/obc/IDE_0000001127
+2013	HRSA region 1	http://www.pitt.edu/obc/IDE_0000002534	http://www.pitt.edu/obc/IDE_0000001908
+2013	HRSA region 2	http://www.pitt.edu/obc/IDE_0000002539	http://www.pitt.edu/obc/IDE_0000001929
+2013	region of Michigan	http://www.pitt.edu/obc/IDE_0000002544	http://www.pitt.edu/obc/IDE_0000001140
+2013	HRSA region 3	http://www.pitt.edu/obc/IDE_0000002549	http://www.pitt.edu/obc/IDE_0000001930
+2013	region of Maine	http://www.pitt.edu/obc/IDE_0000002554	http://www.pitt.edu/obc/IDE_0000001142
+2013	region of Massachusetts	http://www.pitt.edu/obc/IDE_0000002559	http://www.pitt.edu/obc/IDE_0000001139
+2013	region of Alaska	http://www.pitt.edu/obc/IDE_0000002564	http://www.pitt.edu/obc/IDE_0000001138
+2013	region of Arkansas	http://www.pitt.edu/obc/IDE_0000002569	http://www.pitt.edu/obc/IDE_0000001129
+2013	region of Kansas	http://www.pitt.edu/obc/IDE_0000002574	http://www.pitt.edu/obc/IDE_0000001095
+2013	region of Minnesota	http://www.pitt.edu/obc/IDE_0000002579	http://www.pitt.edu/obc/IDE_0000001094
+2013	region of Texas	http://www.pitt.edu/obc/IDE_0000002584	http://www.pitt.edu/obc/IDE_0000001125
+2013	region of Illinois	http://www.pitt.edu/obc/IDE_0000002589	http://www.pitt.edu/obc/IDE_0000001118
+2013	region of the United Kingdom	http://www.pitt.edu/obc/IDE_0000002594	http://www.pitt.edu/obc/IDE_0000000975
+2013	region of Maryland	http://www.pitt.edu/obc/IDE_0000002599	http://www.pitt.edu/obc/IDE_0000001143
+2013	region of Chile	http://www.pitt.edu/obc/IDE_0000002604	http://www.pitt.edu/obc/IDE_0000000872
+2013	region of Utah	http://www.pitt.edu/obc/IDE_0000002609	http://www.pitt.edu/obc/IDE_0000001114
+2013	region of Hawaii	http://www.pitt.edu/obc/IDE_0000002614	http://www.pitt.edu/obc/IDE_0000001113
+2013	region of Georgia	http://www.pitt.edu/obc/IDE_0000002619	http://www.pitt.edu/obc/IDE_0000001120
+2013	region of Kentucky	http://www.pitt.edu/obc/IDE_0000002624	http://www.pitt.edu/obc/IDE_0000001093
+2013	region of South Dakota	http://www.pitt.edu/obc/IDE_0000002629	http://www.pitt.edu/obc/IDE_0000001133
+2013	region of Ireland	http://www.pitt.edu/obc/IDE_0000002634	http://www.pitt.edu/obc/IDE_0000000965
+2013	region of Louisiana	http://www.pitt.edu/obc/IDE_0000002639	http://www.pitt.edu/obc/IDE_0000001130
+2013	region of Vermont	http://www.pitt.edu/obc/IDE_0000002644	http://www.pitt.edu/obc/IDE_0000001111
+2013	region of Australia	http://www.pitt.edu/obc/IDE_0000002649	http://www.pitt.edu/obc/IDE_0000000825
+2013	region of New Hampshire	http://www.pitt.edu/obc/IDE_0000002654	http://www.pitt.edu/obc/IDE_0000001132
+2013	region of Alabama	http://www.pitt.edu/obc/IDE_0000002659	http://www.pitt.edu/obc/IDE_0000001136
+2013	region of Florida	http://www.pitt.edu/obc/IDE_0000002664	http://www.pitt.edu/obc/IDE_0000000117
+2013	region of Pennsylvania	http://www.pitt.edu/obc/IDE_0000002669	http://www.pitt.edu/obc/IDE_0000000112
+2013	region of Italy	http://www.pitt.edu/obc/IDE_0000002674	http://www.pitt.edu/obc/IDE_0000000826
+2013	region of Iowa	http://www.pitt.edu/obc/IDE_0000002679	http://www.pitt.edu/obc/IDE_0000001096
+2013	region of North Carolina	http://www.pitt.edu/obc/IDE_0000002684	http://www.pitt.edu/obc/IDE_0000001126
+2013	region of Tennessee	http://www.pitt.edu/obc/IDE_0000002689	http://www.pitt.edu/obc/IDE_0000001112
+2013	region of contiguous 48 states of the United States	http://www.pitt.edu/obc/IDE_0000002694	http://www.pitt.edu/obc/IDE_0000001939
+2013	region of Germany	http://www.pitt.edu/obc/IDE_0000002699	http://www.pitt.edu/obc/IDE_0000000877
+2013	region of Montana	http://www.pitt.edu/obc/IDE_0000002704	http://www.pitt.edu/obc/IDE_0000001105
+2013	region of South Carolina	http://www.pitt.edu/obc/IDE_0000002709	http://www.pitt.edu/obc/IDE_0000001134
+2013	region of France	http://www.pitt.edu/obc/IDE_0000002714	http://www.pitt.edu/obc/IDE_0000000904
+2013	region of Nevada	http://www.pitt.edu/obc/IDE_0000002719	http://www.pitt.edu/obc/IDE_0000001106
+2013	region of Washington	http://www.pitt.edu/obc/IDE_0000002724	http://www.pitt.edu/obc/IDE_0000001100
+2013	region of the United States	http://www.pitt.edu/obc/IDE_0000002729	http://www.pitt.edu/obc/IDE_0000000021
+2014	region of Connecticut	http://www.pitt.edu/obc/IDE_0000002734	http://www.pitt.edu/obc/IDE_0000001121
+2014	region of Netherlands	http://www.pitt.edu/obc/IDE_0000002739	http://www.pitt.edu/obc/IDE_0000000850
+2014	region of Belgium	http://www.pitt.edu/obc/IDE_0000002744	http://www.pitt.edu/obc/IDE_0000000949
+2014	region of Spain	http://www.pitt.edu/obc/IDE_0000002749	http://www.pitt.edu/obc/IDE_0000000882
+2014	region of New Zealand	http://www.pitt.edu/obc/IDE_0000002754	http://www.pitt.edu/obc/IDE_0000000947
+2014	region of West Virginia	http://www.pitt.edu/obc/IDE_0000002759	http://www.pitt.edu/obc/IDE_0000001103
+2014	region of Missouri	http://www.pitt.edu/obc/IDE_0000002764	http://www.pitt.edu/obc/IDE_0000001115
+2014	region of Virginia	http://www.pitt.edu/obc/IDE_0000002769	http://www.pitt.edu/obc/IDE_0000001124
+2014	region of Idaho	http://www.pitt.edu/obc/IDE_0000002774	http://www.pitt.edu/obc/IDE_0000001110
+2014	region of North Dakota	http://www.pitt.edu/obc/IDE_0000002779	http://www.pitt.edu/obc/IDE_0000001101
+2014	region of Wyoming	http://www.pitt.edu/obc/IDE_0000002784	http://www.pitt.edu/obc/IDE_0000001091
+2014	region of Indiana	http://www.pitt.edu/obc/IDE_0000002789	http://www.pitt.edu/obc/IDE_0000001123
+2014	region of Oklahoma	http://www.pitt.edu/obc/IDE_0000002794	http://www.pitt.edu/obc/IDE_0000001107
+2014	region of New Jersey	http://www.pitt.edu/obc/IDE_0000002799	http://www.pitt.edu/obc/IDE_0000001097
+2014	region of Nebraska	http://www.pitt.edu/obc/IDE_0000002804	http://www.pitt.edu/obc/IDE_0000001119
+2014	HRSA region 10	http://www.pitt.edu/obc/IDE_0000002809	http://www.pitt.edu/obc/IDE_0000001937
+2014	region of California	http://www.pitt.edu/obc/IDE_0000002814	http://www.pitt.edu/obc/IDE_0000000127
+2014	region of Delaware	http://www.pitt.edu/obc/IDE_0000002819	http://www.pitt.edu/obc/IDE_0000001104
+2014	region of Mississippi	http://www.pitt.edu/obc/IDE_0000002824	http://www.pitt.edu/obc/IDE_0000001137
+2014	HRSA region 8	http://www.pitt.edu/obc/IDE_0000002829	http://www.pitt.edu/obc/IDE_0000001935
+2014	HRSA region 9	http://www.pitt.edu/obc/IDE_0000002834	http://www.pitt.edu/obc/IDE_0000001936
+2014	region of Rhode Island	http://www.pitt.edu/obc/IDE_0000002839	http://www.pitt.edu/obc/IDE_0000001135
+2014	HRSA region 4	http://www.pitt.edu/obc/IDE_0000002844	http://www.pitt.edu/obc/IDE_0000001931
+2014	region of New Mexico	http://www.pitt.edu/obc/IDE_0000002849	http://www.pitt.edu/obc/IDE_0000001108
+2014	HRSA region 5	http://www.pitt.edu/obc/IDE_0000002854	http://www.pitt.edu/obc/IDE_0000001932
+2014	HRSA region 6	http://www.pitt.edu/obc/IDE_0000002859	http://www.pitt.edu/obc/IDE_0000001933
+2014	HRSA region 7	http://www.pitt.edu/obc/IDE_0000002864	http://www.pitt.edu/obc/IDE_0000001934
+2014	region of Oregon	http://www.pitt.edu/obc/IDE_0000002869	http://www.pitt.edu/obc/IDE_0000001141
+2014	region of Canada	http://www.pitt.edu/obc/IDE_0000002874	http://www.pitt.edu/obc/IDE_0000000356
+2014	region of Colorado	http://www.pitt.edu/obc/IDE_0000002879	http://www.pitt.edu/obc/IDE_0000001131
+2014	region of Denmark	http://www.pitt.edu/obc/IDE_0000002884	http://www.pitt.edu/obc/IDE_0000001938
+2014	region of Arizona	http://www.pitt.edu/obc/IDE_0000002889	http://www.pitt.edu/obc/IDE_0000001102
+2014	region of Wisconsin	http://www.pitt.edu/obc/IDE_0000002894	http://www.pitt.edu/obc/IDE_0000001144
+2014	region of New York	http://www.pitt.edu/obc/IDE_0000002899	http://www.pitt.edu/obc/IDE_0000001099
+2014	region of Washington D.C.	http://www.pitt.edu/obc/IDE_0000002904	http://www.pitt.edu/obc/IDE_0000001128
+2014	region of Ohio	http://www.pitt.edu/obc/IDE_0000002909	http://www.pitt.edu/obc/IDE_0000001127
+2014	HRSA region 1	http://www.pitt.edu/obc/IDE_0000002914	http://www.pitt.edu/obc/IDE_0000001908
+2014	HRSA region 2	http://www.pitt.edu/obc/IDE_0000002919	http://www.pitt.edu/obc/IDE_0000001929
+2014	region of Michigan	http://www.pitt.edu/obc/IDE_0000002924	http://www.pitt.edu/obc/IDE_0000001140
+2014	HRSA region 3	http://www.pitt.edu/obc/IDE_0000002929	http://www.pitt.edu/obc/IDE_0000001930
+2014	region of Maine	http://www.pitt.edu/obc/IDE_0000002934	http://www.pitt.edu/obc/IDE_0000001142
+2014	region of Massachusetts	http://www.pitt.edu/obc/IDE_0000002939	http://www.pitt.edu/obc/IDE_0000001139
+2014	region of Alaska	http://www.pitt.edu/obc/IDE_0000002944	http://www.pitt.edu/obc/IDE_0000001138
+2014	region of Arkansas	http://www.pitt.edu/obc/IDE_0000002949	http://www.pitt.edu/obc/IDE_0000001129
+2014	region of Kansas	http://www.pitt.edu/obc/IDE_0000002954	http://www.pitt.edu/obc/IDE_0000001095
+2014	region of Minnesota	http://www.pitt.edu/obc/IDE_0000002959	http://www.pitt.edu/obc/IDE_0000001094
+2014	region of Texas	http://www.pitt.edu/obc/IDE_0000002964	http://www.pitt.edu/obc/IDE_0000001125
+2014	region of Illinois	http://www.pitt.edu/obc/IDE_0000002969	http://www.pitt.edu/obc/IDE_0000001118
+2014	region of the United Kingdom	http://www.pitt.edu/obc/IDE_0000002974	http://www.pitt.edu/obc/IDE_0000000975
+2014	region of Maryland	http://www.pitt.edu/obc/IDE_0000002979	http://www.pitt.edu/obc/IDE_0000001143
+2014	region of Chile	http://www.pitt.edu/obc/IDE_0000002984	http://www.pitt.edu/obc/IDE_0000000872
+2014	region of Utah	http://www.pitt.edu/obc/IDE_0000002989	http://www.pitt.edu/obc/IDE_0000001114
+2014	region of Hawaii	http://www.pitt.edu/obc/IDE_0000002994	http://www.pitt.edu/obc/IDE_0000001113
+2014	region of Georgia	http://www.pitt.edu/obc/IDE_0000002999	http://www.pitt.edu/obc/IDE_0000001120
+2014	region of Kentucky	http://www.pitt.edu/obc/IDE_0000003004	http://www.pitt.edu/obc/IDE_0000001093
+2014	region of South Dakota	http://www.pitt.edu/obc/IDE_0000003009	http://www.pitt.edu/obc/IDE_0000001133
+2014	region of Ireland	http://www.pitt.edu/obc/IDE_0000003014	http://www.pitt.edu/obc/IDE_0000000965
+2014	region of Louisiana	http://www.pitt.edu/obc/IDE_0000003019	http://www.pitt.edu/obc/IDE_0000001130
+2014	region of Vermont	http://www.pitt.edu/obc/IDE_0000003024	http://www.pitt.edu/obc/IDE_0000001111
+2014	region of Australia	http://www.pitt.edu/obc/IDE_0000003029	http://www.pitt.edu/obc/IDE_0000000825
+2014	region of New Hampshire	http://www.pitt.edu/obc/IDE_0000003034	http://www.pitt.edu/obc/IDE_0000001132
+2014	region of Alabama	http://www.pitt.edu/obc/IDE_0000003039	http://www.pitt.edu/obc/IDE_0000001136
+2014	region of Florida	http://www.pitt.edu/obc/IDE_0000003044	http://www.pitt.edu/obc/IDE_0000000117
+2014	region of Pennsylvania	http://www.pitt.edu/obc/IDE_0000003049	http://www.pitt.edu/obc/IDE_0000000112
+2014	region of Italy	http://www.pitt.edu/obc/IDE_0000003054	http://www.pitt.edu/obc/IDE_0000000826
+2014	region of Iowa	http://www.pitt.edu/obc/IDE_0000003059	http://www.pitt.edu/obc/IDE_0000001096
+2014	region of North Carolina	http://www.pitt.edu/obc/IDE_0000003064	http://www.pitt.edu/obc/IDE_0000001126
+2014	region of Tennessee	http://www.pitt.edu/obc/IDE_0000003069	http://www.pitt.edu/obc/IDE_0000001112
+2014	region of contiguous 48 states of the United States	http://www.pitt.edu/obc/IDE_0000003074	http://www.pitt.edu/obc/IDE_0000001939
+2014	region of Germany	http://www.pitt.edu/obc/IDE_0000003079	http://www.pitt.edu/obc/IDE_0000000877
+2014	region of Montana	http://www.pitt.edu/obc/IDE_0000003084	http://www.pitt.edu/obc/IDE_0000001105
+2014	region of South Carolina	http://www.pitt.edu/obc/IDE_0000003089	http://www.pitt.edu/obc/IDE_0000001134
+2014	region of France	http://www.pitt.edu/obc/IDE_0000003094	http://www.pitt.edu/obc/IDE_0000000904
+2014	region of Nevada	http://www.pitt.edu/obc/IDE_0000003099	http://www.pitt.edu/obc/IDE_0000001106
+2014	region of Washington	http://www.pitt.edu/obc/IDE_0000003104	http://www.pitt.edu/obc/IDE_0000001100
+2014	region of the United States	http://www.pitt.edu/obc/IDE_0000003109	http://www.pitt.edu/obc/IDE_0000000021
+2015	region of Connecticut	http://www.pitt.edu/obc/IDE_0000003114	http://www.pitt.edu/obc/IDE_0000001121
+2015	region of Netherlands	http://www.pitt.edu/obc/IDE_0000003119	http://www.pitt.edu/obc/IDE_0000000850
+2015	region of Belgium	http://www.pitt.edu/obc/IDE_0000003124	http://www.pitt.edu/obc/IDE_0000000949
+2015	region of Spain	http://www.pitt.edu/obc/IDE_0000003129	http://www.pitt.edu/obc/IDE_0000000882
+2015	region of New Zealand	http://www.pitt.edu/obc/IDE_0000003134	http://www.pitt.edu/obc/IDE_0000000947
+2015	region of West Virginia	http://www.pitt.edu/obc/IDE_0000003139	http://www.pitt.edu/obc/IDE_0000001103
+2015	region of Missouri	http://www.pitt.edu/obc/IDE_0000003144	http://www.pitt.edu/obc/IDE_0000001115
+2015	region of Virginia	http://www.pitt.edu/obc/IDE_0000003149	http://www.pitt.edu/obc/IDE_0000001124
+2015	region of Idaho	http://www.pitt.edu/obc/IDE_0000003154	http://www.pitt.edu/obc/IDE_0000001110
+2015	region of North Dakota	http://www.pitt.edu/obc/IDE_0000003159	http://www.pitt.edu/obc/IDE_0000001101
+2015	region of Wyoming	http://www.pitt.edu/obc/IDE_0000003164	http://www.pitt.edu/obc/IDE_0000001091
+2015	region of Indiana	http://www.pitt.edu/obc/IDE_0000003169	http://www.pitt.edu/obc/IDE_0000001123
+2015	region of Oklahoma	http://www.pitt.edu/obc/IDE_0000003174	http://www.pitt.edu/obc/IDE_0000001107
+2015	region of New Jersey	http://www.pitt.edu/obc/IDE_0000003179	http://www.pitt.edu/obc/IDE_0000001097
+2015	region of Nebraska	http://www.pitt.edu/obc/IDE_0000003184	http://www.pitt.edu/obc/IDE_0000001119
+2015	HRSA region 10	http://www.pitt.edu/obc/IDE_0000003189	http://www.pitt.edu/obc/IDE_0000001937
+2015	region of California	http://www.pitt.edu/obc/IDE_0000003194	http://www.pitt.edu/obc/IDE_0000000127
+2015	region of Delaware	http://www.pitt.edu/obc/IDE_0000003199	http://www.pitt.edu/obc/IDE_0000001104
+2015	region of Mississippi	http://www.pitt.edu/obc/IDE_0000003204	http://www.pitt.edu/obc/IDE_0000001137
+2015	HRSA region 8	http://www.pitt.edu/obc/IDE_0000003209	http://www.pitt.edu/obc/IDE_0000001935
+2015	HRSA region 9	http://www.pitt.edu/obc/IDE_0000003214	http://www.pitt.edu/obc/IDE_0000001936
+2015	region of Rhode Island	http://www.pitt.edu/obc/IDE_0000003219	http://www.pitt.edu/obc/IDE_0000001135
+2015	HRSA region 4	http://www.pitt.edu/obc/IDE_0000003224	http://www.pitt.edu/obc/IDE_0000001931
+2015	region of New Mexico	http://www.pitt.edu/obc/IDE_0000003229	http://www.pitt.edu/obc/IDE_0000001108
+2015	HRSA region 5	http://www.pitt.edu/obc/IDE_0000003234	http://www.pitt.edu/obc/IDE_0000001932
+2015	HRSA region 6	http://www.pitt.edu/obc/IDE_0000003239	http://www.pitt.edu/obc/IDE_0000001933
+2015	HRSA region 7	http://www.pitt.edu/obc/IDE_0000003244	http://www.pitt.edu/obc/IDE_0000001934
+2015	region of Oregon	http://www.pitt.edu/obc/IDE_0000003249	http://www.pitt.edu/obc/IDE_0000001141
+2015	region of Canada	http://www.pitt.edu/obc/IDE_0000003254	http://www.pitt.edu/obc/IDE_0000000356
+2015	region of Colorado	http://www.pitt.edu/obc/IDE_0000003259	http://www.pitt.edu/obc/IDE_0000001131
+2015	region of Denmark	http://www.pitt.edu/obc/IDE_0000003264	http://www.pitt.edu/obc/IDE_0000001938
+2015	region of Arizona	http://www.pitt.edu/obc/IDE_0000003269	http://www.pitt.edu/obc/IDE_0000001102
+2015	region of Wisconsin	http://www.pitt.edu/obc/IDE_0000003274	http://www.pitt.edu/obc/IDE_0000001144
+2015	region of New York	http://www.pitt.edu/obc/IDE_0000003279	http://www.pitt.edu/obc/IDE_0000001099
+2015	region of Washington D.C.	http://www.pitt.edu/obc/IDE_0000003284	http://www.pitt.edu/obc/IDE_0000001128
+2015	region of Ohio	http://www.pitt.edu/obc/IDE_0000003289	http://www.pitt.edu/obc/IDE_0000001127
+2015	HRSA region 1	http://www.pitt.edu/obc/IDE_0000003294	http://www.pitt.edu/obc/IDE_0000001908
+2015	HRSA region 2	http://www.pitt.edu/obc/IDE_0000003299	http://www.pitt.edu/obc/IDE_0000001929
+2015	region of Michigan	http://www.pitt.edu/obc/IDE_0000003304	http://www.pitt.edu/obc/IDE_0000001140
+2015	HRSA region 3	http://www.pitt.edu/obc/IDE_0000003309	http://www.pitt.edu/obc/IDE_0000001930
+2015	region of Maine	http://www.pitt.edu/obc/IDE_0000003314	http://www.pitt.edu/obc/IDE_0000001142
+2015	region of Massachusetts	http://www.pitt.edu/obc/IDE_0000003319	http://www.pitt.edu/obc/IDE_0000001139
+2015	region of Alaska	http://www.pitt.edu/obc/IDE_0000003324	http://www.pitt.edu/obc/IDE_0000001138
+2015	region of Arkansas	http://www.pitt.edu/obc/IDE_0000003329	http://www.pitt.edu/obc/IDE_0000001129
+2015	region of Kansas	http://www.pitt.edu/obc/IDE_0000003334	http://www.pitt.edu/obc/IDE_0000001095
+2015	region of Minnesota	http://www.pitt.edu/obc/IDE_0000003339	http://www.pitt.edu/obc/IDE_0000001094
+2015	region of Texas	http://www.pitt.edu/obc/IDE_0000003344	http://www.pitt.edu/obc/IDE_0000001125
+2015	region of Illinois	http://www.pitt.edu/obc/IDE_0000003349	http://www.pitt.edu/obc/IDE_0000001118
+2015	region of the United Kingdom	http://www.pitt.edu/obc/IDE_0000003354	http://www.pitt.edu/obc/IDE_0000000975
+2015	region of Maryland	http://www.pitt.edu/obc/IDE_0000003359	http://www.pitt.edu/obc/IDE_0000001143
+2015	region of Chile	http://www.pitt.edu/obc/IDE_0000003364	http://www.pitt.edu/obc/IDE_0000000872
+2015	region of Utah	http://www.pitt.edu/obc/IDE_0000003369	http://www.pitt.edu/obc/IDE_0000001114
+2015	region of Hawaii	http://www.pitt.edu/obc/IDE_0000003374	http://www.pitt.edu/obc/IDE_0000001113
+2015	region of Georgia	http://www.pitt.edu/obc/IDE_0000003379	http://www.pitt.edu/obc/IDE_0000001120
+2015	region of Kentucky	http://www.pitt.edu/obc/IDE_0000003384	http://www.pitt.edu/obc/IDE_0000001093
+2015	region of South Dakota	http://www.pitt.edu/obc/IDE_0000003389	http://www.pitt.edu/obc/IDE_0000001133
+2015	region of Ireland	http://www.pitt.edu/obc/IDE_0000003394	http://www.pitt.edu/obc/IDE_0000000965
+2015	region of Louisiana	http://www.pitt.edu/obc/IDE_0000003399	http://www.pitt.edu/obc/IDE_0000001130
+2015	region of Vermont	http://www.pitt.edu/obc/IDE_0000003404	http://www.pitt.edu/obc/IDE_0000001111
+2015	region of Australia	http://www.pitt.edu/obc/IDE_0000003409	http://www.pitt.edu/obc/IDE_0000000825
+2015	region of New Hampshire	http://www.pitt.edu/obc/IDE_0000003414	http://www.pitt.edu/obc/IDE_0000001132
+2015	region of Alabama	http://www.pitt.edu/obc/IDE_0000003419	http://www.pitt.edu/obc/IDE_0000001136
+2015	region of Florida	http://www.pitt.edu/obc/IDE_0000003424	http://www.pitt.edu/obc/IDE_0000000117
+2015	region of Pennsylvania	http://www.pitt.edu/obc/IDE_0000003429	http://www.pitt.edu/obc/IDE_0000000112
+2015	region of Italy	http://www.pitt.edu/obc/IDE_0000003434	http://www.pitt.edu/obc/IDE_0000000826
+2015	region of Iowa	http://www.pitt.edu/obc/IDE_0000003439	http://www.pitt.edu/obc/IDE_0000001096
+2015	region of North Carolina	http://www.pitt.edu/obc/IDE_0000003444	http://www.pitt.edu/obc/IDE_0000001126
+2015	region of Tennessee	http://www.pitt.edu/obc/IDE_0000003449	http://www.pitt.edu/obc/IDE_0000001112
+2015	region of contiguous 48 states of the United States	http://www.pitt.edu/obc/IDE_0000003454	http://www.pitt.edu/obc/IDE_0000001939
+2015	region of Germany	http://www.pitt.edu/obc/IDE_0000003459	http://www.pitt.edu/obc/IDE_0000000877
+2015	region of Montana	http://www.pitt.edu/obc/IDE_0000003464	http://www.pitt.edu/obc/IDE_0000001105
+2015	region of South Carolina	http://www.pitt.edu/obc/IDE_0000003469	http://www.pitt.edu/obc/IDE_0000001134
+2015	region of France	http://www.pitt.edu/obc/IDE_0000003474	http://www.pitt.edu/obc/IDE_0000000904
+2015	region of Nevada	http://www.pitt.edu/obc/IDE_0000003479	http://www.pitt.edu/obc/IDE_0000001106
+2015	region of Washington	http://www.pitt.edu/obc/IDE_0000003484	http://www.pitt.edu/obc/IDE_0000001100
+2015	region of the United States	http://www.pitt.edu/obc/IDE_0000003489	http://www.pitt.edu/obc/IDE_0000000021
+2016	region of Connecticut	http://www.pitt.edu/obc/IDE_0000003494	http://www.pitt.edu/obc/IDE_0000001121
+2016	region of Netherlands	http://www.pitt.edu/obc/IDE_0000003499	http://www.pitt.edu/obc/IDE_0000000850
+2016	region of Belgium	http://www.pitt.edu/obc/IDE_0000003504	http://www.pitt.edu/obc/IDE_0000000949
+2016	region of Spain	http://www.pitt.edu/obc/IDE_0000003509	http://www.pitt.edu/obc/IDE_0000000882
+2016	region of New Zealand	http://www.pitt.edu/obc/IDE_0000003514	http://www.pitt.edu/obc/IDE_0000000947
+2016	region of West Virginia	http://www.pitt.edu/obc/IDE_0000003519	http://www.pitt.edu/obc/IDE_0000001103
+2016	region of Missouri	http://www.pitt.edu/obc/IDE_0000003524	http://www.pitt.edu/obc/IDE_0000001115
+2016	region of Virginia	http://www.pitt.edu/obc/IDE_0000003529	http://www.pitt.edu/obc/IDE_0000001124
+2016	region of Idaho	http://www.pitt.edu/obc/IDE_0000003534	http://www.pitt.edu/obc/IDE_0000001110
+2016	region of North Dakota	http://www.pitt.edu/obc/IDE_0000003539	http://www.pitt.edu/obc/IDE_0000001101
+2016	region of Wyoming	http://www.pitt.edu/obc/IDE_0000003544	http://www.pitt.edu/obc/IDE_0000001091
+2016	region of Indiana	http://www.pitt.edu/obc/IDE_0000003549	http://www.pitt.edu/obc/IDE_0000001123
+2016	region of Oklahoma	http://www.pitt.edu/obc/IDE_0000003554	http://www.pitt.edu/obc/IDE_0000001107
+2016	region of New Jersey	http://www.pitt.edu/obc/IDE_0000003559	http://www.pitt.edu/obc/IDE_0000001097
+2016	region of Nebraska	http://www.pitt.edu/obc/IDE_0000003564	http://www.pitt.edu/obc/IDE_0000001119
+2016	HRSA region 10	http://www.pitt.edu/obc/IDE_0000003569	http://www.pitt.edu/obc/IDE_0000001937
+2016	region of California	http://www.pitt.edu/obc/IDE_0000003574	http://www.pitt.edu/obc/IDE_0000000127
+2016	region of Delaware	http://www.pitt.edu/obc/IDE_0000003579	http://www.pitt.edu/obc/IDE_0000001104
+2016	region of Mississippi	http://www.pitt.edu/obc/IDE_0000003584	http://www.pitt.edu/obc/IDE_0000001137
+2016	HRSA region 8	http://www.pitt.edu/obc/IDE_0000003589	http://www.pitt.edu/obc/IDE_0000001935
+2016	HRSA region 9	http://www.pitt.edu/obc/IDE_0000003594	http://www.pitt.edu/obc/IDE_0000001936
+2016	region of Rhode Island	http://www.pitt.edu/obc/IDE_0000003599	http://www.pitt.edu/obc/IDE_0000001135
+2016	HRSA region 4	http://www.pitt.edu/obc/IDE_0000003604	http://www.pitt.edu/obc/IDE_0000001931
+2016	region of New Mexico	http://www.pitt.edu/obc/IDE_0000003609	http://www.pitt.edu/obc/IDE_0000001108
+2016	HRSA region 5	http://www.pitt.edu/obc/IDE_0000003614	http://www.pitt.edu/obc/IDE_0000001932
+2016	HRSA region 6	http://www.pitt.edu/obc/IDE_0000003619	http://www.pitt.edu/obc/IDE_0000001933
+2016	HRSA region 7	http://www.pitt.edu/obc/IDE_0000003624	http://www.pitt.edu/obc/IDE_0000001934
+2016	region of Oregon	http://www.pitt.edu/obc/IDE_0000003629	http://www.pitt.edu/obc/IDE_0000001141
+2016	region of Canada	http://www.pitt.edu/obc/IDE_0000003634	http://www.pitt.edu/obc/IDE_0000000356
+2016	region of Colorado	http://www.pitt.edu/obc/IDE_0000003639	http://www.pitt.edu/obc/IDE_0000001131
+2016	region of Denmark	http://www.pitt.edu/obc/IDE_0000003644	http://www.pitt.edu/obc/IDE_0000001938
+2016	region of Arizona	http://www.pitt.edu/obc/IDE_0000003649	http://www.pitt.edu/obc/IDE_0000001102
+2016	region of Wisconsin	http://www.pitt.edu/obc/IDE_0000003654	http://www.pitt.edu/obc/IDE_0000001144
+2016	region of New York	http://www.pitt.edu/obc/IDE_0000003659	http://www.pitt.edu/obc/IDE_0000001099
+2016	region of Washington D.C.	http://www.pitt.edu/obc/IDE_0000003664	http://www.pitt.edu/obc/IDE_0000001128
+2016	region of Ohio	http://www.pitt.edu/obc/IDE_0000003669	http://www.pitt.edu/obc/IDE_0000001127
+2016	HRSA region 1	http://www.pitt.edu/obc/IDE_0000003674	http://www.pitt.edu/obc/IDE_0000001908
+2016	HRSA region 2	http://www.pitt.edu/obc/IDE_0000003679	http://www.pitt.edu/obc/IDE_0000001929
+2016	region of Michigan	http://www.pitt.edu/obc/IDE_0000003684	http://www.pitt.edu/obc/IDE_0000001140
+2016	HRSA region 3	http://www.pitt.edu/obc/IDE_0000003689	http://www.pitt.edu/obc/IDE_0000001930
+2016	region of Maine	http://www.pitt.edu/obc/IDE_0000003694	http://www.pitt.edu/obc/IDE_0000001142
+2016	region of Massachusetts	http://www.pitt.edu/obc/IDE_0000003699	http://www.pitt.edu/obc/IDE_0000001139
+2016	region of Alaska	http://www.pitt.edu/obc/IDE_0000003704	http://www.pitt.edu/obc/IDE_0000001138
+2016	region of Arkansas	http://www.pitt.edu/obc/IDE_0000003709	http://www.pitt.edu/obc/IDE_0000001129
+2016	region of Kansas	http://www.pitt.edu/obc/IDE_0000003714	http://www.pitt.edu/obc/IDE_0000001095
+2016	region of Minnesota	http://www.pitt.edu/obc/IDE_0000003719	http://www.pitt.edu/obc/IDE_0000001094
+2016	region of Texas	http://www.pitt.edu/obc/IDE_0000003724	http://www.pitt.edu/obc/IDE_0000001125
+2016	region of Illinois	http://www.pitt.edu/obc/IDE_0000003729	http://www.pitt.edu/obc/IDE_0000001118
+2016	region of the United Kingdom	http://www.pitt.edu/obc/IDE_0000003734	http://www.pitt.edu/obc/IDE_0000000975
+2016	region of Maryland	http://www.pitt.edu/obc/IDE_0000003739	http://www.pitt.edu/obc/IDE_0000001143
+2016	region of Chile	http://www.pitt.edu/obc/IDE_0000003744	http://www.pitt.edu/obc/IDE_0000000872
+2016	region of Utah	http://www.pitt.edu/obc/IDE_0000003749	http://www.pitt.edu/obc/IDE_0000001114
+2016	region of Hawaii	http://www.pitt.edu/obc/IDE_0000003754	http://www.pitt.edu/obc/IDE_0000001113
+2016	region of Georgia	http://www.pitt.edu/obc/IDE_0000003759	http://www.pitt.edu/obc/IDE_0000001120
+2016	region of Kentucky	http://www.pitt.edu/obc/IDE_0000003764	http://www.pitt.edu/obc/IDE_0000001093
+2016	region of South Dakota	http://www.pitt.edu/obc/IDE_0000003769	http://www.pitt.edu/obc/IDE_0000001133
+2016	region of Ireland	http://www.pitt.edu/obc/IDE_0000003774	http://www.pitt.edu/obc/IDE_0000000965
+2016	region of Louisiana	http://www.pitt.edu/obc/IDE_0000003779	http://www.pitt.edu/obc/IDE_0000001130
+2016	region of Vermont	http://www.pitt.edu/obc/IDE_0000003784	http://www.pitt.edu/obc/IDE_0000001111
+2016	region of Australia	http://www.pitt.edu/obc/IDE_0000003789	http://www.pitt.edu/obc/IDE_0000000825
+2016	region of New Hampshire	http://www.pitt.edu/obc/IDE_0000003794	http://www.pitt.edu/obc/IDE_0000001132
+2016	region of Alabama	http://www.pitt.edu/obc/IDE_0000003799	http://www.pitt.edu/obc/IDE_0000001136
+2016	region of Florida	http://www.pitt.edu/obc/IDE_0000003804	http://www.pitt.edu/obc/IDE_0000000117
+2016	region of Pennsylvania	http://www.pitt.edu/obc/IDE_0000003809	http://www.pitt.edu/obc/IDE_0000000112
+2016	region of Italy	http://www.pitt.edu/obc/IDE_0000003814	http://www.pitt.edu/obc/IDE_0000000826
+2016	region of Iowa	http://www.pitt.edu/obc/IDE_0000003819	http://www.pitt.edu/obc/IDE_0000001096
+2016	region of North Carolina	http://www.pitt.edu/obc/IDE_0000003824	http://www.pitt.edu/obc/IDE_0000001126
+2016	region of Tennessee	http://www.pitt.edu/obc/IDE_0000003829	http://www.pitt.edu/obc/IDE_0000001112
+2016	region of contiguous 48 states of the United States	http://www.pitt.edu/obc/IDE_0000003834	http://www.pitt.edu/obc/IDE_0000001939
+2016	region of Germany	http://www.pitt.edu/obc/IDE_0000003839	http://www.pitt.edu/obc/IDE_0000000877
+2016	region of Montana	http://www.pitt.edu/obc/IDE_0000003844	http://www.pitt.edu/obc/IDE_0000001105
+2016	region of South Carolina	http://www.pitt.edu/obc/IDE_0000003849	http://www.pitt.edu/obc/IDE_0000001134
+2016	region of France	http://www.pitt.edu/obc/IDE_0000003854	http://www.pitt.edu/obc/IDE_0000000904
+2016	region of Nevada	http://www.pitt.edu/obc/IDE_0000003859	http://www.pitt.edu/obc/IDE_0000001106
+2016	region of Washington	http://www.pitt.edu/obc/IDE_0000003864	http://www.pitt.edu/obc/IDE_0000001100
+2016	region of the United States	http://www.pitt.edu/obc/IDE_0000003869	http://www.pitt.edu/obc/IDE_0000000021
