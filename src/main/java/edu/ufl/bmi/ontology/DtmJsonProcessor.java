@@ -96,7 +96,11 @@ public class DtmJsonProcessor {
 
     static HashMap<String, String> forecasterIdToName;
     static HashMap<String, ArrayList<String>> forecasterIdToRegionCategories;
-    static HashMap<String, String> forecasterIdToYears;
+    static HashMap<String, ArrayList<String>> forecasterIdToYears;
+    static HashMap<String, ArrayList<String>> regionTypeToRegionIris;
+    static HashMap<String, IRI> regionNameToHumanPopIri;
+    static HashMap<String, IRI> yearRegionToDzCourseAggregateIri;
+    
 
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
@@ -805,16 +809,78 @@ public class DtmJsonProcessor {
     public static void initializeForecasterInfo() {
     	forecasterIdToName = new HashMap<String, String>();
     	forecasterIdToRegionCategories = new HashMap<String, ArrayList<String>>();
-    	forecasterIdToYears = new HashMap<String, String>();
+    	forecasterIdToYears = new HashMap<String, ArrayList<String>>();
+        regionTypeToRegionIris = new HashMap<String, ArrayList<String>>();
+        regionNameToHumanPopIri = new HashMap<String, IRI>();
+        yearRegionToDzCourseAggregateIri = new HashMap<String, IRI>();
 
-    	try (FileReader fr1 = new FileReader(p.getProperty("***create one for forecaster region time"));
+    	try (FileReader fr1 = new FileReader(p.getProperty("forecaster_info"));
+             FileReader fr2 = new FileReader(p.getProperty("forecaster_region"));
+             FileReader fr3 = new FileReader(p.getProperty("forecaster_ecosystem"));
     		 ) {
     		
     		LineNumberReader lnr1 = new LineNumberReader(fr1);
     		String line;
     		while ((line=lnr1.readLine())!=null) {
     			String[] flds = line.split(Pattern.quote("\t"));
+                /*
+                    flds[0] = forecaster name
+                    flds[1] = forecaseter id
+                    flds[2] = years - pipe-delimited list
+                    flds[3] = regions - pipe-delimited list
+                */
+                forecasterIdToName.put(flds[1], flds[0]);
+                String[] subflds1 = flds[2].split(Pattern.quote("|"));
+                String[] subflds2 = flds[3].split(Pattern.quote("|"));
+
+                ArrayList<String> years = new ArrayList<String>(subflds1.length);
+                for (int i=0; i<subflds1.length; i++)
+                    years.add(subflds1[i]);
+
+                forecasterIdToYears.put(flds[1], years);
+                
+                ArrayList<String> regions = new ArrayList<String>(subflds2.length);
+                for (int i=0; i<subflds2.length; i++)
+                    years.add(subflds2[i]);
+
+                forecasterIdToRegionCategories.put(flds[1], regions);
     		}
+
+            LineNumberReader lnr2 = new LineNumberReader(fr2);
+            while((line=lnr2.readLine())!=null) {
+                String[] flds = line.split(Pattern.quote("\t"));
+                /* 
+                    flds[0] = region name
+                    flds[1] = region type
+                    flds[2] = IRI of human population in region
+                */
+                ArrayList<String> regions = null;
+                if (!regionTypeToRegionIris.containsKey(flds[1])) {
+                    regions = new ArrayList<String>();
+                    regionTypeToRegionIris.put(flds[1], regions);
+                } else {
+                    regions = regionTypeToRegionIris.get(flds[1]);
+                }
+                regions.add(flds[0]);
+
+                regionNameToHumanPopIri.put(flds[0], IRI.create(flds[2]));
+            }
+
+            LineNumberReader lnr3 = new LineNumberReader(fr3);
+            while((line=lnr3.readLine())!=null) {
+                 String[] flds = line.split(Pattern.quote("\t"));
+                /* 
+                    flds[0] = year
+                    flds[1] = region name
+                    flds[2] = disease course aggregate IRI
+                    flds[3] = human pop IRI (redundant from above so we'll ignore it)
+                */
+                String yearRegion = flds[0] + flds[1];
+                yearRegionToDzCourseAggregateIri.put(yearRegion, IRI.create(flds[2]));
+            }
+
+            System.out.println("Done initiatlizing forecaster info");
+
     	} catch (IOException ioe) {
     		ioe.printStackTrace();
     	} 

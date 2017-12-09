@@ -13,3 +13,6 @@ inds_required=src/main/resources/individuals_required.txt
 op_assertions=src/main/resources/obj_prop_assertions.txt
 developer_ind=src/main/resources/developer_iris-<date>.txt
 website_ind=src/main/resources/websites-<date>.txt
+forecaster_region=src/main/resources/forecaster_regions
+forecaster_ecosystem=src/main/resources/forecaster_links_to_ecosystems.txt
+forecaster_info=src/main/resources/forecaster_link_region_time.txt
