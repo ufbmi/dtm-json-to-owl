@@ -22,7 +22,9 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -318,7 +320,7 @@ public class DtmJsonProcessor {
                         indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
                         OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel);
                         //if (ks.equals("dtm")) System.out.println("DTMINDLABEL: " + indLabel);
-					    if (ks.equals("dtm")) addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), fullName, odf, oo);
+					    if (ks.equals("dtm")) addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), fullName, odf, oo);
                         if (ks.startsWith("simulat"))
                             simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
                         niMap.put(ks, oni);
@@ -797,8 +799,8 @@ public class DtmJsonProcessor {
             websiteFname = websiteFname.replace("<date>", args[1].trim()).trim();
             loadWebsites(websiteFname, odf);
            	
-             initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
-             initializeSimPopIris(p.getProperty("sim_pop_iri"));
+            initializeDtmSimInds(p.getProperty("dtm_sim_ind"));
+            initializeSimPopIris(p.getProperty("sim_pop_iri"));
 
 
             uniqueLocationsCovered = new HashSet<String>();
@@ -811,9 +813,6 @@ public class DtmJsonProcessor {
             populationsNeeded = new HashSet<String>();
 
             initializeForecasterInfo();
-
-            identifierToOwlIndividual = new HashMap<String, OWLNamedIndividual>();
-            forecasterIds = new HashSet<String>();
 
         } catch (IOException ioe) {
         	ioe.printStackTrace();
@@ -837,6 +836,9 @@ public class DtmJsonProcessor {
         regionTypeToRegionIris = new HashMap<String, ArrayList<String>>();
         regionNameToHumanPopIri = new HashMap<String, IRI>();
         yearRegionToDzCourseAggregateIri = new HashMap<String, IRI>();
+
+        identifierToOwlIndividual = new HashMap<String, OWLNamedIndividual>();
+        forecasterIds = new HashSet<String>();
 
     	try (FileReader fr1 = new FileReader(p.getProperty("forecaster_info"));
              FileReader fr2 = new FileReader(p.getProperty("forecaster_region"));
@@ -908,9 +910,6 @@ public class DtmJsonProcessor {
     	} catch (IOException ioe) {
     		ioe.printStackTrace();
     	} 
-
-    	// FileReader fr2 = new FileReader(p.getProperty("***create one for region time to pop IRIs"));
-    	//if (fr2 != null) fr2.close;
     }
 
     /*
@@ -927,7 +926,7 @@ public class DtmJsonProcessor {
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive) je).getAsString();
             // ...and add it to the individual as a dc:title annotation
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("title"), value, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("title"), value, odf, oo);
         } else {
         	//If we get here, then there's a problem in the JSON
             System.err.println("Title attribute has value that is not primitive.");
@@ -942,7 +941,7 @@ public class DtmJsonProcessor {
         //Get the individual we created to represent the software version identifier
         OWLNamedIndividual oni = niMap.get("versionid");
         // ...and add a label annotation to it with the value of the version attribute in the JSON
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
     }
 
    /*
@@ -957,7 +956,7 @@ public class DtmJsonProcessor {
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive) je).getAsString();
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
         } else {
             System.err.println("Source attribute has value that is not primitive.");
         }
@@ -993,8 +992,8 @@ public class DtmJsonProcessor {
                     oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
                             iriMap.lookupAnnPropIri("editor preferred"),
                             fullName + " - " + txt + " software license");
-                    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
-                    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+                    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
                 }
 			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
 			    	remove them eventually
@@ -1014,7 +1013,7 @@ public class DtmJsonProcessor {
                     oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("license"),
                             iriMap.lookupAnnPropIri("editor preferred"),
                             fullName + " - " + value + " software license");
-                    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+                    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
                 }
 			    /* leaving the addannotation lines in for now for debugging and QA/QC purposes, but will need to 
 			    	remove them eventually
@@ -1045,8 +1044,8 @@ public class DtmJsonProcessor {
             Elements links = d.select("a");
             String url = links.get(0).attr("href");
             String txt = links.get(0).ownText();
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
         } else {
             System.err.println("DOI attribute has value that is not primitive.");
         }
@@ -1121,7 +1120,7 @@ public class DtmJsonProcessor {
             		create one), then add the URL to the individual as well.
             */
             if (url.length() > 0) {
-                addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
             }
 
             /*
@@ -1160,7 +1159,7 @@ public class DtmJsonProcessor {
                 Elements links = d.select("a");
                 String url = links.get(0).attr("href");
                 String txt = links.get(0).ownText();
-                addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
             }
         } else {
             System.err.println("Source code release attribute has value that is not primitive.");
@@ -1177,7 +1176,7 @@ public class DtmJsonProcessor {
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
             String value = ((JsonPrimitive) je).getAsString();
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
         } else {
             System.err.println("General info attribute has value that is not primitive.");
         }
@@ -1236,14 +1235,14 @@ public class DtmJsonProcessor {
                 Elements links = d.select("a");
                 String url = links.get(0).attr("href");
                 String txt = links.get(0).ownText();
-                addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-                addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+                addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
             } else {
                 //otherwise, if the executable value is not html, just put whatever is in there on as a URL.
                 if (execs[0].startsWith("http")) {
-                    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), execs[0], odf, oo);
+                    addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("hasURL"), execs[0], odf, oo);
                 } else {
-                    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), execs[0], odf, oo);
+                    addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("label"), execs[0], odf, oo);
                 }
             }
 
@@ -1261,8 +1260,8 @@ public class DtmJsonProcessor {
                         String newCompIndPrefTerm = "compiling to " + newExecIndPrefTerm;
                         OWLNamedIndividual execi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("label"), txt);
                         OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), newCompIndPrefTerm);
-                        addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-                        addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm, odf, oo);
+                        addAnnotationToIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                        addAnnotationToIndividual(execi, iriMap.lookupAnnPropIri("editor preferred"), newExecIndPrefTerm, odf, oo);
 
                         execNis.add(execi);
                         compNis.add(compi);
@@ -1273,9 +1272,9 @@ public class DtmJsonProcessor {
                         OWLNamedIndividual compi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), newCompIndPrefTerm);
 
                         if (execs[i].startsWith("http")) {
-                            addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), execs[i].trim(), odf, oo);
+                            addAnnotationToIndividual(execi, iriMap.lookupAnnPropIri("hasURL"), execs[i].trim(), odf, oo);
                         } else {
-                            addAnnotationToNamedIndividual(execi, iriMap.lookupAnnPropIri("label"), execs[i].trim(), odf, oo);
+                            addAnnotationToIndividual(execi, iriMap.lookupAnnPropIri("label"), execs[i].trim(), odf, oo);
                         }
 
                         execNis.add(execi);
@@ -1340,7 +1339,7 @@ public class DtmJsonProcessor {
                 JsonElement elemi = elemIter.next();
                 String value = ((JsonPrimitive) elemi).getAsString();
                 //value is just a URL so slap it on the web execution of dtm individual
-                addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+                addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
             }
         } else {
             System.err.println("Web application attribute has value that is not primitive.");
@@ -1363,7 +1362,7 @@ public class DtmJsonProcessor {
             String value = ((JsonPrimitive) je).getAsString();
             //value is just a URL so slap it on the website individual
             //System.out.println("WEBSITE URL = " + value + ", " + iriMap.lookupAnnPropIri("hasURL") + ", " + odf + "," + oo + ", " + oni);
-            addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+            addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 
             if (websiteInds.containsKey(value)) {
                 System.err.println("Possible duplicate website. Attribute value is: " + value + ", and " +
@@ -1395,14 +1394,14 @@ public class DtmJsonProcessor {
                 String url = links.get(0).attr("href");
                 String txt = links.get(0).ownText();
                 //System.out.println("URL IS " + url + " AND TEXT IS " + txt);
-                addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-                addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+                addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
             } else {
                 //otherwise, if the documentation value is not an <a href=... construct then if it starts with http:/// add as URL otherwise, add as label
                 if (value.startsWith("http:"))
-                    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+                    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
                 else
-                    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+                    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
             }
         } else if (je instanceof JsonArray) {
             JsonArray ja = (JsonArray) je;
@@ -1422,11 +1421,11 @@ public class DtmJsonProcessor {
                         String url = links.get(0).attr("href");
                         String txt = links.get(0).ownText();
                         //System.out.println("URL IS " + url + " AND TEXT IS " + txt);
-                        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-                        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+                        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+                        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
                     } else {
                         //otherwise, if the documentation value is not html, just put whatever is in there on as a URL.
-                        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+                        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
                     }
                 } else {
                     throw new IllegalArgumentException("entry in list of documentation is not primitive, but should be");
@@ -1509,7 +1508,7 @@ public class DtmJsonProcessor {
                     } else {
                         devi = devNis.get(devNames[i]);
                     }
-                    addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), devNames[i] + ", developer of " + fullName, odf, oo);
+                    addAnnotationToIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), devNames[i] + ", developer of " + fullName, odf, oo);
                     OWLNamedIndividual emailInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("email address"), iriMap.lookupAnnPropIri("label"), url);
                     createOWLObjectPropertyAssertion(emailInd, iriMap.lookupObjPropIri("is contact information about"), devi, odf, oo);
                     createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
@@ -1526,7 +1525,7 @@ public class DtmJsonProcessor {
                         devi = devNis.get(devNames[i]);
                     }
                     createOWLObjectPropertyAssertion(wrtInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
-                    addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), devNames[i] + ", developer of " + fullName, odf, oo);
+                    addAnnotationToIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), devNames[i] + ", developer of " + fullName, odf, oo);
                 }
                 //System.out.println(i);
             }
@@ -1570,8 +1569,8 @@ public class DtmJsonProcessor {
                 }
             }
 
-            addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
-            addAnnotationToNamedIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
+            addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
+            addAnnotationToIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
 
             IRI pubIri = pubLinks.get(pubInfo.get(0));
             System.out.println("PUB USING IRI " + pubIri);
@@ -1658,7 +1657,7 @@ public class DtmJsonProcessor {
 		}*/
 
         String uidsConcIndPrefTerm = "Concretization of " + fullName + " available through, but not as part of, UIDS";
-        addAnnotationToNamedIndividual(uidsConcInd, iriMap.lookupAnnPropIri("editor preferred"), uidsConcIndPrefTerm, odf, oo);
+        addAnnotationToIndividual(uidsConcInd, iriMap.lookupAnnPropIri("editor preferred"), uidsConcIndPrefTerm, odf, oo);
         //create disposition to invoke DTM
         String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
         OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
@@ -1696,7 +1695,7 @@ public class DtmJsonProcessor {
                         String simxInstanceLabel = "simulating of epidemic with " + value + " control measure by " + fullName;
                         OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
                         OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
-                        addAnnotationToNamedIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+                        addAnnotationToIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 
                         createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
                         createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
@@ -1828,16 +1827,16 @@ public class DtmJsonProcessor {
         //OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("compute cluster")), oni);
         //oom.addAxiom(oo,ocaaTemp);
         //The label is now asserted in the OBC.ide OWL File so we don't need to assert it here
-        //addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
+        //addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), "Olympus", odf, oo);
 
         OWLNamedIndividual olympusWebsite = odf.getOWLNamedIndividual(nextIri());
         OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), olympusWebsite);
         oom.addAxiom(oo, ocaa);
-        addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("editor preferred"), "Olympus home page", odf, oo);
-        addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("title"), "Olympus", odf, oo);
-        addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://www.psc.edu/resources/computing/olympus", odf, oo);
-        addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("authors"), "Pittsburgh Supercomputing Center", odf, oo);
-        addAnnotationToNamedIndividual(olympusWebsite, iriMap.lookupAnnPropIri("published date"), "2016-03-02", odf, oo);
+        addAnnotationToIndividual(olympusWebsite, iriMap.lookupAnnPropIri("editor preferred"), "Olympus home page", odf, oo);
+        addAnnotationToIndividual(olympusWebsite, iriMap.lookupAnnPropIri("title"), "Olympus", odf, oo);
+        addAnnotationToIndividual(olympusWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://www.psc.edu/resources/computing/olympus", odf, oo);
+        addAnnotationToIndividual(olympusWebsite, iriMap.lookupAnnPropIri("authors"), "Pittsburgh Supercomputing Center", odf, oo);
+        addAnnotationToIndividual(olympusWebsite, iriMap.lookupAnnPropIri("published date"), "2016-03-02", odf, oo);
 
         createOWLObjectPropertyAssertion(olympusWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
         return oni;
@@ -1847,28 +1846,28 @@ public class DtmJsonProcessor {
         OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
         OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("software")), oni);
         oom.addAxiom(oo, ocaaTemp);
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), "Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "The Apollo Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), "https://github.com/ApolloDev/simple-end-user-apollo-web-application/tree/38161eba742a9000bb610aa47419f7fb62f0c3ac", odf, oo);
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), "The UIDS (Universal Interface to Disease Simulators) is a web application that assists a user in the construction and simulation of infectious disease scenarios (scenarios).  The UIDS xml-encodes scenarios according to the Apollo-XSD InfectiousDiseaseScenario type.  A user can construct a scenario de novo or download an existing scenario from the Apollo Library.   UIDS can transmit a scenario to a disease transmission simulator by calling the Apollo Broker service <insert URL>.  UIDS reports on the status of a requested run of a disease transmission simulator and displays maps and time series graphs of simulator output.  UIDS can also save a scenario to the Apollo Library <insert URL>.", odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), "Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "The Apollo Universal Interface to Disease Simulators (UIDS) version 4.0.1", odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), "https://github.com/ApolloDev/simple-end-user-apollo-web-application/tree/38161eba742a9000bb610aa47419f7fb62f0c3ac", odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), "The UIDS (Universal Interface to Disease Simulators) is a web application that assists a user in the construction and simulation of infectious disease scenarios (scenarios).  The UIDS xml-encodes scenarios according to the Apollo-XSD InfectiousDiseaseScenario type.  A user can construct a scenario de novo or download an existing scenario from the Apollo Library.   UIDS can transmit a scenario to a disease transmission simulator by calling the Apollo Broker service <insert URL>.  UIDS reports on the status of a requested run of a disease transmission simulator and displays maps and time series graphs of simulator output.  UIDS can also save a scenario to the Apollo Library <insert URL>.", odf, oo);
 
         OWLNamedIndividual uidsWebsite = odf.getOWLNamedIndividual(nextIri());
         OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), uidsWebsite);
         oom.addAxiom(oo, ocaa);
-        addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("editor preferred"), "UIDS home page", odf, oo);
-        addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("title"), "UIDS home", odf, oo);
-        addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
-        addAnnotationToNamedIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
+        addAnnotationToIndividual(uidsWebsite, iriMap.lookupAnnPropIri("editor preferred"), "UIDS home page", odf, oo);
+        addAnnotationToIndividual(uidsWebsite, iriMap.lookupAnnPropIri("title"), "UIDS home", odf, oo);
+        addAnnotationToIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
+        addAnnotationToIndividual(uidsWebsite, iriMap.lookupAnnPropIri("hasURL"), "https://research.rods.pitt.edu/apollo-web-client/index.php", odf, oo);
         createOWLObjectPropertyAssertion(uidsWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
 
         uidsCompiling = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("compiling"), iriMap.lookupAnnPropIri("editor preferred"), "compiling of UIDS source to UIDS executable");
-        addAnnotationToNamedIndividual(uidsCompiling, iriMap.lookupAnnPropIri("label"), "compiling UIDS", odf, oo);
+        addAnnotationToIndividual(uidsCompiling, iriMap.lookupAnnPropIri("label"), "compiling UIDS", odf, oo);
 
         uidsExecutable = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executable"), iriMap.lookupAnnPropIri("editor preferred"), "UIDS executable code");
-        addAnnotationToNamedIndividual(uidsExecutable, iriMap.lookupAnnPropIri("label"), "UIDS executable", odf, oo);
+        addAnnotationToIndividual(uidsExecutable, iriMap.lookupAnnPropIri("label"), "UIDS executable", odf, oo);
 
         uidsExecutableConcretization = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableConcretization"), iriMap.lookupAnnPropIri("editor preferred"), "concretization of UIDS executable");
-        addAnnotationToNamedIndividual(uidsExecutableConcretization, iriMap.lookupAnnPropIri("label"), "UIDS executable concretization", odf, oo);
+        addAnnotationToIndividual(uidsExecutableConcretization, iriMap.lookupAnnPropIri("label"), "UIDS executable concretization", odf, oo);
 
         createOWLObjectPropertyAssertion(uidsCompiling, iriMap.lookupObjPropIri("has specified input"), oni, odf, oo);
         createOWLObjectPropertyAssertion(uidsCompiling, iriMap.lookupObjPropIri("has specified output"), uidsExecutable, odf, oo);
@@ -1897,19 +1896,37 @@ public class DtmJsonProcessor {
         OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
         OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
         oom.addAxiom(oo, ocaa);
-        addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
+        addAnnotationToIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
         return oni;
     }
 
     /*
     	This method is a facade in front of the OWLAPI to simplify adding an annotation to an individual.
     */
-    public static void addAnnotationToNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
+    public static void addAnnotationToIndividual(OWLIndividual oi, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
         OWLLiteral li = odf.getOWLLiteral(value);
         OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
         OWLAnnotation oa = odf.getOWLAnnotation(la, li);
-        OWLAnnotationAssertionAxiom oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
+        OWLAnnotationAssertionAxiom oaaa = null;
+        if (oi instanceof OWLNamedIndividual) {
+        	OWLNamedIndividual oni = (OWLNamedIndividual)oi;
+        	oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
+        } else if (oi instanceof OWLAnonymousIndividual)
+        	oaaa = odf.getOWLAnnotationAssertionAxiom((OWLAnonymousIndividual)oi, oa);
         oom.addAxiom(oo, oaaa);
+    }
+
+       /*
+    	This method is a facade in front of the OWLAPI to simplify creating a new anonymous individual with its
+    		first text-based (i.e. literal) annotation.
+    */
+    public static OWLAnonymousIndividual createAnonymousIndividualWithTypeAndLabel(IRI classTypeIri, 
+    		IRI labelPropIri, String rdfsLabel) {
+        OWLAnonymousIndividual oai = odf.getOWLAnonymousIndividual();
+        OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oai);
+        oom.addAxiom(oo, ocaa);
+        addAnnotationToIndividual(oai, labelPropIri, rdfsLabel, odf, oo);
+        return oai;
     }
 
     public static void connectDtmIndividuals(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -1971,7 +1988,7 @@ public class DtmJsonProcessor {
     	This code is a facade in front of the OWLAPI that simplifies creating an object property assertion
     		to connect two OWLIndividuals using an OWLObjectProperty (a.k.a relation).
     */
-    public static void createOWLObjectPropertyAssertion(OWLNamedIndividual source, IRI objPropIri, OWLNamedIndividual target, OWLDataFactory odf, OWLOntology oo) {
+    public static void createOWLObjectPropertyAssertion(OWLIndividual source, IRI objPropIri, OWLIndividual target, OWLDataFactory odf, OWLOntology oo) {
         OWLObjectProperty oop = odf.getOWLObjectProperty(objPropIri);
         OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
         oom.addAxiom(oo, oopaa);
@@ -2165,19 +2182,84 @@ public class DtmJsonProcessor {
         while (i.hasNext()) {
             String forecasterId = i.next();
             if (forecasterIdToRegionCategories.containsKey(forecasterId)) {
+                /*
+                	Get the executable individual if there is one...but at this point in the 
+                    	processing, we don't have access to it anymore.  However, because none of the
+                    	forecasters have an executable attribute in the JSON that represents them,
+                    	no worries, just create it.  If someone ever adds an executable, we'd have to
+                    	deal with it then.
+
+                    	Because no JSON attribute for it, create it as anon individual.
+
+                    	We need it to connect it to an "execution" (or running) of it.  The execution has
+                    		as output a dataset (per below) that is about the aggregate of disease courses.
+                    		But we'll have a different execution for each dataset and a different one for 
+                    		the simulated population as well.
+				*/
+                OWLAnonymousIndividual executable = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "executable for disease forecaster with ID = " + forecasterId);
+                OWLAnonymousIndividual compiling = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
+                        + forecasterId);
+
+                /*
+                	Get the forecaster with forecasterID
+                */
+                OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
+
+                /*
+                	The compiling has the forecaster as specified input. has specified input
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), forecasterInd, odf, oo);
+
+                /* 
+                	The compiling has the executable as specified output. has specified output
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                /*
+                	Create simulating individual individual and connect it to executable: simulating achieves 
+                		planned objective of executable.  We're saying one simulating process generates all the 
+                		region-specific simulated populations below.
+                */
+				OWLAnonymousIndividual simulating = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "simulating of disease course aggregate by disease forecaster with ID = " + forecasterId);
+  				createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), executable, odf, oo);
+  				
+                /*
+                	Get the set of categories geographical regions for which this (ILI) forecaster can forecast.  The 
+                		categories are "state" (it can do all 50 states), "country" (it can do a list of countries), 
+                		and "hrsa" (it can do all of the 10 US HRSA regions individually).
+                */
                 Iterator<String> regionCats = forecasterIdToRegionCategories.get(forecasterId).iterator();
 
+                //For each such region
                 while(regionCats.hasNext()) {
-                    String regionCat = regionCats.next();
+                	String regionCat = regionCats.next();
+                    // For each category of region, we have a list of individual regions in that category.
                     Iterator<String> regions = regionTypeToRegionIris.get(regionCat).iterator();
+                    // For each individual geographical region for which the forecaster can forecast...
                     while (regions.hasNext()) {
                         String region = regions.next();
                         /*
-                            Need code here to connect executable to simulating to simulation to human population
-                        */
+                			Create simulation of population individual and connect to simulating: simulating has specified
+                				output simulation of population
+                		*/
+
+                        /*
+                			Get IRI of human population for this region
+                		*/
+
+                		/*
+                			And say simulation "simulates" population 
+                		*/
+
+                        // Get the list of years for which the forecaster can forecast.
                         Iterator<String> years = forecasterIdToYears.get(forecasterId).iterator();
                         while (years.hasNext()) {
+                        	// For each year (for each region)
                             String year = years.next();
+                            // Info on IRIs of disease course aggregates is indexed by combo key
                             String key = year + region;
                             /* 
                                 For the given year and region combination, associate the forecaster with the aggregate of 
@@ -2191,12 +2273,26 @@ public class DtmJsonProcessor {
                                     for it.  If it doesn't exist, then create it and hash it.
 
                                     Also, think carefully about making rdf:type a dataset.  That could cause issues.
+
+                                    Perhaps creating it as an anonymous individual will help.  We might have to alter our
+                                     SPARQL queries to only retrieve datasets represented by named individuals, which
+                                     would be relatively straightforward - should only require adding a single clause.
                             */
-                            OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataabouthost"), 
+                            OWLAnonymousIndividual dataset = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
                                     iriMap.lookupAnnPropIri("editor preferred"), 
                                     "data set that is about an aggregate of disease courses, where the disease is an acute respiratory " +
                                         "illness, and the aggregate occurs in " + region + " in outbreak season beginning in " + year);
 
+                			/*
+                   				 Ditto the execution process of the executable
+               				*/
+               				OWLAnonymousIndividual execution = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
+                       			iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId +
+                       				"that created dataset for " + year + " in region " + region);
+
+               				/*
+               					State that the executable is 
+               				*/
                         } /*
                                 end while(years.hasNext())
                            */
