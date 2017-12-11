@@ -100,8 +100,10 @@ public class DtmJsonProcessor {
     static HashMap<String, ArrayList<String>> regionTypeToRegionIris;
     static HashMap<String, IRI> regionNameToHumanPopIri;
     static HashMap<String, IRI> yearRegionToDzCourseAggregateIri;
-    
 
+    static HashMap<String, OWLNamedIndividual> identifierToOwlIndividual;
+    static HashSet<String> forecasterIds;
+    
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
 	static HashMap<String, HashSet<String>> indsMap;
@@ -383,7 +385,7 @@ public class DtmJsonProcessor {
                         } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("identifier")) {
-                            handleIdentifier(ej.getValue(), niMap, oo, odf, iriMap);
+                            handleIdentifier(ej.getValue(), niMap, oo, odf, iriMap, subtype);
                         } 
                         /* 
                         	Handle attributes specific to disease forecasters.  It might be better just
@@ -694,6 +696,25 @@ public class DtmJsonProcessor {
                 System.out.println("\t" + format);
             }
 
+            /*
+                Process manually curated disease forecaster attribute info, including
+                    diseases
+                    locationCoverage (used to be called 'region')
+                    forecasts
+                    forecastFrequency
+            */
+            processForecasterInfo();
+
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String dateTxt = df.format(new Date());
+                String owlFileName = "software-ontology-" + dateTxt + ".owl";
+                fos = new FileOutputStream(owlFileName);
+                oom.saveOntology(oo, fos);
+            } catch (OWLOntologyStorageException oose) {
+                oose.printStackTrace();
+            }
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (JsonIOException jioe) {
@@ -790,6 +811,9 @@ public class DtmJsonProcessor {
             populationsNeeded = new HashSet<String>();
 
             initializeForecasterInfo();
+
+            identifierToOwlIndividual = new HashMap<String, OWLNamedIndividual>();
+            forecasterIds = new HashSet<String>();
 
         } catch (IOException ioe) {
         	ioe.printStackTrace();
@@ -1032,7 +1056,7 @@ public class DtmJsonProcessor {
     	This code handles the identifier attribute.  
     */
     public static void handleIdentifier(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
-                                        OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+                                        OWLOntology oo, OWLDataFactory odf, IriLookup iriMap, String subtype) {
         /*
         	Unlike most if not all other attributes, the value of the identifier attribute is 
         		an object.  So we have to unpack it.
@@ -1103,7 +1127,17 @@ public class DtmJsonProcessor {
             /*
             	Assert that the identifier/DOI denotes the software/data service
             */
-            createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), niMap.get("dtm"), odf, oo);
+            OWLNamedIndividual doInd = niMap.get("dtm");
+            createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("denotes"), doInd, odf, oo);
+
+            /* 
+                Keep a map from identifier of digital object to the OWLNamedIndividual.
+
+                We'll use this map later when we do post-processing, especially of forecasters.
+            */
+            identifierToOwlIndividual.put(idText, doInd);
+            if (subtype.contains("forecaster"))
+                forecasterIds.add(idText);
         }
     }
 
@@ -2124,6 +2158,60 @@ public class DtmJsonProcessor {
             sortedJsonArray.add(jsonList.get(i));
         }
         return sortedJsonArray;
+    }
+
+    protected static void processForecasterInfo() {
+        Iterator<String> i = forecasterIds.iterator();
+        while (i.hasNext()) {
+            String forecasterId = i.next();
+            if (forecasterIdToRegionCategories.containsKey(forecasterId)) {
+                Iterator<String> regionCats = forecasterIdToRegionCategories.get(forecasterId).iterator();
+
+                while(regionCats.hasNext()) {
+                    String regionCat = regionCats.next();
+                    Iterator<String> regions = regionTypeToRegionIris.get(regionCat).iterator();
+                    while (regions.hasNext()) {
+                        String region = regions.next();
+                        /*
+                            Need code here to connect executable to simulating to simulation to human population
+                        */
+                        Iterator<String> years = forecasterIdToYears.get(forecasterId).iterator();
+                        while (years.hasNext()) {
+                            String year = years.next();
+                            String key = year + region;
+                            /* 
+                                For the given year and region combination, associate the forecaster with the aggregate of 
+                                    disease courses that occurred that year.  Note that here, we are dealing with only
+                                    influenza forecasters.
+                            */
+                            IRI dzCourseAggregateIri = yearRegionToDzCourseAggregateIri.get(key);
+
+                            /*
+                                We need to create a dataset for the region/year combo, but only once.  So check the hash
+                                    for it.  If it doesn't exist, then create it and hash it.
+
+                                    Also, think carefully about making rdf:type a dataset.  That could cause issues.
+                            */
+                            OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataabouthost"), 
+                                    iriMap.lookupAnnPropIri("editor preferred"), 
+                                    "data set that is about an aggregate of disease courses, where the disease is an acute respiratory " +
+                                        "illness, and the aggregate occurs in " + region + " in outbreak season beginning in " + year);
+
+                        } /*
+                                end while(years.hasNext())
+                           */
+                    } /*
+                            end while(regions.hasNext())
+                      */
+                } /* 
+                        end while(regionCats.hasNext())
+
+                        Here, we're iterating over region categories (country, hrsa, state)
+                  */
+            } //end if
+        } /*  
+                End while(i.hasNext()) which is iterating over the identifiers of all the forecasters
+          */
     }
 
 }
