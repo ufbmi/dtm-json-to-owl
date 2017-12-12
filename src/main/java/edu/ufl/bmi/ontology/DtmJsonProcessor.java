@@ -859,17 +859,17 @@ public class DtmJsonProcessor {
                 String[] subflds1 = flds[2].split(Pattern.quote("|"));
                 String[] subflds2 = flds[3].split(Pattern.quote("|"));
 
-                ArrayList<String> years = new ArrayList<String>(subflds1.length);
+                ArrayList<String> regions = new ArrayList<String>(subflds1.length);
                 for (int i=0; i<subflds1.length; i++)
-                    years.add(subflds1[i]);
+                    regions.add(subflds1[i]);
 
-                forecasterIdToYears.put(flds[1], years);
+                forecasterIdToRegionCategories.put(flds[1], regions);
                 
-                ArrayList<String> regions = new ArrayList<String>(subflds2.length);
+                ArrayList<String> years = new ArrayList<String>(subflds2.length);
                 for (int i=0; i<subflds2.length; i++)
                     years.add(subflds2[i]);
 
-                forecasterIdToRegionCategories.put(flds[1], regions);
+                forecasterIdToYears.put(flds[1], years);
     		}
 
             LineNumberReader lnr2 = new LineNumberReader(fr2);
@@ -890,6 +890,7 @@ public class DtmJsonProcessor {
                 regions.add(flds[0]);
 
                 regionNameToHumanPopIri.put(flds[0], IRI.create(flds[2]));
+                System.out.println("hashed IRI of human population for region = " + flds[0]);
             }
 
             LineNumberReader lnr3 = new LineNumberReader(fr3);
@@ -1900,6 +1901,16 @@ public class DtmJsonProcessor {
         return oni;
     }
 
+       /*
+    	This method is a facade in front of the OWLAPI to simplify creating a new individual with its
+    		first text-based (i.e. literal) annotation.  The IRI assigned to the individual is 
+    		created by calling the nextIri() method.
+    */
+    public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
+        return createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, classTypeIri, labelPropIri, rdfsLabel);
+    }
+
+
     /*
     	This method is a facade in front of the OWLAPI to simplify adding an annotation to an individual.
     */
@@ -2179,8 +2190,10 @@ public class DtmJsonProcessor {
 
     protected static void processForecasterInfo() {
         Iterator<String> i = forecasterIds.iterator();
+        System.out.println("BEGIN PROCESSING FORECASTERS...");
         while (i.hasNext()) {
             String forecasterId = i.next();
+            System.out.println("\tProcessing forecaster: " + forecasterId);
             if (forecasterIdToRegionCategories.containsKey(forecasterId)) {
                 /*
                 	Get the executable individual if there is one...but at this point in the 
@@ -2196,9 +2209,9 @@ public class DtmJsonProcessor {
                     		But we'll have a different execution for each dataset and a different one for 
                     		the simulated population as well.
 				*/
-                OWLAnonymousIndividual executable = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
                         iriMap.lookupAnnPropIri("editor preferred"), "executable for disease forecaster with ID = " + forecasterId);
-                OWLAnonymousIndividual compiling = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
                         + forecasterId);
 
@@ -2222,7 +2235,7 @@ public class DtmJsonProcessor {
                 		planned objective of executable.  We're saying one simulating process generates all the 
                 		region-specific simulated populations below.
                 */
-				OWLAnonymousIndividual simulating = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
+				OWLNamedIndividual simulating = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
                         iriMap.lookupAnnPropIri("editor preferred"), "simulating of disease course aggregate by disease forecaster with ID = " + forecasterId);
   				createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), executable, odf, oo);
   				
@@ -2236,29 +2249,40 @@ public class DtmJsonProcessor {
                 //For each such region
                 while(regionCats.hasNext()) {
                 	String regionCat = regionCats.next();
+                	System.out.println("\t\tProcessing region category: " + regionCat);
                     // For each category of region, we have a list of individual regions in that category.
                     Iterator<String> regions = regionTypeToRegionIris.get(regionCat).iterator();
                     // For each individual geographical region for which the forecaster can forecast...
                     while (regions.hasNext()) {
                         String region = regions.next();
+                        System.out.println("\t\t\tProcessing region: " + region);
                         /*
                 			Create simulation of population individual and connect to simulating: simulating has specified
                 				output simulation of population
                 		*/
+                		OWLNamedIndividual simpop = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedhostpopulation"),
+                			iriMap.lookupAnnPropIri("editor preferred"), "simulation of population of humans in " +
+                				region + " by the disease forecaster with ID=" + forecasterId);
+                		createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simpop, odf, oo);
 
                         /*
                 			Get IRI of human population for this region
                 		*/
+                		IRI popIri = regionNameToHumanPopIri.get(region);
+                		OWLNamedIndividual popInd = odf.getOWLNamedIndividual(popIri);
 
                 		/*
-                			And say simulation "simulates" population 
+                			And say simulation "simulates" population.  This connects the forecaster to the geographical
+                				region that it can simulate, via the relationships between the population and the region. 
                 		*/
+                		createOWLObjectPropertyAssertion(simpop, iriMap.lookupAnnPropIri("simulates"), popInd, odf, oo);
 
                         // Get the list of years for which the forecaster can forecast.
                         Iterator<String> years = forecasterIdToYears.get(forecasterId).iterator();
                         while (years.hasNext()) {
                         	// For each year (for each region)
                             String year = years.next();
+                            System.out.println("\t\t\t\tProcessing year: " + year);
                             // Info on IRIs of disease course aggregates is indexed by combo key
                             String key = year + region;
                             /* 
@@ -2267,6 +2291,7 @@ public class DtmJsonProcessor {
                                     influenza forecasters.
                             */
                             IRI dzCourseAggregateIri = yearRegionToDzCourseAggregateIri.get(key);
+                            OWLNamedIndividual dzCourseAggregateInd = odf.getOWLNamedIndividual(dzCourseAggregateIri);
 
                             /*
                                 We need to create a dataset for the region/year combo, but only once.  So check the hash
@@ -2278,21 +2303,31 @@ public class DtmJsonProcessor {
                                      SPARQL queries to only retrieve datasets represented by named individuals, which
                                      would be relatively straightforward - should only require adding a single clause.
                             */
-                            OWLAnonymousIndividual dataset = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
+                            OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
                                     iriMap.lookupAnnPropIri("editor preferred"), 
                                     "data set that is about an aggregate of disease courses, where the disease is an acute respiratory " +
                                         "illness, and the aggregate occurs in " + region + " in outbreak season beginning in " + year);
 
                 			/*
-                   				 Ditto the execution process of the executable
+                   				 Ditto the execution process of the executable. Also, the execution achieves the planned objective
+                   				  of the executable, and has specified output the dataset.
                				*/
-               				OWLAnonymousIndividual execution = createAnonymousIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
+               				OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
                        			iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId +
                        				"that created dataset for " + year + " in region " + region);
+               				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
+               						executable, odf, oo);
+               				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
+               						dataset, odf, oo);
 
                				/*
-               					State that the executable is 
+               					Lastly, the connection: the dataset is about the disease course aggregate.  This last step
+               						means we have connected the forecaster (via compiling->executable->execution->dataset
+               						->dz course aggregate) to the disease (the dz course aggregate subsequently has a 
+               						participant who is the bearer of a disease that is rdf:type acute respiratory illness).
                				*/
+							createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), dzCourseAggregateInd, odf, oo);
+               				
                         } /*
                                 end while(years.hasNext())
                            */
@@ -2308,6 +2343,7 @@ public class DtmJsonProcessor {
         } /*  
                 End while(i.hasNext()) which is iterating over the identifiers of all the forecasters
           */
+          System.out.println("FINISHED PROCESSING FORECASTERS.");
     }
 
 }
