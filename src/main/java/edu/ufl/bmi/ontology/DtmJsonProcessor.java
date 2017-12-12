@@ -333,6 +333,7 @@ public class DtmJsonProcessor {
                     HashSet<String> pathogens = new HashSet<String>();
                     HashSet<String> hosts = new HashSet<String>();
 
+                    boolean hasIdentifier = false;
                     while (j.hasNext()) {
                         Map.Entry<String, JsonElement> ej = j.next();
                         String keyj = ej.getKey();
@@ -388,6 +389,7 @@ public class DtmJsonProcessor {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("identifier")) {
                             handleIdentifier(ej.getValue(), niMap, oo, odf, iriMap, subtype);
+                            hasIdentifier = true;
                         } 
                         /* 
                         	Handle attributes specific to disease forecasters.  It might be better just
@@ -550,6 +552,14 @@ public class DtmJsonProcessor {
                     popsNeededByDtm.put(fullName, popsForThisDtm);
 
                     handleSimInds(niMap, oo, odf, iriMap);
+
+                    if (!hasIdentifier) {
+                    	identifierToOwlIndividual.put(baseName, niMap.get("dtm"));
+                    	 if (subtype.contains("forecaster"))
+                			forecasterIds.add(baseName);
+                    	//System.out.println("hashing individual with baseName=" + baseName + ", other info is " +
+                    	//	"baseLabel=" + baseLabel + ", fullName=" + fullName + ", versionSuffix=" + versionSuffix);
+                    }
                 }
 
 
@@ -856,16 +866,20 @@ public class DtmJsonProcessor {
                     flds[3] = regions - pipe-delimited list
                 */
                 forecasterIdToName.put(flds[1], flds[0]);
+                System.out.println("FORECASTER " + flds[0] + ", " + flds[1]);
                 String[] subflds1 = flds[2].split(Pattern.quote("|"));
                 String[] subflds2 = flds[3].split(Pattern.quote("|"));
 
-                ArrayList<String> regions = new ArrayList<String>(subflds1.length);
+                System.out.println("NOTE: subflds1.length=" + subflds1.length);
+                System.out.println("NOTE: subflds2.length=" + subflds2.length);
+
+                ArrayList<String> regions = new ArrayList<String>();
                 for (int i=0; i<subflds1.length; i++)
                     regions.add(subflds1[i]);
 
                 forecasterIdToRegionCategories.put(flds[1], regions);
                 
-                ArrayList<String> years = new ArrayList<String>(subflds2.length);
+                ArrayList<String> years = new ArrayList<String>();
                 for (int i=0; i<subflds2.length; i++)
                     years.add(subflds2[i]);
 
@@ -890,7 +904,7 @@ public class DtmJsonProcessor {
                 regions.add(flds[0]);
 
                 regionNameToHumanPopIri.put(flds[0], IRI.create(flds[2]));
-                System.out.println("hashed IRI of human population for region = " + flds[0]);
+                //System.out.println("hashed IRI of human population for region = " + flds[0]);
             }
 
             LineNumberReader lnr3 = new LineNumberReader(fr3);

@@ -1,5 +1,5 @@
 Columbia Prediction of Infectious Diseases	MIDAS-ISG:columbia-prediction-of-infectious-diseases-unknownversion	state|hrsa	2016
 Delphi	MIDAS-ISG:delphi-unknownversion	hrsa|us	2014|2015|2016
-FluOutlook		country	2015
+FluOutlook	FluOutlook	country	2015
 FluSight: Seasonal Influenza Forecasting	10.5281/zenodo.192509	hrsa|us	2015
 ILI-nearby	MIDAS-ISG:ILI-nearby-unknownversion	hrsa|us|state	2016
