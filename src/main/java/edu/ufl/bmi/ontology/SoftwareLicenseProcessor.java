@@ -113,6 +113,8 @@ public class SoftwareLicenseProcessor {
 		    dateNis = new HashMap<String, OWLNamedIndividual>();
 		    websiteInds = new HashMap<String, OWLNamedIndividual>();
 
+		    createMidasDigitalCommonsIndividuals(odf, oo, iriMap);
+
 		   	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
@@ -145,9 +147,9 @@ public class SoftwareLicenseProcessor {
 					IRI titleIri = iriMap.lookupAnnPropIri("title");
 					OWLNamedIndividual license = createNamedIndividualWithIriTypeAndLabel(
 						IRI.create(iriTxt), odf, oo, classIri, edPrefIri, fullName);
-					addAnnotationToNamedIndividual(license, titleIri, title, odf, oo);
-					addAnnotationToNamedIndividual(license, labelIri, baseLabel, odf, oo);
-					addAnnotationToNamedIndividual(license, edPrefIri, fullName, odf, oo);
+					addAnnotationToIndividual(license, titleIri, title, odf, oo);
+					addAnnotationToIndividual(license, labelIri, baseLabel, odf, oo);
+					addAnnotationToIndividual(license, edPrefIri, fullName, odf, oo);
 				
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 					niMap.put("license", license);
@@ -156,7 +158,7 @@ public class SoftwareLicenseProcessor {
 			    		/*for backwards compatibility with existing OBC.ide, make the dc:date of the data set, the creation 
 			    		  date
 						*/
-						addAnnotationToNamedIndividual(license, iriMap.lookupAnnPropIri("license date"), created, odf, oo);
+						addAnnotationToIndividual(license, iriMap.lookupAnnPropIri("license date"), created, odf, oo);
 			    		handleCreationDate(created, niMap, oo, odf, iriMap);
 			    	}
 
@@ -166,7 +168,7 @@ public class SoftwareLicenseProcessor {
 
 			    	if (isValidFieldValue(accessPage)) {
 			    		IRI urlIri = iriMap.lookupAnnPropIri("hasURL");
-			    		addAnnotationToNamedIndividual(license, urlIri, accessPage, odf, oo);
+			    		addAnnotationToIndividual(license, urlIri, accessPage, odf, oo);
 			    	}
 
 			    	if (isValidFieldValue(indexTerms)) {
@@ -238,14 +240,14 @@ public class SoftwareLicenseProcessor {
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 		OWLNamedIndividual oni = niMap.get("dataset");
-        addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("title"), title, odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("title"), title, odf, oo);
 	}
 
 	/*
     public static void handleVersion(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("versionid");
-	addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
+	addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
     }
 
 
@@ -255,7 +257,7 @@ public class SoftwareLicenseProcessor {
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+	    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 	} else {
 	    System.err.println("Source attribute has value that is not primitive.");
 	}
@@ -272,10 +274,10 @@ public class SoftwareLicenseProcessor {
 		    Elements links = d.select("a");
 		    String url = links.get(0).attr("href");
 		    String txt = links.get(0).ownText();
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+		    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	    } else {
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+		addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 	    }
 	} else {
 	    System.err.println("License attribute has value that is not primitive.");
@@ -305,7 +307,7 @@ public class SoftwareLicenseProcessor {
 		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
 										iriMap.lookupAnnPropIri("label"), idText);
 		if (url != null && url.length()>0) {
-			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			addAnnotationToIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
     }
 
@@ -316,7 +318,7 @@ public class SoftwareLicenseProcessor {
         JsonElement je = e.getValue();
         if (je instanceof JsonPrimitive) {
 	    String value = ((JsonPrimitive)je).getAsString();
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
+	    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("synopsis"), value, odf, oo);
 	} else {
 	    System.err.println("General info attribute has value that is not primitive.");
 	}
@@ -345,7 +347,7 @@ public class SoftwareLicenseProcessor {
 		OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("website"), iriMap.lookupAnnPropIri("editor preferred"), 
 									"website for " + fullName);
 		niMap.put("website", oni);
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+	    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 	    createOWLObjectPropertyAssertion(oni, iriMap.lookupObjPropIri("is about"), niMap.get("dataset"), odf, oo);
 	    websiteInds.put(url, oni);
     }
@@ -366,14 +368,14 @@ public class SoftwareLicenseProcessor {
 		String url = links.get(0).attr("href");
 		String txt = links.get(0).ownText();
 		//System.out.println("URL IS " + url + " AND TEXT IS " + txt);
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+		addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 	    } else {
 		//otherwise, if the documentation value is not an <a href=... construct then if it starts with http:/// add as URL otherwise, add as label
 		if (value.startsWith("http:"))
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+		    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 		else
-		    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);		    
+		    addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), value, odf, oo);		    
 	    }
 	} else if (je instanceof JsonArray) {
 	    JsonArray ja = (JsonArray)je;
@@ -393,11 +395,11 @@ public class SoftwareLicenseProcessor {
 			String url = links.get(0).attr("href");
 			String txt = links.get(0).ownText();
 			//System.out.println("URL IS " + url + " AND TEXT IS " + txt);
-			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
+			addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+			addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), txt, odf, oo);
 		    } else {
 			//otherwise, if the documentation value is not html, just put whatever is in there on as a URL.
-			addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
+			addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
 		    }
 		} else {
 		    throw new IllegalArgumentException("entry in list of documentation is not primitive, but should be");
@@ -440,7 +442,7 @@ public class SoftwareLicenseProcessor {
 				createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
 				devNis.put(devs[i], devi);
 	    	}
-	    	addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), prefTerm, odf, oo);
+	    	addAnnotationToIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), prefTerm, odf, oo);
 			createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
 		}
 		//System.out.println(i);
@@ -525,8 +527,8 @@ public class SoftwareLicenseProcessor {
 			}
 		    }
 
-		    addAnnotationToNamedIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
-		    addAnnotationToNamedIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
+		    addAnnotationToIndividual(execInd, iriMap.lookupAnnPropIri("label"), "execution of dtm for study described in " + pubInfo.get(0), odf, oo);
+		    addAnnotationToIndividual(studyInd, iriMap.lookupAnnPropIri("label"), "study process described in " + pubInfo.get(0), odf, oo);
 
 			IRI pubIri = pubLinks.get(pubInfo.get(0));
 			System.out.println("PUB USING IRI " + pubIri);
@@ -591,7 +593,7 @@ public class SoftwareLicenseProcessor {
 		String[] terms = indexTerms.split(Pattern.quote(";"));
 		for (String term : terms) {
 			if (isValidFieldValue(term)) {
-				addAnnotationToNamedIndividual(license, iriMap.lookupAnnPropIri("alternative term"), term, odf, oo);
+				addAnnotationToIndividual(license, iriMap.lookupAnnPropIri("alternative term"), term, odf, oo);
 			}
 		}
 	}
@@ -662,12 +664,12 @@ public class SoftwareLicenseProcessor {
 		OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
 		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
 		oom.addAxiom(oo,ocaa);
-		addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
+		addAnnotationToIndividual(oni, labelPropIri, rdfsLabel, odf, oo);
 		return oni;
     }
 
 
-    public static void addAnnotationToNamedIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
+    public static void addAnnotationToIndividual(OWLNamedIndividual oni, IRI annPropIri, String value, OWLDataFactory odf, OWLOntology oo) {
 		OWLLiteral li = odf.getOWLLiteral(value);
 		OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
 		OWLAnnotation oa = odf.getOWLAnnotation(la, li);
@@ -691,6 +693,27 @@ public class SoftwareLicenseProcessor {
 		sb.append(counterTxt);
 		return IRI.create(new String(sb));
     }
+
+
+    public static OWLNamedIndividual createMidasDigitalCommonsIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) {
+        OWLNamedIndividual oni = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
+        OWLClassAssertionAxiom ocaaTemp = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("dataset")), oni);
+        oom.addAxiom(oo,ocaaTemp);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), "MIDAS Digital Commons", odf, oo);
+        addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("editor preferred"), "Digital Commons of the MIDAS Research Network", odf, oo);
+
+        OWLNamedIndividual mdcWebsite = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc website"));
+        OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(iriMap.lookupClassIri("website")), mdcWebsite);
+        oom.addAxiom(oo, ocaa);
+        addAnnotationToIndividual(mdcWebsite, iriMap.lookupAnnPropIri("editor preferred"), "MDC home page", odf, oo);
+        addAnnotationToIndividual(mdcWebsite, iriMap.lookupAnnPropIri("title"), "MIDAS Digital Commons Home", odf, oo);
+        addAnnotationToIndividual(mdcWebsite, iriMap.lookupAnnPropIri("hasURL"), "http://betaweb.rods.pitt.edu/digital-commons/main#_", odf, oo);
+        addAnnotationToIndividual(mdcWebsite, iriMap.lookupAnnPropIri("authors"), "MIDAS Informatics Services Group", odf, oo);
+        addAnnotationToIndividual(mdcWebsite, iriMap.lookupAnnPropIri("published date"), "2017-05-19", odf, oo);
+
+        createOWLObjectPropertyAssertion(mdcWebsite, iriMap.lookupObjPropIri("is about"), oni, odf, oo);
+        return oni;
+    }
 /*
     public static void loadAndCreateDataFormatIndividuals(OWLDataFactory odf, OWLOntology oo, IriLookup iriMap) throws IOException {
 		formatInds = new HashMap<String, OWLNamedIndividual>();
@@ -704,7 +727,7 @@ public class SoftwareLicenseProcessor {
 		    String[] keys = flds[2].split(Pattern.quote(";"));
 
 		    OWLNamedIndividual formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"), iriMap.lookupAnnPropIri("editor preferred"), prefTerm);
-		    addAnnotationToNamedIndividual(formatInd, iriMap.lookupAnnPropIri("label"), label, odf, oo);
+		    addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("label"), label, odf, oo);
 
 		    for (String key : keys) {
 			formatInds.put(key, formatInd);

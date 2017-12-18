@@ -1,5 +1,5 @@
 license_info=src/main/resources/license_inds.txt
-format_info=src/main/resources/data_format_metadata-2017-06-11.txt
+format_info=src/main/resources/data_format_metadata-2017-12-18.txt
 dtm_sim_ind=src/main/resources/dtm_sim_inds.txt
 sim_pop_iri=src/main/resources/sim_pop_iris.txt
 dataset_info=src/main/resources/dataset_metadata-2017-06-11.txt

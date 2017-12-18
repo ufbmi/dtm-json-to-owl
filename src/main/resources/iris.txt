@@ -96,3 +96,6 @@ infectious disease scenario	http://purl.obolibrary.org/obo/APOLLO_SV_00000184	cl
 version number	http://purl.obolibrary.org/obo/IAO_0000129	class
 aggregate of disease courses	http://purl.obolibrary.org/obo/APOLLO_SV_00000578	class
 simulates	http://purl.obolibrary.org/obo/APOLLO_SV_00000067	annotation
+mdc	http://www.pitt.edu/obc/IDE_ARTICLES_12000070095	individual
+mdc website	http://www.pitt.edu/obc/IDE_ARTICLES_12000070096	individual
+dataset	http://purl.obolibrary.org/obo/IAO_0000100	class
