@@ -99,3 +99,5 @@ simulates	http://purl.obolibrary.org/obo/APOLLO_SV_00000067	object property
 mdc	http://www.pitt.edu/obc/IDE_ARTICLES_12000070095	individual
 mdc website	http://www.pitt.edu/obc/IDE_ARTICLES_12000070096	individual
 dataset	http://purl.obolibrary.org/obo/IAO_0000100	class
+forecast	http://purl.obolibrary.org/obo/APOLLO_SV_00000581	class
+nowcast	http://purl.obolibrary.org/obo/APOLLO_SV_00000582	class
