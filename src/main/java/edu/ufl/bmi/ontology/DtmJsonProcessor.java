@@ -2289,7 +2289,7 @@ public class DtmJsonProcessor {
                 			And say simulation "simulates" population.  This connects the forecaster to the geographical
                 				region that it can simulate, via the relationships between the population and the region. 
                 		*/
-                		createOWLObjectPropertyAssertion(simpop, iriMap.lookupAnnPropIri("simulates"), popInd, odf, oo);
+                		createOWLObjectPropertyAssertion(simpop, iriMap.lookupObjPropIri("simulates"), popInd, odf, oo);
 
                         // Get the list of years for which the forecaster can forecast.
                         Iterator<String> years = forecasterIdToYears.get(forecasterId).iterator();
@@ -2353,7 +2353,95 @@ public class DtmJsonProcessor {
 
                         Here, we're iterating over region categories (country, hrsa, state)
                   */
-            } //end if
+            } else if (forecasterId.equals("ZIKA Modeling")) { //end if
+                /*
+                    We need an executable, a simulating, and a connection, which also requires a compiling, etc.
+                */
+                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "executable for disease forecaster with ID = " + forecasterId);
+                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
+                        + forecasterId);
+
+                /*
+                    Get the forecaster with forecasterID
+                */
+                OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
+
+                /*
+                    The compiling has the forecaster as specified input. has specified input
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), forecasterInd, odf, oo);
+
+                /* 
+                    The compiling has the executable as specified output. has specified output
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                /*
+                    Now, for each Zika region, we create four simulated populations, each one is the output of the simulating.
+
+                    Then we connect the simulated populations to the populations via the IRIs we pre-loaded.
+                */
+                try (FileReader zikaPops = new FileReader((String)p.get("forecaster_zika_pops")); ) {
+                    
+                    String line;
+                    LineNumberReader zikaLnr = new LineNumberReader(zikaPops);
+                    while ((line=zikaLnr.readLine())!=null) {
+                       
+                        /*
+                            flds[0] = name of Zika population
+                            flds[1] = IRI of Zika population
+                            flds[2] = name of human population
+                            flds[3] = IRI of human population
+                            flds[4] = name of Aedes albopictus population
+                            flds[5] = IRI of Aedes albopictus population
+                            flds[6] = name of Aedes aegypti population
+                            flds[7] = IRI of Aedes aegytpi population
+                        */
+                        String[] flds = line.split(Pattern.quote("\t"));
+
+                         /*
+                            Create simulating individual individual and connect it to executable: simulating achieves 
+                                planned objective of executable.  We're saying one simulating process generates all the 
+                                region-specific simulated populations below.
+                        */
+                        OWLNamedIndividual simulating = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "simulating of epidemic by disease forecaster with ID = " + forecasterId +
+                                " with pathogen = " + flds[0]);
+                        createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), executable, odf, oo);
+
+
+                        OWLNamedIndividual simulatedZikaPopulation = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedpathogenpopulation"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "simulation of " + flds[0] + " created by " + forecasterId);
+                        OWLNamedIndividual simulatedHumanPopulation = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedhostpopulation"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "simulation of " + flds[2] + " created by " + forecasterId);
+                        OWLNamedIndividual simulatedAlbopictusPopulation = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedhostpopulation"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "simulation of " + flds[4] + " created by " + forecasterId);
+                        OWLNamedIndividual simulatedAegyptiPopulation = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedhostpopulation"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "simulation of " + flds[6] + " created by " + forecasterId);
+
+                        createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simulatedZikaPopulation, odf, oo);
+                        createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simulatedHumanPopulation, odf, oo);
+                        createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simulatedAlbopictusPopulation, odf, oo);
+                        createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simulatedAegyptiPopulation, odf, oo);
+
+                        OWLNamedIndividual zikaPop = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+                        OWLNamedIndividual humanPop = odf.getOWLNamedIndividual(IRI.create(flds[3]));
+                        OWLNamedIndividual albopictusPop = odf.getOWLNamedIndividual(IRI.create(flds[5]));
+                        OWLNamedIndividual aegyptiPop = odf.getOWLNamedIndividual(IRI.create(flds[7]));
+
+                        createOWLObjectPropertyAssertion(simulatedZikaPopulation, iriMap.lookupObjPropIri("simulates"), zikaPop, odf, oo);
+                        createOWLObjectPropertyAssertion(simulatedHumanPopulation, iriMap.lookupObjPropIri("simulates"), humanPop, odf, oo);
+                        createOWLObjectPropertyAssertion(simulatedAlbopictusPopulation, iriMap.lookupObjPropIri("simulates"), albopictusPop, odf, oo);
+                        createOWLObjectPropertyAssertion(simulatedAegyptiPopulation, iriMap.lookupObjPropIri("simulates"), aegyptiPop, odf, oo);
+                    } //end while readLine()
+
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            } //end else if
+
         } /*  
                 End while(i.hasNext()) which is iterating over the identifiers of all the forecasters
           */
