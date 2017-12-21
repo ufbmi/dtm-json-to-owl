@@ -2398,6 +2398,7 @@ public class DtmJsonProcessor {
                             flds[5] = IRI of Aedes albopictus population
                             flds[6] = name of Aedes aegypti population
                             flds[7] = IRI of Aedes aegytpi population
+                            flds[8] = start date of epidemic - we ignore it here
                         */
                         String[] flds = line.split(Pattern.quote("\t"));
 
