@@ -2348,7 +2348,7 @@ public class DtmJsonProcessor {
                				*/
                				OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
                        			iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId +
-                       				"that created dataset for " + year + " in region " + region);
+                       				" that created dataset for " + year + " in " + region);
                				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
                						executable, odf, oo);
                				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
@@ -2499,6 +2499,15 @@ public class DtmJsonProcessor {
     	String forecastList = forecasterIdToForecasts.get(forecasterId);
     	String[] forecasts = forecastList.split(Pattern.quote("|"));
 
+    	/*
+    		Create an execution and state that it achieves objective of the executable
+    		*/
+    	OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(
+    		iriMap.lookupClassIri("executionof"), iriMap.lookupAnnPropIri("editor preferred"),
+    		"execution of forecaster with ID = " + forecasterId + " with output of forecasted data items.");
+    	createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
+    		executable, odf, oo);
+
     	for (int i=0; i<forecasts.length; i++) {
     		String label = forecasts[i];
     		IRI classIri = null;
@@ -2519,7 +2528,7 @@ public class DtmJsonProcessor {
     		OWLNamedIndividual forecastInd = createNamedIndividualWithTypeAndLabel(classIri,
     			iriMap.lookupAnnPropIri("label"), label);
 
-    		createOWLObjectPropertyAssertion(executable, iriMap.lookupObjPropIri("has specified output"),
+    		createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
     			forecastInd, odf, oo);
     	}
     }
