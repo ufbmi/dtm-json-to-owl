@@ -16,4 +16,4 @@ website_ind=src/main/resources/websites-<date>.txt
 forecaster_region=src/main/resources/forecaster_regions
 forecaster_ecosystem=src/main/resources/forecaster_links_to_ecosystems.txt
 forecaster_info=src/main/resources/forecaster_link_region_time.txt
-forecaster_zika_pops=src/main/resources/forecaster_pops_for_zika_forecast.txt
+forecaster_zika_pops=src/main/resources/iris_zika_epidemics.txt

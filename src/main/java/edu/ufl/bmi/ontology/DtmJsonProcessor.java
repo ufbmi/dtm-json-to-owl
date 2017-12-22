@@ -100,6 +100,7 @@ public class DtmJsonProcessor {
     static HashMap<String, ArrayList<String>> forecasterIdToRegionCategories;
     static HashMap<String, ArrayList<String>> forecasterIdToYears;
     static HashMap<String, ArrayList<String>> regionTypeToRegionIris;
+    static HashMap<String, String> forecasterIdToType;
     static HashMap<String, IRI> regionNameToHumanPopIri;
     static HashMap<String, IRI> yearRegionToDzCourseAggregateIri;
 
@@ -848,6 +849,7 @@ public class DtmJsonProcessor {
         yearRegionToDzCourseAggregateIri = new HashMap<String, IRI>();
 
         identifierToOwlIndividual = new HashMap<String, OWLNamedIndividual>();
+        forecasterIdToType = new HashMap<String, String>();
         forecasterIds = new HashSet<String>();
 
     	try (FileReader fr1 = new FileReader(p.getProperty("forecaster_info"));
@@ -864,6 +866,7 @@ public class DtmJsonProcessor {
                     flds[1] = forecaseter id
                     flds[2] = years - pipe-delimited list
                     flds[3] = regions - pipe-delimited list
+                    flds[4] = type
                 */
                 forecasterIdToName.put(flds[1], flds[0]);
                 System.out.println("FORECASTER " + flds[0] + ", " + flds[1]);
@@ -884,6 +887,8 @@ public class DtmJsonProcessor {
                     years.add(subflds2[i]);
 
                 forecasterIdToYears.put(flds[1], years);
+
+                forecasterIdToType.put(flds[1], flds[4]);
     		}
 
             LineNumberReader lnr2 = new LineNumberReader(fr2);
@@ -2208,6 +2213,20 @@ public class DtmJsonProcessor {
         while (i.hasNext()) {
             String forecasterId = i.next();
             System.out.println("\tProcessing forecaster: " + forecasterId);
+
+            /*
+                Get the forecaster with forecasterID
+            */
+            OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
+
+            String type = forecasterIdToType.get(forecasterId);
+            if (type != null) {
+                OWLNamedIndividual objective = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri(type), 
+                    iriMap.lookupAnnPropIri("editor preferred"), type + " objective of forecaster with ID = " + forecasterId);
+                createOWLObjectPropertyAssertion(objective, iriMap.lookupObjPropIri("is part of"), forecasterInd, odf, oo);
+                System.out.println("\t\tCreated " + type + " objective for forecaster " + forecasterId);
+            }
+
             if (forecasterIdToRegionCategories.containsKey(forecasterId)) {
                 /*
                 	Get the executable individual if there is one...but at this point in the 
@@ -2229,10 +2248,6 @@ public class DtmJsonProcessor {
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
                         + forecasterId);
 
-                /*
-                	Get the forecaster with forecasterID
-                */
-                OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
 
                 /*
                 	The compiling has the forecaster as specified input. has specified input
@@ -2364,11 +2379,6 @@ public class DtmJsonProcessor {
                         + forecasterId);
 
                 /*
-                    Get the forecaster with forecasterID
-                */
-                OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
-
-                /*
                     The compiling has the forecaster as specified input. has specified input
                 */
                 createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), forecasterInd, odf, oo);
@@ -2399,6 +2409,9 @@ public class DtmJsonProcessor {
                             flds[6] = name of Aedes aegypti population
                             flds[7] = IRI of Aedes aegytpi population
                             flds[8] = start date of epidemic - we ignore it here
+                            flds[9] = IRI of epidemic for some
+                            flds[10] = IRI of epidemic
+                            flds[11] = pref term of epidemic
                         */
                         String[] flds = line.split(Pattern.quote("\t"));
 
@@ -2436,6 +2449,21 @@ public class DtmJsonProcessor {
                         createOWLObjectPropertyAssertion(simulatedHumanPopulation, iriMap.lookupObjPropIri("simulates"), humanPop, odf, oo);
                         createOWLObjectPropertyAssertion(simulatedAlbopictusPopulation, iriMap.lookupObjPropIri("simulates"), albopictusPop, odf, oo);
                         createOWLObjectPropertyAssertion(simulatedAegyptiPopulation, iriMap.lookupObjPropIri("simulates"), aegyptiPop, odf, oo);
+
+
+                        OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
+                                iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId +
+                                    "that created dataset for " + flds[11]);
+                        OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
+                                iriMap.lookupAnnPropIri("editor preferred"), "dataset about epidemic " + flds[11] + ", which is output by " +
+                                forecasterId);
+                        OWLNamedIndividual epidemic = odf.getOWLNamedIndividual(IRI.create(flds[10]));
+                        createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
+                                    executable, odf, oo);
+                        createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
+                                    dataset, odf, oo);
+                        createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), epidemic, odf, oo);
+                        
                     } //end while readLine()
 
                 } catch (IOException ioe) {

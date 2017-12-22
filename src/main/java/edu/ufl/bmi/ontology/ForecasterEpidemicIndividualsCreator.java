@@ -56,7 +56,7 @@ public class ForecasterEpidemicIndividualsCreator {
 
     static IRI zikaEpidemicIri = IRI.create("http://www.pitt.edu/obc/IDE_0000000142");
     static IRI dzCourseIri = IRI.create("http://purl.obolibrary.org/obo/OGMS_0000063");
-    static IRI dzIri = IRI.create("http://purl.obolibrary.org/obo/OGMS_0000031");
+    static IRI dzIri = IRI.create("http://purl.obolibrary.org/obo/DOID_0060478");
     static IRI hostIri = IRI.create("http://purl.obolibrary.org/obo/NCBITaxon_9606");
     static IRI zikaFeverIri = IRI.create("http://purl.obolibrary.org/obo/DOID_0060478");
 
@@ -73,6 +73,8 @@ public class ForecasterEpidemicIndividualsCreator {
     					dzCourseInd,
     					dzInd,
     					hostInd;
+
+    static boolean epidemicExistsAlready;
 
 	public static void main(String[] args) {
 		FileOutputStream fos = null;
@@ -107,9 +109,14 @@ public class ForecasterEpidemicIndividualsCreator {
                     flds[6] = name of Aedes aegypti population
                     flds[7] = IRI of Aedes aegytpi population
                     flds[8] = start date of epidemic 
+                    flds[9] = IRI of epidemic individual, which already exists if we get this IRI, else we have to create it.
                 */
                 String[] flds = line.split(Pattern.quote("\t"));
 				System.out.println("number of fields = " + flds.length);
+
+				epidemicExistsAlready = (flds.length == 10);
+				if (epidemicExistsAlready)
+					epidemicInd = odf.getOWLNamedIndividual(IRI.create(flds[9]));
 
 				String regionShortName = flds[0].replace("Zika virus in ", "");
 				String regionName = "region of " + regionShortName;
@@ -119,7 +126,7 @@ public class ForecasterEpidemicIndividualsCreator {
 
 
 				createOWLObjectPropertyAssertion(dzCourseInd, propPartOccurrentIri, epidemicInd, odf, oo);
-				createOWLObjectPropertyAssertion(dzCourseInd, propPartOccurrentIri, epidemicInd, odf, oo);
+				
 				//dz realized by dz course
 				createOWLObjectPropertyAssertion(dzCourseInd, realizesIri, dzInd, odf, oo);
 
@@ -130,23 +137,26 @@ public class ForecasterEpidemicIndividualsCreator {
 				OWLNamedIndividual hostPopInd = odf.getOWLNamedIndividual(hostPopIri);
 				
 				//dz course aggregate has participant humans in region
-				createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, hostPopInd, odf, oo);
+				if (!epidemicExistsAlready)
+					createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, hostPopInd, odf, oo);
 
 				//host is in aggregate humans in region
 				createOWLObjectPropertyAssertion(hostPopInd, isAggregateOfIri, hostInd, odf, oo);
 
-				IRI zikaPopIri = IRI.create(flds[1]);
-				OWLNamedIndividual zikaPopInd = odf.getOWLNamedIndividual(zikaPopIri);
-				IRI aegyptiPopIri = IRI.create(flds[7]);
-				OWLNamedIndividual aegyptiPopInd = odf.getOWLNamedIndividual(aegyptiPopIri);
-				IRI alboPopIri = IRI.create(flds[5]);
-				OWLNamedIndividual alboPopInd = odf.getOWLNamedIndividual(alboPopIri);
+				if (!epidemicExistsAlready) {
+					IRI zikaPopIri = IRI.create(flds[1]);
+					OWLNamedIndividual zikaPopInd = odf.getOWLNamedIndividual(zikaPopIri);
+					IRI aegyptiPopIri = IRI.create(flds[7]);
+					OWLNamedIndividual aegyptiPopInd = odf.getOWLNamedIndividual(aegyptiPopIri);
+					IRI alboPopIri = IRI.create(flds[5]);
+					OWLNamedIndividual alboPopInd = odf.getOWLNamedIndividual(alboPopIri);
 				
-				//dz course aggregate has participant humans in region
-				createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, zikaPopInd, odf, oo);
-				createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, aegyptiPopInd, odf, oo);
-				createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, alboPopInd, odf, oo);
+					//dz course aggregate has participant humans in region
+					createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, zikaPopInd, odf, oo);
+					createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, aegyptiPopInd, odf, oo);
+					createOWLObjectPropertyAssertion(epidemicInd, hasParticipantIri, alboPopInd, odf, oo);
 
+				}
 
 				epidemicIris.write(epidemicInd.getIRI() + "\t" + prefTerm + "\n");
 
@@ -176,8 +186,10 @@ public class ForecasterEpidemicIndividualsCreator {
 	protected static void createOwlNamedIndividuals(OWLDataFactory odf, OWLOntology oo,
 		String prefTerm, String label, String regionName) {
 		
-		epidemicInd = createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, zikaEpidemicIri, labelPropIri, label );
-		addAnnotationToNamedIndividual(epidemicInd, edPrefTermIri, prefTerm, odf, oo);
+		if (!epidemicExistsAlready) {
+			epidemicInd = createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, zikaEpidemicIri, labelPropIri, label );
+			addAnnotationToNamedIndividual(epidemicInd, edPrefTermIri, prefTerm, odf, oo);
+		}
 
 		dzCourseInd = createNamedIndividualWithIriTypeAndLabel(nextIri(), odf, oo, 
 			dzCourseIri, labelPropIri, buildDzCourseTerm(regionName, label) );
