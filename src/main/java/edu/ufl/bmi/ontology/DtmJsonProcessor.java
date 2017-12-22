@@ -100,6 +100,7 @@ public class DtmJsonProcessor {
     static HashMap<String, ArrayList<String>> forecasterIdToRegionCategories;
     static HashMap<String, ArrayList<String>> forecasterIdToYears;
     static HashMap<String, ArrayList<String>> regionTypeToRegionIris;
+    static HashMap<String, String> forecasterIdToForecasts;
     static HashMap<String, String> forecasterIdToType;
     static HashMap<String, IRI> regionNameToHumanPopIri;
     static HashMap<String, IRI> yearRegionToDzCourseAggregateIri;
@@ -851,6 +852,7 @@ public class DtmJsonProcessor {
         identifierToOwlIndividual = new HashMap<String, OWLNamedIndividual>();
         forecasterIdToType = new HashMap<String, String>();
         forecasterIds = new HashSet<String>();
+        forecasterIdToForecasts = new HashMap<String, String>();
 
     	try (FileReader fr1 = new FileReader(p.getProperty("forecaster_info"));
              FileReader fr2 = new FileReader(p.getProperty("forecaster_region"));
@@ -867,6 +869,7 @@ public class DtmJsonProcessor {
                     flds[2] = years - pipe-delimited list
                     flds[3] = regions - pipe-delimited list
                     flds[4] = type
+                    flds[5] = forecasters
                 */
                 forecasterIdToName.put(flds[1], flds[0]);
                 System.out.println("FORECASTER " + flds[0] + ", " + flds[1]);
@@ -887,8 +890,8 @@ public class DtmJsonProcessor {
                     years.add(subflds2[i]);
 
                 forecasterIdToYears.put(flds[1], years);
-
                 forecasterIdToType.put(flds[1], flds[4]);
+                forecasterIdToForecasts.put(flds[1], flds[5]);
     		}
 
             LineNumberReader lnr2 = new LineNumberReader(fr2);
@@ -2248,7 +2251,6 @@ public class DtmJsonProcessor {
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
                         + forecasterId);
 
-
                 /*
                 	The compiling has the forecaster as specified input. has specified input
                 */
@@ -2268,6 +2270,9 @@ public class DtmJsonProcessor {
                         iriMap.lookupAnnPropIri("editor preferred"), "simulating of disease course aggregate by disease forecaster with ID = " + forecasterId);
   				createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"), executable, odf, oo);
   				
+  				handleForecasts(executable, forecasterId);
+  				handleForecastFrequency(forecasterId);
+
                 /*
                 	Get the set of categories geographical regions for which this (ILI) forecaster can forecast.  The 
                 		categories are "state" (it can do all 50 states), "country" (it can do a list of countries), 
@@ -2377,6 +2382,10 @@ public class DtmJsonProcessor {
                 OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for disease forecaster with ID = " 
                         + forecasterId);
+                OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId);
+                OWLNamedIndividual forecast = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("case count"),
+                		iriMap.lookupAnnPropIri("label"), "Number of Zika-attributable microcephaly cases");
 
                 /*
                     The compiling has the forecaster as specified input. has specified input
@@ -2387,6 +2396,18 @@ public class DtmJsonProcessor {
                     The compiling has the executable as specified output. has specified output
                 */
                 createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                /*
+                	The execution achieves the objective of the executable
+               	*/
+				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
+                               executable, odf, oo);
+                
+				/*
+					And the execution has specified output the forecast
+				*/
+				createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
+								forecast, odf, oo);
 
                 /*
                     Now, for each Zika region, we create four simulated populations, each one is the output of the simulating.
@@ -2450,16 +2471,10 @@ public class DtmJsonProcessor {
                         createOWLObjectPropertyAssertion(simulatedAlbopictusPopulation, iriMap.lookupObjPropIri("simulates"), albopictusPop, odf, oo);
                         createOWLObjectPropertyAssertion(simulatedAegyptiPopulation, iriMap.lookupObjPropIri("simulates"), aegyptiPop, odf, oo);
 
-
-                        OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
-                                iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId +
-                                    "that created dataset for " + flds[11]);
                         OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
                                 iriMap.lookupAnnPropIri("editor preferred"), "dataset about epidemic " + flds[11] + ", which is output by " +
                                 forecasterId);
                         OWLNamedIndividual epidemic = odf.getOWLNamedIndividual(IRI.create(flds[10]));
-                        createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
-                                    executable, odf, oo);
                         createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified output"),
                                     dataset, odf, oo);
                         createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), epidemic, odf, oo);
@@ -2477,4 +2492,56 @@ public class DtmJsonProcessor {
           System.out.println("FINISHED PROCESSING FORECASTERS.");
     }
 
+    static protected void handleForecasts(OWLNamedIndividual executable, String forecasterId) {
+    	/*
+    		Forecasts stored in HashMap
+    	*/
+    	String forecastList = forecasterIdToForecasts.get(forecasterId);
+    	String[] forecasts = forecastList.split(Pattern.quote("|"));
+
+    	for (int i=0; i<forecasts.length; i++) {
+    		String label = forecasts[i];
+    		IRI classIri = null;
+    		if (label.contains("ILI") && label.contains("percent")) {
+    			classIri = iriMap.lookupClassIri("weighted mean");
+    		} else if (label.contains("count")) {
+    			classIri = iriMap.lookupClassIri("epi case count");
+    		} else if (label.contains("peak week") || label.toLowerCase().contains("peak week")) {
+    			classIri = iriMap.lookupClassIri("peak week");
+    		} else if (label.contains("peak intensity") || label.toLowerCase().contains("peak intensity")) {
+    			classIri = iriMap.lookupClassIri("peak intensity");
+    		} else if (label.contains("start week") || label.toLowerCase().contains("start week")) {
+    			classIri = iriMap.lookupClassIri("start week");
+    		} else {
+    			System.err.println("UNRECOGNIZED FORECAST: " + label);
+    			continue;
+    		}
+    		OWLNamedIndividual forecastInd = createNamedIndividualWithTypeAndLabel(classIri,
+    			iriMap.lookupAnnPropIri("label"), label);
+
+    		createOWLObjectPropertyAssertion(executable, iriMap.lookupObjPropIri("has specified output"),
+    			forecastInd, odf, oo);
+    	}
+    }
+
+    static protected void handleForecastFrequency(String forecasterId) {
+    	OWLNamedIndividual forecasterInd = identifierToOwlIndividual.get(forecasterId);
+
+    	OWLNamedIndividual simTimeSpec = createNamedIndividualWithTypeAndLabel(
+    		iriMap.lookupClassIri("sim time step spec"), iriMap.lookupAnnPropIri("editor preferred"),
+    			"simulator time step specification for forecaster with ID = " + forecasterId);
+    	OWLNamedIndividual valueSpec = createNamedIndividualWithTypeAndLabel(
+    		iriMap.lookupClassIri("scalar value specification"), iriMap.lookupAnnPropIri("editor preferred"),
+    			"value specification for simulator time step specification for forecaster with ID = " 
+    			+ forecasterId);
+    	OWLNamedIndividual timeUnit = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("week"));
+
+    	createOWLObjectPropertyAssertion(simTimeSpec, iriMap.lookupObjPropIri("is part of"),
+    		forecasterInd, odf, oo);
+    	createOWLObjectPropertyAssertion(simTimeSpec, iriMap.lookupObjPropIri("has value specification"),
+    		valueSpec, odf, oo);
+    	createOWLObjectPropertyAssertion(valueSpec, iriMap.lookupObjPropIri("has unit"), timeUnit, odf, oo);
+
+
+    }
 }

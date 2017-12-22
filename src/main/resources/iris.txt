@@ -101,3 +101,15 @@ mdc website	http://www.pitt.edu/obc/IDE_ARTICLES_12000070096	individual
 dataset	http://purl.obolibrary.org/obo/IAO_0000100	class
 forecast	http://purl.obolibrary.org/obo/APOLLO_SV_00000581	class
 nowcast	http://purl.obolibrary.org/obo/APOLLO_SV_00000582	class
+weighted mean	http://purl.obolibrary.org/obo/STATO_0000398	class
+peak intensity	http://purl.obolibrary.org/obo/APOLLO_SV_00000577	class
+peak week	http://purl.obolibrary.org/obo/APOLLO_SV_00000576	class
+case count	http://purl.obolibrary.org/obo/APOLLO_SV_00000497	class
+epi case count	http://purl.obolibrary.org/obo/APOLLO_SV_00000498	class
+start week	http://purl.obolibrary.org/obo/APOLLO_SV_00000575	class
+time datum	http://purl.obolibrary.org/obo/IAO_0000416	class
+week	http://purl.obolibrary.org/obo/UO_0000034	individual
+sim time step spec	http://purl.obolibrary.org/obo/APOLLO_SV_00000068	class
+has value specification	http://purl.obolibrary.org/obo/OBI_0001938	object property
+scalar value specification	http://purl.obolibrary.org/obo/OBI_0001931	class
+has unit	http://purl.obolibrary.org/obo/IAO_0000039	object property

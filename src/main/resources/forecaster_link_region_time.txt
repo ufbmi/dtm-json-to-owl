@@ -1,5 +1,5 @@
-Columbia Prediction of Infectious Diseases	MIDAS-ISG:columbia-prediction-of-infectious-diseases-unknownversion	state|hrsa	2016	forecast
-Delphi	MIDAS-ISG:delphi-unknownversion	hrsa|us	2014|2015|2016	forecast
-FluOutlook	FluOutlook	country	2015	forecast
-FluSight: Seasonal Influenza Forecasting	10.5281/zenodo.192509	hrsa|us	2015	forecast
-ILI-nearby	MIDAS-ISG:ILI-nearby-unknownversion	hrsa|us|state	2016	nowcast
+Columbia Prediction of Infectious Diseases	MIDAS-ISG:columbia-prediction-of-infectious-diseases-unknownversion	state|hrsa	2016	forecast	Weekly count of observed influenza like illness	weekly
+Delphi	MIDAS-ISG:delphi-unknownversion	hrsa|us	2014|2015|2016	forecast	Start week|Peak week|Peak intensity	weekly
+FluOutlook	FluOutlook	country	2015	forecast	weighted percent ILI visits	weekly
+FluSight: Seasonal Influenza Forecasting	10.5281/zenodo.192509	hrsa|us	2015	forecast	Start week|Peak week|Peak intensity|Short term (1-, 2-, 3-, and 4-week ahead) forecasts of weekly percent visits to sentinel clincians for ILI	weekly
+ILI-nearby	MIDAS-ISG:ILI-nearby-unknownversion	hrsa|us|state	2016	nowcast	weekly percent ILI	weekly
