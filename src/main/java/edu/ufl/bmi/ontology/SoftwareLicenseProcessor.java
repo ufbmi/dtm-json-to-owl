@@ -153,6 +153,12 @@ public class SoftwareLicenseProcessor {
 				
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 					niMap.put("license", license);
+
+					OWLNamedIndividual mdcInd = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
+					/*
+						Add all licenses to MDC.
+					*/
+					createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), license, odf, oo);
 					
 			    	if (isValidFieldValue(created)) {
 			    		/*for backwards compatibility with existing OBC.ide, make the dc:date of the data set, the creation 

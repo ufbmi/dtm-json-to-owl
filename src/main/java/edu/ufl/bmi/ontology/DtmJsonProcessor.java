@@ -322,7 +322,14 @@ public class DtmJsonProcessor {
                         indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
                         OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel);
                         //if (ks.equals("dtm")) System.out.println("DTMINDLABEL: " + indLabel);
-					    if (ks.equals("dtm")) addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), fullName, odf, oo);
+					    if (ks.equals("dtm")) {
+					    	addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), fullName, odf, oo);
+					    	OWLNamedIndividual mdcInd = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
+							/*
+								Add all software objects to MDC.
+							*/
+							createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), oni, odf, oo);
+					    }
                         if (ks.startsWith("simulat"))
                             simPops.write(oni.getIRI() + "\t" + fullName + " " + ks + "\t" + fullName + "\n");
                         niMap.put(ks, oni);
@@ -2550,7 +2557,5 @@ public class DtmJsonProcessor {
     	createOWLObjectPropertyAssertion(simTimeSpec, iriMap.lookupObjPropIri("has value specification"),
     		valueSpec, odf, oo);
     	createOWLObjectPropertyAssertion(valueSpec, iriMap.lookupObjPropIri("has unit"), timeUnit, odf, oo);
-
-
     }
 }

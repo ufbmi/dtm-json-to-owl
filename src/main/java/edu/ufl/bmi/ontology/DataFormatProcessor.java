@@ -170,6 +170,12 @@ public class DataFormatProcessor {
 													odf, oo, classIri, edPrefIri, fullName);
 					addAnnotationToNamedIndividual(format, labelIri, baseName, odf, oo);
 
+					OWLNamedIndividual mdcInd = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
+					/*
+						Add all formats to MDC.
+					*/
+					createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), format, odf, oo);
+
 					if (isValidFieldValue(formatTitle)) {
 						addAnnotationToNamedIndividual(format, titleIri, formatTitle, odf, oo);
 					}

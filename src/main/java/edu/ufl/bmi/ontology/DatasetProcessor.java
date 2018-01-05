@@ -182,6 +182,12 @@ public class DatasetProcessor {
 
 					HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
 					niMap.put("dataset", dataset);
+
+					OWLNamedIndividual mdcInd = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
+					/*
+						Add all data sets to MDC.
+					*/
+					createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), dataset, odf, oo);
 					
 					if (isValidFieldValue(description)) {
 						addAnnotationToNamedIndividual(dataset, iriMap.lookupAnnPropIri("description"),
