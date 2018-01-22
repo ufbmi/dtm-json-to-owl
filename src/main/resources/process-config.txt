@@ -17,3 +17,4 @@ forecaster_region=src/main/resources/forecaster_regions
 forecaster_ecosystem=src/main/resources/forecaster_links_to_ecosystems.txt
 forecaster_info=src/main/resources/forecaster_link_region_time.txt
 forecaster_zika_pops=src/main/resources/iris_zika_epidemics.txt
+pathogen_evolution_pops=src/main/resources/pathogen_evolution_indexing.txt

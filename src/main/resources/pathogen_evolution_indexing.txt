@@ -1,0 +1,419 @@
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001996	Influenza virus in Mauritius
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001997	Influenza virus in Micronesia (Federated States of)
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001998	Influenza virus in Colombia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001999	Influenza virus in Central African Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002000	Influenza virus in Hungary
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002001	Influenza virus in Republic of Congo
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002002	Influenza virus in Austria
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002003	Influenza virus in Gambia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002004	Influenza virus in Bahrain
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002005	Influenza virus in Cook Islands
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002006	Influenza virus in Belarus
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002007	Influenza virus in Sweden
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002008	Influenza virus in Albania
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002009	Influenza virus in Israel
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002010	Influenza virus in Malta
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002011	Influenza virus in Denmark
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002012	Influenza virus in Uruguay
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002013	Influenza virus in Zambia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002014	Influenza virus in Republic of Korea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002015	Influenza virus in Dominica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002016	Influenza virus in Bulgaria
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002017	Influenza virus in Chile
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002018	Influenza virus in American Samoa
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002019	Influenza virus in Czech Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002020	Influenza virus in Nepal
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002021	Influenza virus in Suriname
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002022	Influenza virus in Burkina Faso
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002023	Influenza virus in Argentina
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002024	Influenza virus in Sri Lanka
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002025	Influenza virus in Trinidad and Tobago
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002026	Influenza virus in Germany
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002027	Influenza virus in Taiwan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002028	Influenza virus in South Africa
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002029	Influenza virus in Haiti
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002030	Influenza virus in Tajikistan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002031	Influenza virus in Thailand
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002032	Influenza virus in Costa Rica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002033	Influenza virus in Lao People's Democratic Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002034	Influenza virus in Ghana
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002035	Influenza virus in Myanmar
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002036	Influenza virus in Rwanda
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002037	Influenza virus in Finland
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002038	Influenza virus in Latvia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002039	Influenza virus in New Zealand
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002040	Influenza virus in Comoros
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002041	Influenza virus in Jordan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002042	Influenza virus in Tuvalu
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002043	Influenza virus in Brazil
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002044	Influenza virus in Serbia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002045	Influenza virus in Morocco
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002046	Influenza virus in El Salvador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002047	Influenza virus in Russian Federation
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002048	Influenza virus in Republic of Kosovo
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002049	Influenza virus in Papua New Guinea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002050	Influenza virus in Nigeria
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002051	Influenza virus in Georgia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002052	Influenza virus in Paraguay
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002053	Influenza virus in Palau
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002054	Influenza virus in Bangladesh
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002055	Influenza virus in Japan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002056	Influenza virus in Mayotte
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002057	Influenza virus in Mali
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002058	Influenza virus in Dominican Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002059	Influenza virus in Martinique
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002060	Influenza virus in Solomon Islands
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002061	Influenza virus in Tunisia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002062	Influenza virus in Afghanistan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002063	Influenza virus in Djibouti
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002064	Influenza virus in Bosnia and Herzegovina
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002065	Influenza virus in Puerto Rico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002066	Influenza virus in Kuwait
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002067	Influenza virus in Guadeloupe
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002068	Influenza virus in Senegal
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002069	Influenza virus in Slovakia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002070	Influenza virus in Ukraine
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002071	Influenza virus in India
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002072	Influenza virus in Kyrgyzstan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002073	Influenza virus in Kazakhstan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002074	Influenza virus in Mexico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002075	Influenza virus in Greece
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002076	Influenza virus in Uganda
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002077	Influenza virus in Croatia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002078	Influenza virus in Guinea-Bissau
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002079	Influenza virus in Qatar
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002080	Influenza virus in Lithuania
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002081	Influenza virus in Fiji
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002082	Influenza virus in Lebanon
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002083	Influenza virus in Cayman Islands
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002084	Influenza virus in French Guiana
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002085	Influenza virus in Honduras
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002086	Influenza virus in Iceland
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002087	Influenza virus in Romania
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002088	Influenza virus in Samoa
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002089	Influenza virus in Malaysia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002090	Influenza virus in Cameroon
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002091	Influenza virus in Italy
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002092	Influenza virus in Indonesia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002093	Influenza virus in Turkey
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002094	Influenza virus in Azerbaijan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002095	Influenza virus in Maldives
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002096	Influenza virus in Estonia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002097	Influenza virus in Panama
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002098	Influenza virus in Singapore
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002099	Influenza virus in Togo
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002100	Influenza virus in Mozambique
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002101	Influenza virus in Armenia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002102	Influenza virus in Australia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002103	Influenza virus in Guam
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002104	Influenza virus in Norway
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002105	Influenza virus in Belize
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002106	Influenza virus in Jamaica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002107	Influenza virus in Mongolia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002108	Influenza virus in Algeria
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002109	Influenza virus in Bolivia (Plurinational State of)
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002110	Influenza virus in Saint Vincent and the Grenadines
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002111	Influenza virus in Switzerland
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002112	Influenza virus in Ecuador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002114	Influenza virus in Spain
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002115	Influenza virus in Ethiopia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002116	Influenza virus in Uzbekistan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002117	Influenza virus in Pakistan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002118	Influenza virus in Oman
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002119	Influenza virus in France
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002120	Influenza virus in Cambodia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002121	Influenza virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002122	Influenza virus in Kenya
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002123	Influenza virus in Barbados
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002124	Influenza virus in Egypt
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002125	Influenza virus in Belgium
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002126	Influenza virus in Guatemala
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002127	Influenza virus in Portugal
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002128	Influenza virus in Madagascar
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002129	Influenza virus in Luxembourg
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002130	Influenza virus in Slovenia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002131	Influenza virus in Philippines
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002132	Influenza virus in Côte d'Ivoire
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002133	Influenza virus in New Caledonia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002134	Influenza virus in Nicaragua
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000371	Influenza virus in Canada
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000420	Influenza virus in United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002149	Influenza A virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002113	Influenza A virus in Taiwan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002148	Infleunza A virus in China, Hong Kong Special Administrative Region
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001981	Dengue virus in Pakistan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001982	Dengue virus in Côte d'Ivoire
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001983	Dengue virus in Djibouti
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001984	Dengue virus in Micronesia (Federated States of)
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001985	Dengue virus in Seychelles
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001986	Dengue virus in Angola
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001987	Dengue virus in Mozambique
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001988	Dengue virus in Hawaiʻi
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001989	Dengue virus in Spain
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001990	Dengue virus in Comoros
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001991	Dengue virus in Portugal
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001992	Dengue virus in Eritrea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001993	Dengue virus in Burkina Faso
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001994	Dengue virus in Germany
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001995	Dengue virus in Senegal
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003874	Dengue virus in France
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001660	Dengue virus in Guatemala
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001690	Dengue virus in Haiti
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001692	Dengue virus in Mexico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001722	Dengue virus in Nicaragua
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001687	Dengue virus in Panama
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001420	Dengue virus in the United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001713	Dengue virus in Venezuela
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001668	Dengue virus in Belize
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001647	Dengue virus in Honduras
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001640	Dengue virus in Costa Rica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001663	Dengue virus in Puerto Rico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001709	Dengue virus in Guyana
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001697	Dengue virus in Suriname
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001675	Dengue virus in French Guiana
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001720	Dengue virus in Peru
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001726	Dengue virus in Virgin Islands of the United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001672	Dengue virus in Argentina
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001653	Dengue virus in Brazil
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001656	Dengue virus in Dominican Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001727	Dengue virus in Bolivia (Plurinational State of)
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001696	Dengue virus in Ecuador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001677	Dengue virus in El Salvador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001717	Dengue virus in Paraguay
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001673	Dengue virus in Bahamas
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001723	Dengue virus in Jamaica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001642	Dengue virus in Singapore
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001710	Dengue virus in Colombia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001708	Dengue virus in Anguilla
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001683	Dengue virus in Barbados
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001669	Dengue virus in Bangladesh
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001828	Dengue virus in American Samoa
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001661	Dengue virus in Australia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001707	Dengue virus in Cambodia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001662	Dengue virus in Chile
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001695	Dengue virus in Cuba
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001688	Dengue virus in Dominica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001716	Dengue virus in Cook Islands
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001827	Dengue virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001689	Dengue virus in Fiji
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001834	Dengue virus in French Polynesia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001724	Dengue virus in Guadeloupe
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001829	Dengue virus in Guam
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001657	Dengue virus in India
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001643	Dengue virus in Indonesia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001694	Dengue virus in Japan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001671	Dengue virus in Malaysia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001674	Dengue virus in Martinique
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001703	Dengue virus in Myanmar
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001711	Dengue virus in New Caledonia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001682	Dengue virus in Nauru
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001705	Dengue virus in Philippines
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001649	Dengue virus in Papua New Guinea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001679	Dengue virus in Republic of Korea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001650	Dengue virus in Sri Lanka
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001654	Dengue virus in Saudi Arabia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001835	Dengue virus in Thailand
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001904	Dengue virus in Viet Nam
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001652	Dengue virus in Tonga
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000102	Zaire ebolavirus in Guinea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000100	Zaire ebolavirus in Sierra Leone
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000101	Zaire ebolavirus in Liberia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000016	Zika virus in Brazil
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001949	Zika virus in Peru
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001158	Zika virus in Ecuador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000131	Zika virus in Colombia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001948	Zika virus in French Guiana
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001947	Zika virus in Suriname
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000145	Zika virus in Venezuela
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001163	Zika virus in Mexico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001165	Zika virus in Panama
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001164	Zika virus in Nicaragua
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001944	Zika virus in Honduras
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001159	Zika virus in El Salvador
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001161	Zika virus in Guatemala
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001171	Zika virus in Virgin Islands of the United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000140	Zika virus in Puerto Rico
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001953	Zika virus in Jamaica
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001157	Zika virus in Dominican Republic
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001162	Zika virus in Haiti
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001166	Zika virus in the United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002135	Zika virus in Japan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002136	Zika virus in Viet Nam
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002137	Zika virus in Martinique
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002138	Zika virus in French Polynesia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002139	Zika virus in Guadeloupe
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002140	Zika virus in Saint-Barthélemy
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002141	Zika virus in Thailand
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002142	Zika virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002143	Zika virus in Taiwan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002144	Zika virus in Tonga
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002145	Zika virus in Cuba
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002146	Zika virus in Fiji
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000002147	Zika virus in American Samoa
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003875	Measles virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003876	Measles virus in Viet Nam
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003877	Measles virus in Japan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003878	Measles virus in Russian Federation
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003879	Measles virus in Gambia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003880	Measles virus in Sudan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003881	Measles virus in Italy
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003882	Measles virus in Germany
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003883	Measles virus in France
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003884	Measles virus in United Kingdom of Great Britain and Northern Ireland
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003885	Measles virus in Canada
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000000124	Measles virus in the United States
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003886	Mumps virus in China
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003887	Mumps virus in Mongolia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003888	Mumps virus in India
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003889	Mumps virus in Japan
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003890	Mumps virus in Republic of Korea
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003891	Mumps virus in Russian Federation
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003892	Mumps virus in Gabon
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003893	Mumps virus in Croatia
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003894	Mumps virus in Germany
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003895	Mumps virus in United Kingdom of Great Britain and Northern Ireland
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000003896	Mumps virus in Canada
+nextstrain organization	http://www.pitt.edu/obc/IDE_0000001845	Mumps virus in the United States
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000001996	Influenza virus in Mauritius
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000001997	Influenza virus in Micronesia (Federated States of)
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000001998	Influenza virus in Colombia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000001999	Influenza virus in Central African Republic
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002000	Influenza virus in Hungary
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002001	Influenza virus in Republic of Congo
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002002	Influenza virus in Austria
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002003	Influenza virus in Gambia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002004	Influenza virus in Bahrain
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002005	Influenza virus in Cook Islands
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002006	Influenza virus in Belarus
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002007	Influenza virus in Sweden
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002008	Influenza virus in Albania
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002009	Influenza virus in Israel
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002010	Influenza virus in Malta
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002011	Influenza virus in Denmark
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002012	Influenza virus in Uruguay
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002013	Influenza virus in Zambia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002014	Influenza virus in Republic of Korea
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002015	Influenza virus in Dominica
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002016	Influenza virus in Bulgaria
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002017	Influenza virus in Chile
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002018	Influenza virus in American Samoa
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002019	Influenza virus in Czech Republic
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002020	Influenza virus in Nepal
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002021	Influenza virus in Suriname
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002022	Influenza virus in Burkina Faso
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002023	Influenza virus in Argentina
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002024	Influenza virus in Sri Lanka
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002025	Influenza virus in Trinidad and Tobago
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002026	Influenza virus in Germany
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002027	Influenza virus in Taiwan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002028	Influenza virus in South Africa
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002029	Influenza virus in Haiti
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002030	Influenza virus in Tajikistan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002031	Influenza virus in Thailand
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002032	Influenza virus in Costa Rica
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002033	Influenza virus in Lao People's Democratic Republic
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002034	Influenza virus in Ghana
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002035	Influenza virus in Myanmar
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002036	Influenza virus in Rwanda
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002037	Influenza virus in Finland
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002038	Influenza virus in Latvia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002039	Influenza virus in New Zealand
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002040	Influenza virus in Comoros
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002041	Influenza virus in Jordan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002042	Influenza virus in Tuvalu
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002043	Influenza virus in Brazil
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002044	Influenza virus in Serbia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002045	Influenza virus in Morocco
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002046	Influenza virus in El Salvador
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002047	Influenza virus in Russian Federation
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002048	Influenza virus in Republic of Kosovo
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002049	Influenza virus in Papua New Guinea
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002050	Influenza virus in Nigeria
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002051	Influenza virus in Georgia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002052	Influenza virus in Paraguay
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002053	Influenza virus in Palau
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002054	Influenza virus in Bangladesh
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002055	Influenza virus in Japan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002056	Influenza virus in Mayotte
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002057	Influenza virus in Mali
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002058	Influenza virus in Dominican Republic
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002059	Influenza virus in Martinique
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002060	Influenza virus in Solomon Islands
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002061	Influenza virus in Tunisia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002062	Influenza virus in Afghanistan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002063	Influenza virus in Djibouti
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002064	Influenza virus in Bosnia and Herzegovina
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002065	Influenza virus in Puerto Rico
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002066	Influenza virus in Kuwait
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002067	Influenza virus in Guadeloupe
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002068	Influenza virus in Senegal
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002069	Influenza virus in Slovakia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002070	Influenza virus in Ukraine
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002071	Influenza virus in India
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002072	Influenza virus in Kyrgyzstan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002073	Influenza virus in Kazakhstan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002074	Influenza virus in Mexico
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002075	Influenza virus in Greece
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002076	Influenza virus in Uganda
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002077	Influenza virus in Croatia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002078	Influenza virus in Guinea-Bissau
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002079	Influenza virus in Qatar
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002080	Influenza virus in Lithuania
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002081	Influenza virus in Fiji
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002082	Influenza virus in Lebanon
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002083	Influenza virus in Cayman Islands
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002084	Influenza virus in French Guiana
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002085	Influenza virus in Honduras
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002086	Influenza virus in Iceland
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002087	Influenza virus in Romania
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002088	Influenza virus in Samoa
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002089	Influenza virus in Malaysia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002090	Influenza virus in Cameroon
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002091	Influenza virus in Italy
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002092	Influenza virus in Indonesia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002093	Influenza virus in Turkey
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002094	Influenza virus in Azerbaijan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002095	Influenza virus in Maldives
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002096	Influenza virus in Estonia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002097	Influenza virus in Panama
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002098	Influenza virus in Singapore
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002099	Influenza virus in Togo
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002100	Influenza virus in Mozambique
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002101	Influenza virus in Armenia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002102	Influenza virus in Australia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002103	Influenza virus in Guam
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002104	Influenza virus in Norway
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002105	Influenza virus in Belize
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002106	Influenza virus in Jamaica
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002107	Influenza virus in Mongolia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002108	Influenza virus in Algeria
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002109	Influenza virus in Bolivia (Plurinational State of)
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002110	Influenza virus in Saint Vincent and the Grenadines
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002111	Influenza virus in Switzerland
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002112	Influenza virus in Ecuador
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002114	Influenza virus in Spain
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002115	Influenza virus in Ethiopia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002116	Influenza virus in Uzbekistan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002117	Influenza virus in Pakistan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002118	Influenza virus in Oman
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002119	Influenza virus in France
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002120	Influenza virus in Cambodia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002121	Influenza virus in China
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002122	Influenza virus in Kenya
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002123	Influenza virus in Barbados
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002124	Influenza virus in Egypt
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002125	Influenza virus in Belgium
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002126	Influenza virus in Guatemala
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002127	Influenza virus in Portugal
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002128	Influenza virus in Madagascar
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002129	Influenza virus in Luxembourg
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002130	Influenza virus in Slovenia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002131	Influenza virus in Philippines
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002132	Influenza virus in Côte d'Ivoire
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002133	Influenza virus in New Caledonia
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002134	Influenza virus in Nicaragua
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000000371	Influenza virus in Canada
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000000420	Influenza virus in United States
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002149	Influenza A virus in China
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002113	Influenza A virus in Taiwan
+MIDAS-ISG:nextflu-v1.0	http://www.pitt.edu/obc/IDE_0000002148	Infleunza A virus in China, Hong Kong Special Administrative Region
