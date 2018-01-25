@@ -564,6 +564,7 @@ public class DtmJsonProcessor {
 
                     if (!hasIdentifier) {
                     	identifierToOwlIndividual.put(baseName, niMap.get("dtm"));
+                        System.out.println("BASE NAME IS: " + baseName);
                     	 if (subtype.contains("forecaster"))
                 			forecasterIds.add(baseName);
                     	//System.out.println("hashing individual with baseName=" + baseName + ", other info is " +
@@ -726,7 +727,8 @@ public class DtmJsonProcessor {
             */
             processForecasterInfo();
             processPathogenEvolutionModelInfo();
-
+            processPopulationDynamicsModelInfo();
+            
             try {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String dateTxt = df.format(new Date());
@@ -2575,15 +2577,13 @@ public class DtmJsonProcessor {
     			OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
                         iriMap.lookupAnnPropIri("editor preferred"), "executable for pathogen evolution model with ID = " + flds[0]);
                 OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
-                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of executable for pathogen evolution model with ID = " 
-                        + flds[0]);
+                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of pathogen evolution model with ID = " 
+                        + flds[0] + " into executable form");
                 OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
-                        iriMap.lookupAnnPropIri("editor preferred"), "execution process for pathogen evolution model with ID = " + flds[0]);
-    			 OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
-                                iriMap.lookupAnnPropIri("editor preferred"), "dataset about pathogen population " + flds[2] + ", which is input into " +
-                                flds[0]);
-
-
+                        iriMap.lookupAnnPropIri("editor preferred"), "execution process of pathogen evolution model with ID = " + flds[0]);
+    			 OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dna sequence data set"), 
+                                iriMap.lookupAnnPropIri("editor preferred"), "DNA sequence data set about pathogen population " + flds[2] + ", which is input into " +
+                                flds[0] + " pathogen evolution model");
 
                 /*
                     The compiling has the model as specified input. has specified input
@@ -2616,4 +2616,60 @@ public class DtmJsonProcessor {
     		ioe.printStackTrace();
     	}    	
     }
+
+    static protected void processPopulationDynamicsModelInfo() {
+        try {
+            FileReader fr = new FileReader(p.getProperty("population_dynamics_pops"));
+            LineNumberReader lnr = new LineNumberReader(fr);
+            String line;
+            while ((line=lnr.readLine())!=null) {
+                String[] flds = line.split(Pattern.quote("\t"));
+                OWLIndividual popDynamicsModelInd = identifierToOwlIndividual.get(flds[0]);
+                IRI indexingPopIri = IRI.create(flds[1]);
+                OWLIndividual popInd = odf.getOWLNamedIndividual(indexingPopIri);
+
+
+                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "executable for population dynamics model with ID = " + flds[0]);
+                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of population dynamics model with ID = " 
+                        + flds[0] + " into executable form");
+                OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "execution process of population dynamics model with ID = " + flds[0]);
+                 OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
+                                iriMap.lookupAnnPropIri("editor preferred"), "dataset about population " + flds[2] + ", which is input into the " +
+                                flds[0] + " population dynamics model");
+
+                /*
+                    The compiling has the model as specified input. has specified input
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), popDynamicsModelInd, odf, oo);
+
+                /* 
+                    The compiling has the executable as specified output. has specified output
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                /*
+                    The execution achieves the objective of the executable
+                */
+                createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("achieves objective"),
+                               executable, odf, oo);
+                
+                /*
+                    And the execution has specified input the dataset
+                */
+                createOWLObjectPropertyAssertion(execution, iriMap.lookupObjPropIri("has specified input"),
+                                dataset, odf, oo);
+                      
+                /*
+                    And the dataset is about the pathogen population
+                */
+                createOWLObjectPropertyAssertion(dataset, iriMap.lookupObjPropIri("is about"), popInd, odf, oo);
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }       
+    }
+
 }

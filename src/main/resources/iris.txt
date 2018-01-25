@@ -114,3 +114,4 @@ has value specification	http://purl.obolibrary.org/obo/OBI_0001938	object proper
 scalar value specification	http://purl.obolibrary.org/obo/OBI_0001931	class
 has unit	http://purl.obolibrary.org/obo/IAO_0000039	object property
 has proper part	http://purl.obolibrary.org/obo/BFO_0000174	object property
+dna sequence data set	http://purl.obolibrary.org/obo/OBI_0001573	class
