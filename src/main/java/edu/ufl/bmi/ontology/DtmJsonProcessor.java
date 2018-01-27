@@ -107,6 +107,8 @@ public class DtmJsonProcessor {
 
     static HashMap<String, OWLNamedIndividual> identifierToOwlIndividual;
     static HashSet<String> forecasterIds;
+
+    static HashSet<String> attributesHandledInPostprocessing;
     
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
@@ -526,7 +528,7 @@ public class DtmJsonProcessor {
                                     //}
                                 }
                             }
-                            if (!handled && !keyj.equals("subtype")) { //} && !keyj.equals("identifier")) {
+                            if (!handled && !keyj.equals("subtype") && !attributesHandledInPostprocessing.contains(keyj)) { //} && !keyj.equals("identifier")) {
                                 System.out.println("WARNING: assuming that handling of " + keyj + " attribute will occur in manual, post-processing step. values " + ej.getValue());
                                 if (keyj.equals("publicationsAboutRelease")) {
                                     //System.out.println("PUB ABOUT: " + ej.getValue());
@@ -836,6 +838,11 @@ public class DtmJsonProcessor {
 
             initializeForecasterInfo();
 
+            if (attributesHandledInPostprocessing == null) {
+                attributesHandledInPostprocessing = new HashSet<String>();
+            }
+             attributesHandledInPostprocessing.add("populationSpeciesIncluded");
+
         } catch (IOException ioe) {
         	ioe.printStackTrace();
         } finally {
@@ -937,6 +944,15 @@ public class DtmJsonProcessor {
                 String yearRegion = flds[0] + flds[1];
                 yearRegionToDzCourseAggregateIri.put(yearRegion, IRI.create(flds[2]));
             }
+
+            if (attributesHandledInPostprocessing == null) {
+                attributesHandledInPostprocessing = new HashSet<String>();
+            }
+            attributesHandledInPostprocessing.add("forecasts");
+            attributesHandledInPostprocessing.add("nowcasts");
+            attributesHandledInPostprocessing.add("forecastFrequency");
+            attributesHandledInPostprocessing.add("type");
+            attributesHandledInPostprocessing.add("pathogens");
 
             System.out.println("Done initiatlizing forecaster info");
 
