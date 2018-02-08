@@ -29,3 +29,8 @@ school closure	http://purl.obolibrary.org/obo/APOLLO_SV_00000123
 Travel restriction	http://purl.obolibrary.org/obo/APOLLO_SV_00000231
 zoo-prophylaxis	http://purl.obolibrary.org/obo/APOLLO_SV_00000573
 odour-baited traps	http://purl.obolibrary.org/obo/APOLLO_SV_00000572
+antibiotic prophylaxis	http://purl.obolibrary.org/obo/APOLLO_SV_00000305
+antiviral treatment	http://purl.obolibrary.org/obo/APOLLO_SV_00000181
+mass drug deployment	http://purl.obolibrary.org/obo/APOLLO_SV_00000304
+treatment in the i.c.u.	http://purl.obolibrary.org/obo/APOLLO_SV_00000589
+wolbachia	http://purl.obolibrary.org/obo/APOLLO_SV_00000390

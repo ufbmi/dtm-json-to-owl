@@ -109,6 +109,8 @@ public class DtmJsonProcessor {
     static HashSet<String> forecasterIds;
 
     static HashSet<String> attributesHandledInPostprocessing;
+
+    static HashMap<String, OWLNamedIndividual> grantTxtToIndividual;
     
 	static IriLookup iriMap;
 	static IndividualsToCreate itc;
@@ -401,6 +403,8 @@ public class DtmJsonProcessor {
                         } else if (keyj.equals("identifier")) {
                             handleIdentifier(ej.getValue(), niMap, oo, odf, iriMap, subtype);
                             hasIdentifier = true;
+                        } else if (keyj.equals("grants")) {
+                        	handleGrants(ej.getValue(), niMap, oo, odf, iriMap, subtype);
                         } 
                         /* 
                         	Handle attributes specific to disease forecasters.  It might be better just
@@ -836,6 +840,8 @@ public class DtmJsonProcessor {
             popsNeededByDtm = new HashMap<String, ArrayList<String>>();
             populationsNeeded = new HashSet<String>();
 
+            loadAndCreateGrantMapping();
+
             initializeForecasterInfo();
 
             if (attributesHandledInPostprocessing == null) {
@@ -856,6 +862,26 @@ public class DtmJsonProcessor {
 
 
         uniqueCms = new HashSet<String>();
+    }
+
+    protected static void loadAndCreateGrantMapping() {
+    	grantTxtToIndividual = new HashMap<String, OWLNamedIndividual>();
+    	try {
+    		FileReader fr = new FileReader(p.getProperty("grant_mapping"));
+    		LineNumberReader lnr = new LineNumberReader(fr);
+    		String line;
+    		while ((line=lnr.readLine())!= null) {
+    			String[] flds = line.split(Pattern.quote("\t"));
+    			OWLNamedIndividual grantInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+    			OWLNamedIndividual grantResearchInd = createNamedIndividualWithTypeAndLabel(odf, oo,
+    				iriMap.lookupClassIri("planned process"), iriMap.lookupAnnPropIri("editor preferred"),
+    				"process of executing plan in grant " + flds[0]);
+    			createOWLObjectPropertyAssertion(grantResearchInd, iriMap.lookupObjPropIri("achieves objective"), grantInd, odf, oo);
+    			grantTxtToIndividual.put(flds[0], grantResearchInd);
+    		}
+    	} catch (IOException ioe) {
+    		ioe.printStackTrace();
+    	}
     }
 
     public static void initializeForecasterInfo() {
@@ -1188,6 +1214,37 @@ public class DtmJsonProcessor {
                 forecasterIds.add(idText);
         }
     }
+
+  /* 
+  		This code handles the grants attribute in the JSON for the software/data service.
+  */
+  	public static void handleGrants(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
+                                        OWLOntology oo, OWLDataFactory odf, IriLookup iriMap, String subtype) {
+  		/*
+  			The value of the grants element is a JsonArray.  Each item in the array is a simple value.
+  		*/
+  		if (elem instanceof JsonArray) {
+  			JsonArray ja = (JsonArray)elem;
+  			Iterator<JsonElement> i = ja.iterator();
+
+  			while (i.hasNext()) {
+  				JsonElement elemi = i.next();
+                String granti = ((JsonPrimitive) elemi).getAsString();
+
+                /*
+                	Get the named individual for string granti from the HashMap that holds the mapping.
+
+                	This individual is the research process that realizes the plan in the grant proposal
+                		text.  This process has as part the codewriting of the software, is our 
+                		assumption.
+                */
+                OWLNamedIndividual grantResearchInd = grantTxtToIndividual.get(granti);
+                OWLNamedIndividual codeWritingInd = niMap.get("codewriting");
+                createOWLObjectPropertyAssertion(codeWritingInd, iriMap.lookupObjPropIri("is part of"), grantResearchInd, odf, oo);
+  			}
+  		}
+
+  	}
 
   /*
     	This code handles the source code release attribute in the JSON for the software/data service.
@@ -1727,6 +1784,9 @@ public class DtmJsonProcessor {
 
     public static void handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                              OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+    	/*
+    		Control measures are now an array of objects, not strings.
+    	*/
         JsonElement je = e.getValue();
         if (je instanceof JsonArray) {
             JsonArray elemArray = (JsonArray) je;
@@ -1734,23 +1794,23 @@ public class DtmJsonProcessor {
             int size = elemArray.size();
             while (elemIter.hasNext()) {
                 JsonElement elemi = elemIter.next();
-                if (elemi instanceof JsonPrimitive) {
-                    String value = ((JsonPrimitive) elemi).getAsString();
-                    uniqueCms.add(value);
+                JsonObject jo = (JsonObject)elemi;
+                String value = jo.getAsJsonObject("identifier").getAsJsonPrimitive("identifierDescription").getAsString();
+                
+                uniqueCms.add(value);
 
-                    if (cmMap.containsKey(value)) {
-                        IRI classIri = cmMap.get(value);
-                        String cmInstanceLabel = value + " control measure by " + fullName;
-                        String simxInstanceLabel = "simulating of epidemic with " + value + " control measure by " + fullName;
-                        OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
-                        OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
-                        addAnnotationToIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
+                if (cmMap.containsKey(value)) {
+                    IRI classIri = cmMap.get(value);
+                    String cmInstanceLabel = value + " control measure by " + fullName;
+                    String simxInstanceLabel = "simulating of epidemic with " + value + " control measure by " + fullName;
+                    OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
+                    OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
+                    addAnnotationToIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
 
-                        createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
-                        createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
-                    } else {
-                        System.err.println("Skipping " + value + " control measure.");
-                    }
+                    createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("achieves objective"), niMap.get("executable"), odf, oo);
+                    createOWLObjectPropertyAssertion(simxInd, iriMap.lookupObjPropIri("has specified output"), cmInd, odf, oo);
+                } else {
+                    System.err.println("Skipping " + value + " control measure.");
                 }
             }
         } else {
