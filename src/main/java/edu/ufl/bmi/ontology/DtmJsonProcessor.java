@@ -405,7 +405,9 @@ public class DtmJsonProcessor {
                             hasIdentifier = true;
                         } else if (keyj.equals("grants")) {
                         	handleGrants(ej.getValue(), niMap, oo, odf, iriMap, subtype);
-                        } 
+                        } else if (keyj.equals("visualizationType")) {
+                        	handleVisualizationType(ej.getValue(), niMap, oo, odf, iriMap, subtype);
+                        }
                         /* 
                         	Handle attributes specific to disease forecasters.  It might be better just
                         		to connect all of them in batch at the end. 
@@ -503,7 +505,7 @@ public class DtmJsonProcessor {
                                     		 The only attribute like this is the dataServiceDescriptor or something
                                     		 	like that.
                                     	*/
-                                        System.err.println("ERROR: element " + keyj + " has array of values that are string.  Ignoring.");
+                                        System.err.println("NOTE: element " + keyj + " has array of values that are string.  Ignoring.");
                                     }
                                 }
 
@@ -1244,6 +1246,46 @@ public class DtmJsonProcessor {
   			}
   		}
 
+  	}
+
+  /* 
+  		This code handles the visuzalizationType attribute in the JSON for software/data service.
+
+  		Basically, we just need to get an individual representing the process of the executable
+  			running, and state that it has input some data set of the kind visualized, and has
+  			output some diagram
+  */
+  	public static void handleVisualizationType(JsonElement elem, HashMap<String, OWLNamedIndividual> niMap,
+                                        OWLOntology oo, OWLDataFactory odf, IriLookup iriMap, String subtype) {
+  		// The value of the visualizationType attribute is a JsonArray.
+  		if (elem instanceof JsonArray) {
+			JsonArray ja = (JsonArray)elem;
+  			Iterator<JsonElement> i = ja.iterator();
+
+  			while (i.hasNext()) {
+  				JsonElement elemi = i.next();
+                String visualizationType = ((JsonPrimitive) elemi).getAsString();
+
+                /*
+                	Get the executing of the software individual
+                */
+                OWLNamedIndividual executionInd = niMap.get("executionof");
+                /*
+                	Create the time series data set individual.  The executing has specified input the dataset.
+                */
+                OWLNamedIndividual tsDataSet = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("time series data set"),
+                	iriMap.lookupAnnPropIri("editor preferred"), "time series data set input into " + fullName);
+				createOWLObjectPropertyAssertion(executionInd, iriMap.lookupObjPropIri("has specified input"), tsDataSet, odf, oo);
+
+                /*
+                	Create the diagram individual. The executing has specified output the diagram.
+                */
+                OWLNamedIndividual diagram = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("diagram"),
+                	iriMap.lookupAnnPropIri("editor preferred"), "diagram output by " + fullName);
+                createOWLObjectPropertyAssertion(executionInd, iriMap.lookupObjPropIri("has specified output"), diagram, odf, oo);
+  			}  			
+
+  		}
   	}
 
   /*
