@@ -605,14 +605,6 @@ public class DtmJsonProcessor {
             }
 
             /*
-            	This code helpfully prints out where the program left off with IRI 
-            		generation, so that any other programs needing to pick up where
-            		this one left off can do so.
-            */
-            System.out.println(nextIri());
-            System.out.println(nextIri());
-
-            /*
             	This code displays all the geographical regions encountered across 
             	 all software and data services.
             */
@@ -746,6 +738,14 @@ public class DtmJsonProcessor {
             } catch (OWLOntologyStorageException oose) {
                 oose.printStackTrace();
             }
+
+                        /*
+                This code helpfully prints out where the program left off with IRI 
+                    generation, so that any other programs needing to pick up where
+                    this one left off can do so.
+            */
+            System.out.println(nextIri());
+            System.out.println(nextIri());
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -1275,6 +1275,7 @@ public class DtmJsonProcessor {
                 */
                 OWLNamedIndividual tsDataSet = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("time series data set"),
                 	iriMap.lookupAnnPropIri("editor preferred"), "time series data set input into " + fullName);
+                addAnnotationToIndividual(tsDataSet, iriMap.lookupAnnPropIri("label"), visualizationType, odf, oo);
 				createOWLObjectPropertyAssertion(executionInd, iriMap.lookupObjPropIri("has specified input"), tsDataSet, odf, oo);
 
                 /*
