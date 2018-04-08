@@ -2367,8 +2367,6 @@ public class DtmJsonProcessor {
                     	no worries, just create it.  If someone ever adds an executable, we'd have to
                     	deal with it then.
 
-                    	Because no JSON attribute for it, create it as anon individual.
-
                     	We need it to connect it to an "execution" (or running) of it.  The execution has
                     		as output a dataset (per below) that is about the aggregate of disease courses.
                     		But we'll have a different execution for each dataset and a different one for 
@@ -2514,7 +2512,7 @@ public class DtmJsonProcessor {
                 OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
                         iriMap.lookupAnnPropIri("editor preferred"), "execution process for disease forecaster with ID = " + forecasterId);
                 OWLNamedIndividual forecast = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("case count"),
-                		iriMap.lookupAnnPropIri("label"), "Number of Zika-attributable microcephaly cases");
+                		iriMap.lookupAnnPropIri("editor preferred"), "Number of Zika-attributable microcephaly cases");
 
                 /*
                     The compiling has the forecaster as specified input. has specified input
