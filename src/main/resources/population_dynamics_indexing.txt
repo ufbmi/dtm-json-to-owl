@@ -20,7 +20,7 @@ Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_000000218
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002221	Culex quinquefasciatus in West Virginia
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002230	Culex quinquefasciatus in North Carolina
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002210	Culex quinquefasciatus in South Carolina
-Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002202	Culex quinquefasciatus in Georgia (United States)
+Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002346	Culex quinquefasciatus in Georgia (United States)
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002196	Culex quinquefasciatus in Florida
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002195	Culex quinquefasciatus in Alabama
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002333	Culex quinquefasciatus in Maryland
@@ -176,7 +176,7 @@ Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_000000218
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002298	Culex quinquefasciatus in Botswana
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002307	Culex quinquefasciatus in Namibia
 Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002290	Culex quinquefasciatus in South Africa
-Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000002346	Culex quinquefasciatus in Georgia
+Dynamic Mosquito Simulation Model (DyMSiM)	http://www.pitt.edu/obc/IDE_0000004099	Culex quinquefasciatus in Georgia
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001177	Aedes aegypti in the United States
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001229	Aedes aegypti in Tonga
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001231	Aedes aegypti in Brazil
@@ -286,8 +286,8 @@ Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001966	Aedes aegypti in Côte d'I
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001967	Aedes aegypti in Hawaiʻi
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001901	Aedes aegypti in Wallis and Futuna Islands
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001811	Aedes aegypti in Cook Islands
-Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001812	Aedes aegypti in China, Hong Kong Special Administrative Region
-Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001813	Aedes aegypti in China, Macao Special Administrative Region
+Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001812	"Aedes aegypti in China, Hong Kong Special Administrative Region"
+Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001813	"Aedes aegypti in China, Macao Special Administrative Region"
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001814	Aedes aegypti in New Caledonia
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001815	Aedes aegypti in Niue
 Skeeter Buster	http://www.pitt.edu/obc/IDE_0000001816	Aedes aegypti in New Polynesia
