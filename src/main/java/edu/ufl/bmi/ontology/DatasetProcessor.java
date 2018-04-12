@@ -318,7 +318,9 @@ public class DatasetProcessor {
     public static boolean isValidFieldValue(String value) {
     	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
     				&& !value.startsWith("?") && !value.toLowerCase().equals("under development") 
-    				&& !value.toLowerCase().equals("identifier will be created at time of release"));
+    				&& !value.toLowerCase().equals("identifier will be created at time of release") 
+    				&& !value.toLowerCase().startsWith("anonymous")
+    				&& !value.toLowerCase().startsWith("unknown"));
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,

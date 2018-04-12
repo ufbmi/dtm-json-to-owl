@@ -728,6 +728,7 @@ public class DtmJsonProcessor {
             processForecasterInfo();
             processPathogenEvolutionModelInfo();
             processPopulationDynamicsModelInfo();
+            processDiseaseTransmissionTreeEstimatorInfo();
             
             try {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -2787,6 +2788,66 @@ public class DtmJsonProcessor {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }       
+    }
+
+    static protected void processDiseaseTransmissionTreeEstimatorInfo() {
+        try {
+            FileReader fr = new FileReader(p.getProperty("transmission_tree_pops"));
+            LineNumberReader lnr = new LineNumberReader(fr);
+            String line;
+            while ((line=lnr.readLine())!=null) {
+                String[] flds = line.split(Pattern.quote("\t"));
+                OWLIndividual treeEstimatorInd = identifierToOwlIndividual.get(flds[0]);
+                //System.out.println(treeEstimatorInd);
+                String simHostLabel = flds[0] + "-generated simulation of " + flds[4];
+                String simPathogenLabel = flds[0] + "-generated simulation of " + flds[2];
+
+                //executable
+                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "executable for disease transmission tree estimator with ID = " + flds[0]);
+                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "compiling of disease transmission tree estimator with ID = " 
+                        + flds[0] + " into executable form");
+
+                //simulating and output
+                OWLNamedIndividual simulating = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
+                        iriMap.lookupAnnPropIri("editor preferred"), "simulating process of transmission tree estimator with ID = " + flds[0]);
+                OWLNamedIndividual simHostPopInd = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedhostpopulation"), 
+                        iriMap.lookupAnnPropIri("label"), simHostLabel);
+                OWLNamedIndividual simPathogenPopInd = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatedpathogenpopulation"), 
+                        iriMap.lookupAnnPropIri("label"), simPathogenLabel);
+
+                //actual host and pathogen populations
+                OWLNamedIndividual hostPopInd = odf.getOWLNamedIndividual(IRI.create(flds[3]));
+                OWLNamedIndividual pathogenPopInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
+
+                /*
+                    The compiling has the model as specified input. has specified input
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), treeEstimatorInd, odf, oo);
+
+                /* 
+                    The compiling has the executable as specified output. has specified output
+                */
+                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                /*
+                    The simulating achieves the objective of the executable
+                */
+                createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("achieves objective"),
+                               executable, odf, oo);
+
+                //simulating, simulating output
+                createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simHostPopInd, odf, oo);
+                createOWLObjectPropertyAssertion(simulating, iriMap.lookupObjPropIri("has specified output"), simPathogenPopInd, odf, oo);
+
+                //simulated host simulates host, simulated pathogen simulates pathogen
+                createOWLObjectPropertyAssertion(simHostPopInd, iriMap.lookupObjPropIri("simulates"), hostPopInd, odf, oo);
+                createOWLObjectPropertyAssertion(simPathogenPopInd, iriMap.lookupObjPropIri("simulates"), pathogenPopInd, odf, oo);
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }     
     }
 
 }
