@@ -2685,33 +2685,40 @@ public class DtmJsonProcessor {
     		FileReader fr = new FileReader(p.getProperty("pathogen_evolution_pops"));
     		LineNumberReader lnr = new LineNumberReader(fr);
     		String line;
+    		HashMap<String, OWLIndividual> idToExecutable = new HashMap<String, OWLIndividual>();
     		while ((line=lnr.readLine())!=null) {
     			String[] flds = line.split(Pattern.quote("\t"));
     			OWLIndividual pathEvoModelInd = identifierToOwlIndividual.get(flds[0]);
     			IRI indexingPopIri = IRI.create(flds[1]);
     			OWLIndividual popInd = odf.getOWLNamedIndividual(indexingPopIri);
 
-
-    			OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+    			OWLIndividual executable = null;
+    			if (idToExecutable.containsKey(flds[0])) {
+    				executable = idToExecutable.get(flds[0]);
+    			} else {
+    				executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
                         iriMap.lookupAnnPropIri("editor preferred"), "executable for pathogen evolution model with ID = " + flds[0]);
-                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                	OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of pathogen evolution model with ID = " 
                         + flds[0] + " into executable form");
+                	/*
+                   		 The compiling has the model as specified input. has specified input
+                	*/
+                	createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), pathEvoModelInd, odf, oo);
+
+                	/* 
+                    	The compiling has the executable as specified output. has specified output
+                	*/
+               		createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+               		idToExecutable.put(flds[0], executable);
+    			}
+
                 OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
                         iriMap.lookupAnnPropIri("editor preferred"), "execution process of pathogen evolution model with ID = " + flds[0]);
     			 OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dna sequence data set"), 
                                 iriMap.lookupAnnPropIri("editor preferred"), "DNA sequence data set about pathogen population " + flds[2] + ", which is input into " +
                                 flds[0] + " pathogen evolution model");
-
-                /*
-                    The compiling has the model as specified input. has specified input
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), pathEvoModelInd, odf, oo);
-
-                /* 
-                    The compiling has the executable as specified output. has specified output
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
 
                 /*
                 	The execution achieves the objective of the executable
@@ -2740,6 +2747,7 @@ public class DtmJsonProcessor {
             FileReader fr = new FileReader(p.getProperty("population_dynamics_pops"));
             LineNumberReader lnr = new LineNumberReader(fr);
             String line;
+            HashMap<String, OWLIndividual> idToExecutable = new HashMap<String, OWLIndividual>();
             while ((line=lnr.readLine())!=null) {
                 String[] flds = line.split(Pattern.quote("\t"));
                 OWLIndividual popDynamicsModelInd = identifierToOwlIndividual.get(flds[0]);
@@ -2747,26 +2755,36 @@ public class DtmJsonProcessor {
                 OWLIndividual popInd = odf.getOWLNamedIndividual(indexingPopIri);
 
 
-                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                OWLIndividual executable = null;
+                if (idToExecutable.containsKey(flds[0])) {
+                	executable = idToExecutable.get(flds[0]);
+                } else {
+                	executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
                         iriMap.lookupAnnPropIri("editor preferred"), "executable for population dynamics model with ID = " + flds[0]);
-                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+               		OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of population dynamics model with ID = " 
                         + flds[0] + " into executable form");
+
+               		/*
+                    	The compiling has the model as specified input. has specified input
+               		 */
+                	createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), popDynamicsModelInd, odf, oo);
+
+                	/* 
+                 	   The compiling has the executable as specified output. has specified output
+                	*/
+                	createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+
+                	idToExecutable.put(flds[0], executable);
+                }
+                
                 OWLNamedIndividual execution = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executionof"),
                         iriMap.lookupAnnPropIri("editor preferred"), "execution process of population dynamics model with ID = " + flds[0]);
                  OWLNamedIndividual dataset = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("dataabouthost"), 
                                 iriMap.lookupAnnPropIri("editor preferred"), "dataset about population " + flds[2] + ", which is input into the " +
                                 flds[0] + " population dynamics model");
 
-                /*
-                    The compiling has the model as specified input. has specified input
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), popDynamicsModelInd, odf, oo);
 
-                /* 
-                    The compiling has the executable as specified output. has specified output
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
 
                 /*
                     The execution achieves the objective of the executable
@@ -2795,6 +2813,7 @@ public class DtmJsonProcessor {
             FileReader fr = new FileReader(p.getProperty("transmission_tree_pops"));
             LineNumberReader lnr = new LineNumberReader(fr);
             String line;
+            HashMap<String, OWLIndividual> idToExecutable = new HashMap<String, OWLIndividual>();
             while ((line=lnr.readLine())!=null) {
                 String[] flds = line.split(Pattern.quote("\t"));
                 OWLIndividual treeEstimatorInd = identifierToOwlIndividual.get(flds[0]);
@@ -2803,11 +2822,27 @@ public class DtmJsonProcessor {
                 String simPathogenLabel = flds[0] + "-generated simulation of " + flds[2];
 
                 //executable
-                OWLNamedIndividual executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
+                OWLIndividual executable = null;
+                if (idToExecutable.containsKey(flds[0])) {
+                	executable = idToExecutable.get(flds[0]);
+                } else {
+                	executable = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("executable"),
                         iriMap.lookupAnnPropIri("editor preferred"), "executable for disease transmission tree estimator with ID = " + flds[0]);
-                OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
+                	OWLNamedIndividual compiling = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("compiling"),
                         iriMap.lookupAnnPropIri("editor preferred"), "compiling of disease transmission tree estimator with ID = " 
                         + flds[0] + " into executable form");
+                	idToExecutable.put(flds[0], executable);
+
+                	/*
+                    	The compiling has the model as specified input. has specified input
+                	*/
+                	createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), treeEstimatorInd, odf, oo);
+
+                	/* 
+                    	The compiling has the executable as specified output. has specified output
+                	*/
+                	createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
+                }
 
                 //simulating and output
                 OWLNamedIndividual simulating = createNamedIndividualWithTypeAndLabel(iriMap.lookupClassIri("simulatingx"),
@@ -2821,15 +2856,6 @@ public class DtmJsonProcessor {
                 OWLNamedIndividual hostPopInd = odf.getOWLNamedIndividual(IRI.create(flds[3]));
                 OWLNamedIndividual pathogenPopInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
 
-                /*
-                    The compiling has the model as specified input. has specified input
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified input"), treeEstimatorInd, odf, oo);
-
-                /* 
-                    The compiling has the executable as specified output. has specified output
-                */
-                createOWLObjectPropertyAssertion(compiling, iriMap.lookupObjPropIri("has specified output"), executable, odf, oo);
 
                 /*
                     The simulating achieves the objective of the executable

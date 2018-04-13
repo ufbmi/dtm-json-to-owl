@@ -307,9 +307,10 @@ public class DatasetProcessor {
     	String line;
     	while ((line=lnr.readLine())!=null) {
     		String[] flds = line.split(Pattern.quote("\t"));
+    		String developerName = flds[0].toLowerCase();
     		OWLNamedIndividual devInd = odf.getOWLNamedIndividual(IRI.create(flds[1]));
-    		devNis.put(flds[0], devInd);
-    		//System.out.println("Loading developer " + flds[0]);
+    		devNis.put(developerName, devInd);
+    		System.out.println("Loading developer " + developerName);
     	}
     	lnr.close();
     	fr.close();
@@ -561,16 +562,17 @@ public class DatasetProcessor {
 
 	    	String prefTerm = label + ", developer of " + fullName;
 	    	OWLNamedIndividual devi = null;
-	    	if (devNis.containsKey(label)) {
-	    		devi = devNis.get(label);
+	    	String devKey = label.toLowerCase();
+	    	if (devNis.containsKey(devKey)) {
+	    		devi = devNis.get(devKey);
 	    	} else {
-	    		System.err.println("CREATING DEVELOPER: "  + label);
+	    		System.err.println("CREATING DEVELOPER: "  + label + " (key = " + devKey + ")");
 			 	devi = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("developer"), 
 			 				iriMap.lookupAnnPropIri("label"), label);
 			 	OWLNamedIndividual lpri = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("legalpersonrole"), 
 			 								iriMap.lookupAnnPropIri("label"), "legal person role of " + label);
 				createOWLObjectPropertyAssertion(devi, iriMap.lookupObjPropIri("bearer"), lpri, odf, oo);
-				devNis.put(label, devi);
+				devNis.put(devKey, devi);
 	    	}
 	    	addAnnotationToNamedIndividual(devi, iriMap.lookupAnnPropIri("editor preferred"), prefTerm, odf, oo);
 			createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("has active participant"), devi, odf, oo);
