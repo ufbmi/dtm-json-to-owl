@@ -236,7 +236,7 @@ public class DatasetProcessor {
 
 			    	if (isValidFieldValue(format)) {
 						handleDataFormats(format, dataSubtype, niMap, oo, odf, iriMap);
-			    	} 
+					}
 
 			    	if (isValidFieldValue(aoc) && aoc.toLowerCase().equals("true")) {
 						OWLNamedIndividual datasetConcInd = niMap.get("olympusConc");
@@ -553,7 +553,7 @@ public class DatasetProcessor {
 			createInd = niMap.get("data set creation");
 		}
 
-	    String[] devs = developers.split(Pattern.quote(","));
+	    String[] devs = developers.split(Pattern.quote(";"));
 
 	    for (int i=0; i<devs.length; i++) {
 	    	String label = devs[i].trim();
@@ -792,10 +792,21 @@ public class DatasetProcessor {
     public static void handleDataFormats(String value, String subtype, HashMap<String, OWLNamedIndividual> niMap,
 				  OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	
+    		String[] formatInfo = value.split(Pattern.quote(";"));
+			OWLNamedIndividual formatInd = null;
+			for (String format : formatInfo) {
+				format = format.trim();
+				if (formatInds.containsKey(format)) {
+					formatInd = formatInds.get(format);
+					System.out.println("found format by string: " + format);
+					break;
+				}
+			}    		
+
 		    uniqueFormats.add(value);
 
-		    OWLNamedIndividual formatInd = formatInds.get(value);
-		    if (formatInd == null && value.equals("Apollo XSD")) {
+		    if (formatInd == null && (value.equals("Apollo XSD") || formatInfo[0].equals("Apollo XSD")
+		    	  || (formatInfo.length > 1 && formatInfo[1].equals("Apollo XSD")))) {
 		    	if (subtype.equals("case series data")) {
 		    		formatInd = formatInds.get("APOLLO:CaseSeries-v4.0.1");
 		    	} else if (subtype.equals("epidemic data set")) {
@@ -946,7 +957,7 @@ public class DatasetProcessor {
 		   
 		    for (String key : keys) {
 				formatInds.put(key, formatInd);
-				// System.out.println("Data format key = '" + key + "'");
+				 System.out.println("Data format key = '" + key + "'");
 		    }
 		}
 		lnr.close();
