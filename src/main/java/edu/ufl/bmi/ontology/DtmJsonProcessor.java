@@ -49,7 +49,7 @@ import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
 
 public class DtmJsonProcessor {
-    static long iriCounter = 1200007500L;
+    static long iriCounter = 1200008100L;
     static String iriPrefix = "http://www.pitt.edu/obc/IDE_ARTICLE_";
     static int iriLen = 10;
 
@@ -179,12 +179,17 @@ public class DtmJsonProcessor {
 						nor data service, skip it.
 				*/
 				JsonElement typeElem = jo2.get("type");
+				String typeFragment = null;
 				if (typeElem.isJsonPrimitive()) {
 					JsonPrimitive typeValue = (JsonPrimitive)typeElem;
 					String type = typeValue.getAsString();
 					if (type.equals("edu.pitt.isg.mdc.dats2_2.Dataset") ||
-						type.equals("edu.pitt.isg.mdc.dats2_2.DataStandard"))
+						type.equals("edu.pitt.isg.mdc.dats2_2.DataStandard") ||
+						type.equals("edu.pitt.isg.mdc.dats2_2.DatasetWithOrganization"))
 						continue;
+					String[] typeFragments = type.split(Pattern.quote("."));
+					typeFragment = typeFragments[typeFragments.length-1];
+					System.out.println("TYPE ATTRIBUTE HAS VALUE: " + typeFragment);
 				} else {
 					// else it's an error!
 					System.err.println("Bad JSON - type element should be primitive.");
@@ -197,11 +202,14 @@ public class DtmJsonProcessor {
 				JsonElement contentElem = jo2.get("content");
 				JsonObject contentObject = (JsonObject)contentElem;
 
-
+				String subtype = null;
                 JsonElement je3 = contentObject.get("subtype");
-                if (je3.isJsonPrimitive()) {
+                if (je3 == null) { 
+                	subtype = typeFragment;
+                } else if (je3.isJsonPrimitive()) {
                     JsonPrimitive jprim = (JsonPrimitive) je3;
-                    String subtype = jprim.getAsString();
+                    subtype = jprim.getAsString();
+                }
                     System.out.println("SUBTYPE.  subtype=\"" + subtype + "\"");
 
                     //System.out.println("\t"+ key  + " is a " + subtype);
@@ -322,7 +330,8 @@ public class DtmJsonProcessor {
                         String ks = k.next();
                         IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(subtype) : iriMap.lookupClassIri(ks);
                         //System.out.println("\t\t\t'" + ks + "'\t" + classIri);
-                        String indLabel = fullName + " " + subtype.substring(0, subtype.length() - 1);
+                        String indLabel = fullName + " " + (
+                        	(subtype.equals("MetagenomicAnalysis")) ? "metagenomic analysis" :subtype.substring(0, subtype.length() - 1));
                         indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
                         OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel);
                         //if (ks.equals("dtm")) System.out.println("DTMINDLABEL: " + indLabel);
@@ -460,7 +469,10 @@ public class DtmJsonProcessor {
                                             System.out.println("WARNING: ignoring " + keyj + " attribute.");
                                             continue;
                                         }
-                                        String value = idElem.getAsJsonObject().get("identifierDescription").getAsString();
+                                        JsonElement valueElem = idElem.getAsJsonObject().get("identifierDescription");
+                                        if (valueElem == null) continue;
+
+                                        String value = valueElem.getAsString();
 
                                         if (keyj.equals("locationCoverage")) {
                                             //System.out.println("LOCATION: " + value);
@@ -541,10 +553,13 @@ public class DtmJsonProcessor {
 
                                 }
                             }
-                        }
+                        //}
                     } // end while (j.hasNext())
 
-                    //Now, we need to connect up all the individuals
+ 
+
+                }
+                   //Now, we need to connect up all the individuals
                     connectDtmIndividuals(niMap, oo, odf, iriMap);
 
                     //System.out.println(locations.size());
@@ -569,7 +584,7 @@ public class DtmJsonProcessor {
                     popsNeededByDtm.put(fullName, popsForThisDtm);
 
                     handleSimInds(niMap, oo, odf, iriMap);
-
+                
                     if (!hasIdentifier) {
                     	identifierToOwlIndividual.put(baseName, niMap.get("dtm"));
                         System.out.println("BASE NAME IS: " + baseName);
@@ -578,7 +593,6 @@ public class DtmJsonProcessor {
                     	//System.out.println("hashing individual with baseName=" + baseName + ", other info is " +
                     	//	"baseLabel=" + baseLabel + ", fullName=" + fullName + ", versionSuffix=" + versionSuffix);
                     }
-                }
 
 
                 try {
@@ -745,6 +759,8 @@ public class DtmJsonProcessor {
                     generation, so that any other programs needing to pick up where
                     this one left off can do so.
             */
+           	System.out.println(nextSimPopIri());
+            System.out.println(nextSimPopIri());
             System.out.println(nextIri());
             System.out.println(nextIri());
 
@@ -1157,7 +1173,7 @@ public class DtmJsonProcessor {
                 && !value.startsWith("?") && !value.toLowerCase().equals("under development")
                 && !value.toLowerCase().equals("identifier will be created at time of release")) {
 
-            String idText = value, url = "";
+            String idText = value.replace("dx.",""), url = "";
         	/*
         		If we get a value with <a href, then it's embedded in HTML, so parse out the URL and text
         	*/
@@ -1175,6 +1191,7 @@ public class DtmJsonProcessor {
             int position = idText.indexOf("doi.org/10.");
             if (idText.startsWith("10.")) {
                 identifierClassIri = iriMap.lookupClassIri("doi");
+                url = "http://doi.org/" + idText;
             } else if (position > 0) {
             	identifierClassIri = iriMap.lookupClassIri("doi");
 				if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
@@ -1305,10 +1322,15 @@ public class DtmJsonProcessor {
             String value = ((JsonPrimitive) je).getAsString();
             String[] htmls = value.split(Pattern.quote(","));
             for (String html : htmls) {
-                Document d = Jsoup.parse(html);
-                Elements links = d.select("a");
-                String url = links.get(0).attr("href");
-                String txt = links.get(0).ownText();
+            	String url = null;
+            	if (html.contains("a href")){
+                	Document d = Jsoup.parse(html);
+                	Elements links = d.select("a");
+                	url = links.get(0).attr("href");
+                	//String txt = links.get(0).ownText();  // not doing anything with this text, so...
+                } else {
+                	url = html;
+                }
                 addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
             }
         } else {
