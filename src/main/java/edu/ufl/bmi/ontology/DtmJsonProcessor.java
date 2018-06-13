@@ -1197,7 +1197,7 @@ public class DtmJsonProcessor {
 				if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
                 url = idText;
                 idText = idText.substring(position + 8);
-                //System.out.println("New id text is: " + idText + ", url = " + url);
+                System.out.println("New id text is: " + idText + ", url = " + url);
             } else {
             	/*
             		If it is not a DOI, then just use the regular identifier class
