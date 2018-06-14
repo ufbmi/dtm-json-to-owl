@@ -1174,6 +1174,10 @@ public class DtmJsonProcessor {
                 && !value.toLowerCase().equals("identifier will be created at time of release")) {
 
             String idText = value.replace("dx.",""), url = "";
+
+        	if (idText.equals("https://zenodo.org/record/319937#.WKxb1xLytPV")) { idText = "10.5281/zenodo.319937"; }  //fixing BAD doi that Pitt assigned to Pitt SEIR model
+        	if (idText.equals("https://zenodo.org/badge/latestdoi/80568018")) { idText = "10.5281/zenodo.268504"; } //bad DOI for FRED Windows
+        	if (idText.equals("https://zenodo.org/record/439078#.WNvahxLytzq")) { idText = "10.5281/zenodo.439078"; }  //bad DOI for Pitt anthrax DTM
         	/*
         		If we get a value with <a href, then it's embedded in HTML, so parse out the URL and text
         	*/
@@ -1827,25 +1831,28 @@ public class DtmJsonProcessor {
 		    //connect executable of DTM to concretization of executable of DTM.  If we didn't create new concretization, then it's already connected.
 		    createOWLObjectPropertyAssertion(execInd, iriMap.lookupObjPropIri("is concretized as"), execConcInd, odf, oo);
 		}*/
+		if (value.equals("true")) {
+        	String uidsConcIndPrefTerm = "Concretization of " + fullName + " available through, but not as part of, UIDS";
+        	addAnnotationToIndividual(uidsConcInd, iriMap.lookupAnnPropIri("editor preferred"), uidsConcIndPrefTerm, odf, oo);
+        	//create disposition to invoke DTM
+        	String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
+        	OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
 
-        String uidsConcIndPrefTerm = "Concretization of " + fullName + " available through, but not as part of, UIDS";
-        addAnnotationToIndividual(uidsConcInd, iriMap.lookupAnnPropIri("editor preferred"), uidsConcIndPrefTerm, odf, oo);
-        //create disposition to invoke DTM
-        String invokeDispPrefTerm = "disposition of UIDS to invoke " + fullName;
-        OWLNamedIndividual invokeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), invokeDispPrefTerm);
+        	//connect concretization of UIDS to dispostion to invoke - disp has basis in concretization
+        	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("has basis in"), uidsExecutableConcretization, odf, oo);
 
-        //connect concretization of UIDS to dispostion to invoke - disp has basis in concretization
-        createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("has basis in"), uidsExecutableConcretization, odf, oo);
+        	//create disposition to execute DTM
+        	String executeDispPrefTerm = "disposition of remote service to execute " + fullName;
+        	OWLNamedIndividual executeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), executeDispPrefTerm);
 
-        //create disposition to execute DTM
-        String executeDispPrefTerm = "disposition of remote service to execute " + fullName;
-        OWLNamedIndividual executeDisp = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("disposition"), iriMap.lookupAnnPropIri("editor preferred"), executeDispPrefTerm);
+        	//connect disposition to execute to DTM concretization of executable of DTM - execute disp has basis in the exec conc for uids
+        	createOWLObjectPropertyAssertion(executeDisp, iriMap.lookupObjPropIri("has basis in"), uidsConcInd, odf, oo);
 
-        //connect disposition to execute to DTM concretization of executable of DTM - execute disp has basis in the exec conc for uids
-        createOWLObjectPropertyAssertion(executeDisp, iriMap.lookupObjPropIri("has basis in"), uidsConcInd, odf, oo);
-
-        //connect dispositions
-        createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);
+        	//connect dispositions
+        	createOWLObjectPropertyAssertion(invokeDisp, iriMap.lookupObjPropIri("s-depends"), executeDisp, odf, oo);
+        } else {
+        	System.out.println("UIDS non true value: " + value);
+        }
     }
 
     public static void handleControlMeasures(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,

@@ -122,3 +122,4 @@ website with data	http://purl.obolibrary.org/obo/APOLLO_SV_00000590	class
 climate data set	http://purl.obolibrary.org/obo/APOLLO_SV_00000591	class
 population census	http://purl.obolibrary.org/obo/APOLLO_SV_00000153	class
 genomic data	http://www.ebi.ac.uk/efo/EFO_0004600	class
+MetagenomicAnalysis	http://purl.obolibrary.org/obo/APOLLO_SV_00000592	class
