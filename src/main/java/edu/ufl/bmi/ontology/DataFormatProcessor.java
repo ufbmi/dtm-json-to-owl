@@ -143,6 +143,8 @@ public class DataFormatProcessor {
 				String formatMachineReadableSpecIri = flds[12].trim();
 				String formatTitle = flds[13].trim();
 				String formatIndexingTerms = flds[14].trim();
+				String formatIsInMdcTxt = flds[16].trim();
+				String formatDoi = flds[17].trim();
 				
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + formatType + "\"");
@@ -172,9 +174,16 @@ public class DataFormatProcessor {
 
 					OWLNamedIndividual mdcInd = odf.getOWLNamedIndividual(iriMap.lookupIndividIri("mdc"));
 					/*
-						Add all formats to MDC.
+						Add format to MDC if it's marked "true" as being a part of MDC.
+
+						This step is necessary because the Pitt group sunsetted the EpiCase Format.  WE assigned it an IRI,
+						  so we won't delete it, but we don't want to count it in the FAIR-o-meter, so we qualify all
+						  the FAIR-o-meter queries based on whether things are in MDC.
 					*/
-					createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), format, odf, oo);
+					boolean isMdc = Boolean.parseBoolean(formatIsInMdcTxt);
+					if (isMdc) {
+						createOWLObjectPropertyAssertion(mdcInd, iriMap.lookupObjPropIri("has proper part"), format, odf, oo);
+					}
 
 					if (isValidFieldValue(formatTitle)) {
 						addAnnotationToNamedIndividual(format, titleIri, formatTitle, odf, oo);
@@ -206,6 +215,10 @@ public class DataFormatProcessor {
 
 			    	if (isValidFieldValue(formatMachineReadableSpecIri)) {
 			    		handleMachineReadableSpec(formatMachineReadableSpecIri, niMap, oo, odf, iriMap);
+			    	}
+
+			    	if (isValidFieldValue(formatDoi)) {
+			    		handleDigitalObjectIdentifier(formatDoi, niMap, oo, odf, iriMap);
 			    	}
 
 			    	/* There's no authors attribute for data formats at present
@@ -399,6 +412,20 @@ public class DataFormatProcessor {
 		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
 										iriMap.lookupAnnPropIri("label"), idText);
 		niMap.put("format identifier", idInd);
+		if (url != null && url.length()>0) {
+			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
+		}
+		createOWLObjectPropertyAssertion(idInd, iriMap.lookupObjPropIri("denotes"), niMap.get("format"), odf, oo);
+    }
+
+    public static void handleDigitalObjectIdentifier(String idText, HashMap<String, OWLNamedIndividual> niMap,
+					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+    	String url = "http://dx.doi.org/" + idText;
+    	IRI identifierClassIri = (idText.startsWith("10.")) ? 
+									iriMap.lookupClassIri("doi") : iriMap.lookupClassIri("identifier");
+		OWLNamedIndividual idInd = createNamedIndividualWithTypeAndLabel(odf, oo, identifierClassIri, 
+										iriMap.lookupAnnPropIri("label"), idText);
+		niMap.put("format doi", idInd);
 		if (url != null && url.length()>0) {
 			addAnnotationToNamedIndividual(idInd, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
 		}
