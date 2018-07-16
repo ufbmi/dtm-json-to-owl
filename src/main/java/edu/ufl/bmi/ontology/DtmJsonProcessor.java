@@ -1928,10 +1928,10 @@ public class DtmJsonProcessor {
                         //connect parsing to format
                         createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
-                        //connect parsing to plannedSpec
+                        //connect parsing to plan specification
                         createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
 
-                        //connect plannedSpec to executable
+                        //connect plan specification to executable
                         createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
                     } else {
                         System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + value);
@@ -1965,13 +1965,13 @@ public class DtmJsonProcessor {
                         OWLNamedIndividual dataWritingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
                                 iriMap.lookupAnnPropIri("editor preferred"), dataWritingLabel);
 
-                        //connect parsing to format
+                        //connect data encoding to format
                         createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
-                        //connect parsing to plannedSpec
+                        //connect data encoding to plan specification
                         createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
 
-                        //connect plannedSpec to executable
+                        //connect plan specification to executable
                         createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
                     } else {
                         System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + value);
