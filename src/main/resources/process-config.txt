@@ -21,3 +21,5 @@ pathogen_evolution_pops=src/main/resources/pathogen_evolution_indexing.txt
 population_dynamics_pops=src/main/resources/population_dynamics_indexing.txt
 grant_mapping=src/main/resources/grant_mapping_to_iri.txt
 transmission_tree_pops=src/main/resources/transmission_tree_indexing.txt
+software_io_info=src/main/resources/software_input_output_info.txt
+

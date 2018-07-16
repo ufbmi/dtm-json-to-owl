@@ -47,6 +47,7 @@ import edu.ufl.bmi.misc.DtmIndivConnectGuide;
 import edu.ufl.bmi.misc.DtmIndividConnectRule;
 import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
+import edu.ufl.bmi.misc.SoftwareIoInfo;
 
 public class DtmJsonProcessor {
     static long iriCounter = 1200008100L;
@@ -84,6 +85,8 @@ public class DtmJsonProcessor {
     static HashMap<String, OWLNamedIndividual> licenseNis;
 
     static PublicationLinks pubLinks;
+
+    static SoftwareIoInfo ioInfo;
 
     static HashMap<String, String> dtmToSimInds;
     static HashMap<String, String> simPopIris;
@@ -862,6 +865,9 @@ public class DtmJsonProcessor {
             loadAndCreateGrantMapping();
 
             initializeForecasterInfo();
+
+            ioInfo = new SoftwareIoInfo();
+            ioInfo.init(p.getProperty("software_io_info"));
 
             if (attributesHandledInPostprocessing == null) {
                 attributesHandledInPostprocessing = new HashSet<String>();
