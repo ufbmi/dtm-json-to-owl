@@ -322,7 +322,7 @@ public class DtmJsonProcessor {
 
                     //System.out.println("base name = " + baseName + ", version = " + version);
                     String baseLabel = (versionNames == null) ? baseName : baseName + " - " +
-                            ((Character.isDigit(versionSuffix.charAt(0))) ? " v" + versionSuffix : versionSuffix);
+                            ((Character.isDigit(versionSuffix.charAt(0))) ? "v" + versionSuffix : versionSuffix);
                     fullName = baseLabel;
                     //System.out.println("FULLNAME: " + fullName);
                     Iterator<String> k = reqInds.iterator();
@@ -1899,6 +1899,13 @@ public class DtmJsonProcessor {
 
     public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+    	if (ioInfo.getInputListForLabel(fullName) != null) {
+    		ArrayList<String> inputs = ioInfo.getInputListForLabel(fullName);
+    		System.out.println("Bypassing JSON data for curated software input data for: " + fullName + " " + inputs.size());
+    	} else {
+    		System.out.println("No curated software input data for: " + fullName);
+    	}
+
         JsonElement je = e.getValue();
         if (je instanceof JsonArray) {
             JsonArray elemArray = (JsonArray) je;

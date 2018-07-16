@@ -147,8 +147,8 @@ public class GeoNamesAdminLevelProcessing {
 		int level = Integer.parseInt(flds[7].substring(flds[7].length()-1));
 		int iLevel = level-1;
 
-		OWLNamedIndividual gr = createNamedIndividualWithTypeAndLabel(oos[iLevel], iriMap.lookupClassIri("geo region"), iriMap.lookupAnnPropIri("editor preferred"), flds[1]);
-		addAnnotationToNamedIndividual(gr, iriMap.lookupAnnPropIri("label"), flds[2], oos[iLevel]);
+		OWLNamedIndividual gr = createNamedIndividualWithTypeAndLabel(oos[iLevel], iriMap.lookupClassIri("geo region"), iriMap.lookupAnnPropIri("editor preferred"), "region of " + flds[1]);
+		addAnnotationToNamedIndividual(gr, iriMap.lookupAnnPropIri("label"), "region of " + flds[2], oos[iLevel]);
 		addAnnotationToNamedIndividual(gr, iriMap.lookupAnnPropIri("geonameid"), flds[0], oos[iLevel]);
 
 		String[] altTerms = flds[3].split(Pattern.quote(","));
@@ -177,11 +177,27 @@ public class GeoNamesAdminLevelProcessing {
 		    annPropIri = iriMap.lookupAnnPropIri("admin4 code");
 		}
 	 
+	 	OWLNamedIndividual parentInd = country;
 		if (iParentFld > 0) {
-		    createOWLObjectPropertyAssertion(gr, iriMap.lookupObjPropIri("proper part"), gnAdmCodeToNamedInd.get(flds[iParentFld]), oos[iLevel]);
-		} else {
-		    createOWLObjectPropertyAssertion(gr, iriMap.lookupObjPropIri("proper part"), country, oos[iLevel]);
+			if (gnAdmCodeToNamedInd.get(flds[iParentFld]) == null) {
+				System.err.println("parent not found on line " + lnr.getLineNumber() + "\n\t" + line);
+				boolean found = false;
+				while (iParentFld > 9) {
+					iParentFld--;
+					if (gnAdmCodeToNamedInd.get(flds[iParentFld]) != null) {
+						found = true;
+						break;
+					}
+				}
+				if (found) {
+					System.out.println("Connecting " + flds[1] + " to higher admin level than immediate parent level.");
+					parentInd = gnAdmCodeToNamedInd.get(flds[iParentFld]);
+				}
+			} else {
+				parentInd = gnAdmCodeToNamedInd.get(flds[iParentFld]);
+			}
 		}
+		createOWLObjectPropertyAssertion(gr, iriMap.lookupObjPropIri("proper part"), parentInd, oos[iLevel]);
 		   
 		addAnnotationToNamedIndividual(gr, annPropIri, flds[iCodeFld], oos[iLevel]);
 		gnAdmCodeToNamedInd.put(flds[iCodeFld], gr);
