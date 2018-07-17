@@ -1944,31 +1944,48 @@ public class DtmJsonProcessor {
         	String planSpecPrefTerm = "data input #" + iInput + " of " + cInput + " for executable of " + fullName;
         	OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataInputPlanSpecification"),
         			iriMap.lookupAnnPropIri("editor preferred"), planSpecPrefTerm);
+        	//connect plan specification to executable.  The plan specification is part of the executable.
+            createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
 
         	String inputFormatsConcat = inputIter.next();
         	String[] inputFormats = inputFormatsConcat.split(Pattern.quote(";"));
+        	
+        	//for each format in the list for the current input, associate the input format with the input plan specification
+        	//  via a data parsing according to the input format specification.
         	for (String inputFormat : inputFormats) {
             	OWLNamedIndividual formatInd = formatInds.get(inputFormat);
-            	if (formatInd != null) {
-                	String dataParsingLabel = "data parsing of file in " + inputFormat + " format by " + fullName;
-                	OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+            	if (formatInd == null) {
+            		System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + inputFormat);
+
+            		/*
+            			Go ahead and create a non-MDC-registered data format.  We just have to be careful when
+            				writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
+            				both in terms of data formats in MDC, and in terms of the number of inputs with a data
+            				format registered in MDC. 
+         			*/
+            		String formatSpecLabel = inputFormat + ", a data format not cataloged in MDC, but that is used as " +
+            				"an input format to " + fullName + ", which is a software that is cataloged in MDC.";
+            		formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
+            				iriMap.lookupAnnPropIri("editor preferred"), formatSpecLabel);   
+
+            		formatInds.put(inputFormat, formatInd);  //save just in case we encounter it again.             	
+            	}
+
+            	addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("comment"), 
+            			"data input format for " + fullName, odf, oo);
+
+            	String dataParsingLabel = "data parsing of file in " + inputFormat + " format by " + fullName;
+				OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
                     	    iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
 
-                	//connect parsing to format
-                	createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+            	//connect parsing to format.  Parsing realizes data input format specification
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
-            		//connect parsing to plan specification
-                	createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-
-                	//connect plan specification to executable
-                	createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
-            	} else {
-                	System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + inputFormat);
-            	}
+            	//connect parsing to plan specification.  Parsing realizes data input specification.
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
             }
             iInput++;
         }
- 
     }
 
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
