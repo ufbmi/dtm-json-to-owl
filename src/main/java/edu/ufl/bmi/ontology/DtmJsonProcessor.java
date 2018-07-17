@@ -1899,55 +1899,76 @@ public class DtmJsonProcessor {
 
     public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+    	
+    	ArrayList<String> inputs = null;
     	if (ioInfo.getInputListForLabel(fullName) != null) {
-    		ArrayList<String> inputs = ioInfo.getInputListForLabel(fullName);
+    		inputs = ioInfo.getInputListForLabel(fullName);
     		System.out.println("Bypassing JSON data for curated software input data for: " + fullName + " " + inputs.size());
     	} else {
     		System.out.println("No curated software input data for: " + fullName);
-    	}
-
-        JsonElement je = e.getValue();
-        if (je instanceof JsonArray) {
-            JsonArray elemArray = (JsonArray) je;
-            Iterator<JsonElement> elemIter = elemArray.iterator();
-            int size = elemArray.size();
-            while (elemIter.hasNext()) {
-                JsonElement elemi = elemIter.next();
-                if (elemi instanceof JsonPrimitive) {
-                    String value = ((JsonPrimitive) elemi).getAsString().trim();
-                    if (value.trim().startsWith("<a href")) {
-                        Document d = Jsoup.parse(value);
-                        Elements links = d.select("a");
-                        String url = links.get(0).attr("href");
-                        value = links.get(0).ownText();
-                    }
-                    uniqueInputFormats.add(value);
-
-                    OWLNamedIndividual formatInd = formatInds.get(value);
-                    if (formatInd != null) {
-                        String planSpecLabel = "data parsing plan specification for format " + value + " as part of " + fullName;
-                        String dataParsingLabel = "data parsing of file in " + value + " format by " + fullName;
-                        OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableParsingPlan"),
-                                iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-                        OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
-                                iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
-
-                        //connect parsing to format
-                        createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
-
-                        //connect parsing to plan specification
-                        createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
-
-                        //connect plan specification to executable
-                        createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+    	
+    		inputs = new ArrayList<String>();
+    		String values = "";
+        	JsonElement je = e.getValue();
+        	if (je instanceof JsonArray) {
+            	JsonArray elemArray = (JsonArray) je;
+            	Iterator<JsonElement> elemIter = elemArray.iterator();
+            	int size = elemArray.size();
+            	while (elemIter.hasNext()) {
+                	JsonElement elemi = elemIter.next();
+                	if (elemi instanceof JsonPrimitive) {
+                    	String value = ((JsonPrimitive) elemi).getAsString().trim();
+                    	if (value.trim().startsWith("<a href")) {
+                        	Document d = Jsoup.parse(value);
+                        	Elements links = d.select("a");
+                        	//String url = links.get(0).attr("href");
+                        	value = links.get(0).ownText();
+                    	}
+                    	values += value;
+                    	if (elemIter.hasNext()) values += ",";   //we're treating everything in the list as an alternative format for one input
+                    	uniqueInputFormats.add(value);
                     } else {
-                        System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + value);
+                    	System.err.println("Value of data input format attribute is not primitive.");
                     }
                 }
+                inputs.add(values);
             }
-        } else {
-            System.err.println("value of dataInputFormats attribute must be array. Ignoring " + je.getAsString());
         }
+
+        //for each input we create a plan specification and relate it to the various data format specs that are options
+        int iInput = 1;
+        int cInput = inputs.size();
+        Iterator<String> inputIter = inputs.iterator();
+        while (inputIter.hasNext()) {
+        	//create the overall "data input plan specification"
+        	String planSpecPrefTerm = "data input #" + iInput + " of " + cInput + " for executable of " + fullName;
+        	OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataInputPlanSpecification"),
+        			iriMap.lookupAnnPropIri("editor preferred"), planSpecPrefTerm);
+
+        	String inputFormatsConcat = inputIter.next();
+        	String[] inputFormats = inputFormatsConcat.split(Pattern.quote(";"));
+        	for (String inputFormat : inputFormats) {
+            	OWLNamedIndividual formatInd = formatInds.get(inputFormat);
+            	if (formatInd != null) {
+                	String dataParsingLabel = "data parsing of file in " + inputFormat + " format by " + fullName;
+                	OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+                    	    iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+
+                	//connect parsing to format
+                	createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+            		//connect parsing to plan specification
+                	createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+
+                	//connect plan specification to executable
+                	createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+            	} else {
+                	System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + inputFormat);
+            	}
+            }
+            iInput++;
+        }
+ 
     }
 
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
