@@ -192,7 +192,7 @@ public class DtmJsonProcessor {
 						continue;
 					String[] typeFragments = type.split(Pattern.quote("."));
 					typeFragment = typeFragments[typeFragments.length-1];
-					System.out.println("TYPE ATTRIBUTE HAS VALUE: " + typeFragment);
+					System.out.println("\n\nTYPE ATTRIBUTE HAS VALUE: " + typeFragment);
 				} else {
 					// else it's an error!
 					System.err.println("Bad JSON - type element should be primitive.");
@@ -1903,7 +1903,7 @@ public class DtmJsonProcessor {
     	ArrayList<String> inputs = null;
     	if (ioInfo.getInputListForLabel(fullName) != null) {
     		inputs = ioInfo.getInputListForLabel(fullName);
-    		System.out.println("Bypassing JSON data for curated software input data for: " + fullName + " " + inputs.size());
+    		System.out.println("Bypassing JSON data for curated software input data for: " + fullName + ", with " + inputs.size() + " inputs.");
     	} else {
     		System.out.println("No curated software input data for: " + fullName);
     	
@@ -1925,7 +1925,7 @@ public class DtmJsonProcessor {
                         	value = links.get(0).ownText();
                     	}
                     	values += value;
-                    	if (elemIter.hasNext()) values += ",";   //we're treating everything in the list as an alternative format for one input
+                    	if (elemIter.hasNext()) values += ";";   //we're treating everything in the list as an alternative format for one input
                     	uniqueInputFormats.add(value);
                     } else {
                     	System.err.println("Value of data input format attribute is not primitive.");
@@ -1990,41 +1990,87 @@ public class DtmJsonProcessor {
 
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                                OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-        JsonElement je = e.getValue();
-        if (je instanceof JsonArray) {
-            JsonArray elemArray = (JsonArray) je;
-            Iterator<JsonElement> elemIter = elemArray.iterator();
-            int size = elemArray.size();
-            while (elemIter.hasNext()) {
-                JsonElement elemi = elemIter.next();
-                if (elemi instanceof JsonPrimitive) {
-                    String value = ((JsonPrimitive) elemi).getAsString();
-                    uniqueOutputFormats.add(value);
+    	ArrayList<String> outputs = null;
+    	if (ioInfo.getOutputListForLabel(fullName) != null) {
+    		outputs = ioInfo.getOutputListForLabel(fullName);
+    		System.out.println("Bypassing JSON data for curated software output data for: " + fullName + ", with " + outputs.size() + " outputs.");
+    	} else {
+    		outputs = new ArrayList<String>();
+	        JsonElement je = e.getValue();
+	        if (je instanceof JsonArray) {
+	            JsonArray elemArray = (JsonArray) je;
+	            Iterator<JsonElement> elemIter = elemArray.iterator();
+	            int size = elemArray.size();
+	            String values = "";
+	            while (elemIter.hasNext()) {
+	                JsonElement elemi = elemIter.next();
+	                if (elemi instanceof JsonPrimitive) {
+	                    String value = ((JsonPrimitive) elemi).getAsString();
+	                    uniqueOutputFormats.add(value);
+	                    if (!values.trim().toLowerCase().equals("n/a")) {
+	                    	values += value;
+	                    	if (elemIter.hasNext()) values += ";";
+	                    } else {
+	                    	System.err.println("IGNORING BAD DATA OUTPUT FORMAT VALUE: " + value);
+	                    }
+	        		} else { //end if instanceof JsonPrimitive
+	        			System.err.println("Value of dataOutputFormats attribute is not primitive: " + elemi);
+	        		}
+	   			} //end while
+	   			outputs.add(values);
+	    	} //end if instanceof JsonArraty
+	    } //end else
 
-                    OWLNamedIndividual formatInd = formatInds.get(value);
-                    if (formatInd != null) {
-                        String planSpecLabel = "data encoding plan specification for format " + value + " as part of " + fullName;
-                        String dataWritingLabel = "data encoding of file in " + value + " format by " + fullName;
-                        OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("executableEncodingPlan"),
-                                iriMap.lookupAnnPropIri("editor preferred"), planSpecLabel);
-                        OWLNamedIndividual dataWritingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
-                                iriMap.lookupAnnPropIri("editor preferred"), dataWritingLabel);
+	    int iOutput = 1;
+	    int cOutput = outputs.size();
+	    Iterator<String> outputIter = outputs.iterator();
+        while (outputIter.hasNext()) {
+			//create the overall "data output plan specification"
+        	String planSpecPrefTerm = "data output #" + iOutput + " of " + cOutput + " for executable of " + fullName;
+        	OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataOutputPlanSpecification"),
+        			iriMap.lookupAnnPropIri("editor preferred"), planSpecPrefTerm);
+        	//connect plan specification to executable.  The plan specification is part of the executable.
+            createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
 
-                        //connect data encoding to format
-                        createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+        	String outputFormatsConcat = outputIter.next();
+        	String[] outputFormats = outputFormatsConcat.split(Pattern.quote(";"));
+        	
+        	//for each format in the list for the current input, associate the input format with the input plan specification
+        	//  via a data encoding according to the input format specification.
+        	for (String outputFormat : outputFormats) {
+            	OWLNamedIndividual formatInd = formatInds.get(outputFormat);
+            	System.out.println("\nPROCESSING OUTPUT FORMAT: " + outputFormat);
+            	if (formatInd == null) {
+            		System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + outputFormat);
 
-                        //connect data encoding to plan specification
-                        createOWLObjectPropertyAssertion(dataWritingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+            		/*
+            			Go ahead and create a non-MDC-registered data format.  We just have to be careful when
+            				writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
+            				both in terms of data formats in MDC, and in terms of the number of outputs with a data
+            				format registered in MDC. 
+         			*/
+            		String formatSpecLabel = outputFormat + ", a data format not cataloged in MDC, but that is used as " +
+            				"an output format by " + fullName + ", which is a software that is cataloged in MDC.";
+            		formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
+            				iriMap.lookupAnnPropIri("editor preferred"), formatSpecLabel);   
 
-                        //connect plan specification to executable
-                        createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
-                    } else {
-                        System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + value);
-                    }
-                }
+            		formatInds.put(outputFormat, formatInd);  //save just in case we encounter it again.             	
+            	}
+
+            	addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("comment"), 
+            			"data output format for " + fullName, odf, oo);
+
+            	String dataEncodingLabel = "data encoding of file in " + outputFormat + " format by " + fullName;
+				OWLNamedIndividual dataEncodingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
+                    	    iriMap.lookupAnnPropIri("editor preferred"), dataEncodingLabel);
+
+            	//connect encoding to format.  Encoding realizes data output format specification
+                createOWLObjectPropertyAssertion(dataEncodingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+            	//connect encoding to plan specification.  Encoding realizes data output specification.
+                createOWLObjectPropertyAssertion(dataEncodingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
             }
-        } else {
-            System.err.println("value of dataOutputFormats attribute must be array.  Ignoring " + je.getAsString());
+            iOutput++;
         }
     }
 
