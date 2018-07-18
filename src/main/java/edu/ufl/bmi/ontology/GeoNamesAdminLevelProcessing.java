@@ -125,7 +125,11 @@ public class GeoNamesAdminLevelProcessing {
 	    LineNumberReader lnr = new LineNumberReader(fr);
 	    String line;
 
-	    HashMap<String, OWLNamedIndividual> gnAdmCodeToNamedInd = new HashMap<String, OWLNamedIndividual>();
+	    ArrayList<HashMap<String, OWLNamedIndividual>> gnAdmCodeToNamedInd = new ArrayList<HashMap<String, OWLNamedIndividual>>();
+	    for (int i=0; i<4; i++) {
+	    	HashMap<String, OWLNamedIndividual> map = new HashMap<String, OWLNamedIndividual>();
+	    	gnAdmCodeToNamedInd.add(map);
+	    }
 	    OWLNamedIndividual country = odf.getOWLNamedIndividual(countryIri);
 
 	    while ((line=lnr.readLine())!=null) {
@@ -178,29 +182,31 @@ public class GeoNamesAdminLevelProcessing {
 		}
 	 
 	 	OWLNamedIndividual parentInd = country;
+	 	int iParentLevel = iLevel-1;
 		if (iParentFld > 0) {
-			if (gnAdmCodeToNamedInd.get(flds[iParentFld]) == null) {
+			if (gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) == null) {
 				System.err.println("parent not found on line " + lnr.getLineNumber() + "\n\t" + line);
 				boolean found = false;
 				while (iParentFld > 9) {
 					iParentFld--;
-					if (gnAdmCodeToNamedInd.get(flds[iParentFld]) != null) {
+					iParentLevel--;
+					if (gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) != null) {
 						found = true;
 						break;
 					}
 				}
 				if (found) {
 					System.out.println("Connecting " + flds[1] + " to higher admin level than immediate parent level.");
-					parentInd = gnAdmCodeToNamedInd.get(flds[iParentFld]);
+					parentInd = gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]);
 				}
 			} else {
-				parentInd = gnAdmCodeToNamedInd.get(flds[iParentFld]);
+				parentInd = gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]);
 			}
 		}
 		createOWLObjectPropertyAssertion(gr, iriMap.lookupObjPropIri("proper part"), parentInd, oos[iLevel]);
 		   
 		addAnnotationToNamedIndividual(gr, annPropIri, flds[iCodeFld], oos[iLevel]);
-		gnAdmCodeToNamedInd.put(flds[iCodeFld], gr);
+		gnAdmCodeToNamedInd.get(iLevel).put(flds[iCodeFld], gr);
 
 
 	    }
