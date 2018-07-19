@@ -95,6 +95,24 @@ public class DatasetProcessor {
 			p = new Properties();
 			p.load(pr);
 
+			/*   Modifications needed to work more smoothly with Matt's DATS processor:
+
+					1. We'll assume there are multiple files with dataset metadata instead of one big one
+					2. All these files will be in one folder
+					3. We'll try to use the file name to get the ontology class of which each dataset mentioned in the file is an instance
+					4. For screwball files, like "location", we'll fail to find a class, in which case we'll fall back on a 
+					    manually curated file.  This file will have a dataset identifier | ontology class lookup string mapping like such:
+					    		 1. https://data.cdc.gov/api/views/cjae-szjv	atmospheric data set
+								 2. https://data.cityofnewyork.us/api/views/w9ei-idxz	treatment facility census
+								 3. https://data.cityofnewyork.us/api/views/kku6-nxdu	population demographic census
+								 4. https://data.kingcounty.gov/api/views/7pbe-yd3f	treatment facility census
+								 5. https://data.sfgov.org/api/views/yg87-cd6v	treatment facility census
+
+				I will deprecate the "dataset_info" property and the new paradigm will look for dataset_directory and dataset_type_info
+					properties, where obviously the first one is the directory full of data sets and the second one is obviously
+					the manually curated, overriden, dataset type (class) information.
+			*/
+
 			//fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
 			fr = new FileReader(p.getProperty("dataset_info"));
 			lnr = new LineNumberReader(fr);
@@ -316,12 +334,21 @@ public class DatasetProcessor {
     	fr.close();
     }
 
+    /*
+    	There's a lot of non-machine interpretable ugliness in these DATS files!
+    */
     public static boolean isValidFieldValue(String value) {
-    	return (value !=null && !value.equals("null") && value.length()>0 && !value.toLowerCase().equals("n/a")
-    				&& !value.startsWith("?") && !value.toLowerCase().equals("under development") 
-    				&& !value.toLowerCase().equals("identifier will be created at time of release") 
-    				&& !value.toLowerCase().startsWith("anonymous")
-    				&& !value.toLowerCase().startsWith("unknown"));
+    	String cleanValue = (value != null) ? value.trim().toLowerCase() : null;
+    	return (value != null && cleanValue.length() > 0  
+    				&& !cleanValue.equals("null") 
+    				&& !cleanValue.equals("n/a")
+    				&& !cleanValue.startsWith("?") 
+    				&& !cleanValue.equals("under development") 
+    				&& !cleanValue.startsWith("identifier will be created at time of release") 
+    				&& !cleanValue.startsWith("anonymous")
+    				&& !cleanValue.startsWith("unknown")
+    				&& !cleanValue.equals("-")
+    				);
     }
 
     public static void handleTitle(String title, HashMap<String, OWLNamedIndividual> niMap,
