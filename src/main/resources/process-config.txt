@@ -2,7 +2,7 @@ license_info=src/main/resources/license_inds.txt
 format_info=src/main/resources/data_format_metadata-2018-07-06.txt
 dtm_sim_ind=src/main/resources/dtm_sim_inds.txt
 sim_pop_iri=src/main/resources/sim_pop_iris.txt
-dataset_info=src/main/resources/dataset_metadata-2018-04-27.txt
+dataset_info=src/main/resources/dataset_metadata-2018-07-23.txt
 #software_info=../digital-commons/src/main/resources/json/hardcoded-software.json
 #software_info=../mdc-data/json/mdc/isg/pitt/edu/v1_0/
 software_info=./all_mdc_contents_from_api_2018-07-06.json
@@ -22,4 +22,4 @@ population_dynamics_pops=src/main/resources/population_dynamics_indexing.txt
 grant_mapping=src/main/resources/grant_mapping_to_iri.txt
 transmission_tree_pops=src/main/resources/transmission_tree_indexing.txt
 software_io_info=src/main/resources/software_input_output_info.txt
-
+curated_dataset_type=src/main/resources/curated_dataset_class_info_2018-07-19.txt

@@ -81,6 +81,7 @@ public class DatasetProcessor {
     static HashMap<String, OWLNamedIndividual> dateNis;
     static HashMap<String, OWLNamedIndividual> licenseNis;
 	static HashMap<String, OWLNamedIndividual> websiteInds;
+	static HashMap<String, String> datasetIdToTypeHandle;
     static Properties p;
 
     public static void main(String[] args) {
@@ -113,7 +114,6 @@ public class DatasetProcessor {
 					the manually curated, overriden, dataset type (class) information.
 			*/
 
-			//fr = new FileReader("./src/main/resources/data_format_metadata-2017-05-25T1630.txt"
 			fr = new FileReader(p.getProperty("dataset_info"));
 			lnr = new LineNumberReader(fr);
 
@@ -144,6 +144,8 @@ public class DatasetProcessor {
 	        String websiteFname = p.getProperty("website_ind");
 	        websiteFname = websiteFname.replace("<date>", args[1].trim());
 		 	loadWebsites(websiteFname, odf);
+
+		 	loadCuratedDatasetTypeInfo();
 
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
@@ -179,6 +181,10 @@ public class DatasetProcessor {
 			    
 			    //Need to add dataset types to iris.txt
 			    IRI classIri = iriMap.lookupClassIri(dataSubtype);
+			    if (classIri == null) {
+			    	dataSubtype = datasetIdToTypeHandle.get(datasetIdentifier);
+			    	classIri = iriMap.lookupClassIri(dataSubtype);
+			    }
 			    if (classIri != null) {
 
 					System.out.println("\t"+ title + " is a " + dataSubtype);
@@ -277,6 +283,8 @@ public class DatasetProcessor {
 					
 					processAnyIndexingTerms(popIriTxt, beIriTxt, ecIriTxt, epiIriTxt, dataset, iriMap, odf, oo);
 				
+				} else { //end if classIri != null
+					System.err.println("Cannot find class IRI for specified type of dataset: " + dataSubtype);
 				}
 			}
 
@@ -335,6 +343,33 @@ public class DatasetProcessor {
     }
 
     /*
+    	MDC has some datasets listed as just "location data", which ontologically speaking, isn't great.
+
+    	Since there's just 6 or so of them at the moment, we manually curated the ontology class for each of them.
+
+    	We'll load that information, and then for any dataset for which we don't find an ontology class, we'll
+    		look to this manually curated information to get them.
+    */
+    public static void loadCuratedDatasetTypeInfo() {
+    	try {
+    		String curatedInfoFname = p.getProperty("curated_dataset_type");
+    		FileReader fr = new FileReader(curatedInfoFname);
+    		LineNumberReader lnr = new LineNumberReader(fr);
+
+    		String line;
+			datasetIdToTypeHandle = new HashMap<String, String>();
+    		while((line=lnr.readLine())!=null) {
+    			String[] flds = line.split(Pattern.quote("\t"));
+    			//flds[0] = dataset id
+    			//flds[1] = handle to dataset type in iris.txt
+    			datasetIdToTypeHandle.put(flds[0], flds[1]);
+    		}
+    	} catch (IOException ioe) {
+    		ioe.printStackTrace();
+    	}
+    }
+
+    /*
     	There's a lot of non-machine interpretable ugliness in these DATS files!
     */
     public static boolean isValidFieldValue(String value) {
@@ -365,18 +400,7 @@ public class DatasetProcessor {
     }
 
 
-    public static void handleSource(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	OWLNamedIndividual oni = niMap.get("sourcerepository");
-        JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
-	    addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), value, odf, oo);
-	} else {
-	    System.err.println("Source attribute has value that is not primitive.");
-	}
-    }
-
+ 
     public static void handleLicense(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
 	OWLNamedIndividual oni = niMap.get("license");
@@ -437,27 +461,7 @@ public class DatasetProcessor {
 		createOWLObjectPropertyAssertion(idInd, iriMap.lookupObjPropIri("denotes"), niMap.get("dataset"), odf, oo);
     }
 
-    /*
-    public static void handleSourceCodeRelease(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
-					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
-	OWLNamedIndividual oni = niMap.get("dtm");
-        JsonElement je = e.getValue();
-        if (je instanceof JsonPrimitive) {
-	    String value = ((JsonPrimitive)je).getAsString();
-	    String[] htmls = value.split(Pattern.quote(","));
-	    for (String html : htmls) {
-		Document d = Jsoup.parse(html);
-		Elements links = d.select("a");
-		String url = links.get(0).attr("href");
-		String txt = links.get(0).ownText();
-		addAnnotationToNamedIndividual(oni, iriMap.lookupAnnPropIri("hasURL"), url, odf, oo);
-	    }
-	} else {
-	    System.err.println("Source code release attribute has value that is not primitive.");
-	}
-    }
-    */
-
+ 
 /*
     public static void handleGeneralInfo(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
 					   OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -836,10 +840,16 @@ public class DatasetProcessor {
 		    	  || (formatInfo.length > 1 && formatInfo[1].equals("Apollo XSD")))) {
 		    	if (subtype.equals("case series data")) {
 		    		formatInd = formatInds.get("APOLLO:CaseSeries-v4.0.1");
+		    		System.out.println("format is listed as 'Apollo XSD' and dataset type is case series, so using " +
+		    			"APOLLO:CaseSeries-v4.0.1");
 		    	} else if (subtype.equals("epidemic data set")) {
 		    		formatInd = formatInds.get("APOLLO:Epidemic-v4.0.1");
+		    		System.out.println("format is listed as 'Apollo XSD' and dataset type is epidemic, so using " +
+		    			"APOLLO:Epidemic-v4.0.1");
 		    	} else if (subtype.equals("infectious disease scenario")) {
 					formatInd = formatInds.get("APOLLO:InfectiousDiseaseScenario-v4.0.1");
+					System.out.println("format is listed as 'Apollo XSD' and dataset type is infectious disease scenario, so using " +
+		    			"APOLLO:InfectiousDiseaseScenario-v4.0.1");
 		    	} else {
 		    		System.err.println("Format is " + value + ", and subtype is " + subtype);
 		    	}
@@ -860,7 +870,7 @@ public class DatasetProcessor {
 					*/
 				createOWLObjectPropertyAssertion(createInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 			} else {
-		    	System.err.println("Ignoring format: " + value);
+		    	System.err.println("WARNING!  Ignoring format: " + value);
 		    }
     }
 
