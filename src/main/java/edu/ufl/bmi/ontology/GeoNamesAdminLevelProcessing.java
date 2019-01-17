@@ -187,14 +187,14 @@ public class GeoNamesAdminLevelProcessing {
 					if (gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) == null) {
 						System.err.println("parent not found on line " + lnr.getLineNumber() + "\n\t" + line);
 						boolean found = false;
-						while (iParentFld > 9) {
+						do {
 							iParentFld--;
 							iParentLevel--;
 							if (flds[iParentFld] != null && flds[iParentFld].length() > 0 && gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) != null) {
 								found = true;
 								break;
 							}
-						}
+						} while (iParentFld > 9);
 						if (found) {
 							System.out.println("Connecting " + flds[1] + " to higher admin level than immediate parent level.");
 							parentInd = gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]);
