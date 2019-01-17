@@ -190,7 +190,7 @@ public class GeoNamesAdminLevelProcessing {
 						while (iParentFld > 9) {
 							iParentFld--;
 							iParentLevel--;
-							if (flds[iParentFld] != null && flds[iParentFld] != "" && gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) != null) {
+							if (flds[iParentFld] != null && flds[iParentFld].length() > 0 && gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) != null) {
 								found = true;
 								break;
 							}
