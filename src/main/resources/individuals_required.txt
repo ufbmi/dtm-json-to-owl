@@ -5,11 +5,11 @@ executables|dtm,compiling,executable
 webApplication|dtm,compiling,executable,webexecutionof
 sourceCodeRelease|dtm
 documentation|dtm,documentation
-source|dtm,sourcerepository
+codeRepository|dtm,sourcerepository
 generalInfo|dtm
 title|dtm
 directory
-version|dtm,versionid
+softwareVersion|dtm,versionid
 userGuidesAndManuals|dtm,documentation
 license|dtm
 controlMeasures|dtm,compiling,executable

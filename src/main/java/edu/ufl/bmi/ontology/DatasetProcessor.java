@@ -150,11 +150,16 @@ public class DatasetProcessor {
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
+				if (flds.length < 22) {
+					System.err.println("Line #" + lnr.getLineNumber() + " is too short (len=" + flds.length + " fields. Need at least 23). Line: " + line);
+					continue;
+				}
 				
-				String dataSubtype = flds[0].trim();
+				String dataSubtype = flds[0].trim();   if (dataSubtype.startsWith("\uFEFF")) { dataSubtype = dataSubtype.substring(1);  }
 				String title = flds[1].trim();
 				String description = flds[2].trim();
 				String datasetIdentifier = flds[3].trim();
+				/*
 				String disease = flds[4].trim();
 				String authors = flds[5].trim();
 				String created = flds[6].trim();
@@ -172,9 +177,29 @@ public class DatasetProcessor {
 				String ae = flds[20].trim();
 				String license = flds[13].trim();
 				String popIriTxt = (flds[22] != null) ? flds[22].trim() : null;
-				String beIriTxt = (flds[25] != null) ? flds[25].trim() : null;
-				String ecIriTxt = (flds[27] != null) ? flds[27].trim() : null;
-				String epiIriTxt = (flds[30] != null) ? flds[30].trim() : null;
+				String beIriTxt = (flds.length > 25 && flds[25] != null) ? flds[25].trim() : null;
+				String ecIriTxt = (flds.length > 27 && flds[27] != null) ? flds[27].trim() : null;
+				String epiIriTxt = (flds.length > 30 && flds[30] != null) ? flds[30].trim() : null;
+				*/
+				String authors = flds[4].trim();
+				String created = flds[5].trim();
+				String modified = flds[6].trim();
+				String curated = flds[7].trim();
+				String landingPage = flds[8].trim();
+				String accessPage = flds[9].trim();
+				String format = flds[11].trim();
+				String geography = flds[13].trim();
+				String apolloLocationCode = flds[14].trim();
+				String iso_3166 = flds[15].trim();
+				String iso_3166_1 = flds[16].trim();
+				String iso_3166_1_alpha_3 = flds[17].trim();
+				String aoc = flds[18].trim();
+				String ae = flds[19].trim();
+				String license = flds[12].trim();
+				String popIriTxt = (flds[21] != null) ? flds[21].trim() : null;
+				String beIriTxt = (flds.length > 24 && flds[24] != null) ? flds[24].trim() : null;
+				String ecIriTxt = (flds.length > 26 && flds[26] != null) ? flds[26].trim() : null;
+				String epiIriTxt = (flds.length > 29 && flds[29] != null) ? flds[29].trim() : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");

@@ -264,7 +264,7 @@ public class DtmJsonProcessor {
                                 System.err.println("title key does not have primitive value");
                                 throw new IllegalArgumentException("title element may not be something other than primitive!");
                             }
-                        } else if (keyj.equals("version")) {
+                        } else if (keyj.equals("softwareVersion")) {
                             JsonElement jej = ej.getValue();
                             if (jej instanceof JsonPrimitive) {
 						    	/* versionNames = new String[1];
@@ -364,9 +364,9 @@ public class DtmJsonProcessor {
                         String keyj = ej.getKey();
                         if (keyj.equals("title")) {
                             handleTitle(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("version")) {
+                        } else if (keyj.equals("softwareVersion")) {
                             handleVersion(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("source")) {
+                        } else if (keyj.equals("codeRepository")) {
                             handleSource(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("license")) {
                             handleLicense(ej, niMap, oo, odf, iriMap);
@@ -1040,6 +1040,7 @@ public class DtmJsonProcessor {
                                      OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
         //Get the individual we created to represent the software version identifier
         OWLNamedIndividual oni = niMap.get("versionid");
+        System.out.println("Version individual: " + oni);
         // ...and add a label annotation to it with the value of the version attribute in the JSON
         addAnnotationToIndividual(oni, iriMap.lookupAnnPropIri("label"), versionSuffix, odf, oo);
     }
@@ -2197,6 +2198,7 @@ public class DtmJsonProcessor {
         OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
         OWLAnnotation oa = odf.getOWLAnnotation(la, li);
         OWLAnnotationAssertionAxiom oaaa = null;
+        System.out.println(annPropIri + "     =    " + value + ",      to be placed on " + oi);
         if (oi instanceof OWLNamedIndividual) {
         	OWLNamedIndividual oni = (OWLNamedIndividual)oi;
         	oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
