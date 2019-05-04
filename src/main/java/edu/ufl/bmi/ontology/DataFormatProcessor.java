@@ -122,6 +122,7 @@ public class DataFormatProcessor {
 		 	String line;
 		    while((line=lnr.readLine())!=null) {
 				String[] flds = line.split(Pattern.quote("\t"), -1);
+				System.out.println(flds + " fields: " + line);
 				//System.out.println("line " + lnr.getLineNumber() + " has " + flds.length + " fields.");
 
 				/* IRI	name	identifier	identifier_source	type	type_IRI	

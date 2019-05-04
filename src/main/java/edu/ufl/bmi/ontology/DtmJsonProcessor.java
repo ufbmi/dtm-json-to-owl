@@ -366,7 +366,7 @@ public class DtmJsonProcessor {
                             handleTitle(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("softwareVersion")) {
                             handleVersion(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("codeRepository")) {
+                        } else if (keyj.equals("codeRepository") || keyj.equals("source")) {
                             handleSource(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("license")) {
                             handleLicense(ej, niMap, oo, odf, iriMap);
@@ -376,7 +376,7 @@ public class DtmJsonProcessor {
                             handleSourceCodeRelease(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("generalInfo") || keyj.equals("humanReadableSynopsis")) {
                             handleGeneralInfo(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("executables")) {
+                        } else if (keyj.equals("executables") || keyj.equals("binaryUrl")) {
                             handleExecutables(ej, niMap, oo, odf, iriMap);
                             fullNameToExecutable.put(fullName, niMap.get("executable"));
                         } else if (keyj.equals("webApplication")) {
@@ -385,7 +385,7 @@ public class DtmJsonProcessor {
                             handleLocation(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("documentation") || keyj.startsWith("userGuides")) {
                             handleDocumentation(ej, niMap, oo, odf, iriMap);
-                        } else if (keyj.equals("developer") || keyj.equals("developers")) {
+                        } else if (keyj.equals("developer") || keyj.equals("developers") || keyj.equals("author") || keyj.equals("authors")) {
                             handleDeveloper(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("publicationsThatUsedRelease")) {
                             handlePublicationsThatUsedRelease(ej, niMap, oo, odf, iriMap);
@@ -1202,12 +1202,14 @@ public class DtmJsonProcessor {
             int position = idText.indexOf("doi.org/10.");
             if (idText.startsWith("10.")) {
                 identifierClassIri = iriMap.lookupClassIri("doi");
-                url = "http://doi.org/" + idText;
+                url = "https://doi.org/" + idText;
             } else if (position > 0) {
             	identifierClassIri = iriMap.lookupClassIri("doi");
 				if (!url.equals(idText)) { System.err.println("bad doi: " + idText + ", url = " + url); }
                 url = idText;
+                url = url.replace("http:", "https:");
                 idText = idText.substring(position + 8);
+                if (idText.startsWith("/")) idText = idText.replace("/", "").trim();
                 System.out.println("New id text is: " + idText + ", url = " + url);
             } else {
             	/*

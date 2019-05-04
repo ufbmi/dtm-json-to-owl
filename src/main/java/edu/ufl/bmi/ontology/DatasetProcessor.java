@@ -469,10 +469,12 @@ public class DatasetProcessor {
 		int position = idText.indexOf("doi.org/10.");
 		if (idText.startsWith("10.")) {
 			identifierClassIri = iriMap.lookupClassIri("doi");
+			url = "https://doi.org/" + idText;
 		} else if (position > 0) {
 			identifierClassIri = iriMap.lookupClassIri("doi");
 			url = idText;
-			idText = idText.substring(position + 8);
+           	url = url.replace("http:", "https:");
+            idText = idText.substring(position + 8);
 			System.out.println("New id text is: " + idText + ", url = " + url);
 		} else {
 			identifierClassIri = iriMap.lookupClassIri("identifier");

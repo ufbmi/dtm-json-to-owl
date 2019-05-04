@@ -1,0 +1,308 @@
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002183	Culex quinquefasciatus in California
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002229	Culex quinquefasciatus in Nevada
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002329	Culex quinquefasciatus in Arizona
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002193	Culex quinquefasciatus in Utah
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002288	Culex quinquefasciatus in New Mexico
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002216	Culex quinquefasciatus in Illinois
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002206	Culex quinquefasciatus in Kansas
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002222	Culex quinquefasciatus in Oklahoma
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002212	Culex quinquefasciatus in Iowa
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002192	Culex quinquefasciatus in Missouri
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002209	Culex quinquefasciatus in Nebraska
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002342	Culex quinquefasciatus in Arkansas
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002246	Culex quinquefasciatus in Louisiana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002215	Culex quinquefasciatus in Mississippi
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002336	Culex quinquefasciatus in Tennessee
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002330	Culex quinquefasciatus in Kentucky
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002305	Culex quinquefasciatus in Indiana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002323	Culex quinquefasciatus in Ohio
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002180	Culex quinquefasciatus in Virginia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002221	Culex quinquefasciatus in West Virginia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002230	Culex quinquefasciatus in North Carolina
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002210	Culex quinquefasciatus in South Carolina
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002346	Culex quinquefasciatus in Georgia (United States)
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002196	Culex quinquefasciatus in Florida
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002195	Culex quinquefasciatus in Alabama
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002333	Culex quinquefasciatus in Maryland
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002202	Culex quinquefasciatus in United States
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002186	Culex quinquefasciatus in Bermuda
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002218	Culex quinquefasciatus in Bahamas
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002185	Culex quinquefasciatus in Cuba
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002279	Culex quinquefasciatus in Jamaica
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002300	Culex quinquefasciatus in Dominican Republic
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002254	Culex quinquefasciatus in Haiti
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002266	Culex quinquefasciatus in Cayman Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002236	Culex quinquefasciatus in Puerto Rico
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002198	Culex quinquefasciatus in British Virgin Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002245	Culex quinquefasciatus in Anguilla
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002220	Culex quinquefasciatus in Saint Kitts and Nevis
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002341	Culex quinquefasciatus in Montserrat
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002326	Culex quinquefasciatus in Antigua and Barbuda
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002287	Culex quinquefasciatus in Guadeloupe
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002244	Culex quinquefasciatus in Dominica
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002251	Culex quinquefasciatus in Saint Lucia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002283	Culex quinquefasciatus in Saint Vincent and the Grenadines
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002234	Culex quinquefasciatus in Barbados
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002226	Culex quinquefasciatus in Grenada
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002211	Culex quinquefasciatus in Martinique
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002331	Culex quinquefasciatus in Trinidad and Tobago
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002243	Culex quinquefasciatus in Aruba
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002303	Culex quinquefasciatus in Sint Marten
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002190	Culex quinquefasciatus in Curaçao
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002339	Culex quinquefasciatus in Bonaire
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002337	Culex quinquefasciatus in Sint Eustatius
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002207	Culex quinquefasciatus in Saba
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002264	Culex quinquefasciatus in Mexico
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002258	Culex quinquefasciatus in Belize
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002304	Culex quinquefasciatus in Guatemala
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002332	Culex quinquefasciatus in Honduras
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002297	Culex quinquefasciatus in El Salvador
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002191	Culex quinquefasciatus in Nicaragua
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002289	Culex quinquefasciatus in Costa Rica
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002299	Culex quinquefasciatus in Panama
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002292	Culex quinquefasciatus in Colombia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002324	Culex quinquefasciatus in Venezuela (Bolivarian Republic of)
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002238	Culex quinquefasciatus in Guyana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002248	Culex quinquefasciatus in Brazil
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002179	Culex quinquefasciatus in Paraguay
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002213	Culex quinquefasciatus in Bolivia (Plurinational State of)
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002241	Culex quinquefasciatus in Suriname
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002278	Culex quinquefasciatus in French Guiana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002231	Culex quinquefasciatus in Ecuador
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002275	Culex quinquefasciatus in Peru
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002281	Culex quinquefasciatus in Chile
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002204	Culex quinquefasciatus in Argentina
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002223	Culex quinquefasciatus in Uruguay
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002184	Culex quinquefasciatus in Saint Helena
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002187	Culex quinquefasciatus in Cabo Verde
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002296	Culex quinquefasciatus in Easter Island
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002232	Culex quinquefasciatus in Pitcairn
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002235	Culex quinquefasciatus in French Polynesia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002353	Culex quinquefasciatus in Hawai'i
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002201	Culex quinquefasciatus in Kiribati
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002348	Culex quinquefasciatus in Cook Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002311	Culex quinquefasciatus in Tonga
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002227	Culex quinquefasciatus in Niue
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002260	Culex quinquefasciatus in American Samoa
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002182	Culex quinquefasciatus in Samoa
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002351	Culex quinquefasciatus in Tokelau
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002214	Culex quinquefasciatus in Wallis and Futuna Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002242	Culex quinquefasciatus in Tuvalu
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002317	Culex quinquefasciatus in Fiji
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002255	Culex quinquefasciatus in New Zealand
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002203	Culex quinquefasciatus in Australia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002270	Culex quinquefasciatus in Vanuatu
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002344	Culex quinquefasciatus in New Caledonia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002312	Culex quinquefasciatus in Norfolk Island
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002350	Culex quinquefasciatus in Wake Island
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002314	Culex quinquefasciatus in Marshall Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002295	Culex quinquefasciatus in Nauru
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002225	Culex quinquefasciatus in Solomon Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002178	Culex quinquefasciatus in Papua New Guinea
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002268	Culex quinquefasciatus in Indonesia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002205	Culex quinquefasciatus in Northern Mariana Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002277	Culex quinquefasciatus in Guam
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002219	Culex quinquefasciatus in Palau
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002327	Culex quinquefasciatus in Philippines
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002347	Culex quinquefasciatus in Timor-Leste
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002253	Culex quinquefasciatus in Cocos (Keeling) Islands
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002252	Culex quinquefasciatus in Brunei Darussalam
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002282	Culex quinquefasciatus in Malaysia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002291	Culex quinquefasciatus in Taiwan
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002334	Culex quinquefasciatus in Maldives
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002208	Culex quinquefasciatus in Seychelles
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002294	Culex quinquefasciatus in Mauritius
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002256	Culex quinquefasciatus in Réunion
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002233	Culex quinquefasciatus in Mayotte
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002276	Culex quinquefasciatus in Comoros
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002313	Culex quinquefasciatus in Madagascar
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002240	Culex quinquefasciatus in Greece
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002217	Culex quinquefasciatus in Japan
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002301	Culex quinquefasciatus in China
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002272	Culex quinquefasciatus in Cambodia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002280	Culex quinquefasciatus in Thailand
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002249	Culex quinquefasciatus in Lao People’s Democratic Republic
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002286	Culex quinquefasciatus in Singapore
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002224	Culex quinquefasciatus in Viet Nam
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002200	Culex quinquefasciatus in Myanmar
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002320	Culex quinquefasciatus in Bangladesh
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002315	Culex quinquefasciatus in India
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002265	Culex quinquefasciatus in Nepal
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002318	Culex quinquefasciatus in Pakistan
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002199	Culex quinquefasciatus in Afghanistan
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002316	Culex quinquefasciatus in Iran (Islamic Republic of)
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002262	Culex quinquefasciatus in Iraq
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002259	Culex quinquefasciatus in Kuwait
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002310	Culex quinquefasciatus in United Arab Emirates
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002345	Culex quinquefasciatus in Saudi Arabia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002349	Culex quinquefasciatus in Qatar
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002319	Culex quinquefasciatus in Yemen
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002306	Culex quinquefasciatus in Oman
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002239	Culex quinquefasciatus in Bahrain
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002250	Culex quinquefasciatus in Sao Tome and Principe
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002197	Culex quinquefasciatus in Mauritania
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002309	Culex quinquefasciatus in Senegal
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002285	Culex quinquefasciatus in Guinea-Bissau
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002189	Culex quinquefasciatus in Guinea 
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002338	Culex quinquefasciatus in Sierra Leone
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002352	Culex quinquefasciatus in Côte d'Ivoire
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002269	Culex quinquefasciatus in Liberia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002340	Culex quinquefasciatus in Mali
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002271	Culex quinquefasciatus in Burkina Faso
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002237	Culex quinquefasciatus in Ghana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002188	Culex quinquefasciatus in Togo
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002321	Culex quinquefasciatus in Benin
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002247	Culex quinquefasciatus in Nigeria
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002177	Culex quinquefasciatus in Cameroon
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002176	Culex quinquefasciatus in Equatorial Guinea
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002228	Culex quinquefasciatus in Gabon
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002335	Culex quinquefasciatus in Central African Republic
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002263	Culex quinquefasciatus in Sudan
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002194	Culex quinquefasciatus in Eritrea
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002261	Culex quinquefasciatus in Djibouti
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002325	Culex quinquefasciatus in Ethiopia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002257	Culex quinquefasciatus in Somalia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002328	Culex quinquefasciatus in Kenya
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002267	Culex quinquefasciatus in Rwanda
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002273	Culex quinquefasciatus in Uganda
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002302	Culex quinquefasciatus in Burundi
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002322	Culex quinquefasciatus in Tanzania
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002343	Culex quinquefasciatus in Zanzibar
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002308	Culex quinquefasciatus in Angola
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002293	Culex quinquefasciatus in Zambia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002274	Culex quinquefasciatus in Malawi
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002284	Culex quinquefasciatus in Mozambique
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002181	Culex quinquefasciatus in Zimbabwe
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002298	Culex quinquefasciatus in Botswana
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002307	Culex quinquefasciatus in Namibia
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000002290	Culex quinquefasciatus in South Africa
+MDC:dynamic-mosquito-simulation-model-v1.0	http://www.pitt.edu/obc/IDE_0000004099	Culex quinquefasciatus in Georgia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001177	Aedes aegypti in the United States
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001229	Aedes aegypti in Tonga
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001231	Aedes aegypti in Brazil
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001233	Aedes aegypti in Puerto Rico
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001235	Aedes aegypti in Panama
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001237	Aedes aegypti in Dominica
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001239	Aedes aegypti in Colombia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001241	Aedes aegypti in Republic of Korea
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001243	Aedes aegypti in Myanmar
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001245	Aedes aegypti in Lao People's Democratic Republic
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001247	Aedes aegypti in Martinique
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001249	Aedes aegypti in Nauru
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001251	Aedes aegypti in Solomon Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001253	Aedes aegypti in Bhutan
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001255	Aedes aegypti in Tanzania
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001257	Aedes aegypti in Japan
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001259	Aedes aegypti in Malaysia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001261	Aedes aegypti in Vanuatu
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001263	Aedes aegypti in Papua New Guinea
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001265	Aedes aegypti in New Zealand
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001267	Aedes aegypti in Tuvalu
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001269	Aedes aegypti in Jamaica
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001271	Aedes aegypti in Cayman Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001273	Aedes aegypti in China
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001275	Aedes aegypti in Antigua and Barbuda
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001277	Aedes aegypti in Virgin Islands of the United States
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001279	Aedes aegypti in Aruba
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001281	Aedes aegypti in Nepal
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001283	Aedes aegypti in Mongolia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001285	Aedes aegypti in Cuba
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001287	Aedes aegypti in Chile
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001289	Aedes aegypti in Saint Kitts and Nevis
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001291	Aedes aegypti in Viet Nam
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001293	Aedes aegypti in Marshall Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001295	Aedes aegypti in Italy
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001297	Aedes aegypti in Grenada
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001299	Aedes aegypti in Saint Barthélemy
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001301	Aedes aegypti in India
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001303	Aedes aegypti in Barbados
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001305	Aedes aegypti in Afghanistan
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001307	Aedes aegypti in Bermuda
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001309	Aedes aegypti in Ecuador
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001311	Aedes aegypti in Anguilla
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001313	Aedes aegypti in Australia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001315	Aedes aegypti in Micronesia (Federated States of)
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001317	Aedes aegypti in Singapore
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001319	Aedes aegypti in Costa Rica
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001321	Aedes aegypti in Mexico
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001323	Aedes aegypti in Montserrat
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001325	Aedes aegypti in British Virgin Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001327	Aedes aegypti in Turks and Caicos Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001329	Aedes aegypti in Dominican Republic
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001331	Aedes aegypti in Guatemala
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001333	Aedes aegypti in Belize
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001335	Aedes aegypti in Guyana
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001337	Aedes aegypti in Paraguay
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001339	Aedes aegypti in Honduras
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001341	Aedes aegypti in Fiji
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001343	Aedes aegypti in Saudi Arabia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001345	Aedes aegypti in Sri Lanka
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001347	Aedes aegypti in Indonesia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001349	Aedes aegypti in Argentina
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001351	Aedes aegypti in Trinidad and Tobago
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001353	Aedes aegypti in Sint Maarten
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001355	Aedes aegypti in Brazil
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001357	Aedes aegypti in Thailand
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001359	Aedes aegypti in Timor-Leste
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001361	Aedes aegypti in Nicaragua
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001363	Aedes aegypti in Guadeloupe
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001365	Aedes aegypti in Saint Vincent and the Grenadines
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001367	Aedes aegypti in Samoa
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001369	Aedes aegypti in Uruguay
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001371	Aedes aegypti in Kiribati
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001373	Aedes aegypti in Philippines
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001375	Aedes aegypti in Saint Martin
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001377	Aedes aegypti in Canada
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001379	Aedes aegypti in France
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001381	Aedes aegypti in Saint Lucia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001383	Aedes aegypti in El Salvador
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001385	Aedes aegypti in Netherlands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001387	Aedes aegypti in Bolivia (Plurinational State of)
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001389	Aedes aegypti in Suriname
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001391	Aedes aegypti in Palau
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001393	Aedes aegypti in Venezuela
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001395	Aedes aegypti in Bahamas
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001397	Aedes aegypti in Colombia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001399	Aedes aegypti in French Guiana
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001401	Aedes aegypti in Haiti
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001403	Aedes aegypti in Bangladesh
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001405	Aedes aegypti in Brunei Darussalam
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001407	Aedes aegypti in Singapore
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001409	Aedes aegypti in Peru
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001411	Aedes aegypti in Cambodia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001413	Aedes aegypti in Venezuela
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001954	Aedes aegypti in Portugal
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001955	Aedes aegypti in Djibouti
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001956	Aedes aegypti in Seychelles
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001957	Aedes aegypti in French Polynesia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001958	Aedes aegypti in Angola
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001960	Aedes aegypti in Senegal
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001961	Aedes aegypti in Eritrea
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001962	Aedes aegypti in Burkina Faso
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001963	Aedes aegypti in Pakistan
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001964	Aedes aegypti in Comoros
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001965	Aedes aegypti in Mozambique
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001966	Aedes aegypti in Côte d'Ivoire
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001967	Aedes aegypti in Hawaiʻi
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001901	Aedes aegypti in Wallis and Futuna Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001811	Aedes aegypti in Cook Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001812	"Aedes aegypti in China, Hong Kong Special Administrative Region"
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001813	"Aedes aegypti in China, Macao Special Administrative Region"
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001814	Aedes aegypti in New Caledonia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001815	Aedes aegypti in Niue
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001816	Aedes aegypti in New Polynesia
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001817	Aedes aegypti in Pitcairn
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001818	Aedes aegypti in Tokelau
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001807	Aedes aegypti in Saint-Martin (French part)
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001632	Aedes aegypti in Mayotte
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001633	Aedes aegypti in Réunion
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001634	Aedes aegypti in Curaçao
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001622	Aedes aegypti in Guam
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001624	Aedes aegypti in Bonaire
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001625	Aedes aegypti in Sint Eustatius
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001626	Aedes aegypti in American Samoa
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001627	Aedes aegypti in Northern Mariana Islands
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001529	Aedes aegypti in Saba
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001450	Aedes aegypti in Maldives
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001452	Aedes aegypti in Taiwan
+MDC:skeeter-buster-v1.0	http://www.pitt.edu/obc/IDE_0000001416	Aedes aegypti in Florida
