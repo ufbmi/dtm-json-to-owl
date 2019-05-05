@@ -407,9 +407,23 @@ public class DtmJsonProcessor {
                         } else if (keyj.equals("controlMeasures")) {
                             handleControlMeasures(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("dataInputFormats") || keyj.equals("dataInputFormat")) {
-                            handleDataInputFormats(ej, niMap, oo, odf, iriMap);
+                            /*
+                                We get data input formats from the inputs element now, and we now ignore
+                                    any vestigaes of the old dataInputFormats / dataInputFormat elements.
+                            */
+                            //handleDataInputFormats(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("dataOutputFormats")) {
-                            handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
+                            /*
+                                We get data output formats from the outputs element now, and we now ignore
+                                    any vestigaes of the old dataInputFormats / dataInputFormat elements.
+                            */
+                            //handleDataOutputFormats(ej, niMap, oo, odf, iriMap);
+                        } else if (keyj.equals("inputs")) {
+                            System.out.println("SOFTWARE IO: INPUTS");
+                            handleSoftwareInputs(ej, niMap, oo, odf, iriMap);
+                        } else if (keyj.equals("outputs")) {
+                            System.out.println("SOFTWARE IO: OUTPUTS");
+                            handleSoftwareOutputs(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("publicationsAbout") || keyj.equals("publicationsAboutRelease")) {
                             handlePublicationsAbout(ej, niMap, oo, odf, iriMap);
                         } else if (keyj.equals("identifier")) {
@@ -1884,7 +1898,7 @@ public class DtmJsonProcessor {
                 if (cmMap.containsKey(value)) {
                     IRI classIri = cmMap.get(value);
                     String cmInstanceLabel = value + " control measure by " + fullName;
-                    String simxInstanceLabel = "simulating of epidemic with " + value + " control measure by " + fullName;
+                    String simxInstanceLabel  = "simulating of epidemic with " + value + " control measure by " + fullName;
                     OWLNamedIndividual simxInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("simulatingx"), iriMap.lookupAnnPropIri("editor preferred"), simxInstanceLabel);
                     OWLNamedIndividual cmInd = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, iriMap.lookupAnnPropIri("editor preferred"), cmInstanceLabel);
                     addAnnotationToIndividual(cmInd, iriMap.lookupAnnPropIri("label"), value, odf, oo);
@@ -1900,6 +1914,7 @@ public class DtmJsonProcessor {
         }
     }
 
+    /*
     public static void handleDataInputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
     	
@@ -1965,7 +1980,7 @@ public class DtmJsonProcessor {
             				writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
             				both in terms of data formats in MDC, and in terms of the number of inputs with a data
             				format registered in MDC. 
-         			*/
+         			//
             		String formatSpecLabel = inputFormat + ", a data format not cataloged in MDC, but that is used as " +
             				"an input format to " + fullName + ", which is a software that is cataloged in MDC.";
             		formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
@@ -1990,7 +2005,9 @@ public class DtmJsonProcessor {
             iInput++;
         }
     }
+    */
 
+    /*
     public static void handleDataOutputFormats(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                                OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
     	ArrayList<String> outputs = null;
@@ -2051,7 +2068,7 @@ public class DtmJsonProcessor {
             				writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
             				both in terms of data formats in MDC, and in terms of the number of outputs with a data
             				format registered in MDC. 
-         			*/
+         			
             		String formatSpecLabel = outputFormat + ", a data format not cataloged in MDC, but that is used as " +
             				"an output format by " + fullName + ", which is a software that is cataloged in MDC.";
             		formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
@@ -2076,6 +2093,7 @@ public class DtmJsonProcessor {
             iOutput++;
         }
     }
+    */
 
     public static void handlePublicationsAbout(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
                                                OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
@@ -3006,4 +3024,221 @@ public class DtmJsonProcessor {
         }     
     }
 
+    static protected void handleSoftwareInputs(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+
+        JsonElement je = e.getValue();
+        if (je instanceof JsonArray) {
+            JsonArray elemArray = (JsonArray) je;
+            int cInput = elemArray.size();
+            Iterator<JsonElement> elemIter = elemArray.iterator();
+            //System.out.println("Web application size: " + elemArray.size());
+            while (elemIter.hasNext()) {
+                JsonElement elemi = elemIter.next();
+                if (elemi instanceof JsonObject) {
+                    JsonObject jo = (JsonObject)elemi;
+                    JsonElement numElement = jo.get("inputNumber");
+                    String numElemValue = numElement.getAsString();
+                    System.out.println("\t\tSOFTWARE INPUT: INPUT NUMBER " + numElemValue);
+                    JsonElement descriptionElement = jo.get("description");
+                    String descriptionElementValue = descriptionElement.getAsString();
+                    JsonElement dataFormatsElement = jo.get("dataFormats");
+                    JsonArray formatsArray = (JsonArray)dataFormatsElement;
+                    ArrayList<String> inputFormats = new ArrayList<String>();
+                    if (dataFormatsElement == null) {
+                        System.err.println("Software input #" + numElemValue + " for software " + fullName + " has no dataFormats element at all.");
+                    }  else {
+                        Iterator<JsonElement> formatIterator = formatsArray.iterator();
+                   
+                        while (formatIterator.hasNext()) {
+                            JsonElement formatElemI = formatIterator.next();
+                            String formatI = formatElemI.getAsString();
+                            inputFormats.add(formatI);
+                        }
+                    }
+
+                    JsonElement isOptionalElement = jo.get("isOptional");
+                    //System.out.println("\t\tSOFTWARE INPUT OPTIONAL : " + isOptionalElement);
+                    JsonElement completeElement = jo.get("isListOfDataFormatsComplete");
+                    //System.out.println("\t\tSOFTWARE INPUT IS COMPLETE: " + completeElement);
+
+                    String isOptional = (isOptionalElement == null) ? null : isOptionalElement.getAsString();
+                    String complete = (completeElement == null) ? null : completeElement.getAsString();
+
+                    handleSoftwareInput(numElemValue, cInput, descriptionElementValue, isOptional, complete, inputFormats, niMap, oo, odf, iriMap);
+                } else {
+                    System.err.println("The software input is not an object as expected: " + elemi);
+                }
+
+            }
+        } else {
+            System.err.println("Inputs attribute has value that is not array.");
+            throw new IllegalArgumentException("Inputs attribute must be array.");
+        }
+    }
+
+    static protected void handleSoftwareInput(String iInput, int cInput, String description, String isOptional, 
+                                String isListOfDataFormatsComplete, List<String> inputFormats, HashMap<String, OWLNamedIndividual> niMap,
+                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+
+            String planSpecPrefTerm = "data input #" + iInput + " of " + cInput + " for executable of " + fullName;
+            //create a named individual that represents the software input
+            OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataInputPlanSpecification"),
+                    iriMap.lookupAnnPropIri("editor preferred"), planSpecPrefTerm);
+            //add the description element value as the rdfs:label of the software input
+            addAnnotationToIndividual(planSpecInd, iriMap.lookupAnnPropIri("label"), description, odf, oo);
+            //connect input plan specification to executable.  The software input plan specification is part of the executable.
+            createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+            
+            //for each format in the list for the current software input, associate the input format with the input plan specification
+            //  via a data parsing according to the input format specification.
+            for (String inputFormat : inputFormats) {
+                //lookup from known list of data formats, which should have been prepared by DataFormatProcessor.java first and saved 
+                //  in a file for use here.
+                OWLNamedIndividual formatInd = formatInds.get(inputFormat);
+                if (formatInd == null) {
+                    //If the data format is not a known, named format from the MDC, alert!
+                    System.err.println("UNRECOGNIZED DATA INPUT FORMAT: " + inputFormat);
+
+                    /*
+                        Go ahead and create a non-MDC-registered data format.  We just have to be careful when
+                            writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
+                            both in terms of data formats in MDC, and in terms of the number of inputs with a data
+                            format registered in MDC. 
+                    */
+                    String formatSpecLabel = inputFormat + ", a data format not cataloged in MDC, but that is used as " +
+                            "a data format to input number " + iInput + " of the software " + fullName + ", which is a software that is cataloged in MDC.";
+                    formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
+                            iriMap.lookupAnnPropIri("editor preferred"), formatSpecLabel);   
+
+                    if (!inputFormat.equals("Undocumented") && !inputFormat.equals("Proprietary"))
+                        formatInds.put(inputFormat, formatInd);  //save just in case we encounter it again.                 
+                }
+
+                addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("comment"), 
+                        "data input format for " + fullName, odf, oo);
+
+                String dataParsingLabel = "data parsing of file in " + inputFormat + " format by " + fullName;
+                OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+                            iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+
+                //connect parsing to format.  Parsing realizes data input format specification
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+                //connect parsing to plan specification.  Parsing realizes data input specification.
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+            }
+
+            //TODO we need to add info about optionality
+
+            //TODO we need to add info about whether list of formats is complete. 
+    }
+
+    static protected void handleSoftwareOutputs(Map.Entry<String, JsonElement> e, HashMap<String, OWLNamedIndividual> niMap,
+                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+        JsonElement je = e.getValue();
+        if (je instanceof JsonArray) {
+            JsonArray elemArray = (JsonArray) je;
+            int cOutput = elemArray.size();
+            Iterator<JsonElement> elemIter = elemArray.iterator();
+            //System.out.println("Web application size: " + elemArray.size());
+            while (elemIter.hasNext()) {
+                JsonElement elemi = elemIter.next();
+                if (elemi instanceof JsonObject) {
+                    JsonObject jo = (JsonObject)elemi;
+                    JsonElement numElement = jo.get("outputNumber");
+                    String numElemValue = numElement.getAsString();
+                    System.out.println("\t\tSOFTWARE OUTPUT: OUTPUT NUMBER " + numElemValue);
+                    JsonElement descriptionElement = jo.get("description");
+                    String descriptionElementValue = descriptionElement.getAsString();
+                    JsonElement dataFormatsElement = jo.get("dataFormats");
+                    JsonArray formatsArray = (JsonArray)dataFormatsElement;
+                    ArrayList<String> outputFormats = new ArrayList<String>();
+                    if (dataFormatsElement == null) {
+                        System.err.println("Software output #" + numElemValue + " for software " + fullName + " has no dataFormats element at all.");
+                    }  else {
+                        Iterator<JsonElement> formatIterator = formatsArray.iterator();
+                   
+                        while (formatIterator.hasNext()) {
+                            JsonElement formatElemI = formatIterator.next();
+                            String formatI = formatElemI.getAsString();
+                            outputFormats.add(formatI);
+                        }
+                    }
+
+                    JsonElement isOptionalElement = jo.get("isOptional");
+                    //System.out.println("\t\tSOFTWARE OUTPUT OPTIONAL : " + isOptionalElement);
+                    JsonElement completeElement = jo.get("isListOfDataFormatsComplete");
+                    //System.out.println("\t\tSOFTWARE OUTPUT IS COMPLETE: " + completeElement);
+
+                    String isOptional = (isOptionalElement == null) ? null : isOptionalElement.getAsString();
+                    String complete = (completeElement == null) ? null : completeElement.getAsString();
+
+                    handleSoftwareOutput(numElemValue, cOutput, descriptionElementValue, isOptional, complete, outputFormats, niMap, oo, odf, iriMap);
+                } else {
+                    System.err.println("The software output is not an object as expected: " + elemi);
+                }
+
+            }
+        } else {
+            System.err.println("Outputs attribute has value that is not array.");
+            throw new IllegalArgumentException("Outputs attribute must be array.");
+        }
+    }
+
+    static protected void handleSoftwareOutput(String iOutput, int cOutput, String description, String isOptional, 
+                                String isListOfDataFormatsComplete, List<String> outputFormats, HashMap<String, OWLNamedIndividual> niMap,
+                                               OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) {
+            String planSpecPrefTerm = "data output #" + iOutput + " of " + cOutput + " for executable of " + fullName;
+            //create a named individual that represents the software output
+            OWLNamedIndividual planSpecInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataOutputPlanSpecification"),
+                    iriMap.lookupAnnPropIri("editor preferred"), planSpecPrefTerm);
+            //add the description element value as the rdfs:label of the software output
+            addAnnotationToIndividual(planSpecInd, iriMap.lookupAnnPropIri("label"), description, odf, oo);
+            //connect output plan specification to executable.  The software output plan specification is part of the executable.
+            createOWLObjectPropertyAssertion(planSpecInd, iriMap.lookupObjPropIri("is part of"), niMap.get("executable"), odf, oo);
+            
+            //for each format in the list for the current software output, associate the output format with the output plan specification
+            //  via a data parsing according to the output format specification.
+            for (String outputFormat : outputFormats) {
+                //lookup from known list of data formats, which should have been prepared by DataFormatProcessor.java first and saved 
+                //  in a file for use here.
+                OWLNamedIndividual formatInd = formatInds.get(outputFormat);
+                if (formatInd == null) {
+                    //If the data format is not a known, named format from the MDC, alert!
+                    System.err.println("UNRECOGNIZED DATA OUTPUT FORMAT: " + outputFormat);
+
+                    /*
+                        Go ahead and create a non-MDC-registered data format.  We just have to be careful when
+                            writing SPARQL queries that we do not count this format to the FAIR-o-meter metrics,
+                            both in terms of data formats in MDC, and in terms of the number of outputs with a data
+                            format registered in MDC. 
+                    */
+                    String formatSpecLabel = outputFormat + ", a data format not cataloged in MDC, but that is used as " +
+                            "a data format to output number " + iOutput + " of the software " + fullName + ", which is a software that is cataloged in MDC.";
+                    formatInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataformat"),
+                            iriMap.lookupAnnPropIri("editor preferred"), formatSpecLabel);   
+
+                    if (!outputFormat.equals("Undocumented") && !outputFormat.equals("Proprietary"))
+                        formatInds.put(outputFormat, formatInd);  //save just in case we encounter it again.                 
+                }
+
+                addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("comment"), 
+                        "data output format for " + fullName, odf, oo);
+
+                String dataParsingLabel = "data parsing of file in " + outputFormat + " format by " + fullName;
+                OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
+                            iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+
+                //connect parsing to format.  Parsing realizes data output format specification
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+
+                //connect parsing to plan specification.  Parsing realizes data output specification.
+                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+            }
+
+            //TODO we need to add info about optionality
+
+            //TODO we need to add info about whether list of formats is complete.       
+    }
 }
