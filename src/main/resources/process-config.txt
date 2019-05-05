@@ -21,5 +21,5 @@ pathogen_evolution_pops=src/main/resources/pathogen_evolution_indexing-2019-05-0
 population_dynamics_pops=src/main/resources/population_dynamics_indexing-2019-05-04.txt
 grant_mapping=src/main/resources/grant_mapping_to_iri.txt
 transmission_tree_pops=src/main/resources/transmission_tree_indexing-2019-05-04.txt
-software_io_info=src/main/resources/software_input_output_info.txt
+#software_io_info=src/main/resources/software_input_output_info.txt
 curated_dataset_type=src/main/resources/curated_dataset_class_info_2018-07-19.txt

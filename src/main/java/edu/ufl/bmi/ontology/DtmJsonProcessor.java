@@ -47,7 +47,7 @@ import edu.ufl.bmi.misc.DtmIndivConnectGuide;
 import edu.ufl.bmi.misc.DtmIndividConnectRule;
 import edu.ufl.bmi.misc.ControlMeasureIriMapping;
 import edu.ufl.bmi.misc.PublicationLinks;
-import edu.ufl.bmi.misc.SoftwareIoInfo;
+//import edu.ufl.bmi.misc.SoftwareIoInfo;
 
 public class DtmJsonProcessor {
     static long iriCounter = 1200008100L;
@@ -86,7 +86,7 @@ public class DtmJsonProcessor {
 
     static PublicationLinks pubLinks;
 
-    static SoftwareIoInfo ioInfo;
+    //static SoftwareIoInfo ioInfo;
 
     static HashMap<String, String> dtmToSimInds;
     static HashMap<String, String> simPopIris;
@@ -880,8 +880,8 @@ public class DtmJsonProcessor {
 
             initializeForecasterInfo();
 
-            ioInfo = new SoftwareIoInfo();
-            ioInfo.init(p.getProperty("software_io_info"));
+            //ioInfo = new SoftwareIoInfo();
+            //ioInfo.init(p.getProperty("software_io_info"));
 
             if (attributesHandledInPostprocessing == null) {
                 attributesHandledInPostprocessing = new HashSet<String>();
@@ -2218,7 +2218,7 @@ public class DtmJsonProcessor {
         OWLAnnotationProperty la = odf.getOWLAnnotationProperty(annPropIri);
         OWLAnnotation oa = odf.getOWLAnnotation(la, li);
         OWLAnnotationAssertionAxiom oaaa = null;
-        System.out.println(annPropIri + "     =    " + value + ",      to be placed on " + oi);
+        //System.out.println(annPropIri + "     =    " + value + ",      to be placed on " + oi);
         if (oi instanceof OWLNamedIndividual) {
         	OWLNamedIndividual oni = (OWLNamedIndividual)oi;
         	oaaa = odf.getOWLAnnotationAssertionAxiom(oni.getIRI(), oa);
