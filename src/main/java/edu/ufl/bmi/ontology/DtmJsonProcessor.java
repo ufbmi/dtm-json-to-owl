@@ -331,10 +331,12 @@ public class DtmJsonProcessor {
                     HashMap<String, OWLNamedIndividual> niMap = new HashMap<String, OWLNamedIndividual>();
                     while (k.hasNext()) {
                         String ks = k.next();
+                        System.out.println("ks = " + ks); 
                         IRI classIri = (ks.equals("dtm")) ? iriMap.lookupClassIri(subtype) : iriMap.lookupClassIri(ks);
+                        System.out.println("classIRI = " + classIri.toString());
                         //System.out.println("\t\t\t'" + ks + "'\t" + classIri);
                         String indLabel = fullName + " " + (
-                        	(subtype.equals("MetagenomicAnalysis")) ? "metagenomic analysis" :subtype.substring(0, subtype.length() - 1));
+                        	(subtype.equals("MetagenomicAnalysis")) ? "metagenomic analysis" : subtype.substring(0, subtype.length() - 1));
                         indLabel = indLabel + ((ks.equals("dtm")) ? " software" : " " + ks);
                         OWLNamedIndividual oni = createNamedIndividualWithTypeAndLabel(odf, oo, classIri, labelIri, indLabel);
                         //if (ks.equals("dtm")) System.out.println("DTMINDLABEL: " + indLabel);
@@ -2837,6 +2839,9 @@ public class DtmJsonProcessor {
     		while ((line=lnr.readLine())!=null) {
     			String[] flds = line.split(Pattern.quote("\t"));
     			OWLIndividual pathEvoModelInd = identifierToOwlIndividual.get(flds[0]);
+                if (pathEvoModelInd == null) {
+                    System.err.println("No pathogen evolution model individual found for identifier: " + flds[0]);
+                }
     			IRI indexingPopIri = IRI.create(flds[1]);
     			OWLIndividual popInd = odf.getOWLNamedIndividual(indexingPopIri);
 
@@ -3226,15 +3231,15 @@ public class DtmJsonProcessor {
                 addAnnotationToIndividual(formatInd, iriMap.lookupAnnPropIri("comment"), 
                         "data output format for " + fullName, odf, oo);
 
-                String dataParsingLabel = "data parsing of file in " + outputFormat + " format by " + fullName;
-                OWLNamedIndividual dataParsingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataparsing"),
-                            iriMap.lookupAnnPropIri("editor preferred"), dataParsingLabel);
+                String dataEncodingLabel = "data encoding of file in " + outputFormat + " format by " + fullName;
+                OWLNamedIndividual dataEncodingInd = createNamedIndividualWithTypeAndLabel(odf, oo, iriMap.lookupClassIri("dataencoding"),
+                            iriMap.lookupAnnPropIri("editor preferred"), dataEncodingLabel);
 
                 //connect parsing to format.  Parsing realizes data output format specification
-                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
+                createOWLObjectPropertyAssertion(dataEncodingInd, iriMap.lookupObjPropIri("achieves objective"), formatInd, odf, oo);
 
                 //connect parsing to plan specification.  Parsing realizes data output specification.
-                createOWLObjectPropertyAssertion(dataParsingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
+                createOWLObjectPropertyAssertion(dataEncodingInd, iriMap.lookupObjPropIri("achieves objective"), planSpecInd, odf, oo);
             }
 
             //TODO we need to add info about optionality

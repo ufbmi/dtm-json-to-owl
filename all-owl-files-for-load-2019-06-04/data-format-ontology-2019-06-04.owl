@@ -1,0 +1,3338 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.pitt.edu/mdc/dataformat#"
+     xml:base="http://www.pitt.edu/mdc/dataformat"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:obo="http://purl.obolibrary.org/obo/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <owl:Ontology rdf:about="http://www.pitt.edu/mdc/dataformat"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/ERO_0000480 -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/ERO_0000480"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000111 -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000111"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/description -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/title -->
+
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000050 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000050"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000174 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000174"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000136 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000136"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000219 -->
+
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000219"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000098 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000098"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000129 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000129"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000310 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000310"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0020000 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0020000"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0002110 -->
+
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0002110"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://edamontology.org/format_1912 -->
+
+
+    <owl:NamedIndividual rdf:about="http://edamontology.org/format_1912">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEXUS - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEXUS is a file format designed to contain systematic data for use by computer programs.  The format is widely used in bioinformatics. Several popular phylogenetic programs such as PAUP*, MrBayes, Mesquite, MacClade and SplitsTree use this format.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEXUS</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEXUS - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://edamontology.org/format_1997 -->
+
+
+    <owl:NamedIndividual rdf:about="http://edamontology.org/format_1997">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PHYLIP-format - v3.695, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes the PHYLIP format, a format used for most input and output files used by PHYLIP, the Phylogeny Inference Package.  PHYLIP is a package of programs for inferring phylogenies (evolutionary trees). It has been distributed since 1980, and has over 30,000 registered users, making it the most widely distributed package of phylogeny programs.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PHYLIP-format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PHYLIP-format - v3.695</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000005 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000005">
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070062"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070076"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070077"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070078"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070111"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070113"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000047 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000047">
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070100"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000075 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000075">
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070070"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_1000076 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000076">
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056"/>
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/license/SWO_9000074 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/license/SWO_9000074">
+        <obo:BFO_0000050 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070051"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070051 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070051">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epi-Data JSON Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epi-Data JSON is the output format for storing query results from calls to the EpiData</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epi-Data JSON Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epi-Data JSON - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070052 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiCaseFormat - v1.2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes two tabular formats for representing count data for a location at a point in time.  The formats differ in that one represents locations as points using latitude and longitude, and the other format represents locations as polygons using an ID from the Apollo Location Service.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiCaseFormat</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiCaseFormat - v1.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070053 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes a tabular format in which output from a disease transmission model is represented.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070054 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoJSON - RFC 7946, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoJSON is a format for encoding a variety of geographic data structures.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoJSON</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoJSON - RFC 7946</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070055 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hladish dengue transmission model - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes four tabular formats named:  population-yucatan.txt locations-yucatan.txt immunity-yucatan.txt network-yucatan.txt</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hladish dengue transmission model</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hladish dengue transmission model - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070056 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Omnivore-CSV - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes a tabular format for reporting case count data.  The data are coded using standard systems, including ISO 8106 for representing time, SNOMED for identifying diseases, and Apollo XSD for identifying locations, case types, and case count types.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Omnivore-CSV</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Omnivore-CSV - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070057 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070057">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.CANADA - v1.2.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes two tabular formats:  one for households and the other for persons.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.CANADA</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.CANADA - v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070058 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070058">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.IPUMS - v1.2.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes two tabular formats:  one for households and the other for persons.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.IPUMS</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.IPUMS - v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070059 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070059">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.US - v1.2.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes four tabular formats:  for representing households, persons, schools and workplaces.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.US</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPEW.US - v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070060 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070060">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SYNTHIA format - v2010 U.S. Synthesized Population, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes a tabular format that describes a nationwide synthetic population of households and persons called the 2010 U.S. Synthesized Population dataset, which was developed by RTI International. The synthetic population is a detailed, spatially-explicit representation of the socio-demographic distribution of the U.S. population in a microdata form. The data are distributed in a compressed file containing a series of ASCII files with comma separated value.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SYNTHIA format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SYNTHIA format - v2010 U.S. Synthesized Population</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070061 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho Dataset Format - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Project Tycho 2.0 datasets include counts of cases for conditions (i.e. disorders) in countries reported by health agencies. These counts can be specified for different geographical regions within a country, for different time intervals, for various age ranges and/or subpopulations, and can represent fatalities (deaths) or not. Each datafile includes variables to specify the attributes of each count, as indicated below. Counts may not be available for all locations and time periods; missing information is indicated as &quot;NA&quot;.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho Dataset Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho Dataset Format - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070062 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070062">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (XML format) - v4.0.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">InfectiousDiseaseScenario is a data type encoded in XML and defined in the Apollo Standard, which represents an ecosystem at simulator time zero that has at least one infection process affecting at least one population.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (XML format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (XML format) - v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070063 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070063">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ape coding scheme for DNA sequences - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes the coding scheme used in ape since version 1.10 for DNA sequences. Its aim is to provide fast algorithms and efficient programs for comparing sequences, particularly to compute evolutionary distances.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ape coding scheme for DNA sequences</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ape coding scheme for DNA sequences - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070064 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070064">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiVis Input Format - v38, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes the tabular format used to import time series data into EpiVis.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiVis Input Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiVis Input Format - v38</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070065 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes a tabular format in which output from a disease transmission model is represented.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galapagos CSV - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070067 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070067">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Forecast Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes the tabular format used to submit forecasts to the FluSight influenza challenge.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Forecast Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Forecast - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070068 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (XML format) - v4.0.1, data format</obo:IAO_0000111>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (XML format) - v4.0.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epidemic is a data type encoded in XML and defined in the Apollo Standard, which represents a process whose beginning is demarcated by accelerating infection acquisition by one or more host species of a particular pathogen in a particular location and whose end is demarcated by the time when the rate of of infection acquisition becomes constant.</dc:description>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This format is a data structure encoded in XML and defined in the Apollo XSD. The purpose of the data structure is to represent a set of cases (participants in some disease outcome or some exposure process) that are of interest to a researcher.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (XML format)</dc:title>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (XML format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (XML format) - v4.0.1</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (XML format) - v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070069 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070069">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Synthetic Ecosystem - v1.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The synthetic ecosystem format used by FluTE.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Synthetic Ecosystem</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Synthetic Ecosystem - v1.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070070 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070070">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho XML Output Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The XML output format used by Project Tycho v1 web service.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho XML Output Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tycho XML Output Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070071 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070071">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NOAA Climate Data Online JSON - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">All responses are JSON and will be a single item or a collection of items with metadata.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NOAA Climate Data Online JSON</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NOAA Climate Data Online JSON - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070072 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070072">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Weekly Chikungunya Summary Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The format used by the Colombian Institute of Health to report Chikunguna cases. The reports are in PDF format, and list the location, number of confirmed clinical cases, number of confirmed laboratory cases, number of suspected cases and number of total cases on a weekly basis.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Weekly Chikungunya Summary Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Weekly Chikungunya Summary Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070073 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070073">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Municipal Routine Surveillance Report Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The format used in the Colombia Routine Surveillance Report. The report is in Excel (xlsx) format, and reports the counts of various diseases on a weekly basis across every municipality in Colombia.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Municipal Routine Surveillance Report Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Colombia Municipal Routine Surveillance Report Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070074 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070074">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mexico MOH Epidemiological Bulletin Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This is the data format used by the Epidemiological Bulletin of the Mexican National Epidemiological Surveillance System. The data is presented in a PDF file that contains several tables of varying format.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mexico MOH Epidemiological Bulletin Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mexico MOH Epidemiological Bulletin Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070075 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070075">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PAHO Weekly Report of Chikungunya Fever in the Americas Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This is the data format used by the Pan American Health Organization to produce the Number of Reported Cases of Chikungunya Fever in the Americas report. The Report contains the country affected, a count of suspected and confirmed autochthonous cases, imported cases, the incidence rate, the number of deaths, and the population of each country or terrirory. The data is reported weekly, by epidemiological week.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PAHO Weekly Report of Chikungunya Fever in the Americas Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PAHO Weekly Report of Chikungunya Fever in the Americas Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070076 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070076">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (JSON format) - v4.0.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This format is a data structure encoded in JSON and defined in the Apollo XSD. The purpose of the data structure is to represent a set of cases (participants in some disease outcome or some exposure process) that are of interest to a researcher.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (JSON format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Case Series (JSON format) - v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070077 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070077">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (JSON format) - v4.0.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">InfectiousDiseaseScenario is a data type encoded in JSON and defined in the Apollo Standard, which represents an ecosystem at simulator time zero that has at least one infection process affecting at least one population.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (JSON format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Infectious Disease Scenario (JSON format) - v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070078 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070078">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (JSON format) - v4.0.1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Epidemic is a data type encoded in JSON and defined in the Apollo Standard, which represents a process whose beginning is demarcated by accelerating infection acquisition by one or more host species of a particular pathogen in a particular location and whose end is demarcated by the time when the rate of of infection acquisition becomes constant.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (JSON format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apollo Epidemic (JSON format) - v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070079 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070079">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (XML) - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom is an XML-based document format that describes lists of related information known as &quot;feeds&quot;.  Feeds are composed of a number of items, known as &quot;entries&quot;, each with an extensible set of attached metadata.  For example, each entry has a title.  The primary use case that Atom addresses is the syndication of Web content such as weblogs and news headlines to Web sites as well as directly to user agents.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (XML)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (XML) - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070080 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070080">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (JSON) - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A JSON representation of an Atom Feed.  The primary use case that Atom addresses is the syndication of Web content such as weblogs and news headlines to Web sites as well as directly to user agents.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (JSON)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Atom Feed (JSON) - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070081 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070081">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Absolute Humidity Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia-absolute-humidity-format-v1 human readable synopsis should read: This data format specifies the absolute humidity for a given date and location.  The data is represented in a CSV file, where the first column refers to the week number, and each additional column is the absolute humidity for a given location.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Absolute Humidity Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Absolute Humidity Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070082 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070082">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Nowcast Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format specifies an estimate of the percentage of people with Influenza-like-illness (%ILI Nowcast) for a given date and location.  The data is represented in a CSV file, where the first column refers to the week number, and each additional column is the estimated %ILI for a given location.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Nowcast Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Columbia Nowcast Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070083 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070083">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 1 - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 1 uses .fasta files with contigs sequence from the same bins, such as the outputs from tools MaxBin, MetaWatt and SCIMM. Their outputs include bins-number of fasta files. Each fasta file includes the contigs ID and sequence clustered in the same bin. For example, the outputs from MaxBin are MaxBin.out.001.fasta...MaxBin.out.00X.fasta, where X is the bins number by MaxBin. The MaxBin.out.001.fasta is as follows.  &gt;contig-1.0 GACACTTTTAGTGGGCGTAAACTTCATCTAGTGGATCT &gt;contig-1.2 CCATGTCAGAAGAAGTTGGTAATCGCCACATTAATTGTTTGTCGTTTGATCGA ...</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 1</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 1 - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070084 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070084">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 2 - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin_input_format2: .fa files only with contigs name from the same bins, such as the outputs from tool MetaCluster. Its outputs include bins-number of fasta files. Each fasta file only includes the contigs ID in the same bin, so the orginal fasta file including all the sequences of total contigs is also required. For example, the outputs from MetaCluster are MetaCluster.out.001.fa ? MetaCluster.out.00Y.fa, where Y is the bins number by MetaCluster. The MetaCluster.out.001.fa is as follows    &gt;contig-1.0 &gt;contig-1.1 ?  The original file include total contigs and theire sequences contigs.fasta is as follows:  &gt;contig-1.0 GACACTTTTAGTGGGCGTAAACTTCATCTAGTGGATCT &gt;contig-1.1 TGGTAATCGCCACATTAAAGAAGTTGGTAA &gt;contig-1.2 CCATGTCAGAAGAAGTTGGTAATCGCCACATTAATTGTTTGTCGTTTGATCGA ?</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 2</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Input Format 2 - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070085 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070085">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 1 - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin_output_format_1: is a text file with contigs ID and binning result label. eg. d2SBin.out.k6.r0.txt  &gt;contig-1.1, 0 &gt;contig-1.2, 3 ?</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 1</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 1 - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070086 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070086">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 2 - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin_output_format_2 is fasta files with sequence from same bins. eg. d2SBin.k6.r0.out0.fasta,...,d2SBin.k6.r0.out9.fasta  &gt;contig-1.0 GACACTTTTAGTGGGCGTAAACTTCATCTAGTGGATCT &gt;contig-1.2 CCATGTCAGAAGAAGTTGGTAATCGCCACATTAATTGTTTGTCGTTTGATCGA ?</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 2</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">d2SBin Output Format 2 - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070087 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070087">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILI Nearby Nowcast Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This JSON data format is used by the Delphi EpiData web service for returning nowcasts generated by ILI Nearby of influenza-like-illness activity in different locations.  The locations for the nowcast can be U.S. national, regional, or state-level.  The nowcast is for the (weighted) %ILI.  It becomes available seven days (regionally) or five days (state-level) before the first ILINet report for the corresponding week.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILI Nearby Nowcast Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILI Nearby Nowcast Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070088 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070088">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILINet Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This JSON data format is used by the Delphi EpiData web service for returning lists of weekly observations of influenza-like-illness activity in different locations.  The data are collected by CDC&apos;s ILI Sentinel Physician network.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILINet Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData ILINet Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070089 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070089">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData Web Service Result - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The EpiData Webservice returns disease surveillance data in JSON format.  The format is not documented but there are examples of the format here: https://github.com/cmu-delphi/delphi-epidata</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData Web Service Result</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">EpiData Web Service Result - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070090 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070090">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Influenza Hospitalization Forecasting Challenge Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format has been used for submitting forecasts to the FluSight Influenza Hospitalization Forecast Challenge since its introduction for the 2017-2018 US influenza season.    This data format resembles the current FluSight national/regional forecast submission format &lt;insert name used in MDC, not my approximation&gt;, however the allowed values in the first column (LOCATION) are: OVERALL and the following age groups:  0-4? 65+</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Influenza Hospitalization Forecasting Challenge Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight Influenza Hospitalization Forecasting Challenge Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070091 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070091">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format was used to submit forecasts to the first FluSight challenge in 2013-2014.   The challenge was to forecast the following 4 targets nationally and for each of 10 HHS regions: Start week, peak percent ILI week, peak ILI percent, and end week.   The forecasts were point estimates, not probabilities.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070092 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070092">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format was used to submit forecasts to the second (and possibly third) FluSight challenge in 2014-2015 (and 2015-2016).   The challenge was to forecast the following 7 targets nationally and for each of 10 HHS regions: Start week, peak percent ILI week, peak ILI percent, and 1-, 2-, 3-, and 4-week ahead forecasts of percent ILI.   The forecasts are expressed as both point estimates and probability histograms. The histogram widths for percent ILI forecasts are 0.5 percent.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070093 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070093">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format is the current FluSight national/regional forecast submission format (as of this writing in April 2019).  It has been the required submission forecasts since the 2016-2017 national/regional challenge.  It has also been used by contributors to the FluSight Network Ensemble since 2017-2018 season, both for the challenge season submissions and also to submit historical out-of-sample forecasts.  It is also the format used by participants in the FluSight 7-year, multi-model retrospective influenza forecasting in the US assessment.     This format supports submissions of forecasts for the following 7 targets nationally and for each of 10 HHS regions: Start week, peak percent ILI week, peak ILI percent, and 1-, 2-, 3-, and 4-week ahead forecasts of percent ILI.   The forecast were expressed as both point estimates and probability histograms. The histogram widths for percent ILI forecasts are 0.1 percent.  The submission template for 2017-2018 is &lt;a href=&quot;https://github.com/cdcepi/FluSight-forecasts/blob/master/2017-2018_submission_template.csv&quot; class=&quot;underline&quot;&gt;here&lt;/a&gt; (same template was used in 2018-2019).</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight National-Regional Influenza Forecasting Challenge Format - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070094 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070094">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight State Influenza Forecasting Challenge Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format has been used for submitting forecasts to the FluSight State Influenza Forecast Challenge since its introduction for the 2017-2018 US influenza season.  This challenge has 1 fewer target (no start date target) than the national/regional challenge.   This data format resembles the current FluSight national/regional forecast submission format &lt;insert name used in MDC, not my approximation&gt;, however the allowed values in the first column (LOCATION) are the names of US states and Puerto Rico, Washington, DC, and the US Virgin Islands.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight State Influenza Forecasting Challenge Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluSight State Influenza Forecasting Challenge Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070095 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070095">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:BFO_0000174 rdf:resource="http://edamontology.org/format_1912"/>
+        <obo:BFO_0000174 rdf:resource="http://edamontology.org/format_1997"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070057"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070058"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070059"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070060"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070062"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070063"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070064"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070069"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070070"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070071"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070072"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070073"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070074"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070075"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070076"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070077"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070078"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070079"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070080"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070081"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070082"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070083"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070084"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070085"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070086"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070087"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070088"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070089"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070090"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070091"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070092"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070093"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070094"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070095"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070096"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070097"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070098"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070099"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070100"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070101"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070102"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070103"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070104"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070105"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070106"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070107"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070108"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070109"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070110"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070111"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070112"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070113"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070114"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070115"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070116"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070117"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070118"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070119"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070120"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070121"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070122"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070123"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070124"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070125"/>
+        <obo:BFO_0000174 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070126"/>
+        <obo:BFO_0000174 rdf:resource="https://biosharing.org/bsg-s000228"/>
+        <obo:BFO_0000174 rdf:resource="https://biosharing.org/bsg-s000250"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Model Parameters - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A text file containing model parameters.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Model Parameters</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Model Parameters - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070096 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070096">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Output Dataset Format - v1.12, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A simulation run will produce 1-4 output files, depending on  configuration parameters. The filenames are a prefix (e.g., &quot;Summary&quot;)  followed by a number, which is taken from the file run-number, unless the filenames are specified on the command line. All output files are in ascii text format.  Summary(n) - outputs the settings used for the simulation, final attack  rates, vaccines used, daily totals of symptomatic individuals.  Log(n) - The number of symptomatics per tract each day (prevalence and  cumulative). Each line has: the day, a unique numeric tract id, the  number of people currently symptomatic in the 5 age groups, the number  of people who have ever been symptomatic in the 5 age groups. Can be an enormous file.  Tracts(n) - a unique numeric tract id, the FIPS codes, and the  populations of the tracts by age. Also contains the number of people  who work in this tract (including residents). Comma-separated value  files with a header row. This is only output when Log files are output.  Individuals(n) - Lists info on all people, with one line per person.  Comma-separated value files with a header row.  Can be an enormous file.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Output Dataset Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FluTE Output Dataset Format - v1.12</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070097 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070097">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Input - v2.12.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The run-time parameters for FRED are contained in two parameter files.  The first file is named params.defult and contains the default values of all defined run-time parameters.  The second file is usually called params and contains any parameter values that override the default values.    The format is specified on page 16 of the document at: https://github.com/PublicHealthDynamicsLab/FRED/blob/FRED-v2.12.0/doc/FRED_UserGuide.pdf</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Input</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Input - v2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070098 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070098">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Output - v2.12.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The output file (called out&lt;n&gt;.txt for run n) contains one line for each simulation day of the run.  The format is specified on page 38 of the document at: https://github.com/PublicHealthDynamicsLab/FRED/blob/FRED-v2.12.0/doc/FRED_UserGuide.pdf</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Output</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FRED Simulation Output - v2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070099 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070099">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Output Dataset Format - v1.0b, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Flat files produced by the simulation are tab-separated text files, from each node, named &quot;out_n.txt&quot;, for each node n. Database tables contain the same fields; column names are in brackets below. 1. Time (hours into simulation) [time_hrs] 2. Admin Unit ID. [Unit_id] 3. People making contacts [Contact_makers] 4. New community cases [Comm_cases] 5. New household cases [HH_cases] 6. New nursery school cases [P0_cases] 7. New primary school cases [P1_cases] 8. New secondary school cases [P2_cases] 9. New workplace cases [P3_cases] 10. New community infections [Comm_infs] 11. New household infections [HH_infs] 12. New nursery school infections [P0_infs] 13. New primary school infections [P1_infs] 14. New secondary school infections [P2_infs] 15. New workplace infections [P3_infs] 16. Current symptomatic infections [Current_Sympt] 17. Current non-symptomatic infections [Current_NonSympt]  Here we define &quot;cases&quot; to be clinically detected cases, and &quot;infections&quot; to be the sum of all detected and non-detected, symptomatic and non-symptomatic infections. A further text file generated at launch time, admin_lookup.txt, is a tab-separated file giving the numerical ID, and the string name for each administrative unit.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Output Dataset Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Output Dataset Format - v1.0b</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070100 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070100">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hladish Dengue Model Synthetic Population - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A synthetic population file containing a person id (pid), household id (hid), age, sex, location on a grid (gridx/gridy) and the workplace id (workid).</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hladish Dengue Model Synthetic Population</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hladish Dengue Model Synthetic Population - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070101 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070101">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HyPhy JSON Output Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Most standard analyses in HyPhy output results in JSON format, essentially a nested dictionary.   We note that these files are easily parsed for downstream use with standard scripting languages, e.g. using the json package in Python or jsonlite package in R.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HyPhy JSON Output Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HyPhy JSON Output Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070102 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070102">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ILINet Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ILINet consists of approximately 3,200 outpatient healthcare providers in all 50 states, Puerto Rico, the District of Columbia and the U.S. Virgin Islands reporting over 36 million patient visits each year. Each week, approximately 2,000 outpatient healthcare providers around the country report data to CDC on the total number of patients seen and the number of those patients with influenza-like illness (ILI) by age group (0-4 years, 5-24 years, 25-49 years, 50-64 years, and ? 65 years). For this system, ILI is defined as fever (temperature of 100°F [37.8°C] or greater) and a cough and/or a sore throat in the absence of a known cause other than influenza.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ILINet Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ILINet Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070103 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070103">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Keyhole Markup Language (KML) - v2.2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Keyhole Markup Language (KML) is an XML notation for expressing geographic annotation and visualization within Internet-based, two-dimensional maps and three-dimensional Earth browsers. KML was developed for use with Google Earth, which was originally named Keyhole Earth Viewer.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Keyhole Markup Language (KML)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Keyhole Markup Language (KML) - v2.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070104 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070104">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Forecast Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An output file containing a disease forecast.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Forecast Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Forecast Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070105 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070105">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Input Dataset Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A file containing information for each patient during the reporting period.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Input Dataset Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Multiple Outbreak Detection System Input Dataset Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070106 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070106">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo BehaviorSpace Input Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BehaviorSpace is a software tool integrated with NetLogo that allows you to perform experiments with models.  BehaviorSpace runs a model many times, systematically varying the model&apos;s settings and recording the results of each model run. This process is sometimes called &quot;parameter sweeping&quot;. It lets you explore the model&apos;s &quot;space&quot; of possible behaviors and determine which combinations of settings cause the behaviors of interest.  The need for this type of experiment is revealed by the following observations. Models often have many settings, each of which can take a range of values. Together they form what in mathematics is called a parameter space for the model, whose dimensions are the number of settings, and in which every point is a particular combination of values. Running a model with different settings (and sometimes even the same ones) can lead to drastically different behavior in the system being modeled. So, how are you to know which particular configuration of values, or types of configurations, will yield the kind of behavior you are interested in? This amounts to the question of where in its huge, multi-dimension parameter space does your model perform best?  For example, suppose you want speedy synchronization from the agents in the Fireflies model. The model has four sliders - number, cycle-length, flash-length and number-flashes - that have approximately 2000, 100, 10 and 3 possible values, respectively. That means there are 2000 * 100 * 10 * 3 = 600,000 possible combinations of slider values! Trying combinations one at a time is hardly an efficient way to learn which one will evoke the speediest synchronization.  BehaviorSpace offers you a much better way to solve this problem. If you specify a subset of values from the ranges of each slider, it will run the model with each possible combination of those values and, during each model run, record the results. In doing so, it samples the model&apos;s parameter space - not exhaustively, but enough so that you will be able to see relationships form between different sliders and the behavior of the system. After all the runs are over, a dataset is generated which you can open in a different tool, such as a spreadsheet, database, or scientific visualization application, and explore.  By enabling you to explore the entire &quot;space&quot; of behaviors a model can exhibit, BehaviorSpace can be a powerful assistant to the modeler.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo BehaviorSpace Input Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo BehaviorSpace Input Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070107 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070107">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo Spreadsheet Output Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Spreadsheet format calculates the min, mean, max, and final values for each metric, and then lists each interval in a row, with each metric in a separate column. Spreadsheet data is more human-readable than Table data, especially if imported into a spreadsheet application.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo Spreadsheet Output Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NetLogo Spreadsheet Output Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070108 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070108">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Continuous Monitoring Output - v1.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Some properties of the simulation can also be monitored continuously. The continuous monitoring system writes output to the ctsout.txt file in real-time (while the simulation is still running). This file can be monitored while a simulation is running from LiveGraph and read from most spread-sheet programs.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Continuous Monitoring Output</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Continuous Monitoring Output - v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070109 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070109">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Scenario Configuration File - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Each OpenMalaria simulation corresponds to a single scenario defined by defined by one input file [written in Extensible Markup Language (XML).</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Scenario Configuration File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Scenario Configuration File - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070110 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070110">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Surveys System Output - v1.0, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Output from the surveys system is written at the end of the simulation to the output.txt (or when compiled in BOINC mode output.txt.gz) file. The contents are formatted as in a database, with tab-separated columns and one record per line.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Surveys System Output</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Open Malaria Surveys System Output - v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070111 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070111">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Probabilistic Disease Surveillance Research Dataset Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A CSV format for a limited dataset of ED visit records from a location that has been used in research in probabilistic disease surveillance. Each ED visit record contains the date, age range of the patient, diagnostic laboratory tests if any and their results, the presence of absence of 81 clinical findings (symptoms and signs) that can be observed in influenza, parainfluenza, respiratory syncytial virus, and human metapneumovirus as determined by automatic analysis by the Topaz NLP system of free-text reports associated with the visit.  Each record also includes the output of one or more Bayesian network disease models that compute the likelihood of the findings of the patient, given a disease (e.g., influenza).</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Probabilistic Disease Surveillance Research Dataset Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Probabilistic Disease Surveillance Research Dataset Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070112 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070112">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Project Tycho Repository Web Service Parameters - v2, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This data format specifies queries against the Project Tycho repository.  The two types of possible queries are variable listings and data queries. The following queries allow users to retrieve available values for each variable in the Project Tycho Pre-compiled data format, except for PeriodStartDate and PeriodEndDate. Data is returned in CSV format. Where filters are available, variable names are case-sensitive. CONDITION LISTING Returns ConditionName, ConditionSNOMED Retrieve full listing of all available condition information: https://www.tycho.pitt.edu/api/condition?apikey=APIKEY Optional filters are available on either of the two returned variables. Example - Retrieve ConditionSNOMED for a known ConditionName: https://www.tycho.pitt.edu/api/condition?apikey=APIKEY&amp;ConditionName=Measles  COUNTRY LISTING Returns CountryISO, CountryName Retrieve full listing of all available admin1 location information: https://www.tycho.pitt.edu/api/country?apikey=APIKEY Optional filters are available on either of the two returned variables. Example - Retrieve CountryISO for a known CountryName: https://www.tycho.pitt.edu/api/country?apikey=APIKEY&amp;CountryName=UNITED STATES OF AMERICA  ADMIN1 LISTING Returns CountryISO, CountryName, Admin1ISO, Admin1Name Retrieve full listing of all available admin1 location information: https://www.tycho.pitt.edu/api/admin1?apikey=APIKEY Optional filters are available on any of the four returned variables. Example 1 - Limit to admin1 information for the United States: https://www.tycho.pitt.edu/api/admin1?apikey=APIKEY&amp;CountryISO=US Example 2 - Retrieve Admin1ISO for a known Admin1Name: https://www.tycho.pitt.edu/api/admin1?apikey=APIKEY&amp;CountryISO=US&amp;Admin1Name=Pennsylvania  ADMIN2 LISTING Returns CountryISO, CountryName, Admin1ISO, Admin1Name, Admin2Name Retrieve full listing of all available admin1 location information: https://www.tycho.pitt.edu/api/admin2?apikey=APIKEY Optional filters are available on any of the five returned variables. Example 1 - Limit to admin2 information for the United States: https://www.tycho.pitt.edu/api/admin2?apikey=APIKEY&amp;CountryISO=US Example 2 - Limit to admin2 information in Pennsylvania, US: https://www.tycho.pitt.edu/api/admin1?apikey=APIKEY&amp;CountryISO=US&amp;Admin1ISO=US-PA  CITY LISTING Returns CountryISO, CountryName, Admin1ISO, Admin1Name, Admin2Name, CityName Retrieve full listing of all available admin1 location information: https://www.tycho.pitt.edu/api/city?apikey=APIKEY Optional filters are available on any of the six returned variables. Example 1 - Limit to city information for the United States: https://www.tycho.pitt.edu/api/city?apikey=APIKEY&amp;CountryISO=US Example 2 - Limit to city information in Pennsylvania, US: https://www.tycho.pitt.edu/api/city?apikey=APIKEY&amp;CountryISO=US&amp;Admin1ISO=US-PA  PATHOGEN LISTING Returns PathogenName, PathogenTaxonID Retrieve full listing of all available admin1 location information: https://www.tycho.pitt.edu/api/pathogen?apikey=APIKEY Optional filters are available on any of the two returned variables. Example - Retrieve PathogenTaxonID for a known PathogenName: https://www.tycho.pitt.edu/api/pathegen?apikey=APIKEY&amp;PathogenName= Anaplasma phagocytophilum  AGERANGE LISTING Returns AgeRange Retrieve full listing of all available AgeRange: https://www.tycho.pitt.edu/api/agerange?apikey=APIKEY No filters are available.  SUBPOPULATION LISTING Returns Subpopulation Retrieve full listing of all available Subpopulation: https://www.tycho.pitt.edu/api/subpopulation?apikey=APIKEY No filters are available.  FATALITIES LISTING Returns Fatalities Retrieve full listing of all available Fatalities: https://www.tycho.pitt.edu/api/fatalities?apikey=APIKEY No filters are available.  CUMULATIVE LISTING Returns PartOfCumulativeCountSeries Retrieve full listing of all available PartOfCumulativeCountSeries: https://www.tycho.pitt.edu/api/cumulative?apikey=APIKEY No filters are available.  DIAGNOSIS CERTAINTY LISTING Returns DiagnosisCertainty Retrieve full listing of all available DiagnosisCertainty: https://www.tycho.pitt.edu/api/diagnosiscertainty?apikey=APIKEY No filters are available.  PLACE OF ACQUISITION LISTING Returns PlaceOfAcqusition Retrieve full listing of all available PlaceOfAcqusition: https://www.tycho.pitt.edu/api/placeofacquisition?apikey=APIKEY No filters are available.  SOURCE NAME LISTING Returns SourceName Retrieve full listing of all available SourceName: https://www.tycho.pitt.edu/api/sourcename?apikey=APIKEY No filters are available.  DATA QUERIES Data queries allow users to retrieve a filtered subset of Project Tycho data, similar to what is available from the &quot;Compile Your Own&quot; Search interface. Data is returned in the Project Tycho Format. Filtering is available on any of the variables included in the Project Tycho Format. The variable names are case-sensitive and must match the case used in the column headings in the ProjectTycho Format.  REQUIRED QUERY PARAMETERS Each query must specify both a condition and a location. Users can specify a condition and location in multiple ways. For condition, select a value for one of: ConditionName or ConditionSNOMED For location, select a value for at least one of: CountryISO, CountryName, Admin1ISO, Admin1Name, Admin2Name, CityName  OPTIONAL QUERY PARAMETERS Any remaining variables in the Project Tycho format can be optionally included. Date ranges can be specified using PeriodStartDate and PeriodEndDate, and the operators =, &gt;=, and &lt;= . Dates must always be specified in the format YYYY-MM-DD.  ADDITIONAL OPTIONAL QUERY PARAMETERS limit - how many rows of results to retrieve. By default, the API query retrieves a limit of 5000 rows per call. Maximum limit is 20,000. offset - for paging of results. For example, given a limit of 5000, specifying offset=5000 will return results starting at row 5001 (i.e., page 2 of the results). If the offset is greater than the number of data rows, &quot;No results&quot; will be returned.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Project Tycho Repository Web Service Parameters</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Project Tycho Repository Web Service Parameters - v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070113 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070113">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://rxnav.nlm.nih.gov/rxnormrest.xsd</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RxNorm Web Service Result - v8.22.2018, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The result of the RXNORM RESTful web service calls are in an XML format defined by an XSD located here: https://rxnav.nlm.nih.gov/rxnormrest.xsd.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RxNorm Web Service Result</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RxNorm Web Service Result - v8.22.2018</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070114 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070114">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Cluster-level format) - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the exposure history of the study population to the community source(s) of infection. This file is organized such that each row defines a period of continuous exposure to a particular community source of infection. The identification of the type of C2P contact and the beginning and end (inclusive) of the exposure period are defined. The user may define individual, cluster-level, or study-wide histories of exposure to a community source of infection, but only one format may be used for each c2p_contact.dat file.  This format of the c2p_contact.dat can be used when the analysis assumes that all of the members of a cluster have the same history of exposure to community-based source(s) of infection.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Cluster-level format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Cluster-level format) - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070115 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070115">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Individual-level format) - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the exposure history of the study population to the community source(s) of infection. This file is organized such that each row defines a period of continuous exposure to a particular community source of infection. The identification of the type of C2P contact and the beginning and end (inclusive) of the exposure period are defined. The user may define individual, cluster-level, or study-wide histories of exposure to a community source of infection, but only one format may be used for each c2p_contact.dat file.  This format of the c2p_contact.dat can be used when the analysis assumes that each member of the enrolled study population has an independent history of exposure to community-based source(s) of infection.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Individual-level format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Individual-level format) - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070116 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070116">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Study-wide format) - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the exposure history of the study population to the community source(s) of infection. This file is organized such that each row defines a period of continuous exposure to a particular community source of infection. The identification of the type of C2P contact and the beginning and end (inclusive) of the exposure period are defined. The user may define individual, cluster-level, or study-wide histories of exposure to a community source of infection, but only one format may be used for each c2p_contact.dat file.  This format of the c2p_contact.dat can be used when the analysis assumes that all of the members of the enrolled study population have the same history of exposure to community- based source(s) of infection.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Study-wide format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Community Person to Person Contact File (Study-wide format) - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070117 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070117">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Imputation File - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This file specifies the individual-level parameters that will control the imputation of outcome-related missing data. One row should be specified per individual member of the enrolled study population for whom at least one outcome-related quantity is missing.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Imputation File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Imputation File - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070118 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070118">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Configuration File - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This uniquely-formatted file is used to define the statistical model, its constraints, and other aspects of the estimation process. The general format for this file takes the form of a list of settings. Each item on the list consists of a header line, beginning with the character &apos;#&apos;, and then followed by a line or set of lines that define the values for that item. The header text for each item is prescribed, so the user must use an exact copy of the header text listed below. The next section lists the item in order of appearance from the beginning to the end of the config.file.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Configuration File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Configuration File - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070119 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070119">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Cluster-level format) - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the P2P contact history between enrolled members of the study population. This file is organized such that each row defines a period of continuous contact between enrolled members of the study population. The identification of the individuals involved in the contact and the beginning and end time points (inclusive) for the contact period are defined. The user may define individual or cluster-level histories, but not both in the same p2p_contact.dat file.  This format of the p2p_contact.dat can be used when the analysis assumes that all of the members of a cluster have the same history of contact with each other.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Cluster-level format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Cluster-level format) - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070120 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070120">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Individual-level format) - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the P2P contact history between enrolled members of the study population. This file is organized such that each row defines a period of continuous contact between enrolled members of the study population. The identification of the individuals involved in the contact and the beginning and end time points (inclusive) for the contact period are defined. The user may define individual or cluster-level histories, but not both in the same p2p_contact.dat file.  This format of the p2p_contact.dat can be used when the analysis assumes that each member of the enrolled study population has an independent history of contact with every other member of the study population.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Individual-level format)</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Person to Person Contact File (Individual-level format) - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070121 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070121">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Population File - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defines the individual members of the study population, their immune status at the beginning of study follow-up, and their infection and pathogenicity related information.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Population File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Population File - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070122 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070122">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Dependent Covariate File - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This file stores the values for covariates that are indexed by a time point or period. Covariates values may be specified as any real number. Covariates are specified at the level of each combination of individual and time period. Currently, TranStat does not provide for imputation of missing covariate values, so covariate values must be specified for every combination of individual and time period. Therefore, either the user must impute missing covariate values before importing the data into TranStat or only include covariates with complete information.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Dependent Covariate File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Dependent Covariate File - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070123 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070123">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Independent Covariate File - v3, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This file stores the values for covariates that are not indexed by a time point or period. Covariates values may be specified as any real number. Covariates are specified at the individual-level. Currently, TranStat does not provide for imputation of missing covariate values, so covariate values must be specified for every member of the study population. Therefore, either the user must impute missing covariate values before importing data into TranStat or only include covariates with complete information.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Independent Covariate File</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TranStat Time Independent Covariate File - v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070124 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070124">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Clinical Labs Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Data from clinical laboratories include the weekly total number of specimens tested, the number of positive influenza tests, and the percent positive by influenza type.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Clinical Labs Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Clinical Labs Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070125 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070125">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Public Health Labs Format - v1, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Data presented from public health laboratories include the weekly total number of specimens tested, the number of positive influenza tests, and the number by influenza virus type, influenza A subtype, and influenza B lineage.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Public Health Labs Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WHO NREVSS Public Health Labs Format - v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLES_12000070126 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLES_12000070126">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Model Parameters - v1.0beta, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A text file containing model parameters.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Model Parameters</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global Epidemic Simulator Model Parameters - v1.0beta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007200 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007200">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070076"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:CaseSeries-json-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007201 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007201">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070076"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007202 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007202">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:CaseSeries-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007203 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007203">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007204 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007204">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070078"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:Epidemic-json-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007205 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007205">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070078"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007206 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007206">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:Epidemic-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007207 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007207">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070068"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007208 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007208">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070077"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:InfectiousDiseaseScenario-json-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007209 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007209">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070077"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007210 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007210">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070062"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">APOLLO:InfectiousDiseaseScenario-v4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007211 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007211">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070062"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007212 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007212">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="https://biosharing.org/bsg-s000228"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BIOSHARING.ORG:bsg-s000228</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007213 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007213">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="https://biosharing.org/bsg-s000228"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://blast.ncbi.nlm.nih.gov/blastcgihelp.shtml</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for FASTA Sequence Format, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007214 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007214">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0002110"/>
+        <obo:IAO_0000219 rdf:resource="https://biosharing.org/bsg-s000228"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://dx.doi.org/10.25504/fairsharing.rz4vfg</obo:ERO_0000480>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10.25504/fairsharing.rz4vfg</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007215 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007215">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="https://biosharing.org/bsg-s000250"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BIOSHARING.ORG:bsg-s000250</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007216 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007216">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="https://biosharing.org/bsg-s000250"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://evolution.genetics.washington.edu/phylip/newicktree.html</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for newick tree format, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007217 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007217">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0002110"/>
+        <obo:IAO_0000219 rdf:resource="https://biosharing.org/bsg-s000250"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://dx.doi.org/10.25504/fairsharing.ezznsh</obo:ERO_0000480>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10.25504/fairsharing.ezznsh</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007218 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007218">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://fairsharing.org/bsg-s000718</obo:ERO_0000480>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://fairsharing.org/bsg-s000718</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007219 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007219">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007220 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007220">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0002110"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070061"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://dx.doi.org/10.25504/fairsharing.znmpch</obo:ERO_0000480>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10.25504/fairsharing.znmpch</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007221 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007221">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070079"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IETF:rfc4287</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007222 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007222">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070079"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007223 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007223">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070080"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IETF:rfc4287-JSON</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007224 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007224">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070080"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007225 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007225">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IETF:rfc7946</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007226 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007226">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RFC 7946</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007227 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007227">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070054"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://tools.ietf.org/html/rfc7946</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for GeoJSON - RFC 7946, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007228 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007228">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070072"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:colombia-moh-chikungunya-weekly-summary-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007229 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007229">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070072"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007230 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007230">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070073"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:colombia-municipal-routine-surveillance-events-by-week-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007231 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007231">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070073"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007232 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007232">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070081"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:columbia-absolute-humidity-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007233 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007233">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070081"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007234 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007234">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070082"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:columbia-nowcast-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007235 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007235">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070082"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007236 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007236">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070083"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:d2sbin-input-format-1-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007237 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007237">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070083"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007238 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007238">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070084"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:d2sbin-input-format-2-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007239 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007239">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070084"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007240 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007240">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070085"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:d2sbin-output-format-1-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007241 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007241">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070085"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007242 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007242">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070086"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:d2sbin-output-format-2-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007243 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007243">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070086"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007244 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007244">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070063"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:dna-sequences-for-ape-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007245 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007245">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070063"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007246 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007246">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070063"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://ape-package.ird.fr/misc/BitLevelCodingScheme_20April2007.pdf</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for ape coding scheme for DNA sequences - v1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007247 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007247">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:epi-case-format-v1.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007248 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007248">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007249 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007249">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070052"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/EpiCaseMap-1.2</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for EpiCaseFormat - v1.2, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007250 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007250">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070087"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:Epidata-ILI-Nearby-Nowcast-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007251 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007251">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070087"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007252 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007252">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070088"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:Epidata-ILINet-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007253 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007253">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070088"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007254 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007254">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070089"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:epidata-webservice-result-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007255 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007255">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070089"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007256 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007256">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070074"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:epidemiological-bulletin-national-system-of-epidemiological-surveillance-system-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007257 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007257">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070074"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007258 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007258">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070064"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:epivis-csv-v38</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007259 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007259">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070064"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">38</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007260 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007260">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070064"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/EpiVis-CSV---v38</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for EpiVis Input Format - v38, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007261 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007261">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070090"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flusight-influenza-related-hospitalization-forecast-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007262 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007262">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070090"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007263 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007263">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070091"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flusight-national-regional-forecast-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007264 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007264">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070091"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007265 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007265">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070092"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flusight-national-regional-forecast-v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007266 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007266">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070092"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007267 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007267">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070093"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flusight-national-regional-forecast-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007268 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007268">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070093"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007269 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007269">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flusight-state-forecast-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007270 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007270">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007271 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007271">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070095"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flute-model-parameters-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007272 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007272">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070095"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007273 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007273">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070096"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:FluTE-output-dataset-format-v1.12</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007274 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007274">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070096"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v1.12</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007275 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007275">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070069"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:flute-synthetic-ecosystem-v1.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007276 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007276">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070069"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007277 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007277">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070069"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/dlchao/FluTE/blob/master/README</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for FluTE Synthetic Ecosystem - v1.1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007278 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007278">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070097"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:fred-simulation-input-v2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007279 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007279">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070097"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007280 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007280">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070098"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:fred-simulation-output-v2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007281 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007281">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070098"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.12.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007282 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007282">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:galapagos-output-format-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007283 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007283">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007284 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007284">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070065"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/Galapagos-v1.0</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for Galapagos CSV - v1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007285 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007285">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:galapagos-output-format-v2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007286 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007286">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007287 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007287">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070053"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/Galapagos-v2.0</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for Galapagos CSV - v2, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007288 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007288">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070099"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:ges-output-dataset-format-v1.0b</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007289 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007289">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070099"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v1.0b</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007290 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007290">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070100"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:hladish-dengue-model-synthetic-ecosystem-v2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007291 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007291">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070100"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007292 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007292">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:hladish-dengue-model-v2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007293 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007293">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007294 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007294">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070055"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/tjhladish/dengue/blob/master/pop-yucatan/README</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for hladish dengue transmission model - v2, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007295 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007295">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070101"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:hyphy-json-output-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007296 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007296">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070101"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007297 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007297">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070102"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:ILINet-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007298 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007298">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070102"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007299 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007299">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070103"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:kml-v2.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007300 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007300">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070103"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007301 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007301">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070104"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:MODS-forecast-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007302 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007302">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070104"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007303 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007303">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070105"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:MODS-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007304 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007304">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070105"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007305 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007305">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070106"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:netlogo-behaviorspace-input-format-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007306 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007306">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070106"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007307 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007307">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070107"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:netlogo-spreadsheet-output-format-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007308 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007308">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070107"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007309 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007309">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://edamontology.org/format_1912"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:nexus-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007310 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007310">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://edamontology.org/format_1912"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007311 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007311">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://edamontology.org/format_1912"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://wiki.christophchamp.com/index.php?title=NEXUS_file_format</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for NEXUS - v1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007312 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007312">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070071"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:noaa-climate-data-online-json-v2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007313 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007313">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070071"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007314 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007314">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070071"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://www.ncdc.noaa.gov/cdo-web/webservices/v2</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for NOAA Climate Data Online JSON - v2, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007315 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007315">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070075"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:number-reported-cases-of-chikungunya-fever-in-the-americas-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007316 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007316">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070075"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007317 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007317">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:omnivore-output-format-v2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007318 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007318">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007319 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007319">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070056"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/Omnivore-2.0</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for Omnivore-CSV - v2, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007320 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007320">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070108"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:open-malaria-continuous-monitoring-output-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007321 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007321">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070108"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007322 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007322">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070109"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:open-malaria-scenario-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007323 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007323">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070109"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007324 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007324">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070110"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:open-malaria-surveys-system-output-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007325 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007325">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070110"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007326 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007326">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070111"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:pds-dataset-format-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007327 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007327">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070111"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007328 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007328">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070112"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:project-tycho-repository-web-service-parameters-v2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007329 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007329">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070112"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007330 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007330">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070113"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:rxnorm-webservice-result-v8.22.2018</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007331 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007331">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070113"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8.22.2018</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007332 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007332">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070057"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:spew-canada-format-v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007333 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007333">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070057"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007334 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007334">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070057"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/SPEW.Canada-file-formats</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for SPEW.CANADA - v1.2.0, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007335 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007335">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070058"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:spew-ipums-format-v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007336 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007336">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070058"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007337 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007337">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070058"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/SPEW.IPUMS-File-formats</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for SPEW.IPUMS - v1.2.0, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007338 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007338">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070059"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:spew-us-format-v1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007339 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007339">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070059"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007340 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007340">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070059"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/SPEW.US-File-Formats</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for SPEW.US - v1.2.0, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007341 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007341">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070060"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:synthia-us-v2010</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007342 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007342">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070060"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2010 U.S. Synthesized Population</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007343 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007343">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070060"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/midas-isg/data-format-repository/wiki/Synthia-File-Formats</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for SYNTHIA format - v2010 U.S. Synthesized Population, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007344 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007344">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070114"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-community-p2p-file-cluster-level-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007345 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007345">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070114"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007346 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007346">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070115"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-community-p2p-file-individual-level-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007347 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007347">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070115"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007348 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007348">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070116"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-community-p2p-file-study-wide-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007349 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007349">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070116"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007350 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007350">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070117"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-imputation-file-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007351 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007351">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070117"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007352 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007352">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070118"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-model-configuration-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007353 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007353">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070118"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007354 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007354">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070119"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-p2p-contact-file-cluster-level-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007355 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007355">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070119"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007356 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007356">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070120"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-p2p-contact-file-individual-level-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007357 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007357">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070120"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007358 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007358">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070121"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-population-file-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007359 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007359">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070121"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007360 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007360">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070122"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-time-dependent-covariate-file-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007361 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007361">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070122"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007362 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007362">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070123"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:transtat-time-independent-covariate-file-v3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007363 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007363">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070123"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007364 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007364">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070070"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:tycho-xml-output-format-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007365 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007365">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070070"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007366 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007366">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070124"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:who-nrevss-clinical-labs-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007367 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007367">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070124"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007368 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007368">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070125"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDC:who-nrevss-public-health-labs-v1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007369 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007369">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070125"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007370 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007370">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070126"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIDAS-IGS:ges-model-parameters-v1.0b</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007371 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007371">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070126"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0beta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007372 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007372">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://edamontology.org/format_1997"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UW-DGS-DB:phylip-format-v3.695</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007373 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007373">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://edamontology.org/format_1997"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3.695</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007374 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007374">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://edamontology.org/format_1997"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://evolution.genetics.washington.edu/phylip/doc/main.html#inputfiles</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for PHYLIP-format - v3.695, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007375 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007375">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070051"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIDAS-ISG:epi-data-json-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007376 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007376">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070051"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007377 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007377">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070051"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/cmu-delphi/delphi-epidata/blob/master/README.md</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for Epi-Data JSON Format - v1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007378 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007378">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0020000"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070067"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MIDAS-ISG:flusight-forecast-v1.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007379 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007379">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <obo:IAO_0000219 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070067"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.pitt.edu/obc/IDE_ARTICLE_1200007380 -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.pitt.edu/obc/IDE_ARTICLE_1200007380">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000310"/>
+        <obo:IAO_0000136 rdf:resource="http://www.pitt.edu/obc/IDE_ARTICLES_12000070067"/>
+        <obo:ERO_0000480 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://github.com/cdcepi/FluSight-forecasts</obo:ERO_0000480>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">human readable specification for FluSight Forecast Format - v1, data format</obo:IAO_0000111>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://biosharing.org/bsg-s000228 -->
+
+
+    <owl:NamedIndividual rdf:about="https://biosharing.org/bsg-s000228">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FASTA Sequence Format, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences, in which nucleotides or amino acids are represented using single-letter codes. The format also allows for sequence names and comments to precede the sequences.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FASTA Sequence Format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FASTA Sequence Format</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://biosharing.org/bsg-s000250 -->
+
+
+    <owl:NamedIndividual rdf:about="https://biosharing.org/bsg-s000250">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000098"/>
+        <obo:IAO_0000111 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">newick tree format, data format</obo:IAO_0000111>
+        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This specification describes how to represent a tree using nested parentheses.</dc:description>
+        <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">newick tree format</dc:title>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">newick tree format</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 5.0.5.20170104-0800) https://github.com/owlcs/owlapi/ -->
+
+

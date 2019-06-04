@@ -155,10 +155,10 @@ public class DatasetProcessor {
 					continue;
 				}
 				
-				String dataSubtype = flds[0].trim();   if (dataSubtype.startsWith("\uFEFF")) { dataSubtype = dataSubtype.substring(1);  }
-				String title = flds[1].trim();
-				String description = flds[2].trim();
-				String datasetIdentifier = flds[3].trim();
+				String dataSubtype = cleanField(flds[0]);   if (dataSubtype.startsWith("\uFEFF")) { dataSubtype = dataSubtype.substring(1);  }
+				String title = cleanField(flds[1]);
+				String description = cleanField(flds[2]);
+				String datasetIdentifier = cleanField(flds[3]);
 				/*
 				String disease = flds[4].trim();
 				String authors = flds[5].trim();
@@ -181,25 +181,25 @@ public class DatasetProcessor {
 				String ecIriTxt = (flds.length > 27 && flds[27] != null) ? flds[27].trim() : null;
 				String epiIriTxt = (flds.length > 30 && flds[30] != null) ? flds[30].trim() : null;
 				*/
-				String authors = flds[4].trim();
-				String created = flds[5].trim();
-				String modified = flds[6].trim();
-				String curated = flds[7].trim();
-				String landingPage = flds[8].trim();
-				String accessPage = flds[9].trim();
-				String format = flds[11].trim();
-				String geography = flds[13].trim();
-				String apolloLocationCode = flds[14].trim();
-				String iso_3166 = flds[15].trim();
-				String iso_3166_1 = flds[16].trim();
-				String iso_3166_1_alpha_3 = flds[17].trim();
-				String aoc = flds[18].trim();
-				String ae = flds[19].trim();
-				String license = flds[12].trim();
-				String popIriTxt = (flds[21] != null) ? flds[21].trim() : null;
-				String beIriTxt = (flds.length > 24 && flds[24] != null) ? flds[24].trim() : null;
-				String ecIriTxt = (flds.length > 26 && flds[26] != null) ? flds[26].trim() : null;
-				String epiIriTxt = (flds.length > 29 && flds[29] != null) ? flds[29].trim() : null;
+				String authors = cleanField(flds[4]);
+				String created = cleanField(flds[5]);
+				String modified = cleanField(flds[6]);
+				String curated = cleanField(flds[7]);
+				String landingPage = cleanField(flds[8]);
+				String accessPage = cleanField(flds[9]);
+				String format = cleanField(flds[11]);
+				String geography = cleanField(flds[13]);
+				String apolloLocationCode = cleanField(flds[14]);
+				String iso_3166 = cleanField(flds[15]);
+				String iso_3166_1 = cleanField(flds[16]);
+				String iso_3166_1_alpha_3 = cleanField(flds[17]);
+				String aoc = cleanField(flds[18]);
+				String ae = cleanField(flds[19]);
+				String license = cleanField(flds[12]);
+				String popIriTxt = (flds[21] != null) ? cleanField(flds[21]) : null;
+				String beIriTxt = (flds.length > 23 && flds[23] != null) ? cleanField(flds[24]) : null;
+				String ecIriTxt = (flds.length > 25 && flds[25] != null) ? cleanField(flds[25]) : null;
+				String epiIriTxt = (flds.length > 29 && flds[29] != null) ? cleanField(flds[29]) : null;
 
 		    	//We'll create them as agent level ecosystem data sets, case series, etc.
 			    System.out.println("SUBTYPE.  subtype=\"" + dataSubtype + "\"");
@@ -350,6 +350,15 @@ public class DatasetProcessor {
 				//just eat it, eat it, don't you make me repeat it!
 			}
 		}
+    }
+
+    public static String cleanField(String field) {
+    	field = field.trim();
+    	if (field.startsWith("\"") && field.endsWith("\"")) {
+    		int end = field.length()-1;
+    		field = field.substring(1, end);
+    	}
+    	return field;
     }
 
     public static void loadDevelopers(String fName, OWLDataFactory odf) throws IOException {

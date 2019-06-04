@@ -129,3 +129,4 @@ comment	http://www.w3.org/2000/01/rdf-schema#comment	annotation
 treatment facility census	http://purl.obolibrary.org/obo/APOLLO_SV_00000595	class
 population demographic census	http://purl.obolibrary.org/obo/APOLLO_SV_00000159	class
 atmospheric data set	http://purl.obolibrary.org/obo/APOLLO_SV_00000594	class
+Validators	http://purl.obolibrary.org/obo/APOLLO_SV_00000597	class
