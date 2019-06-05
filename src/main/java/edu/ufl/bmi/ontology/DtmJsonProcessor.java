@@ -2266,10 +2266,15 @@ public class DtmJsonProcessor {
 
     public static void handleSimInds(HashMap<String, OWLNamedIndividual> niMap, OWLOntology oo, OWLDataFactory odf, IriLookup iriMap) throws IOException {
         String simIndSetsTxt = dtmToSimInds.get(fullName);
-        if (simIndSetsTxt == null) return;
+        if (simIndSetsTxt == null) {
+            System.err.println("No indexing information for disease transmission model with fullName=" + fullName);
+            return;
+        }
         String[] simIndSets = simIndSetsTxt.split(Pattern.quote("|"));
+        System.err.println("\tsimIndSets size is " + simIndSets.length+ " for software " + fullName);
         for (String indSet : simIndSets) {
             String[] simInds = indSet.split(Pattern.quote(","));
+            System.err.println("\t\tsimInds size is " + simInds.length);
             OWLNamedIndividual simulating = null;
             String simText = null;
             for (String s : simInds) {
