@@ -39,7 +39,7 @@ import edu.ufl.bmi.misc.IriLookup;
 
 public class GeoNamesAdminLevelProcessing {
     static long iriCounter;
-    static String iriPrefix = "http://www.pitt.edu/obc/GEO_";
+    static String iriPrefix = "http://purl.obolibrary.org/obo/GEO_";
     static int iriLen = 9;
 
     static String countryIso;
