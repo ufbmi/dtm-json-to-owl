@@ -130,3 +130,11 @@ treatment facility census	http://purl.obolibrary.org/obo/APOLLO_SV_00000595	clas
 population demographic census	http://purl.obolibrary.org/obo/APOLLO_SV_00000159	class
 atmospheric data set	http://purl.obolibrary.org/obo/APOLLO_SV_00000594	class
 Validators	http://purl.obolibrary.org/obo/APOLLO_SV_00000597	class
+postal address	http://purl.obolibrary.org/obo/IAO_0000422	class
+telephone number	http://purl.obolibrary.org/obo/OPMI_0000112	class
+organization	http://purl.obolibrary.org/obo/OBI_0000245	class
+street address	http://www.w3.org/2006/vcard/ns#street-address	data property
+country name	http://www.w3.org/2006/vcard/ns#country-name	data property
+postal code	http://www.w3.org/2006/vcard/ns#postal-code	data property
+admin1 name	http://www.w3.org/2006/vcard/ns#region	data property
+abbreviation textual entity	http://purl.obolibrary.org/obo/IAO_0000605	class

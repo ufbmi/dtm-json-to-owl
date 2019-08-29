@@ -1,0 +1,8 @@
+row_type=organization
+data_file=organization_midas_cc.txt
+iri_prefix=http://www.pitt.edu/midascc
+iri_counter=100
+iri_id_length=8
+iri_lookup=./src/main/resources/iris.txt
+output_file=midas-cc-organization.owl
+output_file_iri_id=midas_organization

@@ -1,0 +1,44 @@
+# Instruction set for transforming MIDAS CC Google Sheet on organizations into RDF/OWL2
+
+annotation: [row-individual]	label	[OrganizationName]
+annotation: [row-individual]	title	[OrganizationName]
+annotation: [row-individual]	hasURL	[OrganizationURL]
+annotation: [row-individual]	comment	"Order: " + [order]
+annotation: [row-individual]	comment	"Type: " + [OrganizationType]
+
+new-individual: organization-address	postal address	label	"Postal address of "+[OrganizationName]
+new-individual: organization-phone	telephone number	label	[OrganizationPhone]
+new-individual: organization-email	email address	label	[Email]
+new-individual: organization-abbrev	abbreviation textual entity	rdfs:label	[OrganizationAbbreviation]
+new-individual: organization-linked-in	web site	label	"LinkedIn web page for "+[OrganizationName]
+new-individual: github-id	identifier	label	[GithubIdentifier]
+new-individual:	midas-cc-identifier	identifier	label	[ID]
+
+annotation: organization-linked-in	hasURL	[LinkedInURL]
+annotation: github-id	comment	"GitHub identifier for "+[OrganizationName]
+annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[OrganizationName]
+
+data-property-expression: organization-address	street address	[OrganizationAddress]
+data-property-expression: organization-address	country name	[OrganizationCountry]
+data-property-expression: organization-address	postal code	[OrganizationPostalCode]
+data-property-expression: organization-address	admin1 name	[OrganizationAdmin1]
+
+object-property-expression: organization-address	is contact information about	[row-individua]
+object-property-expression: organization-phone	is contact information about	[row-individual]
+object-property-expression: organization-email	is contact information about	[row-individual]
+object-property-expression: organization-abbrev	is about	[row-individual]
+object-property-expression: organization-linked-in	is about	[row-individual]
+object-property-expression: github-id	denotes	[row-individual]
+object-property-expression: midas-cc-identifier	denotes	[row-individual]
+
+lookup-individual: institution	[University/Institue/Hospital/Gov]
+lookup-individual: major-unit	[School/College/Division]
+lookup-individual: department	[Department/Group/Program]
+lookup-individual: lab	[Lab]
+
+object-property-expression: lab	proper continuant part	department
+object-property-expression: lab	proper continuant part	major-unit
+object-property-expression: lab	proper continuant part	institution
+object-property-expression: department	proper continuant part	major-unit
+object-property-expression: department	proper continuant part	institution
+object-property-expression: major-unit	proper continuant part	institution

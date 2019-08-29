@@ -97,6 +97,7 @@ public class GeoNamesAdminLevelProcessing {
 		oos = new OWLOntology[4];
 		owlFileNames = new String[4];
 		
+		System.out.println("Ontology PURLs to create:");
 		IRI lastIri = null;
 		for (int i=0; i<4; i++) {
 		
@@ -104,6 +105,7 @@ public class GeoNamesAdminLevelProcessing {
 		    owlFileNames[i] = countryIso + "-admin-level-" + Integer.toString(i+1) + ".owl";
 		    try {
 				oos[i] = oom.createOntology(ontologyIRI);
+				System.out.println(ontologyIRI);
 		    } catch (OWLOntologyCreationException ooce) {
 				ooce.printStackTrace();
 		    }
@@ -117,6 +119,7 @@ public class GeoNamesAdminLevelProcessing {
 
 		    lastIri = ontologyIRI;
 		}
+		System.out.println("End ontology PURLs to create.");
     }
 
     public static void processInputFile() {
