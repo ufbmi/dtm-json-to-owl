@@ -18,12 +18,12 @@ annotation: organization-linked-in	hasURL	[LinkedInURL]
 annotation: github-id	comment	"GitHub identifier for "+[OrganizationName]
 annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[OrganizationName]
 
-data-property-expression: organization-address	street address	[OrganizationAddress]
-data-property-expression: organization-address	country name	[OrganizationCountry]
-data-property-expression: organization-address	postal code	[OrganizationPostalCode]
-data-property-expression: organization-address	admin1 name	[OrganizationAdmin1]
+data-property-expression: organization-address	street address	[OrganizationAddress]	String
+data-property-expression: organization-address	country name	[OrganizationCountry]	String
+data-property-expression: organization-address	postal code	[OrganizationPostalCode]	String
+data-property-expression: organization-address	admin1 name	[OrganizationAdmin1]	String
 
-object-property-expression: organization-address	is contact information about	[row-individua]
+object-property-expression: organization-address	is contact information about	[row-individual]
 object-property-expression: organization-phone	is contact information about	[row-individual]
 object-property-expression: organization-email	is contact information about	[row-individual]
 object-property-expression: organization-abbrev	is about	[row-individual]

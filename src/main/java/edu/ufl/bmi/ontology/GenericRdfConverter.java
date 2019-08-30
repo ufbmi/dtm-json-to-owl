@@ -5,6 +5,7 @@ import java.io.LineNumberReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -28,9 +29,11 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.AddImport;
@@ -48,6 +51,8 @@ public class GenericRdfConverter {
     static IriLookup iriMap;
    	static String rowTypeTxt;
     static String inputFileName;
+
+    static String instructionFileName;
 
     static OWLOntologyManager oom;
     static OWLDataFactory odf;
@@ -96,6 +101,8 @@ public class GenericRdfConverter {
 		    	outputFileName = flds[1].trim();
 		    } else if (flds[0].trim().equals("output_file_iri_id")) {
 		    	outputFileIriId = flds[1].trim();
+		    } else if (flds[0].trim().equals("instructions")) {
+		    	instructionFileName = flds[1].trim();
 		    } else {
 				System.err.println("don't know what " + flds[0] + " is. Ignoring...");
 		    }
@@ -188,10 +195,20 @@ public class GenericRdfConverter {
     }
 
     protected static void processInstructionsForEachRow() throws IOException {
+    	RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
+				odf, mapsNamesIdsToInd);
+    	try {
+    		c.compile();
+    	} catch (ParseException pe) {
+    		pe.printStackTrace();
+    	}
+
     	FileReader fr = new FileReader(inputFileName);
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
     	processHeaderRow(lnr);
+
+
 
     	while ((line=lnr.readLine())!=null) {
 			String[] flds = line.split(Pattern.quote("\t"));
@@ -252,5 +269,38 @@ public class GenericRdfConverter {
 		OWLObjectProperty oop = odf.getOWLObjectProperty(objPropIri);
 		OWLObjectPropertyAssertionAxiom oopaa = odf.getOWLObjectPropertyAssertionAxiom(oop, source, target);
 		oom.addAxiom(oo, oopaa);
+    }
+
+
+    public static void addStringDataToNamedIndividual(OWLNamedIndividual oni, IRI dataPropIri, String value, OWLOntology oo) {
+		//OWLLiteral li = odf.getOWLLiteral(value);
+		OWLDataProperty dp = odf.getOWLDataProperty(dataPropIri);
+		//getOWLDataPropertyAssertionAxiom(OWLDataPropertyExpression property, OWLIndividual subject, String value) 
+		OWLDataPropertyAssertionAxiom odpaa = odf.getOWLDataPropertyAssertionAxiom(dp, oni, value);
+		oom.addAxiom(oo, odpaa);
+    }
+
+    public static void addBooleanDataToNamedIndividual(OWLNamedIndividual oni, IRI dataPropIri, boolean value, OWLOntology oo) {
+		//OWLLiteral li = odf.getOWLLiteral(value);
+		OWLDataProperty dp = odf.getOWLDataProperty(dataPropIri);
+		//getOWLDataPropertyAssertionAxiom(OWLDataPropertyExpression property, OWLIndividual subject, String value) 
+		OWLDataPropertyAssertionAxiom odpaa = odf.getOWLDataPropertyAssertionAxiom(dp, oni, value);
+		oom.addAxiom(oo, odpaa);
+    }
+
+    public static void addFloatDataToNamedIndividual(OWLNamedIndividual oni, IRI dataPropIri, float value, OWLOntology oo) {
+		//OWLLiteral li = odf.getOWLLiteral(value);
+		OWLDataProperty dp = odf.getOWLDataProperty(dataPropIri);
+		//getOWLDataPropertyAssertionAxiom(OWLDataPropertyExpression property, OWLIndividual subject, String value) 
+		OWLDataPropertyAssertionAxiom odpaa = odf.getOWLDataPropertyAssertionAxiom(dp, oni, value);
+		oom.addAxiom(oo, odpaa);
+    }
+
+    public static void addIntDataToNamedIndividual(OWLNamedIndividual oni, IRI dataPropIri, int value, OWLOntology oo) {
+		//OWLLiteral li = odf.getOWLLiteral(value);
+		OWLDataProperty dp = odf.getOWLDataProperty(dataPropIri);
+		//getOWLDataPropertyAssertionAxiom(OWLDataPropertyExpression property, OWLIndividual subject, String value) 
+		OWLDataPropertyAssertionAxiom odpaa = odf.getOWLDataPropertyAssertionAxiom(dp, oni, value);
+		oom.addAxiom(oo, odpaa);
     }
 }

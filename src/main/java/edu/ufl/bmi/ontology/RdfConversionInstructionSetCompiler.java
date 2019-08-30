@@ -22,13 +22,16 @@ public class RdfConversionInstructionSetCompiler {
 	IriLookup iriMap;
 	HashMap<String,Integer> fieldNameToIndex;
 	OWLDataFactory odf;
+	ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes;
 
-	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf) {
+	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, 
+			OWLDataFactory odf, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes) {
 		this.fileName = fName;
 		instructionList = new ArrayList<RdfConversionInstruction>();
 		this.iriMap = iriMap;
 		this.fieldNameToIndex = fieldNameToIndex;
 		this.odf = odf;
+		this.searchIndexes = searchIndexes;
 	}
 
 	public void compile() throws ParseException {
@@ -79,10 +82,31 @@ public class RdfConversionInstructionSetCompiler {
 				iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction);
 			return rcnii;
 		} else if (instructionType.equals("data-property-expression")) {
-			return null;
+			if (flds.length != 4) throw new ParseException(
+				"data property expression instruction must have four, tab-delimited fields: " + instruction, 3);
+			String variableName = flds[0].trim();
+			String dataPropertyIriTxt = flds[1].trim();
+			String dataValueInstruction = flds[2].trim().replace("[","").replace("]","");
+			String dataType = flds[3].trim();
+			RdfConversionDataInstruction rcdi = new RdfConversionDataInstruction(iriMap, fieldNameToIndex, odf, variableName, 
+					dataPropertyIriTxt, dataValueInstruction, dataType);
+			return rcdi;
 		} else if (instructionType.equals("object-property-expression")) {
-			return null;
+			if (flds.length != 3) throw new ParseException(
+				"object property expression instructions require three, tab-delimited fields.", 4);
+			String sourceVariableName = flds[0].trim();
+			String objectPropertyIriTxt = flds[1].trim();
+			String targetVariableName = flds[0].trim();
+			RdfConversionObjectPropertylInstruction rcopi = new RdfConversionObjectPropertylInstruction(iriMap, 
+					fieldNameToIndex, odf, sourceVariableName, objectPropertyIriTxt, targetVariableName);
+			return rcopi;
 		} else if (instructionType.equals("lookup-individual")) {
+			if (flds.length != 2) throw new ParseException(
+				"lookup individual instructions must have two, tab-delimited fields: " + instruction, 5);
+			String variableName = flds[0].trim();
+			String searchFieldName = flds[1].trim().replace("[","").replace("]","");
+			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, fieldNameToIndex, 
+					odf, variableName, searchFieldName, searchIndexes);
 			return null;
 		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
