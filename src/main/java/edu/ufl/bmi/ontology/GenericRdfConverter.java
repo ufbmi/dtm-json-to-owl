@@ -88,10 +88,10 @@ public class GenericRdfConverter {
 		    } else if (flds[0].trim().equals("iri_counter")) {
 				iriCounterTxt = flds[1];
 		    } else if (flds[0].trim().equals("iri_lookup")) {
-				iriMap = new IriLookup(flds[1]);
+				iriMap = new IriLookup(flds[1].trim());
 				iriMap.init();
 		    } else if (flds[0].trim().equals("iri_id_length")) {
-				iriLenTxt = flds[1];
+				iriLenTxt = flds[1].trim();
 		    } else if (flds[0].trim().equals("output_file")) {
 		    	outputFileName = flds[1].trim();
 		    } else if (flds[0].trim().equals("output_file_iri_id")) {
@@ -101,7 +101,7 @@ public class GenericRdfConverter {
 		    }
 		}
 
-		//System.out.println()
+		System.out.println(iriLenTxt);
 		iriLen = Integer.parseInt(iriLenTxt);
 		iriCounter = Long.parseLong(iriCounterTxt);
 
