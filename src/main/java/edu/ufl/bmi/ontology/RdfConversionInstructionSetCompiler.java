@@ -34,7 +34,7 @@ public class RdfConversionInstructionSetCompiler {
 		this.searchIndexes = searchIndexes;
 	}
 
-	public void compile() throws ParseException {
+	public RdfConversionInstructionSet compile() throws ParseException {
 		try {
 			FileReader fr = new FileReader(fileName);
 			LineNumberReader lnr = new LineNumberReader(fr);
@@ -42,9 +42,10 @@ public class RdfConversionInstructionSetCompiler {
 
 			while((line=lnr.readLine())!=null) {
 				line = line.trim();
-				if (line.length() == 0) continue;
+				if (line.length() == 0 || line.startsWith("#")) continue;
 
 				String[] flds = line.split(Pattern.quote(":"));
+				System.out.println(flds.length + ", " + flds[0]);
 				String instructionType = flds[0].trim();
 				String instruction = flds[1].trim();
 				
@@ -54,6 +55,8 @@ public class RdfConversionInstructionSetCompiler {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+
+		return new RdfConversionInstructionSet(instructionList);
 	}
 
 	//public RdfConversionInstructionSet getInstructionSet() {
@@ -72,21 +75,29 @@ public class RdfConversionInstructionSetCompiler {
 				variableName, annotationPropertyTxt, annotationValueInstruction);
 			return rcai;
 		} else if (instructionType.equals("new-individual")) {
-			if (flds.length != 4) throw new ParseException(
+			if (flds.length != 4 && flds.length != 5) throw new ParseException(
 				"new individual instruction must have four, tab-delimited fields: " + instruction, 2);
 			String variableName = flds[0].trim();
 			String classIriTxt = flds[1].trim();
 			String annotationPropertyTxt = flds[2].trim();
 			String annotationValueInstruction = flds[3].trim();
-			RdfConversionNewIndividualInstruction rcnii = new RdfConversionNewIndividualInstruction(
-				iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction);
+			RdfConversionNewIndividualInstruction rcnii = null;
+			if (flds.length == 4) {
+				rcnii = new RdfConversionNewIndividualInstruction(
+					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction);
+			} else if (flds.length == 5) {
+				String creationConditionLogic = flds[4].trim();
+				rcnii = new RdfConversionNewIndividualInstruction(
+					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
+					creationConditionLogic);
+			}
 			return rcnii;
 		} else if (instructionType.equals("data-property-expression")) {
 			if (flds.length != 4) throw new ParseException(
 				"data property expression instruction must have four, tab-delimited fields: " + instruction, 3);
 			String variableName = flds[0].trim();
 			String dataPropertyIriTxt = flds[1].trim();
-			String dataValueInstruction = flds[2].trim().replace("[","").replace("]","");
+			String dataValueInstruction = flds[2].trim(); //.replace("[","").replace("]","");
 			String dataType = flds[3].trim();
 			RdfConversionDataInstruction rcdi = new RdfConversionDataInstruction(iriMap, fieldNameToIndex, odf, variableName, 
 					dataPropertyIriTxt, dataValueInstruction, dataType);
@@ -96,7 +107,7 @@ public class RdfConversionInstructionSetCompiler {
 				"object property expression instructions require three, tab-delimited fields.", 4);
 			String sourceVariableName = flds[0].trim();
 			String objectPropertyIriTxt = flds[1].trim();
-			String targetVariableName = flds[0].trim();
+			String targetVariableName = flds[2].trim();
 			RdfConversionObjectPropertylInstruction rcopi = new RdfConversionObjectPropertylInstruction(iriMap, 
 					fieldNameToIndex, odf, sourceVariableName, objectPropertyIriTxt, targetVariableName);
 			return rcopi;
@@ -107,7 +118,7 @@ public class RdfConversionInstructionSetCompiler {
 			String searchFieldName = flds[1].trim().replace("[","").replace("]","");
 			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, fieldNameToIndex, 
 					odf, variableName, searchFieldName, searchIndexes);
-			return null;
+			return rclii;
 		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
 		}

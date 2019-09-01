@@ -138,3 +138,4 @@ country name	http://www.w3.org/2006/vcard/ns#country-name	data property
 postal code	http://www.w3.org/2006/vcard/ns#postal-code	data property
 admin1 name	http://www.w3.org/2006/vcard/ns#region	data property
 abbreviation textual entity	http://purl.obolibrary.org/obo/IAO_0000605	class
+locality	http://www.w3.org/2006/vcard/ns#locality	data property

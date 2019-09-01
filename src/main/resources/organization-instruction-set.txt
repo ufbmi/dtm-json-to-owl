@@ -2,15 +2,16 @@
 
 annotation: [row-individual]	label	[OrganizationName]
 annotation: [row-individual]	title	[OrganizationName]
+annotation: [row-individual]	editor preferred	[MemberOf with Org Name (sort with)]
 annotation: [row-individual]	hasURL	[OrganizationURL]
-annotation: [row-individual]	comment	"Order: " + [order]
-annotation: [row-individual]	comment	"Type: " + [OrganizationType]
+annotation: [row-individual]	comment	"Order- " + [order]
+annotation: [row-individual]	comment	"Type- " + [OrganizationType]
 
-new-individual: organization-address	postal address	label	"Postal address of "+[OrganizationName]
+new-individual: organization-address	postal address	label	"Postal address of "+[OrganizationName]	[OrganizationAddress] not-empty or [OrganizationPostalCode] not-empty or [OrganizationCity] not-empty or [OrganizationAdmin1] not-empty or [OrganizationCountry] not-empty
 new-individual: organization-phone	telephone number	label	[OrganizationPhone]
 new-individual: organization-email	email address	label	[Email]
-new-individual: organization-abbrev	abbreviation textual entity	rdfs:label	[OrganizationAbbreviation]
-new-individual: organization-linked-in	web site	label	"LinkedIn web page for "+[OrganizationName]
+new-individual: organization-abbrev	abbreviation textual entity	label	[OrganizationAbbreviation]
+new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[OrganizationName]
 new-individual: github-id	identifier	label	[GithubIdentifier]
 new-individual:	midas-cc-identifier	identifier	label	[ID]
 
@@ -19,9 +20,10 @@ annotation: github-id	comment	"GitHub identifier for "+[OrganizationName]
 annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[OrganizationName]
 
 data-property-expression: organization-address	street address	[OrganizationAddress]	String
-data-property-expression: organization-address	country name	[OrganizationCountry]	String
 data-property-expression: organization-address	postal code	[OrganizationPostalCode]	String
+data-property-expression: organization-address	locality	[OrganizationCity]	String
 data-property-expression: organization-address	admin1 name	[OrganizationAdmin1]	String
+data-property-expression: organization-address	country name	[OrganizationCountry]	String
 
 object-property-expression: organization-address	is contact information about	[row-individual]
 object-property-expression: organization-phone	is contact information about	[row-individual]
@@ -32,13 +34,7 @@ object-property-expression: github-id	denotes	[row-individual]
 object-property-expression: midas-cc-identifier	denotes	[row-individual]
 
 lookup-individual: institution	[University/Institue/Hospital/Gov]
-lookup-individual: major-unit	[School/College/Division]
-lookup-individual: department	[Department/Group/Program]
-lookup-individual: lab	[Lab]
+lookup-individual: member-of	[MemberOf]
 
-object-property-expression: lab	proper continuant part	department
-object-property-expression: lab	proper continuant part	major-unit
 object-property-expression: lab	proper continuant part	institution
-object-property-expression: department	proper continuant part	major-unit
-object-property-expression: department	proper continuant part	institution
-object-property-expression: major-unit	proper continuant part	institution
+object-property-expression: [row-individual]	proper continuant part	member-of

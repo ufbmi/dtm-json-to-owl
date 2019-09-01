@@ -61,9 +61,14 @@ public class GenericRdfConverter {
     static String outputFileIriId;
 
     static HashMap<String, Integer> fieldNameToIndex;
-    static ArrayList<Integer> indexesOfNamesIds;
     static HashMap<Integer, OWLNamedIndividual> lineNumToInd;
-    static ArrayList<HashMap<String, OWLNamedIndividual>> mapsNamesIdsToInd;
+	static ArrayList<HashMap<String, OWLNamedIndividual>> uniqueFieldsMapToInd;
+
+    static ArrayList<String> uniqueKeyFieldNames;
+    static ArrayList<Integer> uniqueKeyFieldIndexes;
+
+
+    static RdfConversionInstructionSet rcis;
 
     public static void main(String[] args) {
 		try {
@@ -103,6 +108,12 @@ public class GenericRdfConverter {
 		    	outputFileIriId = flds[1].trim();
 		    } else if (flds[0].trim().equals("instructions")) {
 		    	instructionFileName = flds[1].trim();
+		    } else if (flds[0].trim().equals("unique_key_fields")) {
+		    	uniqueKeyFieldNames = new ArrayList<String>();
+		    	String[] vals = flds[1].split(Pattern.quote(","));
+		    	for (String v : vals) {
+		    		uniqueKeyFieldNames.add(v);
+		    	}
 		    } else {
 				System.err.println("don't know what " + flds[0] + " is. Ignoring...");
 		    }
@@ -119,29 +130,30 @@ public class GenericRdfConverter {
     protected static void processHeaderRow(LineNumberReader lnr) throws IOException {
     	
     	if (fieldNameToIndex == null) fieldNameToIndex = new HashMap<String, Integer>();
-    	if (indexesOfNamesIds == null) indexesOfNamesIds = new ArrayList<Integer>();
+    	if (uniqueKeyFieldIndexes == null) uniqueKeyFieldIndexes = new ArrayList<Integer>();
+    	if (uniqueFieldsMapToInd == null) uniqueFieldsMapToInd = new ArrayList<HashMap<String,OWLNamedIndividual>>();
 
     	String line;
 		do {
 			line=lnr.readLine();
-			line = line.trim();	
-		} while (line != null || line.length() == 0);
+			System.out.println(line);
+			if (line != null) line = line.trim();	
+		} while (line == null || line.length() == 0);
 
 		if (headerProcessed) return;
 
 		String[] flds = line.split(Pattern.quote("\t"));
-		if (mapsNamesIdsToInd == null) mapsNamesIdsToInd = new ArrayList<HashMap<String,OWLNamedIndividual>>(flds.length);
 
 		for (int i=0; i<flds.length; i++) {
 			String fieldName = flds[i].trim();
 			fieldNameToIndex.put(fieldName, i);
-			String fieldNameLower = fieldName.toLowerCase();
-			if (fieldNameLower.contains("name") || fieldName.contains("ident") || 
-				fieldNameLower.equals("id")) {
-				indexesOfNamesIds.add(i);
+			for (String uniqueField : uniqueKeyFieldNames) {
+				if (fieldName.equals(uniqueField)) {
+					uniqueKeyFieldIndexes.add(i);
+					HashMap<String, OWLNamedIndividual> mapi = new HashMap<String, OWLNamedIndividual>();
+					uniqueFieldsMapToInd.add(mapi);
+				}
 			}
-			HashMap<String, OWLNamedIndividual> mapi = new HashMap<String, OWLNamedIndividual>();
-			mapsNamesIdsToInd.add(mapi);
 		}
 		headerProcessed = true;
     }
@@ -161,10 +173,21 @@ public class GenericRdfConverter {
     public static void processInputFile() {
     	try {
     		firstPassthrough();	
+    		buildInstructionSet(); 
     		processInstructionsForEachRow();
     	} catch (IOException ioe) {
     		System.err.println(ioe);
     		ioe.printStackTrace();
+    	}
+	}
+
+	public static void buildInstructionSet() {
+		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
+				odf, uniqueFieldsMapToInd);
+    	try {
+    		rcis = c.compile();
+    	} catch (ParseException pe) {
+    		pe.printStackTrace();
     	}
 	}
 
@@ -180,13 +203,15 @@ public class GenericRdfConverter {
 			OWLNamedIndividual oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
 			int lineNumber = lnr.getLineNumber();
 			lineNumToInd.put(lineNumber, oni);
-			Iterator<Integer> indexes = indexesOfNamesIds.iterator();
+			Iterator<Integer> indexes = uniqueKeyFieldIndexes.iterator();
+			int j = 0;
 			while(indexes.hasNext()) {
 				Integer iInt = indexes.next();
 				int i = iInt.intValue();
 				String fieldValue = flds[i];
-				HashMap<String, OWLNamedIndividual> mapi = mapsNamesIdsToInd.get(i);
+				HashMap<String, OWLNamedIndividual> mapi = uniqueFieldsMapToInd.get(j);
 				mapi.put(fieldValue, oni);
+				j++;
 			}
 		}
 
@@ -195,13 +220,7 @@ public class GenericRdfConverter {
     }
 
     protected static void processInstructionsForEachRow() throws IOException {
-    	RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
-				odf, mapsNamesIdsToInd);
-    	try {
-    		c.compile();
-    	} catch (ParseException pe) {
-    		pe.printStackTrace();
-    	}
+    	
 
     	FileReader fr = new FileReader(inputFileName);
 		LineNumberReader lnr = new LineNumberReader(fr);
@@ -209,9 +228,19 @@ public class GenericRdfConverter {
     	processHeaderRow(lnr);
 
 
-
+    	/*
+    	 *  For each row, we want to execute the instruction set against it.
+    	 *
+    	 */
     	while ((line=lnr.readLine())!=null) {
-			String[] flds = line.split(Pattern.quote("\t"));
+    		String[] flds = line.split(Pattern.quote("\t"), -1);
+    		if (flds.length == 0) continue;
+
+    		int lineNumber = lnr.getLineNumber();
+    		OWLNamedIndividual rowInd = lineNumToInd.get(lineNumber);
+    		ArrayList<String> fldList = new ArrayList<String>();
+    		for (String s : flds) fldList.add(s);
+			rcis.executeInstructions(rowInd, fldList, oos);
 		}
 
 		lnr.close();

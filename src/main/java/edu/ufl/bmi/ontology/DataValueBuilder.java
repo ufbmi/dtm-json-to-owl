@@ -20,7 +20,9 @@ public class DataValueBuilder {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : dataValueInstructions) {
 			if (o instanceof String) {
-				sb.append((String)o);
+				String s = (String)o;
+				if (s.trim().length() == 0) return null;
+				sb.append(s);
 			} else if (o instanceof Integer) {
 				sb.append(recordFields.get((Integer)o));
 			}

@@ -20,7 +20,11 @@ public class AnnotationValueBuilder {
 			if (o instanceof String) {
 				sb.append((String)o);
 			} else if (o instanceof Integer) {
-				sb.append(recordFields.get((Integer)o));
+				String fieldValue = recordFields.get((Integer)o);
+				if (fieldValue.trim().length() > 0)
+					sb.append(fieldValue);
+				else 
+					return null;
 			}
 		}
 		return sb.toString();
@@ -40,7 +44,7 @@ public class AnnotationValueBuilder {
 				String varName = fld.substring(1, fld.length()-1);
 				annotationValueInstructions.add(fieldNameToIndex.get(varName));
 			} else {
-				annotationValueInstructions.add(fld);
+				annotationValueInstructions.add(fld.replace("\"",""));
 			}
 		}
 	}

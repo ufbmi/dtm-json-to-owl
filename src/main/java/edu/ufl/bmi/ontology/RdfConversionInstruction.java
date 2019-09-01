@@ -24,4 +24,12 @@ public abstract class RdfConversionInstruction {
 
 	public abstract void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
 
+	public String cleanupValue(String fieldValue) {
+		return fieldValue.replace("\"","").replace("N/A","").trim();
+	}
+
+	public boolean validFieldValue(String fieldValue) {
+		return (fieldValue != null && fieldValue.trim().length() > 0);
+	}
+
 }
