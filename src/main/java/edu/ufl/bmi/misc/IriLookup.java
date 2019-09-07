@@ -2,9 +2,11 @@ package edu.ufl.bmi.misc;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;
+import java.io.File;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.LineNumberReader;
+import java.util.regex.Matcher;
 
 import org.semanticweb.owlapi.model.IRI;
 
@@ -18,7 +20,7 @@ public class IriLookup {
     String fname;
 
     public IriLookup(String fname) {
-		this.fname = fname;
+		this.fname = fname.replaceFirst("^~", Matcher.quoteReplacement(System.getProperty("user.home")));
 		classIriMap = new HashMap<String, IRI>();
 		objPropIriMap = new HashMap<String, IRI>();
 		annPropIriMap = new HashMap<String, IRI>();
@@ -27,7 +29,9 @@ public class IriLookup {
     }
 
     public void init() throws IOException {
-		FileReader fr = new FileReader(fname);
+    	File f = new File(fname);
+    	System.out.println("\t" + f.getAbsolutePath());
+		FileReader fr = new FileReader(f.getAbsolutePath());
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while ((line=lnr.readLine())!=null) {

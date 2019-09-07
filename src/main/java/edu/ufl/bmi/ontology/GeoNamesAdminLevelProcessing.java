@@ -1,5 +1,6 @@
 package edu.ufl.bmi.ontology;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.io.FileWriter;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -56,6 +58,7 @@ public class GeoNamesAdminLevelProcessing {
 
     public static void main(String[] args) {
 		try {
+			System.out.println("Beginnging processing of GeoNames admin units:");
 		    readConfigurationFile(args[0]);
 		    setupOntologies();
 		    processInputFile();
@@ -67,7 +70,8 @@ public class GeoNamesAdminLevelProcessing {
     }
 
     public static void readConfigurationFile(String fName) throws IOException {
-		FileReader fr = new FileReader(fName);
+    	System.out.println("\tConfiguration file at: " + fName);
+		FileReader fr = new FileReader(new File(fName));
 		LineNumberReader lnr = new LineNumberReader(fr);
 		String line;
 		while((line=lnr.readLine())!=null) {
@@ -75,12 +79,13 @@ public class GeoNamesAdminLevelProcessing {
 		    if (flds[0].equals("countrycode")) {
 				countryIso = flds[1];
 		    } else if (flds[0].equals("input")) {
-				inputFileName=flds[1];
+				inputFileName=flds[1].replaceFirst("^~", Matcher.quoteReplacement(System.getProperty("user.home")));;
 		    } else if (flds[0].equals("owlpurlbase")) {
 				owlBase = flds[1];
 		    } else if (flds[0].equals("countryiri")) {
 				countryIri = IRI.create(flds[1]);
 		    } else if (flds[0].equals("irilookup")) {
+		    	System.out.println("\tFile of short handles to IRIs mapping located at: " + flds[1]);
 				iriMap = new IriLookup(flds[1]);
 				iriMap.init();
 		    } else if (flds[0].equals("iriStart")) {
@@ -101,11 +106,27 @@ public class GeoNamesAdminLevelProcessing {
 		IRI lastIri = null;
 		for (int i=0; i<4; i++) {
 		
-		    IRI ontologyIRI = IRI.create(owlBase + "-" + Integer.toString(i+1) + ".owl");
+			int levelint = i+1;
+			String levelTxt = "";
+			switch (levelint) {
+				case 1: 
+					levelTxt = "one";
+					break;
+				case 2:
+					levelTxt = "two";
+					break;
+				case 3:
+					levelTxt = "three";
+					break;
+				case 4:
+					levelTxt = "four";
+					break;
+			}
+		    IRI ontologyIRI = IRI.create(owlBase + "-" + levelTxt + ".owl");
 		    owlFileNames[i] = countryIso + "-admin-level-" + Integer.toString(i+1) + ".owl";
 		    try {
 				oos[i] = oom.createOntology(ontologyIRI);
-				System.out.println(ontologyIRI);
+				System.out.println("\t" + ontologyIRI);
 		    } catch (OWLOntologyCreationException ooce) {
 				ooce.printStackTrace();
 		    }
@@ -189,6 +210,7 @@ public class GeoNamesAdminLevelProcessing {
 				if (iParentFld > 0) {
 					if (gnAdmCodeToNamedInd.get(iParentLevel).get(flds[iParentFld]) == null) {
 						System.err.println("parent not found on line " + lnr.getLineNumber() + "\n\t" + line);
+						System.err.println("\t\t" + iParentLevel + "\t" + flds[10] + "\t" + flds[11] + "\t" + flds[12] + "\t" + flds[13]);
 						boolean found = false;
 						while (iParentFld > 10) {
 							iParentFld--;
