@@ -139,3 +139,14 @@ postal code	http://www.w3.org/2006/vcard/ns#postal-code	data property
 admin1 name	http://www.w3.org/2006/vcard/ns#region	data property
 abbreviation textual entity	http://purl.obolibrary.org/obo/IAO_0000605	class
 locality	http://www.w3.org/2006/vcard/ns#locality	data property
+Center	http://vivoweb.org/ontology/core#Center	class
+College	http://vivoweb.org/ontology/core#College	class
+Department	http://vivoweb.org/ontology/core#Department	class
+Division	http://vivoweb.org/ontology/core#Division	class
+Government	http://vivoweb.org/ontology/core#GovernmentAgency	class
+Hospital	http://vivoweb.org/ontology/core#Hospital	class
+Institute	http://vivoweb.org/ontology/core#Institute	class
+Lab	http://vivoweb.org/ontology/core#Laboratory	class
+Program	http://vivoweb.org/ontology/core#Program	class
+School	http://vivoweb.org/ontology/core#School	class
+University	http://vivoweb.org/ontology/core#University	class

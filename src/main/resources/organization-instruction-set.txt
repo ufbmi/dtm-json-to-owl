@@ -11,7 +11,7 @@ new-individual: organization-address	postal address	label	"Postal address of "+[
 new-individual: organization-phone	telephone number	label	[OrganizationPhone]
 new-individual: organization-email	email address	label	[Email]
 new-individual: organization-abbrev	abbreviation textual entity	label	[OrganizationAbbreviation]
-new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[OrganizationName]
+new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[OrganizationName]	[LinkedInURL] not-empty
 new-individual: github-id	identifier	label	[GithubIdentifier]
 new-individual:	midas-cc-identifier	identifier	label	[ID]
 
@@ -24,6 +24,8 @@ data-property-expression: organization-address	postal code	[OrganizationPostalCo
 data-property-expression: organization-address	locality	[OrganizationCity]	String
 data-property-expression: organization-address	admin1 name	[OrganizationAdmin1]	String
 data-property-expression: organization-address	country name	[OrganizationCountry]	String
+
+class-assertion-expression: [row-individual]	[OrganizationType]
 
 object-property-expression: organization-address	is contact information about	[row-individual]
 object-property-expression: organization-phone	is contact information about	[row-individual]

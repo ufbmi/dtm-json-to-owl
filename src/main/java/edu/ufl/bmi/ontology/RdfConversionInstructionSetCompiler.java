@@ -119,7 +119,15 @@ public class RdfConversionInstructionSetCompiler {
 			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, fieldNameToIndex, 
 					odf, variableName, searchFieldName, searchIndexes);
 			return rclii;
-		} else {
+		} else if (instructionType.equals("class-assertion-expression")) {
+			if (flds.length !=2) throw new ParseException(
+				"class assertion expressions must have two, tab-delimited fields: " + instruction, 7);
+			String variableName = flds[0].trim();
+			String classIriHandle = flds[1].trim();
+			RdfClassAssertionInstruction rcai = new RdfClassAssertionInstruction(iriMap, odf, 
+				fieldNameToIndex, variableName, classIriHandle);
+			return rcai;
+		}else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
 		}
 	}

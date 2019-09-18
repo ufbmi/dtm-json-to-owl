@@ -332,4 +332,9 @@ public class GenericRdfConverter {
 		OWLDataPropertyAssertionAxiom odpaa = odf.getOWLDataPropertyAssertionAxiom(dp, oni, value);
 		oom.addAxiom(oo, odpaa);
     }
+
+    public static void addClassAssertionAxiom(OWLNamedIndividual oni, IRI classTypeIri, OWLOntology oo){
+    	OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
+		oom.addAxiom(oo, ocaa);
+    }
 }
