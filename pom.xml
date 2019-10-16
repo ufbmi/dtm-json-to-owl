@@ -10,6 +10,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <build>
   <plugins>
@@ -58,5 +59,11 @@
       <artifactId>jsoup</artifactId>
       <version>1.10.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>apache-jena-libs</artifactId>
+      <type>pom</type>
+      <version>3.13.1</version>
+</dependency>
   </dependencies>
 </project>
