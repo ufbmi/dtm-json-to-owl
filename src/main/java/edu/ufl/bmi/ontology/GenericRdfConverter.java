@@ -67,6 +67,8 @@ public class GenericRdfConverter {
     static ArrayList<String> uniqueKeyFieldNames;
     static ArrayList<Integer> uniqueKeyFieldIndexes;
 
+    static RdfIriRepositoryWithJena iriRepository;
+
 
     static RdfConversionInstructionSet rcis;
 
@@ -119,9 +121,12 @@ public class GenericRdfConverter {
 		    }
 		}
 
-		System.out.println(iriLenTxt);
+		//System.out.println(iriLenTxt);
 		iriLen = Integer.parseInt(iriLenTxt);
 		iriCounter = Long.parseLong(iriCounterTxt);
+
+		iriRepository = new RdfIriRepositoryWithJena(rowTypeTxt + ".rdf");
+		iriRepository.initialize();
 
 		lnr.close();
 		fr.close();
@@ -183,7 +188,7 @@ public class GenericRdfConverter {
 
 	public static void buildInstructionSet() {
 		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
-				odf, uniqueFieldsMapToInd);
+				odf, uniqueFieldsMapToInd, iriRepository, iriPrefix + "/" + rowTypeTxt);
     	try {
     		rcis = c.compile();
     	} catch (ParseException pe) {
@@ -250,6 +255,7 @@ public class GenericRdfConverter {
     public static void saveOntologies() {
 		try {
 			oom.saveOntology(oos, new FileOutputStream(outputFileName));
+			iriRepository.writeFile();
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();
 		} catch (OWLOntologyStorageException oose) {

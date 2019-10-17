@@ -19,26 +19,34 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	AnnotationValueBuilder avb;
 	boolean alwaysCreate;
 	ArrayList<ArrayList<String>> conditions;
+	IriRepository iriRepository;
+	String iriRepositoryPrefix;
 	
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
-		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction) {
+		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction,
+		IriRepository iriRepository, String iriRepositoryPrefix) {
 		super(iriMap, fieldNameToIndex, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
 		this.avb = new AnnotationValueBuilder(annotationValueInstruction, fieldNameToIndex);
 		this.alwaysCreate = true;
+		this.iriRepository = iriRepository;
+		this.iriRepositoryPrefix = iriRepositoryPrefix;
 	}
 
 
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
-		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction, String creationCondition) {
+		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction, String creationCondition, IriRepository iriRepository,
+		String iriRepositoryPrefix) {
 		super(iriMap, fieldNameToIndex, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
 		this.avb = new AnnotationValueBuilder(annotationValueInstruction, fieldNameToIndex);
 		this.alwaysCreate = false;
+		this.iriRepository = iriRepository;
+		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		/*
 	 	 *  Need a data structure.  Could have list of lists.  If we take "and" as preference over "or", then we'd split on the "or" first.
 	 	 *		that would give the outside list.  Splitting on "and" within the outside list creates a list entry inside each list.
@@ -75,6 +83,13 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 					annotationValue);
 				System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 				variables.put(variableName, oni);
+
+				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+				IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
+				repoAnnotations.put(varNameIri, variableName);
+				IRI rdfLabelIri = iriMap.lookupAnnPropIri("label");
+				repoAnnotations.put(rdfLabelIri, annotationValue);
+				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
 			}
 		}
 	}

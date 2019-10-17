@@ -23,15 +23,21 @@ public class RdfConversionInstructionSetCompiler {
 	HashMap<String,Integer> fieldNameToIndex;
 	OWLDataFactory odf;
 	ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes;
+	IriRepository iriRepository;
+	String iriRepositoryPrefix;
 
 	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, 
-			OWLDataFactory odf, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes) {
+			OWLDataFactory odf, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes,
+			IriRepository iriRepository, String iriRepositoryPrefix) {
 		this.fileName = fName;
 		instructionList = new ArrayList<RdfConversionInstruction>();
 		this.iriMap = iriMap;
 		this.fieldNameToIndex = fieldNameToIndex;
 		this.odf = odf;
 		this.searchIndexes = searchIndexes;
+		this.iriRepository = iriRepository;
+		this.iriRepositoryPrefix = iriRepositoryPrefix;
+
 	}
 
 	public RdfConversionInstructionSet compile() throws ParseException {
@@ -84,12 +90,12 @@ public class RdfConversionInstructionSetCompiler {
 			RdfConversionNewIndividualInstruction rcnii = null;
 			if (flds.length == 4) {
 				rcnii = new RdfConversionNewIndividualInstruction(
-					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction);
+					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, iriRepository, iriRepositoryPrefix);
 			} else if (flds.length == 5) {
 				String creationConditionLogic = flds[4].trim();
 				rcnii = new RdfConversionNewIndividualInstruction(
 					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
-					creationConditionLogic);
+					creationConditionLogic, iriRepository, iriRepositoryPrefix);
 			}
 			return rcnii;
 		} else if (instructionType.equals("data-property-expression")) {
