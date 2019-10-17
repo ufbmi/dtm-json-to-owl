@@ -67,6 +67,8 @@ public class GenericRdfConverter {
     static ArrayList<String> uniqueKeyFieldNames;
     static ArrayList<Integer> uniqueKeyFieldIndexes;
 
+    static String uniqueIdFieldName;
+
     static RdfIriRepositoryWithJena iriRepository;
 
 
@@ -116,6 +118,8 @@ public class GenericRdfConverter {
 		    	for (String v : vals) {
 		    		uniqueKeyFieldNames.add(v);
 		    	}
+		    } else if (flds[0].trim().equals("unique_id_field")) {
+		    	uniqueIdFieldName = flds[1].trim();
 		    } else {
 				System.err.println("don't know what " + flds[0] + " is. Ignoring...");
 		    }
@@ -187,8 +191,9 @@ public class GenericRdfConverter {
 	}
 
 	public static void buildInstructionSet() {
+		int uniqueFieldIndex = fieldNameToIndex.get(uniqueIdFieldName);
 		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
-				odf, uniqueFieldsMapToInd, iriRepository, iriPrefix + "/" + rowTypeTxt);
+				odf, uniqueFieldsMapToInd, iriRepository, iriPrefix + "/" + rowTypeTxt, uniqueIdFieldName);
     	try {
     		rcis = c.compile();
     	} catch (ParseException pe) {

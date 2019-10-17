@@ -25,10 +25,11 @@ public class RdfConversionInstructionSetCompiler {
 	ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes;
 	IriRepository iriRepository;
 	String iriRepositoryPrefix;
+	String uniqueIdFieldName;
 
 	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, 
 			OWLDataFactory odf, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes,
-			IriRepository iriRepository, String iriRepositoryPrefix) {
+			IriRepository iriRepository, String iriRepositoryPrefix, String uniqueIdFieldName) {
 		this.fileName = fName;
 		instructionList = new ArrayList<RdfConversionInstruction>();
 		this.iriMap = iriMap;
@@ -37,7 +38,7 @@ public class RdfConversionInstructionSetCompiler {
 		this.searchIndexes = searchIndexes;
 		this.iriRepository = iriRepository;
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
-
+		this.uniqueIdFieldName = uniqueIdFieldName;
 	}
 
 	public RdfConversionInstructionSet compile() throws ParseException {
@@ -90,12 +91,13 @@ public class RdfConversionInstructionSetCompiler {
 			RdfConversionNewIndividualInstruction rcnii = null;
 			if (flds.length == 4) {
 				rcnii = new RdfConversionNewIndividualInstruction(
-					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, iriRepository, iriRepositoryPrefix);
+					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, 
+					iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
 			} else if (flds.length == 5) {
 				String creationConditionLogic = flds[4].trim();
 				rcnii = new RdfConversionNewIndividualInstruction(
 					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
-					creationConditionLogic, iriRepository, iriRepositoryPrefix);
+					creationConditionLogic, iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
 			}
 			return rcnii;
 		} else if (instructionType.equals("data-property-expression")) {
@@ -133,7 +135,7 @@ public class RdfConversionInstructionSetCompiler {
 			RdfClassAssertionInstruction rcai = new RdfClassAssertionInstruction(iriMap, odf, 
 				fieldNameToIndex, variableName, classIriHandle);
 			return rcai;
-		}else {
+		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
 		}
 	}

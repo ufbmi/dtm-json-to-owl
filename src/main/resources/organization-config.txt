@@ -8,3 +8,4 @@ output_file=midas-cc-organization.owl
 output_file_iri_id=midas_organization
 instructions=./src/main/resources/organization-instruction-set.txt
 unique_key_fields=MemberOf with Org Name (sort with),ID
+unique_id_field=ID
