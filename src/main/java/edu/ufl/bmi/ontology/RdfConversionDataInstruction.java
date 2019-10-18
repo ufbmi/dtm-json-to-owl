@@ -35,7 +35,7 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 			switch (dvb.getDataType()) {
 				case "String":
 					String s = (String)dataValue;
-					System.out.println(dataPropertyIri + "\t" + s);
+					//System.out.println(dataPropertyIri + "\t" + s);
 					if (s.trim().length() > 0)
 						GenericRdfConverter.addStringDataToNamedIndividual(oni, dataPropertyIri, s, oo); 
 					break;

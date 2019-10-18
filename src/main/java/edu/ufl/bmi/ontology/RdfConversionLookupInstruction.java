@@ -32,18 +32,18 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		//Find the value of the field specified in this instruction, and search for named individuals created with that field value
 		String fieldValue = recordFields.get(searchFieldIndex);
-		System.out.println("lookup field value: " + fieldValue + " lookup field index " + searchFieldIndex);
+		//System.out.println("lookup field value: " + fieldValue + " lookup field index " + searchFieldIndex);
 		if (validFieldValue(fieldValue)) {
 			for (HashMap<String,OWLNamedIndividual> searchIndex : searchIndexes) {
 				OWLNamedIndividual oni = searchIndex.get(fieldValue);
 				if (oni != null) {
 					variables.put(variableName, oni);
-					System.out.println("added the following to hashmap " + variableName + "\t" + oni);
+					//System.out.println("added the following to hashmap " + variableName + "\t" + oni);
 					break;
 				}
 			}
 		} else {
-			System.out.println("Bad field value: " + fieldValue);
+			System.out.println("Bad field value: '" + fieldValue + "'");
 		}
 	}
 }

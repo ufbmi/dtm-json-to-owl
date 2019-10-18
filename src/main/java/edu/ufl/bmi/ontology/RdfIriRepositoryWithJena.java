@@ -54,7 +54,7 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 
 		}
 		queryTxt.append("\n}");
-		System.out.println("query is\n" + queryTxt + "\n\n");
+		//System.out.println("query is\n" + queryTxt + "\n\n");
 		HashSet<IRI> result = new HashSet<IRI>();
 		Query query = QueryFactory.create(queryTxt.toString()) ;
   		try (QueryExecution qexec = QueryExecutionFactory.create(query, m)) {

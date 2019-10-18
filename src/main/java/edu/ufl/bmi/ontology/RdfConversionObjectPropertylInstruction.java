@@ -32,8 +32,8 @@ public class RdfConversionObjectPropertylInstruction extends RdfConversionInstru
 		if (sourceInd != null && targetInd != null && objectPropertyIri != null) {
 			GenericRdfConverter.createOWLObjectPropertyAssertion(sourceInd, objectPropertyIri, targetInd, oo);
 		} else {
-			System.out.println("non-null individual or OP for OP assertion for " + sourceVariableName + " & " + targetVariableName + "\t" + sourceInd + ", " + targetInd);
-			System.out.println("OP IRI = " + objectPropertyIri);
+			System.err.println("non-null individual or OP for OP assertion for " + sourceVariableName + " & " + targetVariableName + "\t" + sourceInd + ", " + targetInd);
+			//System.out.println("OP IRI = " + objectPropertyIri);
 		}
 	}
 }

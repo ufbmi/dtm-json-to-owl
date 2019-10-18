@@ -106,7 +106,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 						annotationValue) :
 					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
 						annotationValue);
-				System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
+				//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 				variables.put(variableName, oni);
 				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
 

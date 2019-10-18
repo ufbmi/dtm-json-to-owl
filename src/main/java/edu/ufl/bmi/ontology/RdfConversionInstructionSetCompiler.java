@@ -52,7 +52,7 @@ public class RdfConversionInstructionSetCompiler {
 				if (line.length() == 0 || line.startsWith("#")) continue;
 
 				String[] flds = line.split(Pattern.quote(":"));
-				System.out.println(flds.length + ", " + flds[0]);
+				//System.out.println(flds.length + ", " + flds[0]);
 				String instructionType = flds[0].trim();
 				String instruction = flds[1].trim();
 				

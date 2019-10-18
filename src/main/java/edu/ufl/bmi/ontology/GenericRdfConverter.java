@@ -84,7 +84,7 @@ public class GenericRdfConverter {
 		    processInputFile();
 		    saveOntologies();
 		} catch (IOException ioe) {
-		    System.out.println(ioe);
+		    System.err.println(ioe);
 		    ioe.printStackTrace();
 		}
     }
@@ -151,7 +151,7 @@ public class GenericRdfConverter {
     	String line;
 		do {
 			line=lnr.readLine();
-			System.out.println(line);
+			//System.out.println(line);
 			if (line != null) line = line.trim();	
 		} while (line == null || line.length() == 0);
 
