@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -15,6 +16,14 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 
 public class RdfIriRepositoryWithJena implements IriRepository {
 
@@ -27,7 +36,41 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 	}
 
 	public Set<IRI> queryIris(IRI namedGraphIri, HashMap<IRI, String> propertyValuePairs) {
-		return null;
+		StringBuilder queryTxt = new StringBuilder("select ?x\nwhere {\n");
+		Iterator<IRI> i = propertyValuePairs.keySet().iterator();
+		boolean first = true;
+		while (i.hasNext()) {
+			IRI propIri = i.next();
+			String value = propertyValuePairs.get(propIri);
+			if (!first)
+				queryTxt.append(".\n");
+			queryTxt.append("\t?x <");
+			queryTxt.append(propIri.toString());
+			queryTxt.append("> '");
+			queryTxt.append(value.replace("'","\\'"));
+			queryTxt.append("' ");
+			first = false;
+
+
+		}
+		queryTxt.append("\n}");
+		System.out.println("query is\n" + queryTxt + "\n\n");
+		HashSet<IRI> result = new HashSet<IRI>();
+		Query query = QueryFactory.create(queryTxt.toString()) ;
+  		try (QueryExecution qexec = QueryExecutionFactory.create(query, m)) {
+   			ResultSet results = qexec.execSelect();
+   			System.out.print("QUERY RESULT(S): ");
+   			for ( ; results.hasNext() ; ) {
+     			QuerySolution soln = results.nextSolution() ;
+    			RDFNode x = soln.get("x") ;       // Get a result variable by name.
+    			result.add(IRI.create(x.toString()));
+    			System.out.print(x + "\t");
+    		}
+    		System.out.println("\n");
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		}
+		return result;
 	}
 
 	public void initialize() {

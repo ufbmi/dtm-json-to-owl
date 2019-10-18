@@ -68,7 +68,10 @@ public class GenericRdfConverter {
     static ArrayList<Integer> uniqueKeyFieldIndexes;
 
     static String uniqueIdFieldName;
+    static int uniqueIdFieldIndex;
+    static IRI uniqueIdFieldIri;
 
+    static String iriRepositoryPrefix;
     static RdfIriRepositoryWithJena iriRepository;
 
 
@@ -132,6 +135,9 @@ public class GenericRdfConverter {
 		iriRepository = new RdfIriRepositoryWithJena(rowTypeTxt + ".rdf");
 		iriRepository.initialize();
 
+		iriRepositoryPrefix = iriPrefix + "/" + rowTypeTxt;
+		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
+
 		lnr.close();
 		fr.close();
     }
@@ -164,6 +170,8 @@ public class GenericRdfConverter {
 				}
 			}
 		}
+		uniqueIdFieldIndex = fieldNameToIndex.get(uniqueIdFieldName);
+
 		headerProcessed = true;
     }
 
@@ -193,7 +201,7 @@ public class GenericRdfConverter {
 	public static void buildInstructionSet() {
 		int uniqueFieldIndex = fieldNameToIndex.get(uniqueIdFieldName);
 		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
-				odf, uniqueFieldsMapToInd, iriRepository, iriPrefix + "/" + rowTypeTxt, uniqueIdFieldName);
+				odf, uniqueFieldsMapToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
     	try {
     		rcis = c.compile();
     	} catch (ParseException pe) {
@@ -210,7 +218,24 @@ public class GenericRdfConverter {
 
 		while ((line=lnr.readLine())!=null) {
 			String[] flds = line.split(Pattern.quote("\t"));
-			OWLNamedIndividual oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
+			
+			HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+			IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
+			repoAnnotations.put(varNameIri, "row individual");
+			repoAnnotations.put(uniqueIdFieldIri, flds[uniqueIdFieldIndex]);
+			Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
+			int resultCount = resultSet.size();
+
+			OWLNamedIndividual oni = null;
+			if (resultCount == 1) {
+				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(rowTypeTxt));
+			} else if (resultCount == 0) {
+				oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
+				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+			} else {
+				throw new RuntimeException("Unexpected query result set number: " + 
+					resultCount + ", expected 0 or 1.");
+			}
 			int lineNumber = lnr.getLineNumber();
 			lineNumToInd.put(lineNumber, oni);
 			Iterator<Integer> indexes = uniqueKeyFieldIndexes.iterator();
@@ -279,7 +304,11 @@ public class GenericRdfConverter {
     }
 
     public static OWLNamedIndividual createNamedIndividualWithTypeAndLabel(OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
-		OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
+    	return createNamedIndividualWithIriTypeAndLabel(nextIri(), oo, classTypeIri, labelPropIri, rdfsLabel);
+    }
+
+    public static OWLNamedIndividual createNamedIndividualWithIriTypeAndLabel(IRI iri, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel) {
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(iri);
 		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
 		oom.addAxiom(oo,ocaa);
 		addAnnotationToNamedIndividual(oni, labelPropIri, rdfsLabel, oo);
@@ -288,7 +317,11 @@ public class GenericRdfConverter {
     }
 
    public static OWLNamedIndividual createNamedIndividualWithType(IRI classTypeIri) {
-		OWLNamedIndividual oni = odf.getOWLNamedIndividual(nextIri());
+   		return createNamedIndividualWithIriAndType(nextIri(), classTypeIri);
+   }
+
+   public static OWLNamedIndividual createNamedIndividualWithIriAndType(IRI individualIri, IRI classTypeIri) {
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(individualIri);
 		OWLClassAssertionAxiom ocaa = odf.getOWLClassAssertionAxiom(odf.getOWLClass(classTypeIri), oni);
 		oom.addAxiom(oos,ocaa);
 				

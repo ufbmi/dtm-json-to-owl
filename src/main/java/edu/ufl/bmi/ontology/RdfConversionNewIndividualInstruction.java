@@ -2,6 +2,7 @@ package edu.ufl.bmi.ontology;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -87,18 +88,28 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		if (alwaysCreate || evaluateCondition(recordFields)) {
 			String annotationValue = avb.buildAnnotationValue(recordFields);
 			if (validFieldValue(annotationValue)) {
-				OWLNamedIndividual oni = GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
-					annotationValue);
-				System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
-				variables.put(variableName, oni);
-
 				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 				IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
 				repoAnnotations.put(varNameIri, variableName);
 				IRI rdfLabelIri = iriMap.lookupAnnPropIri("label");
 				repoAnnotations.put(rdfLabelIri, annotationValue);
 				repoAnnotations.put(this.uniqueIdFieldIri, recordFields.get(uniqueIdFieldIndex));
+				
+				Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
+				int resultCount = resultSet.size();
+				if (resultCount > 1) {
+					throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
+				}
+
+				OWLNamedIndividual oni = (resultCount == 1) ? 
+					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(resultSet.iterator().next(), oo, classIri, annotationPropertyIri, 
+						annotationValue) :
+					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
+						annotationValue);
+				System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
+				variables.put(variableName, oni);
 				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+
 			}
 		}
 	}
