@@ -1,4 +1,4 @@
-# Instruction set for transforming MIDAS CC Google Sheet on organizations into RDF/OWL2
+# Instruction set for transforming MIDAS CC Organization Google Sheet on organizations into RDF/OWL2
 
 annotation: [row-individual]	label	[OrganizationName]
 annotation: [row-individual]	title	[OrganizationName]

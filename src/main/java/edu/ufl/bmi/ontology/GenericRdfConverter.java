@@ -132,10 +132,10 @@ public class GenericRdfConverter {
 		iriLen = Integer.parseInt(iriLenTxt);
 		iriCounter = Long.parseLong(iriCounterTxt);
 
-		iriRepository = new RdfIriRepositoryWithJena(rowTypeTxt + ".rdf");
+		iriRepository = new RdfIriRepositoryWithJena(outputFileIriId + ".rdf");
 		iriRepository.initialize();
 
-		iriRepositoryPrefix = iriPrefix + "/" + rowTypeTxt;
+		iriRepositoryPrefix = iriPrefix + rowTypeTxt;
 		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 
 		lnr.close();
@@ -272,6 +272,7 @@ public class GenericRdfConverter {
     		if (flds.length == 0) continue;
 
     		int lineNumber = lnr.getLineNumber();
+    		//System.out.println("Line number: " + lineNumber + " has " + flds.length + " fields.");
     		OWLNamedIndividual rowInd = lineNumToInd.get(lineNumber);
     		ArrayList<String> fldList = new ArrayList<String>();
     		for (String s : flds) fldList.add(s);

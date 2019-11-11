@@ -1,0 +1,11 @@
+row_type=human
+data_file=./src/main/resources/people_midas_cc.txt
+iri_prefix=http://www.pitt.edu/midascc_
+iri_counter=5000
+iri_id_length=8
+iri_lookup=./src/main/resources/iris.txt
+output_file=midas-cc-people.owl
+output_file_iri_id=midas_cc_iri_repository
+instructions=./src/main/resources/people-instruction-set.txt
+unique_key_fields=ID
+unique_id_field=ID

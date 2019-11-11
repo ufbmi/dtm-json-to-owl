@@ -23,11 +23,13 @@ public class AnnotationValueBuilder {
 				String fieldValue = recordFields.get((Integer)o);
 				if (fieldValue.trim().length() > 0)
 					sb.append(fieldValue);
-				else 
-					return null;
+				//else 
+				//	return null;
 			}
 		}
-		return sb.toString();
+		String annotationValue=sb.toString();
+		if (annotationValue.trim().length() == 0) annotationValue = null;
+		return annotationValue;
 	}
 
 
