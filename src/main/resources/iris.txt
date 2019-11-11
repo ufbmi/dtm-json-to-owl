@@ -151,3 +151,4 @@ Program	http://vivoweb.org/ontology/core#Program	class
 School	http://vivoweb.org/ontology/core#School	class
 University	http://vivoweb.org/ontology/core#University	class
 orcid	http://purl.obolibrary.org/obo/APOLLO_SV_00000496	class
+member of	http://purl.obolibrary.org/obo/RO_0002350	object property

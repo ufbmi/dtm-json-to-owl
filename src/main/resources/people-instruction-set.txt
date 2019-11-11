@@ -9,6 +9,8 @@ new-individual: email-alternate	email address	label	[EmailAlternate]
 new-individual: work-phone	telephone number	label	[WorkTelephoneNumber]
 new-individual: mobile-phone	telephone number	label	[MobileTelephoneNumber]
 
+query-individual: affiliated-org	organization	ID	[OrganizationAffiliationID]
+
 annotation: orcid	label	[ORCID]
 annotation: orcid	hasURL	"https://orcid.org/"+[ORCID]
 annotation: email-primary	comment	"status is " + [EmailStatus]
@@ -20,3 +22,4 @@ object-property-expression: email-primary	is contact information about	[row-indi
 object-property-expression: email-alternate	is contact information about	[row-individual]
 object-property-expression: work-phone	is contact information about	[row-individual]
 object-property-expression: mobile-phone	is contact information about	[row-individual]
+object-property-expression: [row-individual]	member of	affiliated-org

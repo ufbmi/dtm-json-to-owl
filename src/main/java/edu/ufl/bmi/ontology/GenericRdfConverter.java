@@ -181,7 +181,7 @@ public class GenericRdfConverter {
     public static void setupOuputOwlFile() {
 		oom = OWLManager.createOWLOntologyManager();
 		odf = OWLManager.getOWLDataFactory();
-		String iriText = iriPrefix + "/" + outputFileIriId;
+		String iriText = iriPrefix + "/" + rowTypeTxt;
 		IRI ontologyIRI = IRI.create(iriText);
 		try {
 			oos = oom.createOntology(ontologyIRI);
@@ -204,7 +204,7 @@ public class GenericRdfConverter {
 	public static void buildInstructionSet() {
 		int uniqueFieldIndex = fieldNameToIndex.get(uniqueIdFieldName);
 		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
-				odf, uniqueFieldsMapToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
+				odf, uniqueFieldsMapToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
     	try {
     		rcis = c.compile();
     	} catch (ParseException pe) {

@@ -4,8 +4,8 @@ annotation: [row-individual]	label	[OrganizationName]
 annotation: [row-individual]	title	[OrganizationName]
 annotation: [row-individual]	editor preferred	[MemberOf with Org Name (sort with)]
 annotation: [row-individual]	hasURL	[OrganizationURL]
-annotation: [row-individual]	comment	"Order- " + [order]
-annotation: [row-individual]	comment	"Type- " + [OrganizationType]
+annotation: [row-individual]	comment	"Order - " + [order]
+annotation: [row-individual]	comment	"Type - " + [OrganizationType]
 
 new-individual: organization-address	postal address	label	"Postal address of "+[OrganizationName]	[OrganizationAddress] not-empty or [OrganizationPostalCode] not-empty or [OrganizationCity] not-empty or [OrganizationAdmin1] not-empty or [OrganizationCountry] not-empty
 new-individual: organization-phone	telephone number	label	[OrganizationPhone]
