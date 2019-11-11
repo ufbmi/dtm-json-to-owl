@@ -30,6 +30,7 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 	String repositoryFileName;
 	InputStream fileIn;
 	Model m;
+	long counter;
 
 	public RdfIriRepositoryWithJena(String fileName) {
 		this.repositoryFileName = fileName;
@@ -82,9 +83,36 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 				m.read(fileIn, null);
 				fileIn.close();
 			}
+
+			Query query = QueryFactory.create("select (max(?x) as ?max_iri) where { ?x ?y ?z }");
+			try (QueryExecution qexec = QueryExecutionFactory.create(query, m)) {
+				ResultSet results = qexec.execSelect();
+				//System.out.println("QUERY RESULT(S): ");
+				for ( ; results.hasNext() ; ) {
+					QuerySolution soln = results.nextSolution();
+					RDFNode max_iri = soln.get("max_iri");
+					if (max_iri.isResource()) {
+						Resource r = max_iri.asResource();
+						//System.out.print(max_iri + "\t" + r.getLocalName());
+						String localName = r.getLocalName();
+						String[] flds = localName.split("_");
+						counter = Long.parseLong(flds[1])+1L;
+						//System.out.println("\tcounter == " + counter);
+					} else {
+						System.out.print("NOT A RESOURCE");
+					}
+				}
+				System.out.println();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public long getIriCounter() {
+		return counter;
 	}
 
 	public void addIris(IRI theIri, IRI namedGraphIri, HashMap<IRI, String> propertyValuePairs) {

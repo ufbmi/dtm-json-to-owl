@@ -135,6 +135,9 @@ public class GenericRdfConverter {
 		iriRepository = new RdfIriRepositoryWithJena(outputFileIriId + ".rdf");
 		iriRepository.initialize();
 
+		iriCounter = Math.max(iriCounter, iriRepository.getIriCounter());
+		System.out.println("Setting counter to: " + iriCounter);
+
 		iriRepositoryPrefix = iriPrefix + rowTypeTxt;
 		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 
@@ -236,6 +239,10 @@ public class GenericRdfConverter {
 				throw new RuntimeException("Unexpected query result set number: " + 
 					resultCount + ", expected 0 or 1.");
 			}
+			//IRI oniIri = oni.getIRI();
+			//System.out.println(oniIri + " is row individual IRI.");
+			//System.out.println("\tIRI namespace is: " + oniIri.getNamespace());
+			//System.out.println("\tIRI fragment is:  " + oniIri.getFragment());
 			int lineNumber = lnr.getLineNumber();
 			lineNumToInd.put(lineNumber, oni);
 			Iterator<Integer> indexes = uniqueKeyFieldIndexes.iterator();
