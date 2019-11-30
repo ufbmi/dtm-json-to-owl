@@ -8,6 +8,7 @@ new-individual: email-primary	email address	label	[EmailPrimaryAffiliation]
 new-individual: email-alternate	email address	label	[EmailAlternate]
 new-individual: work-phone	telephone number	label	[WorkTelephoneNumber]
 new-individual: mobile-phone	telephone number	label	[MobileTelephoneNumber]
+new-individual: gender-role	gender role	label	[Gender]+" gender role of "+[FirstName]+[MiddleInitials]+[LastName]	[Gender] not-empty
 
 query-individual: affiliated-org	organization	ID	[OrganizationAffiliationID]
 
@@ -17,9 +18,12 @@ annotation: email-primary	comment	"status is " + [EmailStatus]
 annotation: work-phone	comment	"work phone"
 annotation: mobile-phone	comment	"mobile phone"
 
+class-assertion-expression: gender-role	[Gender]
+
 object-property-expression: orcid	denotes	[row-individual]
 object-property-expression: email-primary	is contact information about	[row-individual]
 object-property-expression: email-alternate	is contact information about	[row-individual]
 object-property-expression: work-phone	is contact information about	[row-individual]
 object-property-expression: mobile-phone	is contact information about	[row-individual]
 object-property-expression: [row-individual]	member of	affiliated-org
+object-property-expression: [row-individual]	bearer	gender-role

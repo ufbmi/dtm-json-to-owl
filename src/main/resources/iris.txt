@@ -152,3 +152,6 @@ School	http://vivoweb.org/ontology/core#School	class
 University	http://vivoweb.org/ontology/core#University	class
 orcid	http://purl.obolibrary.org/obo/APOLLO_SV_00000496	class
 member of	http://purl.obolibrary.org/obo/RO_0002350	object property
+gender role	http://purl.obolibrary.org/obo/OMRSE_00000007	class
+male	http://purl.obolibrary.org/obo/OMRSE_00000008	class
+female	http://purl.obolibrary.org/obo/OMRSE_00000009	class
