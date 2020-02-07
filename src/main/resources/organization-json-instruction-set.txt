@@ -1,0 +1,58 @@
+[id]
+new-individual: midas-cc-identifier	identifier	label	[id]
+object-property-expression: midas-cc-identifier	denotes	[core-individual]
+
+[name]
+annotation: [core-individual]	label	[name]
+annotation: [core-individual]	title	[name]
+
+[url]
+annotation: [core-individual]	hasURL	[url]
+
+[abbreviation]
+new-individual: organization-abbrev	abbreviation textual entity	label	[abbreviation]
+object-property-expression: organization-abbrev	is about	[core-individual]
+
+[organizationCategory]
+annotation: [core-individual]	comment	"Category - " + [organizationCategory.name]
+
+[organizationType]
+annotation: [core-individual]	comment	"Type - " + [organizationType.name]
+class-assertion-expression: [core-individual]	[organizationType.iri]
+
+[address]
+new-individual: organization-address	postal address	label	"Postal address of "+[name]
+object-property-expression: organization-address	is contact information about	[core-individual]
+data-property-expression: organization-address	street address	[address.address]	String
+data-property-expression: organization-address	postal code	[address.postalCode]	String
+data-property-expression: organization-address	locality	[address.city]	String
+data-property-expression: organization-address	admin1 name	[address.admin1]	String
+data-property-expression: organization-address	country name	[address.country]	String
+
+[address.phone]
+new-individual: organization-phone	telephone number	label	[address.phone]
+object-property-expression: organization-phone	is contact information about	[core-individual]
+
+[email]
+new-individual: organization-email	email address	label	[email]
+object-property-expression: organization-email	is contact information about	[core-individual]
+
+[memberOfOrganization]
+query-individual: member-of	organizations	id	[memberOfOrganization.id]
+object-property-expression: [core-individual]	proper continuant part	member-of
+
+[socialMedia.linkedInURL]
+new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]
+annotation: organization-linked-in	hasURL	[linkedInURL]
+object-property-expression: organization-linked-in	is about	[core-individual]
+
+[socialMedia.githubIdentifier]
+new-individual: github-id	identifier	label	[githubIdentifier]
+annotation: github-id	comment	"GitHub identifier for "+[name]
+object-property-expression: github-id	denotes	[core-individual]
+
+# Once we have the class IRI needed
+# [socialMedia.twitterHandle]  
+# new-individual: organization-twitter-handle	???	label	[socialMedia.twitterHandle]
+# annotation: organization-twitter-handle	comment	"Twitter handle for "+[name]
+# object-property-expression: organization-twitter-handle	is contact information about	[core-individual]
