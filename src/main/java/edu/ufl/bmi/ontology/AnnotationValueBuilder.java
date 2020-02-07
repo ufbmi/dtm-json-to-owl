@@ -24,7 +24,6 @@ public class AnnotationValueBuilder {
 			if (isLiteralValue.get(i)) {
 				sb2.append(s);
 			} else {
-				System.out.println(recordFields + "\t" + fieldNameToIndex + "\t" + s);
 				String value = recordFields.get(fieldNameToIndex.get(s));
 				if (value.trim().length()>0)
 					sb2.append(value);
