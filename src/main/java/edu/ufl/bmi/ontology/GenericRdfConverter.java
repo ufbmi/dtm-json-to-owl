@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -292,7 +293,7 @@ public class GenericRdfConverter {
 
     public static void saveOntologies() {
 		try {
-			oom.saveOntology(oos, new FileOutputStream(outputFileName));
+			oom.saveOntology(oos, new TurtleDocumentFormat(), new FileOutputStream(outputFileName));
 			iriRepository.writeFile();
 		} catch (IOException ioe) {
 		    ioe.printStackTrace();

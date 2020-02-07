@@ -40,7 +40,7 @@ public class RecordDataObject extends DataObject {
 		fieldNameToIndex = new HashMap<String, Integer>();
 		for (int i=0; i<size; i++) {
 			String fieldName = orderedFieldNameList.get(i);
-			fieldNameToIndex.put(fieldName, new Integer(i));
+			fieldNameToIndex.put(fieldName, Integer.valueOf(i));
 		}
 	}
 

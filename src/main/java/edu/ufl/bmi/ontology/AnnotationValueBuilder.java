@@ -6,8 +6,10 @@ import java.util.regex.Pattern;
 
 
 public class AnnotationValueBuilder {
-	ArrayList annotationValueInstructions;
 	HashMap<String, Integer> fieldNameToIndex;
+
+	ArrayList<String> annotationValueComponent;
+	ArrayList<Boolean> isLiteralValue;
 
 	public AnnotationValueBuilder(String annotationInstruction, HashMap<String, Integer> fieldNameToIndex) {
 		this.fieldNameToIndex = fieldNameToIndex;
@@ -15,21 +17,23 @@ public class AnnotationValueBuilder {
 	}
 
 	public String buildAnnotationValue(ArrayList<String> recordFields) {
-		StringBuilder sb = new StringBuilder();
-		for (Object o : annotationValueInstructions) {
-			if (o instanceof String) {
-				sb.append((String)o);
-			} else if (o instanceof Integer) {
-				String fieldValue = recordFields.get((Integer)o);
-				if (fieldValue.trim().length() > 0)
-					sb.append(fieldValue);
-				//else 
-				//	return null;
+		StringBuilder sb2 = new StringBuilder();
+		int size = annotationValueComponent.size();
+		for (int i=0; i<size; i++) {
+			String s = annotationValueComponent.get(i);
+			if (isLiteralValue.get(i)) {
+				sb2.append(s);
+			} else {
+				System.out.println(recordFields + "\t" + fieldNameToIndex + "\t" + s);
+				String value = recordFields.get(fieldNameToIndex.get(s));
+				if (value.trim().length()>0)
+					sb2.append(value);
 			}
 		}
-		String annotationValue=sb.toString();
-		if (annotationValue.trim().length() == 0) annotationValue = null;
-		return annotationValue;
+
+		String annotationValue2=sb2.toString();
+		if (annotationValue2.trim().length() == 0) annotationValue2 = null;
+		return annotationValue2 ;
 	}
 
 
@@ -38,15 +42,20 @@ public class AnnotationValueBuilder {
 			Make a list.  If list item is String, then that String goes into value
 			as a literal.  If list item is Integer, then we lookup that field value.
 		*/
-		annotationValueInstructions = new ArrayList();
+		annotationValueComponent = new ArrayList<String>();
+		isLiteralValue = new ArrayList<Boolean>();
+
 		String[] flds = annotationValueInstruction.split(Pattern.quote("+"));
 		for (String fld : flds) {
 			fld = fld.trim();
+			
 			if (fld.startsWith("[") && fld.endsWith("]")) {
 				String varName = fld.substring(1, fld.length()-1);
-				annotationValueInstructions.add(fieldNameToIndex.get(varName));
+				annotationValueComponent.add(varName);
+				isLiteralValue.add(false);
 			} else {
-				annotationValueInstructions.add(fld.replace("\"",""));
+				annotationValueComponent.add(fld.replace("\"",""));
+				isLiteralValue.add(true);
 			}
 		}
 	}
