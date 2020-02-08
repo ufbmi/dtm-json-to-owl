@@ -39,6 +39,7 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.AddImport;
 
+import edu.ufl.bmi.misc.RecordDataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class GenericRdfConverter {
@@ -62,6 +63,7 @@ public class GenericRdfConverter {
     static String outputFileIriId;
 
     static HashMap<String, Integer> fieldNameToIndex;
+    static ArrayList<String> fieldsInOrder;
     static HashMap<Integer, OWLNamedIndividual> lineNumToInd;
 	static ArrayList<HashMap<String, OWLNamedIndividual>> uniqueFieldsMapToInd;
 
@@ -161,11 +163,16 @@ public class GenericRdfConverter {
 
 		if (headerProcessed) return;
 
-		String[] flds = line.split(Pattern.quote("\t"));
+		String[] flds = line.split(Pattern.quote("\t"), -1);
+
+		fieldsInOrder = new ArrayList<String>();
 
 		for (int i=0; i<flds.length; i++) {
 			String fieldName = flds[i].trim();
 			fieldNameToIndex.put(fieldName, i);
+			System.out.println("fieldName = '" + fieldName + "'");
+			boolean added = fieldsInOrder.add(fieldName);
+			if (!added) System.err.println("Failed to add " + i + "th element: '" + fieldName + "'");
 			for (String uniqueField : uniqueKeyFieldNames) {
 				if (fieldName.equals(uniqueField)) {
 					uniqueKeyFieldIndexes.add(i);
@@ -284,7 +291,10 @@ public class GenericRdfConverter {
     		OWLNamedIndividual rowInd = lineNumToInd.get(lineNumber);
     		ArrayList<String> fldList = new ArrayList<String>();
     		for (String s : flds) fldList.add(s);
-			rcis.executeInstructions(rowInd, fldList, oos);
+			//rcis.executeInstructions(rowInd, fldList, oos);
+    		
+    		RecordDataObject rdo = new RecordDataObject(fieldsInOrder, line, uniqueIdFieldName);
+    		rcis.executeInstructions(rowInd, rdo, oos);
 		}
 
 		lnr.close();

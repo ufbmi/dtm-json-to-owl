@@ -14,6 +14,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class RdfConversionInstructionSet {
@@ -30,6 +31,15 @@ public class RdfConversionInstructionSet {
 
 		for (RdfConversionInstruction i : instructions) {
 			i.execute(rowIndividual, recordFields, variables, oo);
+		}
+	}
+
+
+	public void executeInstructions(OWLNamedIndividual rowIndividual, DataObject dataObject, OWLOntology oo) {
+		HashMap<String, OWLNamedIndividual> variables = new HashMap<String, OWLNamedIndividual>();
+
+		for (RdfConversionInstruction i : instructions) {
+			i.execute(rowIndividual, dataObject, variables, oo);
 		}
 	}
 

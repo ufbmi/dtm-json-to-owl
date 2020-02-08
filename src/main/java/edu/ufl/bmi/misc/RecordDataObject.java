@@ -47,8 +47,9 @@ public class RecordDataObject extends DataObject {
 
 	protected void splitRecordIntoFields() {
 		fields = rawData.split(Pattern.quote(delimiter), -1);
-		if (fields.length != fieldNameToIndex.size())
-			throw new IllegalArgumentException("Number of fields in data does not match number of fields in schema.");
+		//if (fields.length != fieldNameToIndex.size())
+		//	throw new IllegalArgumentException("Number of fields in data does not match number of fields in schema: " +
+		//		fields.length + " vs. schema says " + fieldNameToIndex.size() + "\n" + rawData);
 		if (this.cleanFieldValues) {
 			for (int i=0; i<fields.length; i++) {
 				fields[i] = cleanupValue(fields[i]);
