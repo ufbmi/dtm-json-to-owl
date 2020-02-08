@@ -1,7 +1,6 @@
 package edu.ufl.bmi.misc;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
@@ -16,10 +15,9 @@ public class JsonDataObject extends DataObject {
 	boolean cleanFieldValues;
 	JsonObject jo;
 
-	public JsonDataObject(String json) {
-		super(json);
-        JsonParser jp = new JsonParser();
-        jo = jp.parse(json).getAsJsonObject();
+	public JsonDataObject(String json, String keyName) {
+		super(json, keyName);
+        jo = JsonParser.parseString(json).getAsJsonObject();
 		this.dot = DataObjectType.JSON;
 		this.cleanFieldValues = true;
 	}
@@ -69,5 +67,10 @@ public class JsonDataObject extends DataObject {
 	@Override
 	public DataObjectType getDataObjectType() {
 		return this.dot;
+	}
+
+	@Override 
+	public Set<String> getElementKeySet() {
+		return jo.keySet();
 	}
 }

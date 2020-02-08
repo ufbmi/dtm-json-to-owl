@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class RdfConversionQueryIndividualInstruction extends RdfConversionInstruction {
@@ -36,7 +37,7 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 	String externalFileFieldName;
 	String externalFileRowTypeName;
 	String lookupValueFieldName;
-	int lookupValueFieldIndex;
+	//int lookupValueFieldIndex;
 	
 	public RdfConversionQueryIndividualInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
 			IriRepository iriRepository, String iriRepositoryPrefix, String externalFileFieldName, String externalFileRowTypeName, String iriPrefix,
@@ -51,14 +52,14 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		this.queryIriPrefix = this.iriPrefix + this.externalFileRowTypeName;
 		this.lookupValueFieldName = lookupValueFieldName.replace("[","").replace("]","");
 		System.out.println(lookupValueFieldName);
-		this.lookupValueFieldIndex = fieldNameToIndex.get(this.lookupValueFieldName); 
+		//this.lookupValueFieldIndex = fieldNameToIndex.get(this.lookupValueFieldName); 
 	}
 
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {		
 		HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 		IRI externalFieldIri = IRI.create(queryIriPrefix + "/" + externalFileFieldName);
-		repoAnnotations.put(externalFieldIri, recordFields.get(lookupValueFieldIndex));
+		repoAnnotations.put(externalFieldIri, recordFields.get(fieldNameToIndex.get(this.lookupValueFieldName)));
 		IRI externalVarNameIri = IRI.create(queryIriPrefix + "/variableName");
 		repoAnnotations.put(externalVarNameIri, "row individual");
 		
@@ -74,5 +75,26 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 		if (oni != null) variables.put(variableName, oni);
 		//iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+	}
+
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+		HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+		IRI externalFieldIri = IRI.create(queryIriPrefix + "/" + externalFileFieldName);
+		repoAnnotations.put(externalFieldIri, dataObject.getDataElementValue(lookupValueFieldName));
+		IRI externalVarNameIri = IRI.create(queryIriPrefix + "/variableName");
+		repoAnnotations.put(externalVarNameIri, "row individual");
+		
+		Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
+		int resultCount = resultSet.size();
+		if (resultCount > 1) {
+			throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
+		}
+		OWLNamedIndividual oni = (resultCount == 1) ? 
+			odf.getOWLNamedIndividual(resultSet.iterator().next()) :
+			null;
+			
+		//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
+		if (oni != null) variables.put(variableName, oni);
+		//iriRepository.addIris(oni.getIRI(), null, repoAnnotations);		
 	}
 }

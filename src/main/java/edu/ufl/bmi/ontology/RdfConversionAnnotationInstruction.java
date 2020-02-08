@@ -9,6 +9,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 
@@ -35,6 +36,15 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 			if (oni != null)
 				GenericRdfConverter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
 		}
+	}
+
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+		String annotationValue = avb.buildAnnotationValue(dataObject);
+		if (validFieldValue(annotationValue)) {
+			OWLNamedIndividual oni = (variableName.equals("[row-individual]")) ? rowIndividual : variables.get(variableName);
+			if (oni != null)
+				GenericRdfConverter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
+		}		
 	}
 
 }

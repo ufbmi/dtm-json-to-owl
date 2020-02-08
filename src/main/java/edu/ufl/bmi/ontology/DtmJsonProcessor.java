@@ -137,12 +137,11 @@ public class DtmJsonProcessor {
 
         try {
             JsonArray jo = null;
-            JsonParser jp = new JsonParser();
             String softwareMetadataLocation = p.getProperty("software_info");
           
             fr = new FileReader(softwareMetadataLocation);
             lnr = new LineNumberReader(fr);
-            JsonElement je = jp.parse(fr);
+            JsonElement je = JsonParser.parseReader(fr);
 
             /*
             	The file is an array of JSON objects, one per digital object

@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class RdfConversionNewIndividualInstruction extends RdfConversionInstruction {
@@ -139,4 +140,61 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		}
 		return result;
 	}
+
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+		if (alwaysCreate || evaluateCondition(dataObject)) {
+			String annotationValue = avb.buildAnnotationValue(dataObject);
+			if (validFieldValue(annotationValue)) {
+				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+				IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
+				repoAnnotations.put(varNameIri, variableName);
+				IRI rdfLabelIri = iriMap.lookupAnnPropIri("label");
+				repoAnnotations.put(rdfLabelIri, annotationValue);
+				repoAnnotations.put(this.uniqueIdFieldIri, dataObject.getDataElementValue(uniqueIdFieldName));
+				
+				Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
+				int resultCount = resultSet.size();
+				if (resultCount > 1) {
+					throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
+				}
+
+				OWLNamedIndividual oni = (resultCount == 1) ? 
+					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(resultSet.iterator().next(), oo, classIri, annotationPropertyIri, 
+						annotationValue) :
+					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
+						annotationValue);
+				//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
+				variables.put(variableName, oni);
+				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+
+			}
+		}		
+	}
+
+	public boolean evaluateCondition(DataObject dataObject) {
+		boolean result = false;  // only set to true if one of the sublists has all true conditions
+		for (ArrayList<String> condition : conditions) {
+			boolean subConditionResult = true;  //any false within the list will change the "and" to false
+			for (String subcondition : condition) {
+				//check ==, !=, not-empty.  We can't handle any nesting at the moment, but we don't have the need, either.
+				if (subcondition.contains("==")) {
+					String[] flds = subcondition.split("==");
+					String field = flds[0].trim().replace("[","").replace("]","");
+					String value = flds[1];
+					subConditionResult = subConditionResult && dataObject.getDataElementValue(field).equals(value);
+				} else if (subcondition.contains("!=")) {
+					String[] flds = subcondition.split("!=");
+					String field = flds[0].trim().replace("[","").replace("]","");
+					String value = flds[1];
+					subConditionResult = subConditionResult && !dataObject.getDataElementValue(field).equals(value);
+				} else if (subcondition.contains("not-empty")) {
+					String field = subcondition.replace("not-empty","").trim().replace("[","").replace("]","");
+					subConditionResult = subConditionResult && !dataObject.getDataElementValue(field).isEmpty();
+				}
+			}
+			result = result || subConditionResult;
+		}
+		return result;
+	}
+
 }

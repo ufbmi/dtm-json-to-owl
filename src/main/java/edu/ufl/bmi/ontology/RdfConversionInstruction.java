@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public abstract class RdfConversionInstruction {
@@ -31,5 +32,7 @@ public abstract class RdfConversionInstruction {
 	public boolean validFieldValue(String fieldValue) {
 		return (fieldValue != null && fieldValue.trim().length() > 0);
 	}
+
+	public abstract void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
 
 }

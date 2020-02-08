@@ -2,6 +2,7 @@ package edu.ufl.bmi.misc;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -12,8 +13,8 @@ public class RecordDataObject extends DataObject {
 	String delimiter;
 	boolean cleanFieldValues;
 
-	public RecordDataObject(List<String> orderedFieldNameList, String rawData) {
-		super(rawData);
+	public RecordDataObject(List<String> orderedFieldNameList, String rawData, String keyName) {
+		super(rawData, keyName);
 		this.dot = DataObjectType.TABLE_RECORD;
 
 		//default settings
@@ -24,8 +25,8 @@ public class RecordDataObject extends DataObject {
 		splitRecordIntoFields();
 	}
 
-	public RecordDataObject(List<String> orderedFieldNameList, String rawData, String delimiter, boolean cleanupFields) {
-		super(rawData);
+	public RecordDataObject(List<String> orderedFieldNameList, String rawData, String keyName, String delimiter, boolean cleanupFields) {
+		super(rawData, keyName);
 		this.dot = DataObjectType.TABLE_RECORD;
 
 		this.delimiter = delimiter;
@@ -69,5 +70,10 @@ public class RecordDataObject extends DataObject {
 	@Override
 	public DataObjectType getDataObjectType() {
 		return this.dot;
+	}
+
+	@Override
+	public Set<String> getElementKeySet() {
+		return fieldNameToIndex.keySet();
 	}
 }

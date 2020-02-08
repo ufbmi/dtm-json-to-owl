@@ -9,6 +9,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
+import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class RdfClassAssertionInstruction extends RdfConversionInstruction {
@@ -50,6 +51,25 @@ public class RdfClassAssertionInstruction extends RdfConversionInstruction {
 		 *  Step 3: make assertion
 		 */
 		String classHandle = recordFields.get(fieldIndex).trim();
+		IRI classIri = iriMap.lookupClassIri(classHandle);
+		if (classIri != null) {
+			OWLNamedIndividual oni = (handleOfIndividual.equals("[row-individual]")) ? rowIndividual : variables.get(handleOfIndividual);
+			//System.out.println("class is " + classHandle + "\t" + classIri);
+			//System.out.println("ind is " + handleOfIndividual + "\t" + oni);
+			GenericRdfConverter.addClassAssertionAxiom(oni, classIri, oo);
+		} else {
+			System.out.println("WARNING: could not find IRI for class: \"" + classHandle + "\"");
+		}
+	}
+
+	@Override
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+		/*
+		 *  Step 1: get IRI for class. If not null, continue.
+		 *  Step 2: get individual for which we're making assertion
+		 *  Step 3: make assertion
+		 */
+		String classHandle = dataObject.getDataElementValue(classTypeVariableName).trim();
 		IRI classIri = iriMap.lookupClassIri(classHandle);
 		if (classIri != null) {
 			OWLNamedIndividual oni = (handleOfIndividual.equals("[row-individual]")) ? rowIndividual : variables.get(handleOfIndividual);
