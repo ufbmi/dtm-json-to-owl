@@ -1,5 +1,6 @@
 row_type=organization
 data_file=./src/main/resources/organization_midas_cc.txt
+data_file_delimiter=tab
 iri_prefix=http://www.pitt.edu/midascc_
 iri_counter=100
 iri_id_length=8

@@ -36,6 +36,30 @@ public class RecordDataObject extends DataObject {
 		splitRecordIntoFields();
 	}
 
+	public RecordDataObject(HashMap<String, Integer> fieldNameToIndex, String rawData, String keyName) {
+		super(rawData, keyName);
+		this.dot = DataObjectType.TABLE_RECORD;
+
+		//default settings
+		this.delimiter = DEFAULT_FIELD_DELIMITER;
+		this.cleanFieldValues = true;
+
+		this.fieldNameToIndex = fieldNameToIndex;
+		splitRecordIntoFields();
+	}
+
+	public RecordDataObject(HashMap<String, Integer> fieldNameToIndex, String rawData, String keyName, String delimiter, boolean cleanupFields) {
+		super(rawData, keyName);
+		this.dot = DataObjectType.TABLE_RECORD;
+
+		//default settings
+		this.delimiter = delimiter;
+		this.cleanFieldValues = cleanupFields;
+
+		this.fieldNameToIndex = fieldNameToIndex;
+		splitRecordIntoFields();
+	}
+
 	protected void setupFieldIndex(List<String> orderedFieldNameList) {
 		int size = orderedFieldNameList.size();
 		fieldNameToIndex = new HashMap<String, Integer>();

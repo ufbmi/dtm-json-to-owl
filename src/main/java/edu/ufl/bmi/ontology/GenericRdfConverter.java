@@ -39,6 +39,9 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.AddImport;
 
+import edu.ufl.bmi.misc.DataObject;
+import edu.ufl.bmi.misc.DataObjectProvider;
+import edu.ufl.bmi.misc.LineNumberReaderSourceRecordDataObjectProvider;
 import edu.ufl.bmi.misc.RecordDataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
@@ -53,6 +56,7 @@ public class GenericRdfConverter {
     static IriLookup iriMap;
    	static String rowTypeTxt;
     static String inputFileName;
+    static String inputFileDelim;
 
     static String instructionFileName;
 
@@ -77,14 +81,18 @@ public class GenericRdfConverter {
     static String iriRepositoryPrefix;
     static RdfIriRepositoryWithJena iriRepository;
 
-
     static RdfConversionInstructionSet rcis;
+
+    static DataObjectProvider dop, dop1;
+    static HashMap<String, OWLNamedIndividual> keyToInd;
+    static HashMap<String, HashMap<String, OWLNamedIndividual>> uniqueFieldsMapValuesToInd; 
 
     public static void main(String[] args) {
 		try {
 		    readConfigurationFile(args[0]);
 		    setupOuputOwlFile();
 		    processInputFile();
+		    processDataObjects();
 		    saveOntologies();
 		} catch (IOException ioe) {
 		    System.err.println(ioe);
@@ -103,6 +111,15 @@ public class GenericRdfConverter {
 				rowTypeTxt = flds[1];
 		    } else if (flds[0].trim().equals("data_file")) {
 				inputFileName=flds[1];
+		    } else if (flds[0].trim().equals("data_file_delimiter")) {
+		    	String delimTxt = flds[1];
+		    	//because I didn't want to have to deal with either
+		    	// putting an actual tab or somehow translating \t
+		    	if (delimTxt.equals("tab")) {
+		    		inputFileDelim = "\t";
+		    	} else {
+		    		inputFileDelim = flds[1];
+		    	}
 		    } else if (flds[0].trim().equals("iri_prefix")) {
 				iriPrefix = flds[1];
 		    } else if (flds[0].trim().equals("iri_counter")) {
@@ -207,6 +224,107 @@ public class GenericRdfConverter {
     		System.err.println(ioe);
     		ioe.printStackTrace();
     	}
+	}
+
+	public static void processDataObjects() {
+		try {
+			buildDataObjectProviders();
+			firstPassthroughDataObjects();
+			//buildInstructionSet();
+			//executeInstructionsAgainstDataObjects();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected static void buildDataObjectProviders() throws IOException {
+		/*
+			Based on config file input, which will tell us
+			 both what type of data object provider to build
+			 as well as the information needed to build it.
+
+			 So for LineNumberReaderSourceDataObjectProvider:
+			 	file name
+			 	field delimiter
+			 	subfield delimiter if any
+			 	name of field that is the key
+			 	name(s) of field(s) that have unique values for each record
+
+			 And for JsonApiSourceDataObjectProvider:
+			 	base url for the API
+			 	extension for the types of objects
+			 	whether it's an "all" or "by id" situation
+			 	if "by id" how to get a list of all IDs to 
+			 		subsequently use to get the objects
+		*/
+		dop = buildDataObjectProvider();
+		if (!dop.isReusable())
+			dop1 = buildDataObjectProvider();
+		else 
+			dop1 = dop;
+	}
+
+	protected static DataObjectProvider buildDataObjectProvider() throws IOException {
+		DataObjectProvider dopLocal = null;
+		if (inputFileName != null && inputFileName.length() > 0) {
+			FileReader fr = new FileReader(inputFileName);
+			dopLocal = new LineNumberReaderSourceRecordDataObjectProvider(
+					new LineNumberReader(fr), inputFileDelim);
+			((LineNumberReaderSourceRecordDataObjectProvider)dopLocal).processSchema();
+		}
+		return dopLocal;
+	}
+
+	protected static void firstPassthroughDataObjects() {
+		/*
+		 *  Goals here:  create OWLNamedIndividual with IRI for each object
+		 *		Setup the following lookups:
+		 *			1. unique key / ID field to OWLNamedIndividual
+		 *			2. other unique value fields to OWLNamedIndividual
+		*/
+		keyToInd = new HashMap<String, OWLNamedIndividual>();
+		uniqueFieldsMapValuesToInd = new HashMap<String, HashMap<String, OWLNamedIndividual>>();
+		System.out.println("uniqueKeyFieldNames = " + uniqueKeyFieldNames);
+		for (String keyField : uniqueKeyFieldNames) {
+			HashMap<String, OWLNamedIndividual> soni = new HashMap<String, OWLNamedIndividual>();
+			uniqueFieldsMapValuesToInd.put(keyField, soni);
+		}
+
+		for (DataObject dataObject : dop) {
+				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+			IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
+			repoAnnotations.put(varNameIri, "row individual");
+			//System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
+			String keyValue = dataObject.getDataElementValue(uniqueIdFieldName);
+
+			repoAnnotations.put(uniqueIdFieldIri, keyValue);
+			Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
+			int resultCount = resultSet.size();
+
+			OWLNamedIndividual oni = null;
+			if (resultCount == 1) {
+				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(rowTypeTxt));
+			} else if (resultCount == 0) {
+				oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
+				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+			} else {
+				throw new RuntimeException("Unexpected query result set number: " + 
+					resultCount + ", expected 0 or 1.");
+			}
+
+			keyToInd.put(keyValue, oni);
+
+			for (String keyField : uniqueKeyFieldNames) {
+				String keyFieldValue = dataObject.getDataElementValue(keyField);
+				if (keyFieldValue != null && keyFieldValue.length() > 0) {
+					HashMap<String, OWLNamedIndividual> soni = uniqueFieldsMapValuesToInd.get(keyField);
+					soni.put(keyFieldValue, oni);
+				} else {
+					System.out.println("Bad value for key field '" + 
+						keyField + "' = '" + keyFieldValue + "'");
+				}
+			}
+		}
 	}
 
 	public static void buildInstructionSet() {
