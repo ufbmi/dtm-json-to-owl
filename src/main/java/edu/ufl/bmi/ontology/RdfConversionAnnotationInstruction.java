@@ -20,15 +20,16 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 	String variableName;
 	AnnotationValueBuilder avb;
 
-	public RdfConversionAnnotationInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
+	public RdfConversionAnnotationInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String annotationPropertyTxt, String annotationValueInstruction) {
-		super(iriMap, fieldNameToIndex, odf);
+		super(iriMap, odf);
 		this.variableName = variableName;
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
-		this.avb = new AnnotationValueBuilder(annotationValueInstruction, fieldNameToIndex);
+		this.avb = new AnnotationValueBuilder(annotationValueInstruction);
 	}
 
-		@Override
+/*
+	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		String annotationValue = avb.buildAnnotationValue(recordFields);
 		if (validFieldValue(annotationValue)) {
@@ -37,7 +38,8 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 				GenericRdfConverter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
 		}
 	}
-
+*/
+	
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		String annotationValue = avb.buildAnnotationValue(dataObject);
 		if (validFieldValue(annotationValue)) {

@@ -80,7 +80,7 @@ public class RdfConversionInstructionSetCompiler {
 			String variableName = flds[0].trim();
 			String annotationPropertyTxt = flds[1].trim();
 			String annotationValueInstruction = flds[2].trim();
-			RdfConversionAnnotationInstruction rcai = new RdfConversionAnnotationInstruction(iriMap, fieldNameToIndex, odf, 
+			RdfConversionAnnotationInstruction rcai = new RdfConversionAnnotationInstruction(iriMap, odf, 
 				variableName, annotationPropertyTxt, annotationValueInstruction);
 			return rcai;
 		} else if (instructionType.equals("new-individual")) {
@@ -93,12 +93,12 @@ public class RdfConversionInstructionSetCompiler {
 			RdfConversionNewIndividualInstruction rcnii = null;
 			if (flds.length == 4) {
 				rcnii = new RdfConversionNewIndividualInstruction(
-					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, 
+					iriMap, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, 
 					iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
 			} else if (flds.length == 5) {
 				String creationConditionLogic = flds[4].trim();
 				rcnii = new RdfConversionNewIndividualInstruction(
-					iriMap, fieldNameToIndex, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
+					iriMap, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
 					creationConditionLogic, iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
 			}
 			return rcnii;
@@ -109,7 +109,7 @@ public class RdfConversionInstructionSetCompiler {
 			String dataPropertyIriTxt = flds[1].trim();
 			String dataValueInstruction = flds[2].trim(); //.replace("[","").replace("]","");
 			String dataType = flds[3].trim();
-			RdfConversionDataInstruction rcdi = new RdfConversionDataInstruction(iriMap, fieldNameToIndex, odf, variableName, 
+			RdfConversionDataInstruction rcdi = new RdfConversionDataInstruction(iriMap, odf, variableName, 
 					dataPropertyIriTxt, dataValueInstruction, dataType);
 			return rcdi;
 		} else if (instructionType.equals("object-property-expression")) {
@@ -119,14 +119,14 @@ public class RdfConversionInstructionSetCompiler {
 			String objectPropertyIriTxt = flds[1].trim();
 			String targetVariableName = flds[2].trim();
 			RdfConversionObjectPropertylInstruction rcopi = new RdfConversionObjectPropertylInstruction(iriMap, 
-					fieldNameToIndex, odf, sourceVariableName, objectPropertyIriTxt, targetVariableName);
+					odf, sourceVariableName, objectPropertyIriTxt, targetVariableName);
 			return rcopi;
 		} else if (instructionType.equals("lookup-individual")) {
 			if (flds.length != 2) throw new ParseException(
 				"lookup individual instructions must have two, tab-delimited fields: " + instruction, 5);
 			String variableName = flds[0].trim();
 			String searchFieldName = flds[1].trim().replace("[","").replace("]","");
-			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, fieldNameToIndex, 
+			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, 
 					odf, variableName, searchFieldName, searchIndexes);
 			return rclii;
 		} else if (instructionType.equals("class-assertion-expression")) {
@@ -135,7 +135,7 @@ public class RdfConversionInstructionSetCompiler {
 			String variableName = flds[0].trim();
 			String classIriHandle = flds[1].trim();
 			RdfClassAssertionInstruction rcai = new RdfClassAssertionInstruction(iriMap, odf, 
-				fieldNameToIndex, variableName, classIriHandle);
+				variableName, classIriHandle);
 			return rcai;
 		} else if (instructionType.equals("query-individual")) {
 			if (flds.length != 4) throw new ParseException(
@@ -151,7 +151,7 @@ public class RdfConversionInstructionSetCompiler {
 			String lookupValueFieldName
 			*/
 			RdfConversionQueryIndividualInstruction rcqii = new RdfConversionQueryIndividualInstruction(
-				iriMap, fieldNameToIndex, odf, variableName, iriRepository, iriRepositoryPrefix, externalFileFieldName, 
+				iriMap, odf, variableName, iriRepository, iriRepositoryPrefix, externalFileFieldName, 
 				rowTypeName, iriPrefix, lookupValueFieldName);
 			return rcqii;
 		} else {

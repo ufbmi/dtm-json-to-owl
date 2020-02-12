@@ -22,15 +22,16 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 	 */
 	ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes;
 
-	public RdfConversionLookupInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, 
-		OWLDataFactory odf, String variableName, String searchFieldName, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes) {
-		super(iriMap, fieldNameToIndex, odf);
+	public RdfConversionLookupInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, String searchFieldName,
+			ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes) {
+		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","").trim();
 		this.searchFieldName = searchFieldName;
 		//this.searchFieldIndex = fieldNameToIndex.get(searchFieldName);
 		this.searchIndexes = searchIndexes;
 	}
 
+	/*
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		//Find the value of the field specified in this instruction, and search for named individuals created with that field value
@@ -49,6 +50,7 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 			System.out.println("Bad field value: '" + fieldValue + "'");
 		}
 	}
+	*/
 
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {

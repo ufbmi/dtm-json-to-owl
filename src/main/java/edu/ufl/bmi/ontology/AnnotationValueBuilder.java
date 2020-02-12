@@ -8,13 +8,11 @@ import edu.ufl.bmi.misc.DataObject;
 
 
 public class AnnotationValueBuilder {
-	HashMap<String, Integer> fieldNameToIndex;
 
 	ArrayList<String> annotationValueComponent;
 	ArrayList<Boolean> isLiteralValue;
 
-	public AnnotationValueBuilder(String annotationInstruction, HashMap<String, Integer> fieldNameToIndex) {
-		this.fieldNameToIndex = fieldNameToIndex;
+	public AnnotationValueBuilder(String annotationInstruction) {
 		parseAnnotationValueInstruction(annotationInstruction);
 	}
 
@@ -25,6 +23,7 @@ public class AnnotationValueBuilder {
 	}
 	*/
 
+/*
 	public String buildAnnotationValue(ArrayList<String> recordFields) {
 		StringBuilder sb2 = new StringBuilder();
 		int size = annotationValueComponent.size();
@@ -43,6 +42,7 @@ public class AnnotationValueBuilder {
 		if (annotationValue2.trim().length() == 0) annotationValue2 = null;
 		return annotationValue2 ;
 	}
+	*/
 
 	public String buildAnnotationValue(DataObject dataObject) {
 		StringBuilder sb2 = new StringBuilder();

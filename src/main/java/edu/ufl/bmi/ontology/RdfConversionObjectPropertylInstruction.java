@@ -18,14 +18,15 @@ public class RdfConversionObjectPropertylInstruction extends RdfConversionInstru
 	String targetVariableName;
 	IRI objectPropertyIri;
 		
-	public RdfConversionObjectPropertylInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String sourceVariableName, 
+	public RdfConversionObjectPropertylInstruction(IriLookup iriMap, OWLDataFactory odf, String sourceVariableName, 
 		String objectPropertyIriTxt, String targetVariableName) {
-		super(iriMap, fieldNameToIndex, odf);
+		super(iriMap, odf);
 		this.sourceVariableName = sourceVariableName;
 		this.objectPropertyIri = iriMap.lookupObjPropIri(objectPropertyIriTxt);
 		this.targetVariableName = targetVariableName;
 	}
 
+/*
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		OWLNamedIndividual sourceInd = (sourceVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(sourceVariableName);
@@ -37,7 +38,8 @@ public class RdfConversionObjectPropertylInstruction extends RdfConversionInstru
 			//System.out.println("OP IRI = " + objectPropertyIri);
 		}
 	}
-
+*/
+	
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		OWLNamedIndividual sourceInd = (sourceVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(sourceVariableName);
 		OWLNamedIndividual targetInd = (targetVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(targetVariableName);

@@ -27,35 +27,33 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	int uniqueIdFieldIndex;
 	IRI uniqueIdFieldIri;
 	
-	public RdfConversionNewIndividualInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
+	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction,
 		IriRepository iriRepository, String iriRepositoryPrefix, String uniqueIdFieldName) {
-		super(iriMap, fieldNameToIndex, odf);
+		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
-		this.avb = new AnnotationValueBuilder(annotationValueInstruction, fieldNameToIndex);
+		this.avb = new AnnotationValueBuilder(annotationValueInstruction);
 		this.alwaysCreate = true;
 		this.iriRepository = iriRepository;
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		this.uniqueIdFieldName = uniqueIdFieldName;
-		this.uniqueIdFieldIndex = this.fieldNameToIndex.get(this.uniqueIdFieldName);
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 	}
 
-	public RdfConversionNewIndividualInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
+	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction, String creationCondition, IriRepository iriRepository,
 		String iriRepositoryPrefix, String uniqueIdFieldName) {
-		super(iriMap, fieldNameToIndex, odf);
+		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
-		this.avb = new AnnotationValueBuilder(annotationValueInstruction, fieldNameToIndex);
+		this.avb = new AnnotationValueBuilder(annotationValueInstruction);
 		this.alwaysCreate = false;
 		this.iriRepository = iriRepository;
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		this.uniqueIdFieldName = uniqueIdFieldName;
-		this.uniqueIdFieldIndex = this.fieldNameToIndex.get(this.uniqueIdFieldName);
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 		/*
 	 	 *  Need a data structure.  Could have list of lists.  If we take "and" as preference over "or", then we'd split on the "or" first.
@@ -84,6 +82,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		}
 	}
 
+/*
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		if (alwaysCreate || evaluateCondition(recordFields)) {
@@ -140,6 +139,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		}
 		return result;
 	}
+	*/
 
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		if (alwaysCreate || evaluateCondition(dataObject)) {

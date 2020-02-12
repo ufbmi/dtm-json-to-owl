@@ -7,20 +7,18 @@ import java.util.regex.Pattern;
 import edu.ufl.bmi.misc.DataObject;
 
 public class DataValueBuilder {
-	ArrayList dataValueInstructions;
 
 	ArrayList<String> dataValueComponent;
 	ArrayList<Boolean> isLiteralValue;
 
-	HashMap<String, Integer> fieldNameToIndex;
 	String dataType;
 
-	public DataValueBuilder(String dataValueInstruction, String dataType, HashMap<String, Integer> fieldNameToIndex) {
-		this.fieldNameToIndex = fieldNameToIndex;
+	public DataValueBuilder(String dataValueInstruction, String dataType) {
 		this.dataType = dataType;
 		parseDataValueInstruction(dataValueInstruction);
 	}
 
+/*
 	public Object buildDataValue(ArrayList<String> recordFields) {
 		/*
 		StringBuilder sb = new StringBuilder();
@@ -34,7 +32,7 @@ public class DataValueBuilder {
 			}
 		}
 		String objectAsString = sb.toString();
-		*/
+		
 
 		StringBuilder sb2 = new StringBuilder();
 		int size = dataValueComponent.size();
@@ -62,6 +60,7 @@ public class DataValueBuilder {
 			return objectAsString;
 		}
 	}
+*/
 
 	public Object buildDataValue(DataObject dataObject) {
 		StringBuilder sb2 = new StringBuilder();
@@ -100,7 +99,6 @@ public class DataValueBuilder {
 			Make a list.  If list item is String, then that String goes into value
 			as a literal.  If list item is Integer, then we lookup that field value.
 		*/
-		dataValueInstructions = new ArrayList();
 		dataValueComponent = new ArrayList<String>();
 		isLiteralValue = new ArrayList<Boolean>();
 		String[] flds = dataValueInstruction.split(Pattern.quote("+"));
@@ -108,11 +106,9 @@ public class DataValueBuilder {
 			fld = fld.trim();
 			if (fld.startsWith("[") && fld.endsWith("]")) {
 				String varName = fld.substring(1, fld.length()-1);
-				dataValueInstructions.add(fieldNameToIndex.get(varName));
 				dataValueComponent.add(varName);
 				isLiteralValue.add(false);
 			} else {
-				dataValueInstructions.add(fld);
 				dataValueComponent.add(fld);
 				isLiteralValue.add(true);
 			}

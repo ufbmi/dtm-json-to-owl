@@ -26,6 +26,7 @@ public class RdfConversionInstructionSet {
 		this.instructions.addAll(instructions);
 	}
 
+/*
 	public void executeInstructions(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, OWLOntology oo) {
 		HashMap<String, OWLNamedIndividual> variables = new HashMap<String, OWLNamedIndividual>();
 
@@ -33,7 +34,7 @@ public class RdfConversionInstructionSet {
 			i.execute(rowIndividual, recordFields, variables, oo);
 		}
 	}
-
+*/
 
 	public void executeInstructions(OWLNamedIndividual rowIndividual, DataObject dataObject, OWLOntology oo) {
 		HashMap<String, OWLNamedIndividual> variables = new HashMap<String, OWLNamedIndividual>();

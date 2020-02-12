@@ -13,17 +13,15 @@ import edu.ufl.bmi.misc.IriLookup;
 public abstract class RdfConversionInstruction {
 
 	OWLDataFactory odf;
-	HashMap<String,Integer> fieldNameToIndex;
 	IriLookup iriMap;
 
 
-	public RdfConversionInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf) {
+	public RdfConversionInstruction(IriLookup iriMap, OWLDataFactory odf) {
 		this.odf = odf;
-		this.fieldNameToIndex = fieldNameToIndex;
 		this.iriMap = iriMap;
 	}
 
-	public abstract void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
+	//public abstract void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
 
 	public String cleanupValue(String fieldValue) {
 		return fieldValue.replace("\"","").replace("N/A","").trim();

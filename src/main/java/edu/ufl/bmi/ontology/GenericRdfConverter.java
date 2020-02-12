@@ -1,5 +1,6 @@
 package edu.ufl.bmi.ontology;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -54,7 +56,7 @@ public class GenericRdfConverter {
     static int iriLen;
 
     static IriLookup iriMap;
-   	static String rowTypeTxt;
+   	static String objectTypeTxt;
     static String inputFileName;
     static String inputFileDelim;
 
@@ -84,14 +86,23 @@ public class GenericRdfConverter {
     static RdfConversionInstructionSet rcis;
 
     static DataObjectProvider dop, dop1;
+    static String dataProviderTypeTxt;
     static HashMap<String, OWLNamedIndividual> keyToInd;
     static HashMap<String, HashMap<String, OWLNamedIndividual>> uniqueFieldsMapValuesToInd; 
 
     public static void main(String[] args) {
 		try {
-		    readConfigurationFile(args[0]);
+		    readConfigurationProperties(args[0]);
 		    setupOuputOwlFile();
+		    /*
+		     *  Process input file is the old way that I'm working on sunsetting
+		     */ 
 		    processInputFile();
+		    /*
+		     *  Process data objects is the new way that I'm working on as the
+		     *	 replacement.  The rest -- config file, output OWL file, and 
+		     *   saveOntologies -- can stay the same.
+		     */
 		    processDataObjects();
 		    saveOntologies();
 		} catch (IOException ioe) {
@@ -100,55 +111,39 @@ public class GenericRdfConverter {
 		}
     }
 
-    public static void readConfigurationFile(String fName) throws IOException {
-    	FileReader fr = new FileReader(fName);
-		LineNumberReader lnr = new LineNumberReader(fr);
-    	String line;
+    public static void readConfigurationProperties(String fName) throws IOException {
+    	Properties p = new Properties();
+    	p.load(new FileReader(fName));
 
-		while((line=lnr.readLine())!=null) {
-		    String[] flds = line.split(Pattern.quote("="));
-		    if (flds[0].trim().equals("row_type")) {
-				rowTypeTxt = flds[1];
-		    } else if (flds[0].trim().equals("data_file")) {
-				inputFileName=flds[1];
-		    } else if (flds[0].trim().equals("data_file_delimiter")) {
-		    	String delimTxt = flds[1];
-		    	//because I didn't want to have to deal with either
-		    	// putting an actual tab or somehow translating \t
-		    	if (delimTxt.equals("tab")) {
-		    		inputFileDelim = "\t";
-		    	} else {
-		    		inputFileDelim = flds[1];
-		    	}
-		    } else if (flds[0].trim().equals("iri_prefix")) {
-				iriPrefix = flds[1];
-		    } else if (flds[0].trim().equals("iri_counter")) {
-				iriCounterTxt = flds[1];
-		    } else if (flds[0].trim().equals("iri_lookup")) {
-				iriMap = new IriLookup(flds[1].trim());
-				iriMap.init();
-		    } else if (flds[0].trim().equals("iri_id_length")) {
-				iriLenTxt = flds[1].trim();
-		    } else if (flds[0].trim().equals("output_file")) {
-		    	outputFileName = flds[1].trim();
-		    } else if (flds[0].trim().equals("output_file_iri_id")) {
-		    	outputFileIriId = flds[1].trim();
-		    } else if (flds[0].trim().equals("instructions")) {
-		    	instructionFileName = flds[1].trim();
-		    } else if (flds[0].trim().equals("unique_key_fields")) {
-		    	uniqueKeyFieldNames = new ArrayList<String>();
-		    	String[] vals = flds[1].split(Pattern.quote(","));
-		    	for (String v : vals) {
-		    		uniqueKeyFieldNames.add(v);
-		    	}
-		    } else if (flds[0].trim().equals("unique_id_field")) {
-		    	uniqueIdFieldName = flds[1].trim();
-		    } else {
-				System.err.println("don't know what " + flds[0] + " is. Ignoring...");
-		    }
+    	objectTypeTxt = p.getProperty("object_type");
+    	dataProviderTypeTxt = p.getProperty("data_provider_type");
+    	inputFileName = p.getProperty("data_file");
+    	String delimTxt = p.getProperty("data_file_delimiter");
+    	if (delimTxt.equals("tab")) {
+			inputFileDelim = "\t";
+		} else {
+			inputFileDelim = delimTxt;
+		}
+		iriPrefix = p.getProperty("iri_prefix");
+		iriCounterTxt = p.getProperty("iri_counter");
+		String iriMapFileName = p.getProperty("iri_lookup");
+		iriMap = new IriLookup(iriMapFileName);
+		iriMap.init();
+		iriLenTxt = p.getProperty("iri_id_length");
+		outputFileName = p.getProperty("output_file");
+		outputFileIriId = p.getProperty("output_file_iri_id");
+		instructionFileName = p.getProperty("instructions");
+
+		String allUniqueKeyFieldNames = p.getProperty("unique_key_fields");
+		uniqueKeyFieldNames = new ArrayList<String>();
+		String[] vals = allUniqueKeyFieldNames.split(Pattern.quote(","));
+		for (String v : vals) {
+			uniqueKeyFieldNames.add(v);
 		}
 
-		//System.out.println(iriLenTxt);
+		uniqueIdFieldName = p.getProperty("unique_id_field");
+
+    	//System.out.println(iriLenTxt);
 		iriLen = Integer.parseInt(iriLenTxt);
 		iriCounter = Long.parseLong(iriCounterTxt);
 
@@ -158,11 +153,8 @@ public class GenericRdfConverter {
 		iriCounter = Math.max(iriCounter, iriRepository.getIriCounter());
 		System.out.println("Setting counter to: " + iriCounter);
 
-		iriRepositoryPrefix = iriPrefix + rowTypeTxt;
+		iriRepositoryPrefix = iriPrefix + objectTypeTxt;
 		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
-
-		lnr.close();
-		fr.close();
     }
 
     protected static void processHeaderRow(LineNumberReader lnr) throws IOException {
@@ -206,7 +198,7 @@ public class GenericRdfConverter {
     public static void setupOuputOwlFile() {
 		oom = OWLManager.createOWLOntologyManager();
 		odf = OWLManager.getOWLDataFactory();
-		String iriText = iriPrefix + "/" + rowTypeTxt;
+		String iriText = iriPrefix + "/" + objectTypeTxt;
 		IRI ontologyIRI = IRI.create(iriText);
 		try {
 			oos = oom.createOntology(ontologyIRI);
@@ -266,7 +258,7 @@ public class GenericRdfConverter {
 
 	protected static DataObjectProvider buildDataObjectProvider() throws IOException {
 		DataObjectProvider dopLocal = null;
-		if (inputFileName != null && inputFileName.length() > 0) {
+		if (dataProviderTypeTxt.equals("file line reader")) {
 			FileReader fr = new FileReader(inputFileName);
 			dopLocal = new LineNumberReaderSourceRecordDataObjectProvider(
 					new LineNumberReader(fr), inputFileDelim);
@@ -303,9 +295,9 @@ public class GenericRdfConverter {
 
 			OWLNamedIndividual oni = null;
 			if (resultCount == 1) {
-				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(rowTypeTxt));
+				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(objectTypeTxt));
 			} else if (resultCount == 0) {
-				oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
+				oni = createNamedIndividualWithType(iriMap.lookupClassIri(objectTypeTxt));
 				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
 			} else {
 				throw new RuntimeException("Unexpected query result set number: " + 
@@ -357,9 +349,9 @@ public class GenericRdfConverter {
 
 			OWLNamedIndividual oni = null;
 			if (resultCount == 1) {
-				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(rowTypeTxt));
+				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(objectTypeTxt));
 			} else if (resultCount == 0) {
-				oni = createNamedIndividualWithType(iriMap.lookupClassIri(rowTypeTxt));
+				oni = createNamedIndividualWithType(iriMap.lookupClassIri(objectTypeTxt));
 				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
 			} else {
 				throw new RuntimeException("Unexpected query result set number: " + 

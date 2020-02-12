@@ -20,14 +20,15 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 	String variableName;
 	DataValueBuilder dvb;
 
-	public RdfConversionDataInstruction(IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
+	public RdfConversionDataInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String dataPropertyTxt, String dataValueInstruction, String dataType) {
-		super(iriMap, fieldNameToIndex, odf);
+		super(iriMap, odf);
 		this.variableName = variableName;
 		this.dataPropertyIri = iriMap.lookupDataPropIri(dataPropertyTxt);
-		this.dvb = new DataValueBuilder(dataValueInstruction, dataType, fieldNameToIndex);
+		this.dvb = new DataValueBuilder(dataValueInstruction, dataType);
 	}
 
+/*
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, ArrayList<String> recordFields, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		Object dataValue = dvb.buildDataValue(recordFields);
@@ -60,6 +61,7 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 			}
 		}
 	}
+*/
 
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {

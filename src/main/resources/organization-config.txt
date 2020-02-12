@@ -1,12 +1,24 @@
-row_type=organization
+object_type=organization
+
+# data object provider information
+data_provider_type=file line reader
 data_file=./src/main/resources/organization_midas_cc.txt
 data_file_delimiter=tab
+
+# information about fields / elements in the data objects
+unique_key_fields=MemberOf with Org Name (sort with),ID
+unique_id_field=ID
+
+# IRI information
 iri_prefix=http://www.pitt.edu/midascc_
 iri_counter=100
 iri_id_length=8
 iri_lookup=./src/main/resources/iris.txt
+
+# output file information
 output_file=midas-cc-organization.owl
 output_file_iri_id=midas_cc_iri_repository
+
+# RDF conversion instructions for the object type
 instructions=./src/main/resources/organization-instruction-set.txt
-unique_key_fields=MemberOf with Org Name (sort with),ID
-unique_id_field=ID
+
