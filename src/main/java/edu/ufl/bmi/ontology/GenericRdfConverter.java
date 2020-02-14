@@ -41,6 +41,7 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.AddImport;
 
+import edu.ufl.bmi.misc.ApiSourceJsonObjectDataProvider;
 import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.DataObjectProvider;
 import edu.ufl.bmi.misc.LineNumberReaderSourceRecordDataObjectProvider;
@@ -90,6 +91,10 @@ public class GenericRdfConverter {
     static HashMap<String, OWLNamedIndividual> keyToInd;
     static HashMap<String, HashMap<String, OWLNamedIndividual>> uniqueFieldsMapValuesToInd; 
 
+    static String baseUrl;
+    static String allObjectIdsUrl;
+    static String objectLocatorTxt;
+
     public static void main(String[] args) {
 		try {
 		    readConfigurationProperties(args[0]);
@@ -97,7 +102,7 @@ public class GenericRdfConverter {
 		    /*
 		     *  Process input file is the old way that I'm working on sunsetting
 		     */ 
-		    processInputFile();
+		    //processInputFile();
 		    /*
 		     *  Process data objects is the new way that I'm working on as the
 		     *	 replacement.  The rest -- config file, output OWL file, and 
@@ -119,7 +124,7 @@ public class GenericRdfConverter {
     	dataProviderTypeTxt = p.getProperty("data_provider_type");
     	inputFileName = p.getProperty("data_file");
     	String delimTxt = p.getProperty("data_file_delimiter");
-    	if (delimTxt.equals("tab")) {
+    	if (delimTxt != null && delimTxt.equals("tab")) {
 			inputFileDelim = "\t";
 		} else {
 			inputFileDelim = delimTxt;
@@ -133,6 +138,10 @@ public class GenericRdfConverter {
 		outputFileName = p.getProperty("output_file");
 		outputFileIriId = p.getProperty("output_file_iri_id");
 		instructionFileName = p.getProperty("instructions");
+
+		baseUrl = p.getProperty("api_base_url");
+		allObjectIdsUrl = p.getProperty("get_all_object_ids_url");
+		objectLocatorTxt = p.getProperty(objectTypeTxt);
 
 		String allUniqueKeyFieldNames = p.getProperty("unique_key_fields");
 		uniqueKeyFieldNames = new ArrayList<String>();
@@ -222,7 +231,7 @@ public class GenericRdfConverter {
 		try {
 			buildDataObjectProviders();
 			firstPassthroughDataObjects();
-			//buildInstructionSet();
+			buildInstructionSet();
 			//executeInstructionsAgainstDataObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -263,6 +272,9 @@ public class GenericRdfConverter {
 			dopLocal = new LineNumberReaderSourceRecordDataObjectProvider(
 					new LineNumberReader(fr), inputFileDelim);
 			((LineNumberReaderSourceRecordDataObjectProvider)dopLocal).processSchema();
+		} else if (dataProviderTypeTxt.equals("json api")) {
+			dopLocal = new ApiSourceJsonObjectDataProvider(baseUrl, allObjectIdsUrl, baseUrl+objectLocatorTxt, uniqueIdFieldName);
+			((ApiSourceJsonObjectDataProvider)dopLocal).initialize();
 		}
 		return dopLocal;
 	}
@@ -283,10 +295,10 @@ public class GenericRdfConverter {
 		}
 
 		for (DataObject dataObject : dop) {
-				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
+			HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 			IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
 			repoAnnotations.put(varNameIri, "row individual");
-			//System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
+			System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
 			String keyValue = dataObject.getDataElementValue(uniqueIdFieldName);
 
 			repoAnnotations.put(uniqueIdFieldIri, keyValue);
@@ -320,8 +332,7 @@ public class GenericRdfConverter {
 	}
 
 	public static void buildInstructionSet() {
-		int uniqueFieldIndex = fieldNameToIndex.get(uniqueIdFieldName);
-		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap, fieldNameToIndex, 
+		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap,
 				odf, uniqueFieldsMapToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
     	try {
     		rcis = c.compile();

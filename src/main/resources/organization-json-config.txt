@@ -7,8 +7,8 @@ get_all_object_ids_url=https://midasnetwork.us/midascontacts/api/organizations/i
 organization=organizations
 
 # information about fields / elements in the data objects
-unique_key_fields=MemberOf with Org Name (sort with),ID
-unique_id_field=ID
+unique_key_fields=id,organizationID
+unique_id_field=id
 
 # IRI information
 iri_prefix=http://www.pitt.edu/midascc_
@@ -21,5 +21,5 @@ output_file=midas-cc-organization.owl
 output_file_iri_id=midas_cc_iri_repository
 
 # RDF conversion instructions for the object type
-instructions=./src/main/resources/organization-instruction-set.txt
+instructions=./src/main/resources/organization-temp-json-instruction-set.txt
 

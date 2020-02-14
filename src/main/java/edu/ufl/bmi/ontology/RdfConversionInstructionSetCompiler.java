@@ -20,7 +20,6 @@ public class RdfConversionInstructionSetCompiler {
 	String fileName;
 	ArrayList<RdfConversionInstruction> instructionList;
 	IriLookup iriMap;
-	HashMap<String,Integer> fieldNameToIndex;
 	OWLDataFactory odf;
 	ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes;
 	IriRepository iriRepository;
@@ -28,13 +27,12 @@ public class RdfConversionInstructionSetCompiler {
 	String uniqueIdFieldName;
 	String iriPrefix;
 
-	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, 
-			OWLDataFactory odf, ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes,
-			IriRepository iriRepository, String iriRepositoryPrefix, String uniqueIdFieldName, String iriPrefix) {
+	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, OWLDataFactory odf, 
+		ArrayList<HashMap<String, OWLNamedIndividual>> searchIndexes, IriRepository iriRepository, 
+		String iriRepositoryPrefix, String uniqueIdFieldName, String iriPrefix) {
 		this.fileName = fName;
 		instructionList = new ArrayList<RdfConversionInstruction>();
 		this.iriMap = iriMap;
-		this.fieldNameToIndex = fieldNameToIndex;
 		this.odf = odf;
 		this.searchIndexes = searchIndexes;
 		this.iriRepository = iriRepository;

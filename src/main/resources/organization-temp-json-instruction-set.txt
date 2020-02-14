@@ -1,0 +1,39 @@
+# Instruction set for transforming MIDAS CC Organization Google Sheet on organizations into RDF/OWL2
+
+annotation: [row-individual]	label	[name]
+annotation: [row-individual]	title	[name]
+annotation: [row-individual]	editor preferred	[name]
+annotation: [row-individual]	hasURL	[url]
+annotation: [row-individual]	comment	"Type - " + [organizationType..name]
+
+new-individual: organization-address	postal address	label	"Postal address of "+[name]	[address] not-empty
+new-individual: organization-phone	telephone number	label	[OrganizationPhone]
+new-individual: organization-email	email address	label	[email]
+new-individual: organization-abbrev	abbreviation textual entity	label	[abbreviation]
+new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]	[socialMedia.linkedInURL] not-empty
+new-individual: github-id	identifier	label	[socialMedia.githubIdentifier]
+new-individual:	midas-cc-identifier	identifier	label	[id]
+
+annotation: organization-linked-in	hasURL	[socialMedia.linkedInURL]
+annotation: github-id	comment	"GitHub identifier for "+[name]
+annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[name]
+
+data-property-expression: organization-address	street address	[address.address]	String
+data-property-expression: organization-address	postal code	[address.postalCode]	String
+data-property-expression: organization-address	locality	[address.city]	String
+data-property-expression: organization-address	admin1 name	[address.admin1]	String
+data-property-expression: organization-address	country name	[address.country]	String
+
+class-assertion-expression: [row-individual]	[organizationType.name]
+
+object-property-expression: organization-address	is contact information about	[row-individual]
+object-property-expression: organization-phone	is contact information about	[row-individual]
+object-property-expression: organization-email	is contact information about	[row-individual]
+object-property-expression: organization-abbrev	is about	[row-individual]
+object-property-expression: organization-linked-in	is about	[row-individual]
+object-property-expression: github-id	denotes	[row-individual]
+object-property-expression: midas-cc-identifier	denotes	[row-individual]
+
+lookup-individual: member-of	[memberOf.id]
+
+object-property-expression: [row-individual]	proper continuant part	member-of

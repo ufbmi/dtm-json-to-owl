@@ -22,6 +22,13 @@ public class JsonDataObject extends DataObject {
 		this.cleanFieldValues = true;
 	}
 
+	public JsonDataObject(JsonObject jo, String keyName) {
+		super(jo.getAsString(), keyName);
+		this.jo = jo;
+		this.dot = DataObjectType.JSON;
+		this.cleanFieldValues = true;
+	}
+
 
 	@Override
 	public String getDataElementValue(String elementName) {
