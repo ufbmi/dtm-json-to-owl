@@ -37,7 +37,10 @@ public class JsonDataObject extends DataObject {
 
 
     protected static String getValueForJsonPath(JsonObject jo, String path) {
+    	if (jo == null) return "";
         String[] pathElems = path.split(Pattern.quote("."), 2);
+        //System.out.println("Getting value for path: " + path);
+        //System.out.println("path length is " + pathElems.length);
         if (pathElems.length > 1) {
             //if pathElems[0] has bracket, then need to get array instead of object
             //  and return ith object in array where i is index inside bracket
@@ -47,10 +50,15 @@ public class JsonDataObject extends DataObject {
                 String elemName = arrayInfo[0];
                 int i = Integer.parseInt(arrayInfo[1].replace("]",""));
                 //System.out.println("\t\t" + elemName + "\t" + i);
-                jo2 = jo.get(elemName).getAsJsonArray().get(i).getAsJsonObject();
+                if (jo.has(elemName))
+                	jo2 = jo.get(elemName).getAsJsonArray().get(i).getAsJsonObject();
+                else 
+                	jo2 = null;
                 //System.out.println
             } else {
-                jo2 = jo.get(pathElems[0]).getAsJsonObject();
+            	if (jo.has(pathElems[0]))
+                	jo2 = jo.get(pathElems[0]).getAsJsonObject();
+                else jo2 = null;
             }
             return getValueForJsonPath(jo2, pathElems[1]);
         } else if (pathElems.length == 1) {
@@ -63,7 +71,12 @@ public class JsonDataObject extends DataObject {
                 int i = Integer.parseInt(arrayInfo[1].replace("]",""));
                 value = jo.get(elemName).getAsJsonArray().get(i).getAsString();
             } else {
-                value = jo.get(pathElems[0]).getAsString();
+            	if (jo.has(pathElems[0])) {
+            		JsonElement je = jo.get(pathElems[0]);
+            		if (!je.isJsonNull()) {
+            			value = (je.isJsonPrimitive()) ? je.getAsString() : je.toString();
+            		}
+            	}
             }
             return value;
         } else

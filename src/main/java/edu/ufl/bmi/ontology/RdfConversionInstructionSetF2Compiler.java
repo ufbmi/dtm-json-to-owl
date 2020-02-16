@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -16,8 +17,20 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import edu.ufl.bmi.misc.IriLookup;
 
-public class RdfConversionInstructionSetCompiler {
+/**
+  * This class is a pseudocompiler that takes an instruction set file and stages
+  *  appropriate instances of various instruction classes to carry out the 
+  *  instruction in code.
+  *  
+  * Here, "F2" means format 2 for instruction set syntax.  This version of the 
+  *  syntax is more data driven, meaning that if a field is either not present
+  *  or has a blank value, the instructions associated with that field are 
+  *  skipped.
+ */
+public class RdfConversionInstructionSetF2Compiler {
 	String fileName;
+	HashMap<String, RdfConversionInstructionSet> instructionsByField;
+
 	ArrayList<RdfConversionInstruction> instructionList;
 	IriLookup iriMap;
 	OWLDataFactory odf;
@@ -27,11 +40,13 @@ public class RdfConversionInstructionSetCompiler {
 	String uniqueIdFieldName;
 	String iriPrefix;
 
-	public RdfConversionInstructionSetCompiler(String fName, IriLookup iriMap, OWLDataFactory odf, 
+	static final String VARIABLE_PATTERN = "\\[(.*)\\]";
+
+	public RdfConversionInstructionSetF2Compiler(String fName, IriLookup iriMap, OWLDataFactory odf, 
 		HashMap<String, HashMap<String, OWLNamedIndividual>> searchIndexes, IriRepository iriRepository, 
 		String iriRepositoryPrefix, String uniqueIdFieldName, String iriPrefix) {
 		this.fileName = fName;
-		instructionList = new ArrayList<RdfConversionInstruction>();
+		this.instructionsByField = new HashMap<String, RdfConversionInstructionSet>();
 		this.iriMap = iriMap;
 		this.odf = odf;
 		this.searchIndexes = searchIndexes;
@@ -47,10 +62,28 @@ public class RdfConversionInstructionSetCompiler {
 			LineNumberReader lnr = new LineNumberReader(fr);
 			String line;
 
+			ArrayList<RdfConversionInstruction> insrructionList = null; 
+			Pattern p = Pattern.compile(VARIABLE_PATTERN);
+			String varName = "";
 			while((line=lnr.readLine())!=null) {
 				line = line.trim();  //ignore any leading and trailing whitespace
 				//skip all blank lines and comment lines
 				if (line.length() == 0 || line.startsWith("#")) continue;
+
+				Matcher m = p.matcher(line);
+				//if the line constitutes a variable name, then we're starting a new section
+				if (m.matches()) {
+					//the first time through the current variable name is empty, so only do 
+					// this section if we're changing variable names
+					if (varName.length() > 0) {
+						//save away the instruction set in the hash by its associated variable name
+						instructionsByField.put(varName, new RdfConversionInstructionSet(instructionList));
+						//prepare a new instruction list for the next variable
+						instructionList = new ArrayList<RdfConversionInstruction>();
+					}
+					// the variable name should be in group 1 of the instruction set
+					varName = m.group(1);
+				}
 
 				//an instruction is two parts -- instruction type : instruction content
 				String[] flds = line.split(Pattern.quote(":"), 2);

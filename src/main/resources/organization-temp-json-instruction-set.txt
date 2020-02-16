@@ -4,10 +4,10 @@ annotation: [row-individual]	label	[name]
 annotation: [row-individual]	title	[name]
 annotation: [row-individual]	editor preferred	[name]
 annotation: [row-individual]	hasURL	[url]
-annotation: [row-individual]	comment	"Type - " + [organizationType..name]
+annotation: [row-individual]	comment	"Type - " + [organizationType.name]
 
 new-individual: organization-address	postal address	label	"Postal address of "+[name]	[address] not-empty
-new-individual: organization-phone	telephone number	label	[OrganizationPhone]
+new-individual: organization-phone	telephone number	label	[phone]
 new-individual: organization-email	email address	label	[email]
 new-individual: organization-abbrev	abbreviation textual entity	label	[abbreviation]
 new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]	[socialMedia.linkedInURL] not-empty
@@ -34,6 +34,6 @@ object-property-expression: organization-linked-in	is about	[row-individual]
 object-property-expression: github-id	denotes	[row-individual]
 object-property-expression: midas-cc-identifier	denotes	[row-individual]
 
-lookup-individual: member-of	[memberOf.id]
+lookup-individual: member-of	[memberOfOrganization.id]
 
 object-property-expression: [row-individual]	proper continuant part	member-of

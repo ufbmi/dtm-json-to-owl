@@ -232,7 +232,7 @@ public class GenericRdfConverter {
 			buildDataObjectProviders();
 			firstPassthroughDataObjects();
 			buildInstructionSet();
-			//executeInstructionsAgainstDataObjects();
+			executeInstructionsAgainstDataObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -288,7 +288,7 @@ public class GenericRdfConverter {
 		*/
 		keyToInd = new HashMap<String, OWLNamedIndividual>();
 		uniqueFieldsMapValuesToInd = new HashMap<String, HashMap<String, OWLNamedIndividual>>();
-		System.out.println("uniqueKeyFieldNames = " + uniqueKeyFieldNames);
+		//System.out.println("uniqueKeyFieldNames = " + uniqueKeyFieldNames);
 		for (String keyField : uniqueKeyFieldNames) {
 			HashMap<String, OWLNamedIndividual> soni = new HashMap<String, OWLNamedIndividual>();
 			uniqueFieldsMapValuesToInd.put(keyField, soni);
@@ -298,7 +298,7 @@ public class GenericRdfConverter {
 			HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 			IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
 			repoAnnotations.put(varNameIri, "row individual");
-			System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
+			//System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
 			String keyValue = dataObject.getDataElementValue(uniqueIdFieldName);
 
 			repoAnnotations.put(uniqueIdFieldIri, keyValue);
@@ -333,13 +333,31 @@ public class GenericRdfConverter {
 
 	public static void buildInstructionSet() {
 		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap,
-				odf, uniqueFieldsMapToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
+				odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
+		RdfConversionInstructionSetF2Compiler c1 = new RdfConversionInstructionSetF2Compiler("./src/main/resources/organization-json-instruction-set.txt",
+			iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
     	try {
     		rcis = c.compile();
+
     	} catch (ParseException pe) {
     		pe.printStackTrace();
     	}
 	}
+
+	protected static void executeInstructionsAgainstDataObjects() throws IOException {
+    	
+
+     	/*
+    	 *  For each data object, we want to execute the instruction set against it.
+    	 *
+    	 */
+
+    	for (DataObject dataObject : dop1) {
+    		OWLNamedIndividual rowInd = keyToInd.get(dataObject.getDataElementValue(uniqueIdFieldName));
+       		rcis.executeInstructions(rowInd, dataObject, oos);
+    	}
+
+    }
 
 	public static void firstPassthrough() throws IOException {
 		lineNumToInd = new HashMap<Integer, OWLNamedIndividual>();
