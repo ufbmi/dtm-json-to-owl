@@ -85,6 +85,7 @@ public class GenericRdfConverter {
     static RdfIriRepositoryWithJena iriRepository;
 
     static RdfConversionInstructionSet rcis;
+    static RdfConversionInstructionSetExecutor rcise;
 
     static DataObjectProvider dop, dop1;
     static String dataProviderTypeTxt;
@@ -164,6 +165,8 @@ public class GenericRdfConverter {
 
 		iriRepositoryPrefix = iriPrefix + objectTypeTxt;
 		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
+
+		rcise = new RdfConversionInstructionSetExecutor();
     }
 
     protected static void processHeaderRow(LineNumberReader lnr) throws IOException {
@@ -230,8 +233,8 @@ public class GenericRdfConverter {
 	public static void processDataObjects() {
 		try {
 			buildDataObjectProviders();
-			firstPassthroughDataObjects();
 			buildInstructionSet();
+			firstPassthroughDataObjects();
 			executeInstructionsAgainstDataObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -338,7 +341,7 @@ public class GenericRdfConverter {
 			iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
     	try {
     		rcis = c.compile();
-
+    		c1.compile();
     	} catch (ParseException pe) {
     		pe.printStackTrace();
     	}

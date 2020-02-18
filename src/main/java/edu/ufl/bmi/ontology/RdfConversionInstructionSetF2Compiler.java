@@ -29,9 +29,8 @@ import edu.ufl.bmi.misc.IriLookup;
  */
 public class RdfConversionInstructionSetF2Compiler {
 	String fileName;
-	HashMap<String, RdfConversionInstructionSet> instructionsByField;
 
-	ArrayList<RdfConversionInstruction> instructionList;
+	//ArrayList<RdfConversionInstruction> instructionList;
 	IriLookup iriMap;
 	OWLDataFactory odf;
 	HashMap<String, HashMap<String, OWLNamedIndividual>> searchIndexes;
@@ -46,7 +45,6 @@ public class RdfConversionInstructionSetF2Compiler {
 		HashMap<String, HashMap<String, OWLNamedIndividual>> searchIndexes, IriRepository iriRepository, 
 		String iriRepositoryPrefix, String uniqueIdFieldName, String iriPrefix) {
 		this.fileName = fName;
-		this.instructionsByField = new HashMap<String, RdfConversionInstructionSet>();
 		this.iriMap = iriMap;
 		this.odf = odf;
 		this.searchIndexes = searchIndexes;
@@ -56,16 +54,18 @@ public class RdfConversionInstructionSetF2Compiler {
 		this.iriPrefix = iriPrefix;
 	}
 
-	public RdfConversionInstructionSet compile() throws ParseException {
+	public RdfConversionInstructionSetExecutor compile() throws ParseException {
+		RdfConversionInstructionSetExecutor rcise = new RdfConversionInstructionSetExecutor();
 		try {
 			FileReader fr = new FileReader(fileName);
 			LineNumberReader lnr = new LineNumberReader(fr);
 			String line;
 
-			ArrayList<RdfConversionInstruction> insrructionList = null; 
+			ArrayList<RdfConversionInstruction> instructionList = null; 
 			Pattern p = Pattern.compile(VARIABLE_PATTERN);
-			String varName = "";
+			String elementName = "";
 			while((line=lnr.readLine())!=null) {
+				System.err.println(line);
 				line = line.trim();  //ignore any leading and trailing whitespace
 				//skip all blank lines and comment lines
 				if (line.length() == 0 || line.startsWith("#")) continue;
@@ -75,30 +75,37 @@ public class RdfConversionInstructionSetF2Compiler {
 				if (m.matches()) {
 					//the first time through the current variable name is empty, so only do 
 					// this section if we're changing variable names
-					if (varName.length() > 0) {
+					if (elementName.length() > 0) {
 						//save away the instruction set in the hash by its associated variable name
-						instructionsByField.put(varName, new RdfConversionInstructionSet(instructionList));
-						//prepare a new instruction list for the next variable
-						instructionList = new ArrayList<RdfConversionInstruction>();
+						boolean added = rcise.addInstructionSetForElement(elementName, new RdfConversionInstructionSet(instructionList));
+						if (!added) {
+							System.err.println("instructions for element " + elementName + " were not added to " +
+								"the instruction set execution engine.");
+						}
 					}
+					//prepare a new instruction list for the next variable
+					instructionList = new ArrayList<RdfConversionInstruction>();
 					// the variable name should be in group 1 of the instruction set
-					varName = m.group(1);
-				}
-
-				//an instruction is two parts -- instruction type : instruction content
-				String[] flds = line.split(Pattern.quote(":"), 2);
-				//System.out.println(flds.length + ", " + flds[0]);
-				String instructionType = flds[0].trim();
-				String instruction = flds[1].trim();
+					elementName = m.group(1);
+				} else {
+					if (line.contains("\\[")) System.err.println("line has [ but pattern did not match.");
 				
-				RdfConversionInstruction rci = compileInstruction(instructionType, instruction);
-				instructionList.add(rci);
+
+					//an instruction is two parts -- instruction type : instruction content
+					String[] flds = line.split(Pattern.quote(":"), 2);
+					System.out.println(flds.length + ", " + flds[0] + ", " + line);
+					String instructionType = flds[0].trim();
+					String instruction = flds[1].trim();
+				
+					RdfConversionInstruction rci = compileInstruction(instructionType, instruction);
+					instructionList.add(rci);
+				}
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 
-		return new RdfConversionInstructionSet(instructionList);
+		return rcise;
 	}
 
 	//public RdfConversionInstructionSet getInstructionSet() {

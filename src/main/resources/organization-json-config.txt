@@ -2,8 +2,8 @@ object_type=organization
 
 # data object provider information
 data_provider_type=json api
-api_base_url=https://midasnetwork.us/midascontacts/api/
-get_all_object_ids_url=https://midasnetwork.us/midascontacts/api/organizations/ids
+api_base_url=https://members.midasnetwork.us/midascontacts/api/
+get_all_object_ids_url=https://members.midasnetwork.us/midascontacts/api/organizations/ids
 organization=organizations
 
 # information about fields / elements in the data objects
