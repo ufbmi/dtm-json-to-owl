@@ -65,7 +65,7 @@ public class RdfConversionInstructionSetF2Compiler {
 			Pattern p = Pattern.compile(VARIABLE_PATTERN);
 			String elementName = "";
 			while((line=lnr.readLine())!=null) {
-				System.err.println(line);
+				//System.err.println(line);
 				line = line.trim();  //ignore any leading and trailing whitespace
 				//skip all blank lines and comment lines
 				if (line.length() == 0 || line.startsWith("#")) continue;
@@ -86,14 +86,14 @@ public class RdfConversionInstructionSetF2Compiler {
 					//prepare a new instruction list for the next variable
 					instructionList = new ArrayList<RdfConversionInstruction>();
 					// the variable name should be in group 1 of the instruction set
-					elementName = m.group(1);
+					elementName = m.group(1).trim();
 				} else {
 					if (line.contains("\\[")) System.err.println("line has [ but pattern did not match.");
 				
 
 					//an instruction is two parts -- instruction type : instruction content
 					String[] flds = line.split(Pattern.quote(":"), 2);
-					System.out.println(flds.length + ", " + flds[0] + ", " + line);
+					//System.out.println(flds.length + ", " + flds[0] + ", " + line);
 					String instructionType = flds[0].trim();
 					String instruction = flds[1].trim();
 				

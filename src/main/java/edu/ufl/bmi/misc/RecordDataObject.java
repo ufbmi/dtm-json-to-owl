@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import edu.ufl.bmi.misc.DataObject;
 
 public class RecordDataObject extends DataObject {
 	HashMap<String, Integer> fieldNameToIndex;

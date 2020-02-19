@@ -53,8 +53,7 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
             String getUrl = (allIdsUrl != null) ? this.allIdsUrl : this.allObjectOfTypeUrl;
             HttpGet httpGet = new HttpGet(getUrl);
 
-            System.out.println("Executing request " + httpGet.getRequestLine());
-
+            //System.out.println("Executing request " + httpGet.getRequestLine());
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 

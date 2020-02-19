@@ -233,8 +233,20 @@ public class GenericRdfConverter {
 	public static void processDataObjects() {
 		try {
 			buildDataObjectProviders();
-			buildInstructionSet();
+			/*
+			 * The first passthrough not only creates IRIs for the particular
+			 *   in reality represented by the data object, but also sifts
+			 *   through various fields in the data object to create search
+			 *   indexes to retrieve those objections in the processing of 
+			 *   instructions.  
+			 *
+			 * This situation creates a dependency, where the first passthrough
+			 *   must occur before building the instruction sets for tranforming
+			 *   the data objects to RDF.
+			 *
+			 */
 			firstPassthroughDataObjects();
+			buildInstructionSet();
 			executeInstructionsAgainstDataObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -341,7 +353,7 @@ public class GenericRdfConverter {
 			iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
     	try {
     		rcis = c.compile();
-    		c1.compile();
+    		rcise = c1.compile();
     	} catch (ParseException pe) {
     		pe.printStackTrace();
     	}
@@ -357,7 +369,8 @@ public class GenericRdfConverter {
 
     	for (DataObject dataObject : dop1) {
     		OWLNamedIndividual rowInd = keyToInd.get(dataObject.getDataElementValue(uniqueIdFieldName));
-       		rcis.executeInstructions(rowInd, dataObject, oos);
+       		//rcis.executeInstructions(rowInd, dataObject, oos);
+       		rcise.executeAllInstructionSets(rowInd, dataObject, oos);
     	}
 
     }
