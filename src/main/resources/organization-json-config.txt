@@ -21,5 +21,5 @@ output_file=midas-cc-organization.owl
 output_file_iri_id=midas_cc_iri_repository
 
 # RDF conversion instructions for the object type
-instructions=./src/main/resources/organization-temp-json-instruction-set.txt
-
+instructions=./src/main/resources/organization-json-instruction-set.txt
+instructions_version=v2

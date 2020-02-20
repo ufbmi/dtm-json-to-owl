@@ -96,6 +96,8 @@ public class GenericRdfConverter {
     static String allObjectIdsUrl;
     static String objectLocatorTxt;
 
+    static String instructionSetVersion;
+
     public static void main(String[] args) {
 		try {
 		    readConfigurationProperties(args[0]);
@@ -139,6 +141,7 @@ public class GenericRdfConverter {
 		outputFileName = p.getProperty("output_file");
 		outputFileIriId = p.getProperty("output_file_iri_id");
 		instructionFileName = p.getProperty("instructions");
+		instructionSetVersion = p.getProperty("instructions_version");
 
 		baseUrl = p.getProperty("api_base_url");
 		allObjectIdsUrl = p.getProperty("get_all_object_ids_url");
@@ -347,30 +350,44 @@ public class GenericRdfConverter {
 	}
 
 	public static void buildInstructionSet() {
-		RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap,
+
+		if (instructionSetVersion.equals("v1")) {
+			RdfConversionInstructionSetCompiler c = new RdfConversionInstructionSetCompiler(instructionFileName, iriMap,
 				odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
-		RdfConversionInstructionSetF2Compiler c1 = new RdfConversionInstructionSetF2Compiler("./src/main/resources/organization-json-instruction-set.txt",
-			iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
-    	try {
-    		rcis = c.compile();
-    		rcise = c1.compile();
-    	} catch (ParseException pe) {
-    		pe.printStackTrace();
-    	}
+			try {
+    			rcis = c.compile();
+    			rcise = null;
+    		} catch (ParseException pe) {
+    			pe.printStackTrace();
+    		}
+		} else if (instructionSetVersion.equals("v2")) {
+			RdfConversionInstructionSetF2Compiler c1 = new RdfConversionInstructionSetF2Compiler("./src/main/resources/organization-json-instruction-set.txt",
+				iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
+			try {
+    			rcise = c1.compile();
+    			rcis = null;
+    		} catch (ParseException pe) {
+    			pe.printStackTrace();
+    		}
+		} else {
+			System.err.println("Instruction set version " + instructionSetVersion + " either " +
+				" doesn't exist or I don't support it.");
+		}
 	}
 
 	protected static void executeInstructionsAgainstDataObjects() throws IOException {
-    	
-
-     	/*
+    	/*
     	 *  For each data object, we want to execute the instruction set against it.
     	 *
     	 */
-
     	for (DataObject dataObject : dop1) {
     		OWLNamedIndividual rowInd = keyToInd.get(dataObject.getDataElementValue(uniqueIdFieldName));
        		//rcis.executeInstructions(rowInd, dataObject, oos);
-       		rcise.executeAllInstructionSets(rowInd, dataObject, oos);
+       		if (rcis != null) {
+       			rcis.executeInstructions(rowInd, dataObject, oos);
+       		} else if (rcise != null) {
+       			rcise.executeAllInstructionSets(rowInd, dataObject, oos);
+       		}
     	}
 
     }
