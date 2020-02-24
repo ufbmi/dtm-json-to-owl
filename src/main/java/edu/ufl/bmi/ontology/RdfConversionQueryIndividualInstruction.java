@@ -43,15 +43,26 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 			IriRepository iriRepository, String iriRepositoryPrefix, String externalFileFieldName, String externalFileRowTypeName, String iriPrefix,
 			String lookupValueFieldName) {
 		super(iriMap, odf);
-		this.variableName = variableName.replace("[","").replace("]","");
+		this.variableName = variableName.replaceFirst("[\\[]","");
+		if (variableName.endsWith("]")) {
+			int len = this.variableName.length();
+			this.variableName = this.variableName.substring(0, len-1);
+		}
+		
+		//this.variableName = (variableName.startsWith("[")) ? variableName.replace("[","").replace("]","") : variableName ;
 		this.iriRepository = iriRepository;
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		this.externalFileFieldName = externalFileFieldName;
 		this.externalFileRowTypeName = externalFileRowTypeName;
 		this.iriPrefix = iriPrefix;
 		this.queryIriPrefix = this.iriPrefix + this.externalFileRowTypeName;
-		this.lookupValueFieldName = lookupValueFieldName.replace("[","").replace("]","");
-		System.out.println(lookupValueFieldName);
+		//this.lookupValueFieldName = lookupValueFieldName.replace("[","").replace("]","");
+		this.lookupValueFieldName = lookupValueFieldName.replaceFirst("[\\[]","");
+		if (lookupValueFieldName.endsWith("]")) {
+			int len = this.lookupValueFieldName.length();
+			this.lookupValueFieldName = this.lookupValueFieldName.substring(0, len-1);
+		}
+		//System.out.println(lookupValueFieldName);
 		//this.lookupValueFieldIndex = fieldNameToIndex.get(this.lookupValueFieldName); 
 	}
 
@@ -82,7 +93,9 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 		IRI externalFieldIri = IRI.create(queryIriPrefix + "/" + externalFileFieldName);
-		repoAnnotations.put(externalFieldIri, dataObject.getDataElementValue(lookupValueFieldName));
+		String lookupValue = dataObject.getDataElementValue(lookupValueFieldName);
+		//System.out.println("query instruction is looking for " + lookupValueFieldName + " == " + lookupValue);
+		repoAnnotations.put(externalFieldIri, lookupValue);
 		IRI externalVarNameIri = IRI.create(queryIriPrefix + "/variableName");
 		repoAnnotations.put(externalVarNameIri, "row individual");
 		

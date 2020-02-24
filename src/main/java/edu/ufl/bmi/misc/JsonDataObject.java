@@ -37,8 +37,13 @@ public class JsonDataObject extends DataObject {
 
 
     protected static String getValueForJsonPath(JsonObject jo, String path) {
-    	if (jo == null) return "";
+    	if (jo == null || path == null) return "";
         String[] pathElems = path.split(Pattern.quote("."), 2);
+        //System.out.println("Path is " + path);
+        //System.out.print("Split path is: " + pathElems[0]);
+        //if (pathElems.length == 2) System.out.print(", " + pathElems[1]);
+        //System.out.println();
+
         //System.out.println("Getting value for path: " + path);
         //System.out.println("path length is " + pathElems.length);
         if (pathElems.length > 1) {
@@ -49,6 +54,7 @@ public class JsonDataObject extends DataObject {
                 String[] arrayInfo = pathElems[0].split(Pattern.quote("["), 2);
                 String elemName = arrayInfo[0];
                 int i = Integer.parseInt(arrayInfo[1].replace("]",""));
+                //System.out.println("getting array entry " + i + " in JSON path.");
                 //System.out.println("\t\t" + elemName + "\t" + i);
                 if (jo.has(elemName))
                 	jo2 = jo.get(elemName).getAsJsonArray().get(i).getAsJsonObject();

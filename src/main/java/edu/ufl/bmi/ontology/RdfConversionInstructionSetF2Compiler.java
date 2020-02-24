@@ -87,6 +87,7 @@ public class RdfConversionInstructionSetF2Compiler {
 					instructionList = new ArrayList<RdfConversionInstruction>();
 					// the variable name should be in group 1 of the instruction set
 					elementName = m.group(1).trim();
+					System.out.println("ELEMENT NAME IS " + elementName);
 				} else {
 					if (line.contains("\\[")) System.err.println("line has [ but pattern did not match.");
 				

@@ -50,7 +50,9 @@ public class RdfConversionInstructionSetExecutor {
 		Set<String> elements = dataObject.getElementKeySet();
 		System.out.println(this.orderedListOfElements.size() + " instruction sets to process.");
 		for (String elementName : this.orderedListOfElements) {
-			if (elements.contains(elementName)) {
+			String value = dataObject.getDataElementValue(elementName);
+			//if (elements.contains(elementName)) {
+			if (value != null && value.length() > 0) {
 				//System.err.print("Executing instructions for: " + elementName + "...");
 				RdfConversionInstructionSet rcis = instructionsByElementName.get(elementName);
 				rcis.executeInstructions(rowIndividual, dataObject, oo, variables);

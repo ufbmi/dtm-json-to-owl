@@ -38,3 +38,7 @@ object-property-expression: researchgate	is about	[row-individual]
 new-individual: ncbi	website	label	"NCBI site of: "+[firstName]+" "+[middleInitials]+" "+[lastName]
 annotation: ncbi	hasURL	[ncbiUrl]
 object-property-expression: ncbi	is about	[row-individual]
+
+[personAffiliations[0].affiliation.organizationID]
+query-individual: primary-affiliated-org	organization	id	[personAffiliations[0].affiliation.organizationID]
+object-property-expression: [row-individual]	member of	primary-affiliated-org
