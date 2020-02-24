@@ -1,0 +1,25 @@
+object_type=human
+
+# data object provider information
+data_provider_type=json api
+api_base_url=https://members.midasnetwork.us/midascontacts/api/
+get_all_object_ids_url=https://members.midasnetwork.us/midascontacts/api/people/ids
+human=people
+
+# information about fields / elements in the data objects
+unique_key_fields=id,personID
+unique_id_field=id
+
+# IRI information
+iri_prefix=http://www.pitt.edu/midascc_
+iri_counter=100
+iri_id_length=8
+iri_lookup=./src/main/resources/iris.txt
+
+# output file information
+output_file=midas-cc-people.owl
+output_file_iri_id=midas_cc_iri_repository
+
+# RDF conversion instructions for the object type
+instructions=./src/main/resources/people-json-instruction-set.txt
+instructions_version=v2

@@ -155,3 +155,6 @@ member of	http://purl.obolibrary.org/obo/RO_0002350	object property
 gender role	http://purl.obolibrary.org/obo/OMRSE_00000007	class
 male	http://purl.obolibrary.org/obo/OMRSE_00000008	class
 female	http://purl.obolibrary.org/obo/OMRSE_00000009	class
+personal name	http://purl.obolibrary.org/obo/IAO_0020015	class
+family name	http://purl.obolibrary.org/obo/IAO_0020017	class
+given name	http://purl.obolibrary.org/obo/IAO_0020016	class

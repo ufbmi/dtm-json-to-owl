@@ -101,6 +101,16 @@ public class RdfConversionInstructionSetF2Compiler {
 					instructionList.add(rci);
 				}
 			}
+			/*
+			 *  Needed to get the last instruction set read in.  Can probably make this
+			 *    more elegant by switching while() loop to do...while() loop.
+			 */
+			boolean added = rcise.addInstructionSetForElement(elementName, new RdfConversionInstructionSet(instructionList));
+			if (!added) {
+				System.err.println("instructions for element " + elementName + " were not added to " +
+					"the instruction set execution engine.");
+			}
+
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

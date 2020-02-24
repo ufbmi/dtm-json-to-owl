@@ -361,7 +361,7 @@ public class GenericRdfConverter {
     			pe.printStackTrace();
     		}
 		} else if (instructionSetVersion.equals("v2")) {
-			RdfConversionInstructionSetF2Compiler c1 = new RdfConversionInstructionSetF2Compiler("./src/main/resources/organization-json-instruction-set.txt",
+			RdfConversionInstructionSetF2Compiler c1 = new RdfConversionInstructionSetF2Compiler(instructionFileName,
 				iriMap, odf, uniqueFieldsMapValuesToInd, iriRepository, iriRepositoryPrefix, uniqueIdFieldName, iriPrefix);
 			try {
     			rcise = c1.compile();
