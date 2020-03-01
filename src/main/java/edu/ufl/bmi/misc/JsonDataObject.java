@@ -1,5 +1,7 @@
 package edu.ufl.bmi.misc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -99,4 +101,80 @@ public class JsonDataObject extends DataObject {
 	public Set<String> getElementKeySet() {
 		return jo.keySet();
 	}
+
+    @Override
+    public String[] getValuesForElement(String elementName) {
+        ArrayList<String> values = new ArrayList<String>();
+        getValuesForJsonPath(jo, elementName, values);
+        return values.toArray(new String[values.size()]);
+    }
+
+    protected static void getValuesForJsonPath(JsonObject jo, String path, List<String> values) {
+        if (jo == null || path == null) return;
+        String[] pathElems = path.split(Pattern.quote("."), 2);
+        //System.out.println("Path is " + path);
+        //System.out.print("Split path is: " + pathElems[0]);
+        //if (pathElems.length == 2) System.out.print(", " + pathElems[1]);
+        //System.out.println();
+
+        //System.out.println("Getting value for path: " + path);
+        //System.out.println("path length is " + pathElems.length);
+        if (pathElems.length > 1) {
+            //if pathElems[0] has bracket, then need to get array instead of object
+            //  and return ith object in array where i is index inside bracket
+            JsonObject jo2;
+            if (pathElems[0].contains("[")) {
+                String[] arrayInfo = pathElems[0].split(Pattern.quote("["), 2);
+                String elemName = arrayInfo[0];
+                String indexTxt = arrayInfo[1].replace("]","");
+                
+                //System.out.println("getting array entry " + i + " in JSON path.");
+                //System.out.println("\t\t" + elemName + "\t" + i);
+                if (jo.has(elemName)) {
+                    if (indexTxt != null && !indexTxt.isEmpty()) {
+                        int i = Integer.parseInt(arrayInfo[1].replace("]",""));
+                        jo2 = jo.get(elemName).getAsJsonArray().get(i).getAsJsonObject();
+                        getValuesForJsonPath(jo2, pathElems[1], values);
+                    } else {
+                        JsonArray ja = jo.get(elemName).getAsJsonArray();
+                        for (JsonElement je : ja) {
+                            if (je.isJsonPrimitive()) {
+                                values.add(je.getAsString());
+                            } else if (je.isJsonObject()) {
+                                jo2 = je.getAsJsonObject();
+                                getValuesForJsonPath(jo2, pathElems[1], values);
+                            }
+                        }
+                    }
+                } else 
+                    jo2 = null;
+                //System.out.println
+            } else {
+                if (jo.has(pathElems[0])) {
+                    jo2 = jo.get(pathElems[0]).getAsJsonObject();
+                    getValuesForJsonPath(jo2, pathElems[1], values);
+                }
+                else jo2 = null;
+            }
+        } else if (pathElems.length == 1) {
+            //if pathElems[0] has bracket, then need to get array instead of string
+            //  and return ith string in array where i is index inside bracket
+            String value = "";
+            if (pathElems[0].contains("[")) {
+                String[] arrayInfo = pathElems[0].split(Pattern.quote("["), 2);
+                String elemName = arrayInfo[0];
+                int i = Integer.parseInt(arrayInfo[1].replace("]",""));
+                value = jo.get(elemName).getAsJsonArray().get(i).getAsString();
+            } else {
+                if (jo.has(pathElems[0])) {
+                    JsonElement je = jo.get(pathElems[0]);
+                    if (!je.isJsonNull()) {
+                        value = (je.isJsonPrimitive()) ? je.getAsString() : je.toString();
+                    }
+                }
+            }
+            values.add(value);
+        } else
+            return;
+    }
 }

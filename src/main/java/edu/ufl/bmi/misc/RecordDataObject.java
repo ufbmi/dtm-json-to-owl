@@ -11,7 +11,8 @@ public class RecordDataObject extends DataObject {
 	HashMap<String, Integer> fieldNameToIndex;
 	public static String DEFAULT_FIELD_DELIMITER = "\t";
 	String[] fields;
-	String delimiter;
+	String fieldDelimiter;
+	String subFieldDelimiter;
 	boolean cleanFieldValues;
 
 	public RecordDataObject(List<String> orderedFieldNameList, String rawData, String keyName) {
@@ -19,7 +20,7 @@ public class RecordDataObject extends DataObject {
 		this.dot = DataObjectType.TABLE_RECORD;
 
 		//default settings
-		this.delimiter = DEFAULT_FIELD_DELIMITER;
+		this.fieldDelimiter = DEFAULT_FIELD_DELIMITER;
 		this.cleanFieldValues = true;
 
 		setupFieldIndex(orderedFieldNameList);
@@ -30,7 +31,7 @@ public class RecordDataObject extends DataObject {
 		super(rawData, keyName);
 		this.dot = DataObjectType.TABLE_RECORD;
 
-		this.delimiter = delimiter;
+		this.fieldDelimiter = delimiter;
 		this.cleanFieldValues = cleanupFields;
 
 		setupFieldIndex(orderedFieldNameList);
@@ -42,7 +43,7 @@ public class RecordDataObject extends DataObject {
 		this.dot = DataObjectType.TABLE_RECORD;
 
 		//default settings
-		this.delimiter = DEFAULT_FIELD_DELIMITER;
+		this.fieldDelimiter = DEFAULT_FIELD_DELIMITER;
 		this.cleanFieldValues = true;
 
 		this.fieldNameToIndex = fieldNameToIndex;
@@ -54,7 +55,7 @@ public class RecordDataObject extends DataObject {
 		this.dot = DataObjectType.TABLE_RECORD;
 
 		//default settings
-		this.delimiter = delimiter;
+		this.fieldDelimiter = delimiter;
 		this.cleanFieldValues = cleanupFields;
 
 		this.fieldNameToIndex = fieldNameToIndex;
@@ -71,7 +72,7 @@ public class RecordDataObject extends DataObject {
 	}
 
 	protected void splitRecordIntoFields() {
-		fields = rawData.split(Pattern.quote(delimiter), -1);
+		fields = rawData.split(Pattern.quote(fieldDelimiter), -1);
 		//if (fields.length != fieldNameToIndex.size())
 		//	throw new IllegalArgumentException("Number of fields in data does not match number of fields in schema: " +
 		//		fields.length + " vs. schema says " + fieldNameToIndex.size() + "\n" + rawData);
@@ -80,6 +81,12 @@ public class RecordDataObject extends DataObject {
 				fields[i] = cleanupValue(fields[i]);
 			}
 		}
+	}
+
+	public void setSubfieldDelimiter(String subFieldDelimiter) {
+		this.subFieldDelimiter = subFieldDelimiter.trim();
+		if (this.fieldDelimiter.equals(this.subFieldDelimiter))
+			throw new IllegalArgumentException("Field delimiter and subfield delimiter must be different.");
 	}
 
 	public String cleanupValue(String fieldValue) {
@@ -101,5 +108,18 @@ public class RecordDataObject extends DataObject {
 	@Override
 	public Set<String> getElementKeySet() {
 		return fieldNameToIndex.keySet();
+	}
+
+	@Override
+	public String[] getValuesForElement(String elementName) {
+		if (subFieldDelimiter != null && !subFieldDelimiter.isEmpty()) {
+			String concatVals = getDataElementValue(elementName);
+			String[] vals = concatVals.split(Pattern.quote(subFieldDelimiter));
+			return vals;
+		} else {
+			String[] vals = new String[1];
+			vals[0] = getDataElementValue(elementName);
+			return vals;
+		}
 	}
 }

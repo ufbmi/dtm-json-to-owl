@@ -24,4 +24,5 @@ public abstract class DataObject {
 	public abstract Set<String> getElementKeySet();
 	public abstract DataObjectType getDataObjectType();
 
+	public abstract String[] getValuesForElement(String elementName);
 }
