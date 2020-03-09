@@ -125,6 +125,8 @@ public class RdfConversionInstructionSetF2Compiler {
 			ioe.printStackTrace();
 		}
 
+		rcise.initializeVariables(this.iriMap, this.odf);
+
 		return rcise;
 	}
 

@@ -3,17 +3,21 @@ package edu.ufl.bmi.ontology;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.IRI;
 
 import edu.ufl.bmi.misc.DataObject;
+import edu.ufl.bmi.misc.IriLookup;
 
 public class RdfConversionInstructionSetExecutor {
 	List<String> orderedListOfElements;
 	HashMap<String, RdfConversionInstructionSet> instructionsByElementName;
+	HashMap<String, OWLNamedIndividual> variables;
 
 	public RdfConversionInstructionSetExecutor() {
 		this.orderedListOfElements = new ArrayList<String>();
@@ -45,7 +49,7 @@ public class RdfConversionInstructionSetExecutor {
 		 *   any elements that are present for which we did not execute instructions...
 		 *
 		 */
-		HashMap<String, OWLNamedIndividual> variables = new HashMap<String, OWLNamedIndividual>();
+		if (this.variables == null) this.variables = new HashMap<String, OWLNamedIndividual>();
 
 		Set<String> elements = dataObject.getElementKeySet();
 		System.out.println(this.orderedListOfElements.size() + " instruction sets to process.");
@@ -69,6 +73,20 @@ public class RdfConversionInstructionSetExecutor {
 		}
 
 		return true;  //not sure why I put this here, so TODO is reconsider.
+	}
+
+	public void initializeVariables(IriLookup iriMap, OWLDataFactory odf) {
+		this.variables = new HashMap<String, OWLNamedIndividual>();
+		Set<Map.Entry<String,IRI>> indsAndIris = iriMap.individualEntrySet();
+		for (Map.Entry<String,IRI> indAndIri : indsAndIris) {
+			String variableName = indAndIri.getKey();
+			IRI iri = indAndIri.getValue();
+			/*
+			 *  This is admittedly a weird dependency on GenericRdfConverter...
+			 */
+			OWLNamedIndividual oni = GenericRdfConverter.createNamedIndividualWithIriAndType(iri, iriMap.getTypeForIndividual(variableName));
+			this.variables.put(variableName, oni);
+		}
 	}
 
 }
