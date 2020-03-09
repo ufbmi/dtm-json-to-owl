@@ -40,6 +40,7 @@ public class RdfConversionInstructionSetF2Compiler {
 	String iriPrefix;
 
 	static final String VARIABLE_PATTERN = "\\[(.*)\\]";
+	static final String FOR_EACH_VARIABLE_PATTERN = "foreach \\[(.*)\\]";
 
 	public RdfConversionInstructionSetF2Compiler(String fName, IriLookup iriMap, OWLDataFactory odf, 
 		HashMap<String, HashMap<String, OWLNamedIndividual>> searchIndexes, IriRepository iriRepository, 
@@ -62,22 +63,29 @@ public class RdfConversionInstructionSetF2Compiler {
 			String line;
 
 			ArrayList<RdfConversionInstruction> instructionList = null; 
-			Pattern p = Pattern.compile(VARIABLE_PATTERN);
+			Pattern variablePattern = Pattern.compile(VARIABLE_PATTERN);
+			Pattern foreachPattern = Pattern.compile(FOR_EACH_VARIABLE_PATTERN);
+
 			String elementName = "";
+			boolean multiple = false;
 			while((line=lnr.readLine())!=null) {
 				//System.err.println(line);
 				line = line.trim();  //ignore any leading and trailing whitespace
 				//skip all blank lines and comment lines
 				if (line.length() == 0 || line.startsWith("#")) continue;
 
-				Matcher m = p.matcher(line);
+				Matcher mVariable = variablePattern.matcher(line);
+				Matcher m = (mVariable.matches()) ? mVariable : foreachPattern.matcher(line);
 				//if the line constitutes a variable name, then we're starting a new section
 				if (m.matches()) {
 					//the first time through the current variable name is empty, so only do 
 					// this section if we're changing variable names
 					if (elementName.length() > 0) {
 						//save away the instruction set in the hash by its associated variable name
-						boolean added = rcise.addInstructionSetForElement(elementName, new RdfConversionInstructionSet(instructionList));
+						RdfConversionInstructionSet s = (multiple) ? new RdfConversionMultipleValueConversionInstructionSet(elementName, instructionList) :
+																	new RdfConversionInstructionSet(instructionList);
+						boolean added = rcise.addInstructionSetForElement(elementName, s);
+						multiple = !mVariable.matches();
 						if (!added) {
 							System.err.println("instructions for element " + elementName + " were not added to " +
 								"the instruction set execution engine.");
@@ -91,7 +99,6 @@ public class RdfConversionInstructionSetF2Compiler {
 				} else {
 					if (line.contains("\\[")) System.err.println("line has [ but pattern did not match.");
 				
-
 					//an instruction is two parts -- instruction type : instruction content
 					String[] flds = line.split(Pattern.quote(":"), 2);
 					//System.out.println(flds.length + ", " + flds[0] + ", " + line);
@@ -106,7 +113,9 @@ public class RdfConversionInstructionSetF2Compiler {
 			 *  Needed to get the last instruction set read in.  Can probably make this
 			 *    more elegant by switching while() loop to do...while() loop.
 			 */
-			boolean added = rcise.addInstructionSetForElement(elementName, new RdfConversionInstructionSet(instructionList));
+			RdfConversionInstructionSet s = (multiple) ? new RdfConversionMultipleValueConversionInstructionSet(elementName, instructionList) :
+														new RdfConversionInstructionSet(instructionList);
+			boolean added = rcise.addInstructionSetForElement(elementName, s);
 			if (!added) {
 				System.err.println("instructions for element " + elementName + " were not added to " +
 					"the instruction set execution engine.");

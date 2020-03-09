@@ -25,4 +25,5 @@ public abstract class DataObject {
 	public abstract DataObjectType getDataObjectType();
 
 	public abstract String[] getValuesForElement(String elementName);
+	public abstract DataObject[] getValuesAsDataObjectsForElement(String elementName);	
 }

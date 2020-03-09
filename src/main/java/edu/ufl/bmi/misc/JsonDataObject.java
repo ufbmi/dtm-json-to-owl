@@ -25,7 +25,7 @@ public class JsonDataObject extends DataObject {
 	}
 
 	public JsonDataObject(JsonObject jo, String keyName) {
-		super(jo.getAsString(), keyName);
+		super(jo.toString(), keyName);
 		this.jo = jo;
 		this.dot = DataObjectType.JSON;
 		this.cleanFieldValues = true;
@@ -176,5 +176,38 @@ public class JsonDataObject extends DataObject {
             values.add(value);
         } else
             return;
+    }
+
+    @Override
+    public DataObject[] getValuesAsDataObjectsForElement(String elementName) {
+    	JsonElement je = jo.get(elementName);
+    	JsonDataObject[] jdos = null;
+    	if (je.isJsonArray()) {
+    		JsonArray ja = je.getAsJsonArray();
+    		jdos = new JsonDataObject[ja.size()];
+    		int i=0;
+    		for (JsonElement jei : ja) {
+    			JsonObject joLocal = null;
+    			if (jei.isJsonPrimitive()) {
+    				joLocal = new JsonObject();
+    				joLocal.addProperty(elementName, jei.getAsString());
+    			} else if (jei.isJsonObject()) {
+    				joLocal = jei.getAsJsonObject();
+    			} 
+    			jdos[i++] = new JsonDataObject(joLocal, "id");
+    		}
+    		return jdos;
+    	} else if (je.isJsonObject()) {
+    		JsonObject joLocal = je.getAsJsonObject();
+    		jdos = new JsonDataObject[1];
+    		jdos[0] = new JsonDataObject(joLocal, "id");
+    		return jdos;
+    	} else if (je.isJsonPrimitive()) {
+    		jdos = new JsonDataObject[1];
+    		jdos[0] = this;
+ 			return jdos;
+    	} else {
+    		return jdos;
+    	}
     }
 }

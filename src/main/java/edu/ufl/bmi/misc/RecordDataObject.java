@@ -122,4 +122,17 @@ public class RecordDataObject extends DataObject {
 			return vals;
 		}
 	}
+
+	@Override
+	public DataObject[] getValuesAsDataObjectsForElement(String elementName) {
+		String[] vals = getValuesForElement(elementName);
+		RecordDataObject[] rdos = new RecordDataObject[vals.length];
+		HashMap<String, Integer> localFieldNameToIndex = new HashMap<String, Integer>();
+		localFieldNameToIndex.put(elementName, Integer.valueOf(0));
+		int i = 0;
+		for (String val : vals) {
+			rdos[i++] = new RecordDataObject(fieldNameToIndex, val, elementName, this.subFieldDelimiter, this.cleanFieldValues);
+		}
+		return rdos;
+	}
 }

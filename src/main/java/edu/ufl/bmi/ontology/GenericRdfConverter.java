@@ -319,14 +319,6 @@ public class GenericRdfConverter {
 			//System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
 			String keyValue = dataObject.getDataElementValue(uniqueIdFieldName);
 
-			//totally temporary testing thing
-			String[] affiliationIds = dataObject.getValuesForElement("personAffiliations[].affiliation.organizationID");
-			System.out.print(affiliationIds.length + " affiliations: ");
-			for (String affiliationId : affiliationIds) {
-				System.out.print(affiliationId + "\t");
-			}
-			System.out.println();
-
 			repoAnnotations.put(uniqueIdFieldIri, keyValue);
 			Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
 			int resultCount = resultSet.size();

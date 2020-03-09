@@ -42,3 +42,14 @@ object-property-expression: ncbi	is about	[row-individual]
 [personAffiliations[0].affiliation.organizationID]
 query-individual: primary-affiliated-org	organization	id	[personAffiliations[0].affiliation.organizationID]
 object-property-expression: [row-individual]	member of	primary-affiliated-org
+
+foreach [personAffiliations]
+# say that the person has a member of relation to the organization
+query-individual: primary-affiliated-org	organization	id	[affiliation.organizationID]
+object-property-expression: [row-individual]	member of	primary-affiliated-org
+# say that the person has a role with that organization
+new-individual: role-in-org	role	label	"role with "+[affiliation.name]
+object-property-expression: [row-individual]	bearer	role-in-org
+annotation: role-in-org	title	[title]
+annotation: role-in-org	comment	"isPrimaryAffiliation: "+[primaryAffiliation]
+# 
