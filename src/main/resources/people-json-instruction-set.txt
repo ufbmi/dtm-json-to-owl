@@ -39,10 +39,6 @@ new-individual: ncbi	website	label	"NCBI site of: "+[firstName]+" "+[middleIniti
 annotation: ncbi	hasURL	[ncbiUrl]
 object-property-expression: ncbi	is about	[row-individual]
 
-[personAffiliations[0].affiliation.organizationID]
-query-individual: primary-affiliated-org	organization	id	[personAffiliations[0].affiliation.organizationID]
-object-property-expression: [row-individual]	member of	primary-affiliated-org
-
 foreach [personAffiliations]
 # say that the person has a member of relation to the organization
 query-individual: primary-affiliated-org	organization	id	[affiliation.organizationID]
@@ -52,4 +48,7 @@ new-individual: role-in-org	role	label	"role with "+[affiliation.name]
 object-property-expression: [row-individual]	bearer	role-in-org
 annotation: role-in-org	title	[title]
 annotation: role-in-org	comment	"isPrimaryAffiliation: "+[primaryAffiliation]
-# 
+# store the affiliation ID as denoting the role
+new-individual: role-in-org-id	identifier	label	[personAffiliationID]
+object-property-expression: role-in-org-id	denotes	role-in-org
+annotation: role-in-org-id	comment	"personAffiliationID: "+[personAffiliationID]
