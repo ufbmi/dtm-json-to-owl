@@ -1,10 +1,12 @@
 package edu.ufl.bmi.ontology;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -77,7 +79,12 @@ public class RdfConversionInstructionSetExecutor {
 
 	public void initializeVariables(IriLookup iriMap, OWLDataFactory odf) {
 		this.variables = new HashMap<String, OWLNamedIndividual>();
-		Set<Map.Entry<String,IRI>> indsAndIris = iriMap.individualEntrySet();
+		setupIndividualsAsVariables(iriMap);
+		setupSystemVariables(iriMap);
+	}
+
+	protected void setupIndividualsAsVariables(IriLookup iriMap) {
+			Set<Map.Entry<String,IRI>> indsAndIris = iriMap.individualEntrySet();
 		for (Map.Entry<String,IRI> indAndIri : indsAndIris) {
 			String variableName = indAndIri.getKey();
 			IRI iri = indAndIri.getValue();
@@ -89,4 +96,57 @@ public class RdfConversionInstructionSetExecutor {
 		}
 	}
 
+	protected void setupSystemVariables(IriLookup iriMap) {
+		Calendar c = Calendar.getInstance();
+		Calendar cZ = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		String year = Integer.toString(c.get(Calendar.YEAR));
+		String month = Integer.toString(c.get(Calendar.MONTH));  month = (month.length()<2) ? "0"+month : month;
+		String day = Integer.toString(c.get(Calendar.DAY_OF_MONTH)+1);  day = (day.length()<2) ? "0"+day : day;
+		long zoneOffset = c.get(Calendar.ZONE_OFFSET);
+		long zoneOffsetHour = zoneOffset/3600000L;
+		long dstOffset = c.get(Calendar.DST_OFFSET);
+		long dstOffsetHour = dstOffset/3600000L;
+		long totalOffset = zoneOffsetHour + dstOffsetHour;
+		StringBuilder tzBuilder = new StringBuilder();
+		if (totalOffset == 0) tzBuilder.append("Z");
+		else {
+			if (totalOffset < 0) {
+				tzBuilder.append("-");
+				totalOffset = -totalOffset;
+			}
+			if (totalOffset<10)
+				tzBuilder.append("0");
+			tzBuilder.append(totalOffset);
+			tzBuilder.append(":00");
+		}
+		String tzTxt = tzBuilder.toString();
+
+		String date = year+"-"+month+"-"+day + tzTxt;
+		System.out.println("zone offset: " + zoneOffset + ", zone offset in hours: " + zoneOffsetHour);
+		System.out.println("DST offset: " + dstOffset + ", dst offset in hours: " + dstOffsetHour);
+		//this.variables.put("sysYear", year);
+		//this.variables.put("sysMonth", month);
+		//this.variables.put("sysDay", day);
+		//this.variables.put("sysDate", date);
+
+		OWLNamedIndividual oniSysDateLocal = GenericRdfConverter.createNamedIndividualWithIriAndType(
+			IRI.create("http://time.org/gregorian/"+date), iriMap.lookupClassIri("temporal interval"));
+		this.variables.put("[sysDateUrlLocal]", oniSysDateLocal);  //http://time.org/
+
+		String yearZ = Integer.toString(cZ.get(Calendar.YEAR));
+		String monthZ = Integer.toString(cZ.get(Calendar.MONTH)); monthZ = (monthZ.length()<2) ? "0"+monthZ : monthZ;
+		String dayZ = Integer.toString(cZ.get(Calendar.DAY_OF_MONTH)+1);  dayZ = (dayZ.length()<2) ? "0"+dayZ : dayZ;
+
+		String dateZ = yearZ+"-"+monthZ+"-"+dayZ+"Z";
+		//this.variables.put("sysYearZ", yearZ);
+		//this.variables.put("sysMonthZ", monthZ);
+		//this.variables.put("sysDayZ", dayZ);
+		//this.variables.put("sysDateZ", dateZ);
+		OWLNamedIndividual oniSysDateZ = GenericRdfConverter.createNamedIndividualWithIriAndType(
+			IRI.create("http://time.org/gregorian/"+dateZ), iriMap.lookupClassIri("temporal interval"));
+		this.variables.put("[sysDateUrl]", oniSysDateZ);  //http://time.org/
+		System.out.println(oniSysDateZ);
+
+		//this.variables.put("sysTimeMillis", Long.toString(System.currentTimeMillis()));
+	}
 }

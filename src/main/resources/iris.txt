@@ -172,3 +172,6 @@ ncbi website	https://www.ncbi.nlm.nih.gov/	individual	website
 github website	https://www.github.com/	individual	website
 researchgate website	https://www.researchgate.net/	individual	website
 google scholar website	https://scholar.google.com/	individual	website
+document act	http://purl.obolibrary.org/obo/IAO_0021001	class
+exists at	http://purl.obolibrary.org/obo/BFO_0000108	object property
+linkedin website	https://www.linkedin.com/	individual	website

@@ -46,6 +46,7 @@ object-property-expression: [row-individual]	proper continuant part	member-of
 new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]
 annotation: organization-linked-in	hasURL	[linkedInURL]
 object-property-expression: organization-linked-in	is about	[row-individual]
+object-property-expression: organization-linked-in	member of	linkedin website
 
 [socialMedia.githubIdentifier]
 new-individual: github-id	identifier	label	[githubIdentifier]
