@@ -36,7 +36,7 @@ developer	http://purl.obolibrary.org/obo/BFO_0000040	class
 editor preferred	http://purl.obolibrary.org/obo/IAO_0000111	annotation
 is contact information about	http://purl.obolibrary.org/obo/OMIABIS_0000042	object property
 email address	http://purl.obolibrary.org/obo/IAO_0000429	class
-olympus	http://www.pitt.edu/obc/IDE_0000004098	individual	computer cluster
+olympus	http://www.pitt.edu/obc/IDE_0000004098	individual	computer cluster	Olympus computer cluster at Pittsburgh Supercomputing Center
 compute cluster	http://purl.obolibrary.org/obo/OBI_0001092	class
 executableConcretization	http://purl.obolibrary.org/obo/IAO_0000015	class
 olympusConc	http://purl.obolibrary.org/obo/IAO_0000015	class
@@ -96,8 +96,8 @@ infectious disease scenario	http://purl.obolibrary.org/obo/APOLLO_SV_00000184	cl
 version number	http://purl.obolibrary.org/obo/IAO_0000129	class
 aggregate of disease courses	http://purl.obolibrary.org/obo/APOLLO_SV_00000578	class
 simulates	http://purl.obolibrary.org/obo/APOLLO_SV_00000067	object property
-mdc	http://www.pitt.edu/obc/IDE_ARTICLES_12000070095	individual	dataset
-mdc website	http://www.pitt.edu/obc/IDE_ARTICLES_12000070096	individual	website
+mdc	http://www.pitt.edu/obc/IDE_ARTICLES_12000070095	individual	dataset	MIDAS Digital Commons
+mdc website	http://www.pitt.edu/obc/IDE_ARTICLES_12000070096	individual	website	MIDAS Digital Commons Website
 dataset	http://purl.obolibrary.org/obo/IAO_0000100	class
 forecast	http://purl.obolibrary.org/obo/APOLLO_SV_00000581	class
 nowcast	http://purl.obolibrary.org/obo/APOLLO_SV_00000582	class
@@ -108,7 +108,7 @@ case count	http://purl.obolibrary.org/obo/APOLLO_SV_00000497	class
 epi case count	http://purl.obolibrary.org/obo/APOLLO_SV_00000498	class
 start week	http://purl.obolibrary.org/obo/APOLLO_SV_00000575	class
 time datum	http://purl.obolibrary.org/obo/IAO_0000416	class
-week	http://purl.obolibrary.org/obo/UO_0000034	individual	time unit
+week	http://purl.obolibrary.org/obo/UO_0000034	individual	time unit	week
 sim time step spec	http://purl.obolibrary.org/obo/APOLLO_SV_00000068	class
 has value specification	http://purl.obolibrary.org/obo/OBI_0001938	object property
 scalar value specification	http://purl.obolibrary.org/obo/OBI_0001931	class
@@ -168,10 +168,11 @@ President	http://purl.obolibrary.org/obo/RoleO_0000673	class
 Vice President	http://purl.obolibrary.org/obo/RoleO_0000571	class
 time unit	http://purl.obolibrary.org/obo/UO_0000003	class
 computer cluster	http://purl.obolibrary.org/obo/OBI_0001092	class
-ncbi website	https://www.ncbi.nlm.nih.gov/	individual	website
-github website	https://www.github.com/	individual	website
-researchgate website	https://www.researchgate.net/	individual	website
-google scholar website	https://scholar.google.com/	individual	website
+ncbi website	https://www.ncbi.nlm.nih.gov/	individual	website	NCBI Website
+github website	https://www.github.com/	individual	website	GitHub
+researchgate website	https://www.researchgate.net/	individual	website	ResearchGate
+google scholar website	https://scholar.google.com/	individual	website	Google Scholar
 document act	http://purl.obolibrary.org/obo/IAO_0021001	class
 exists at	http://purl.obolibrary.org/obo/BFO_0000108	object property
-linkedin website	https://www.linkedin.com/	individual	website
+linkedin website	https://www.linkedin.com/	individual	website	LinkedIn
+twitter	https://www.twitter.com/	individual	website	Twitter

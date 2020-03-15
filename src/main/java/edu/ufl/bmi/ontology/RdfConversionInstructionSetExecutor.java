@@ -91,7 +91,9 @@ public class RdfConversionInstructionSetExecutor {
 			/*
 			 *  This is admittedly a weird dependency on GenericRdfConverter...
 			 */
-			OWLNamedIndividual oni = GenericRdfConverter.createNamedIndividualWithIriAndType(iri, iriMap.getTypeForIndividual(variableName));
+			//createNamedIndividualWithIriTypeAndLabel(IRI iri, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel)
+			OWLNamedIndividual oni = GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(iri, iriMap.getTypeForIndividual(variableName),
+				iriMap.getLabelForIndividual(variableName));
 			this.variables.put(variableName, oni);
 		}
 	}

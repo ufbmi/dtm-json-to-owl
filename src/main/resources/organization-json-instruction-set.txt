@@ -43,18 +43,19 @@ query-individual: member-of	organization	id	[memberOfOrganization.id]
 object-property-expression: [row-individual]	proper continuant part	member-of
 
 [socialMedia.linkedInURL]
-new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]
-annotation: organization-linked-in	hasURL	[linkedInURL]
+new-individual: organization-linked-in	website	label	"LinkedIn web page for "+[name]	iri=[socialMedia.linkedInURL]
+annotation: organization-linked-in	hasURL	[socialMedia.linkedInURL]
 object-property-expression: organization-linked-in	is about	[row-individual]
 object-property-expression: organization-linked-in	member of	linkedin website
 
 [socialMedia.githubIdentifier]
-new-individual: github-id	identifier	label	[githubIdentifier]
+new-individual: github-id	identifier	label	[socialMedia.githubIdentifier]
 annotation: github-id	comment	"GitHub identifier for "+[name]
 object-property-expression: github-id	denotes	[row-individual]
+object-property-expression: github-id	member of	github website
 
-# Once we have the class IRI needed
-# [socialMedia.twitterHandle]  
-# new-individual: organization-twitter-handle	???	label	[socialMedia.twitterHandle]
-# annotation: organization-twitter-handle	comment	"Twitter handle for "+[name]
-# object-property-expression: organization-twitter-handle	is contact information about	[row-individual]
+[socialMedia.twitterHandle]  
+new-individual: organization-twitter-handle	identifier	label	[socialMedia.twitterHandle]
+annotation: organization-twitter-handle	comment	"Twitter handle for "+[name]
+object-property-expression: organization-twitter-handle	is contact information about	[row-individual]
+object-property-expression: organization-twitter-handle	member of	twitter

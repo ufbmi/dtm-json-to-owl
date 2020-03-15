@@ -146,22 +146,29 @@ public class RdfConversionInstructionSetF2Compiler {
 				variableName, annotationPropertyTxt, annotationValueInstruction);
 			return rcai;
 		} else if (instructionType.equals("new-individual")) {
-			if (flds.length != 4 && flds.length != 5) throw new ParseException(
+			if (flds.length != 4 && flds.length != 5 && flds.length!=6) throw new ParseException(
 				"new individual instruction must have four, tab-delimited fields: " + instruction, 2);
 			String variableName = flds[0].trim();
 			String classIriTxt = flds[1].trim();
 			String annotationPropertyTxt = flds[2].trim();
 			String annotationValueInstruction = flds[3].trim();
-			RdfConversionNewIndividualInstruction rcnii = null;
-			if (flds.length == 4) {
-				rcnii = new RdfConversionNewIndividualInstruction(
+			RdfConversionNewIndividualInstruction rcnii = new RdfConversionNewIndividualInstruction(
 					iriMap, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction, 
 					iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
-			} else if (flds.length == 5) {
+			if (flds.length == 5) {
+				String fieldFive = flds[4].trim();
+				if (fieldFive.startsWith("iri=")) {
+					String iriTxt = fieldFive.substring(4);  System.out.println("individual IRI assignment = " + iriTxt);
+					rcnii.setIriSourceVariableName(iriTxt);
+				} else {
+					rcnii.setCreationConditionLogic(fieldFive);
+				}
+			} else if (flds.length == 6) {
 				String creationConditionLogic = flds[4].trim();
-				rcnii = new RdfConversionNewIndividualInstruction(
-					iriMap, odf, variableName, classIriTxt, annotationPropertyTxt, annotationValueInstruction,
-					creationConditionLogic, iriRepository, iriRepositoryPrefix, uniqueIdFieldName);
+				String iriField = flds[5].trim();
+				String iriTxt = (iriField.startsWith("iri=")) ? iriField.substring(4) : "";
+				rcnii.setCreationConditionLogic(creationConditionLogic);
+				rcnii.setIriSourceVariableName(iriTxt);
 			}
 			return rcnii;
 		} else if (instructionType.equals("data-property-expression")) {

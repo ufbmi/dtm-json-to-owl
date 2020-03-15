@@ -18,6 +18,7 @@ public class IriLookup {
     HashMap<String, IRI> annPropIriMap;
     HashMap<String, IRI> individIriMap;
     HashMap<String, IRI> individTypeIriMap;
+    HashMap<String, String> individLabelMap;
     HashMap<String, IRI> dataPropIriMap;
 
     String fname;
@@ -29,6 +30,7 @@ public class IriLookup {
 		annPropIriMap = new HashMap<String, IRI>();
 		individIriMap = new HashMap<String, IRI>();
 		individTypeIriMap = new HashMap<String, IRI>();
+		individLabelMap = new HashMap<String, String>();
 		dataPropIriMap = new HashMap<String, IRI>();
     }
 
@@ -54,6 +56,7 @@ public class IriLookup {
 	    	} else if (type.equals("individual")) {
 				individIriMap.put(handle, IRI.create(iriTxt));
 				individTypeTxtMap.put(handle, flds[3].trim());
+				individLabelMap.put(handle, flds[4].trim());
 	    	} else if (type.equals("data property")) {
 	    		dataPropIriMap.put(handle, IRI.create(iriTxt));
 	    	} else {
@@ -99,5 +102,9 @@ public class IriLookup {
 
     public IRI getTypeForIndividual(String individHandle) {
     	return individTypeIriMap.get(individHandle);
+    }
+
+    public String getLabelForIndividual(String individHandle) {
+    	return individLabelMap.get(individHandle);
     }
 }

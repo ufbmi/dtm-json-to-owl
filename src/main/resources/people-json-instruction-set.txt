@@ -20,24 +20,24 @@ new-individual: email-primary	email address	label	[emailPrimaryAffiliation]
 object-property-expression: email-primary	is contact information about	[row-individual]
 
 [personalWebsiteUrl]
-new-individual: personal-website	website	label	"personal website of: "+[firstName]+" "+[middleInitials]+" "+[lastName]
+new-individual: personal-website	website	label	"personal website of: "+[firstName]+" "+[middleInitials]+" "+[lastName]	iri=[personalWebsiteUrl]
 annotation: personal-website	hasURL	[personalWebsiteUrl]
 object-property-expression: personal-website	is about	[row-individual]
 
 [googleScholarUrl]
-new-individual: google-scholar	website	label	"Google Scholar page of: "+[firstName]+" "+[middleInitials]+" "+[lastName]
+new-individual: google-scholar	website	label	"Google Scholar page of: "+[firstName]+" "+[middleInitials]+" "+[lastName]	iri=[googleScholarUrl]
 annotation: google-scholar	hasURL	[googleScholarUrl]
 object-property-expression: google-scholar	is about	[row-individual]
 object-property-expression: google-scholar	member of	google scholar website
 
 [researchGateUrl]
-new-individual: researchgate	website	label	"ResearchGate site of: "+[firstName]+" "+[middleInitials]+" "+[lastName]
+new-individual: researchgate	website	label	"ResearchGate site of: "+[firstName]+" "+[middleInitials]+" "+[lastName]	iri=[researchGateUrl]
 annotation: researchgate	hasURL	[researchGateUrl]
 object-property-expression: researchgate	is about	[row-individual]
 object-property-expression: researchgate	member of	researchgate website
 
 [ncbiUrl]
-new-individual: ncbi	website	label	"NCBI site of: "+[firstName]+" "+[middleInitials]+" "+[lastName]
+new-individual: ncbi	website	label	"NCBI site of: "+[firstName]+" "+[middleInitials]+" "+[lastName]	iri=[ncbiUrl]
 annotation: ncbi	hasURL	[ncbiUrl]
 object-property-expression: ncbi	is about	[row-individual]
 object-property-expression: ncbi	member of	ncbi website
@@ -67,7 +67,7 @@ new-individual: email-for-role	email address	label	[email]	[email] not-empty
 object-property-expression: d-act-for-role	has specified output	email-for-role
 object-property-expression: email-for-role	is contact information about	[row-individual]
 # and the document act is the proximate cause ultimately of the profile page for this affiliation
-new-individual: profile-page-for-role	website	label	[profileUrl]	[profileUrl] not-empty
+new-individual: profile-page-for-role	website	label	[profileUrl]	[profileUrl] not-empty	iri=[profileUrl]
 object-property-expression: d-act-for-role	has specified output	profile-page-for-role
 object-property-expression: profile-page-for-role	is about	role-in-org
 # I like that it's about the role more than I like that it's about the person

@@ -26,6 +26,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	String uniqueIdFieldName;
 	int uniqueIdFieldIndex;
 	IRI uniqueIdFieldIri;
+	String iriSourceVariableName;
 	
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction,
@@ -40,6 +41,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		this.uniqueIdFieldName = uniqueIdFieldName;
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
+		this.iriSourceVariableName = null;
 	}
 
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
@@ -55,31 +57,8 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		this.iriRepositoryPrefix = iriRepositoryPrefix;
 		this.uniqueIdFieldName = uniqueIdFieldName;
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
-		/*
-	 	 *  Need a data structure.  Could have list of lists.  If we take "and" as preference over "or", then we'd split on the "or" first.
-	 	 *		that would give the outside list.  Splitting on "and" within the outside list creates a list entry inside each list.
-	 	 *
-	 	 *	THerefore, only one entry in the list of lists must evaluate to true for the entire expression to be true, then 
-	 	 *		for any entry in the list of lists, all its entries must be true.  (inner lists are "and", outer list is "or")
-		*/
-		String[] flds = creationCondition.split(" or ",-1);
-		conditions = new ArrayList<ArrayList<String>>(flds.length);
-		for (String fld : flds) {
-			ArrayList<String> condition = new ArrayList<String>();
-			if (!fld.isEmpty()) {
-				String[] subflds = fld.split(" and ", -1);
-				for (String subfld : subflds) {
-					if (!subfld.isEmpty()) {
-						condition.add(subfld);
-					} else {
-						condition.add("true");  // blanks don't make the "and" false
-					}
-				}
-			} else {
-				condition.add("false");  //blanks don't make the "or" true
-			}
-			conditions.add(condition);
-		}
+		this.setCreationConditionLogic(creationCondition);
+		this.iriSourceVariableName = null;
 	}
 
 /*
@@ -158,8 +137,18 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 					throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
 				}
 
-				OWLNamedIndividual oni = (resultCount == 1) ? 
-					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(resultSet.iterator().next(), oo, classIri, annotationPropertyIri, 
+				IRI individualIri = null;
+				if (resultCount == 1) {
+					individualIri = resultSet.iterator().next();
+				} else if (this.iriSourceVariableName != null && !this.iriSourceVariableName.isEmpty()) {
+					String iriTxt = dataObject.getDataElementValue(this.iriSourceVariableName); 
+					System.out.println("Got value of " + iriTxt + " for " + this.iriSourceVariableName + " data element.");
+					individualIri = IRI.create(iriTxt);
+					System.out.println("Created new IRI: " + individualIri.toString());
+				}
+
+				OWLNamedIndividual oni = (individualIri != null) ? 
+					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(individualIri, oo, classIri, annotationPropertyIri, 
 						annotationValue) :
 					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
 						annotationValue);
@@ -195,6 +184,39 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 			result = result || subConditionResult;
 		}
 		return result;
+	}
+
+	public void setIriSourceVariableName(String iriSourceVariableName) {
+		this.iriSourceVariableName = iriSourceVariableName.replace("[","").replace("]","");
+		System.out.println("Variable whose value is the IRI we'll give to individuals: "  + this.iriSourceVariableName);
+	}
+
+	public void setCreationConditionLogic(String creationConditionLogic) {
+		/*
+	 	 *  Need a data structure.  Could have list of lists.  If we take "and" as preference over "or", then we'd split on the "or" first.
+	 	 *		that would give the outside list.  Splitting on "and" within the outside list creates a list entry inside each list.
+	 	 *
+	 	 *	Therefore, only one entry in the list of lists must evaluate to true for the entire expression to be true, then 
+	 	 *		for any entry in the list of lists, all its entries must be true.  (inner lists are "and", outer list is "or")
+		*/
+		String[] flds = creationConditionLogic.split(" or ",-1);
+		conditions = new ArrayList<ArrayList<String>>(flds.length);
+		for (String fld : flds) {
+			ArrayList<String> condition = new ArrayList<String>();
+			if (!fld.isEmpty()) {
+				String[] subflds = fld.split(" and ", -1);
+				for (String subfld : subflds) {
+					if (!subfld.isEmpty()) {
+						condition.add(subfld);
+					} else {
+						condition.add("true");  // blanks don't make the "and" false
+					}
+				}
+			} else {
+				condition.add("false");  //blanks don't make the "or" true
+			}
+			conditions.add(condition);
+		}
 	}
 
 }

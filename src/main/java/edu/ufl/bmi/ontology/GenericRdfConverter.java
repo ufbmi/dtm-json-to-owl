@@ -160,14 +160,14 @@ public class GenericRdfConverter {
 		iriLen = Integer.parseInt(iriLenTxt);
 		iriCounter = Long.parseLong(iriCounterTxt);
 
-		iriRepository = new RdfIriRepositoryWithJena(outputFileIriId + ".rdf");
+		iriRepositoryPrefix = iriPrefix + objectTypeTxt;
+		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
+
+		iriRepository = new RdfIriRepositoryWithJena(outputFileIriId + ".rdf", iriPrefix);
 		iriRepository.initialize();
 
 		iriCounter = Math.max(iriCounter, iriRepository.getIriCounter());
 		System.out.println("Setting counter to: " + iriCounter);
-
-		iriRepositoryPrefix = iriPrefix + objectTypeTxt;
-		uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 
 		rcise = new RdfConversionInstructionSetExecutor();
     }
@@ -517,6 +517,10 @@ public class GenericRdfConverter {
 		oom.addAxiom(oos,ocaa);
 				
 		return oni;
+    }
+
+    public static OWLNamedIndividual createNamedIndividualWithIriTypeAndLabel(IRI individualIri, IRI classTypeIri, String label) {
+    	return createNamedIndividualWithIriTypeAndLabel(individualIri, oos, classTypeIri, IRI.create("http://www.w3.org/2000/01/rdf-schema#label"), label);
     }
 
 
