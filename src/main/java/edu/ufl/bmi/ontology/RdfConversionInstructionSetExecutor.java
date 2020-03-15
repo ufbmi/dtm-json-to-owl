@@ -100,8 +100,8 @@ public class RdfConversionInstructionSetExecutor {
 		Calendar c = Calendar.getInstance();
 		Calendar cZ = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		String year = Integer.toString(c.get(Calendar.YEAR));
-		String month = Integer.toString(c.get(Calendar.MONTH));  month = (month.length()<2) ? "0"+month : month;
-		String day = Integer.toString(c.get(Calendar.DAY_OF_MONTH)+1);  day = (day.length()<2) ? "0"+day : day;
+		String month = Integer.toString(c.get(Calendar.MONTH)+1);  month = (month.length()<2) ? "0"+month : month;
+		String day = Integer.toString(c.get(Calendar.DAY_OF_MONTH));  day = (day.length()<2) ? "0"+day : day;
 		long zoneOffset = c.get(Calendar.ZONE_OFFSET);
 		long zoneOffsetHour = zoneOffset/3600000L;
 		long dstOffset = c.get(Calendar.DST_OFFSET);
@@ -134,8 +134,8 @@ public class RdfConversionInstructionSetExecutor {
 		this.variables.put("[sysDateUrlLocal]", oniSysDateLocal);  //http://time.org/
 
 		String yearZ = Integer.toString(cZ.get(Calendar.YEAR));
-		String monthZ = Integer.toString(cZ.get(Calendar.MONTH)); monthZ = (monthZ.length()<2) ? "0"+monthZ : monthZ;
-		String dayZ = Integer.toString(cZ.get(Calendar.DAY_OF_MONTH)+1);  dayZ = (dayZ.length()<2) ? "0"+dayZ : dayZ;
+		String monthZ = Integer.toString(cZ.get(Calendar.MONTH)+1); monthZ = (monthZ.length()<2) ? "0"+monthZ : monthZ;
+		String dayZ = Integer.toString(cZ.get(Calendar.DAY_OF_MONTH));  dayZ = (dayZ.length()<2) ? "0"+dayZ : dayZ;
 
 		String dateZ = yearZ+"-"+monthZ+"-"+dayZ+"Z";
 		//this.variables.put("sysYearZ", yearZ);

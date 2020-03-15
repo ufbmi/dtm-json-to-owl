@@ -69,3 +69,6 @@ object-property-expression: email-for-role	is contact information about	[row-ind
 # and the document act is the proximate cause ultimately of the profile page for this affiliation
 new-individual: profile-page-for-role	website	label	[profileUrl]	[profileUrl] not-empty
 object-property-expression: d-act-for-role	has specified output	profile-page-for-role
+object-property-expression: profile-page-for-role	is about	role-in-org
+# I like that it's about the role more than I like that it's about the person
+object-property-expression: profile-page-for-role	is about	[row-individual]
