@@ -37,6 +37,7 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 	String externalFileFieldName;
 	String externalFileRowTypeName;
 	String lookupValueFieldName;
+	String lookupVariableName;
 	//int lookupValueFieldIndex;
 	
 	public RdfConversionQueryIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
@@ -90,6 +91,10 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 	}
 */
 
+	public void setLookupVariableName(String lookupVariableName) {
+		this.lookupVariableName = lookupVariableName;
+	}
+
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 		IRI externalFieldIri = IRI.create(queryIriPrefix + "/" + externalFileFieldName);
@@ -97,7 +102,8 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		//System.out.println("query instruction is looking for " + lookupValueFieldName + " == " + lookupValue);
 		repoAnnotations.put(externalFieldIri, lookupValue);
 		IRI externalVarNameIri = IRI.create(queryIriPrefix + "/variableName");
-		repoAnnotations.put(externalVarNameIri, "row individual");
+		if (this.lookupVariableName == null) repoAnnotations.put(externalVarNameIri, "row individual");
+		else repoAnnotations.put(externalVarNameIri, this.lookupVariableName);
 		
 		Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
 		int resultCount = resultSet.size();

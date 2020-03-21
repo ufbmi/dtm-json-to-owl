@@ -57,9 +57,12 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 
 		}
 		queryTxt.append("\n}");
+
+		//if (queryTxt.indexOf("role") > -1) System.out.println("\nQuery text:\n" + queryTxt + "\n");
 		//System.out.println("query is\n" + queryTxt + "\n\n");
 		HashSet<IRI> result = new HashSet<IRI>();
 		Query query = QueryFactory.create(queryTxt.toString()) ;
+
   		try (QueryExecution qexec = QueryExecutionFactory.create(query, m)) {
    			ResultSet results = qexec.execSelect();
    			System.out.print("QUERY RESULT(S): ");

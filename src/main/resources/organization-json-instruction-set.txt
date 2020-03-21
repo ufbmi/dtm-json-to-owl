@@ -2,6 +2,8 @@
 new-individual: midas-cc-identifier	identifier	label	[id]
 object-property-expression: midas-cc-identifier	denotes	[row-individual]
 annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[name]
+new-individual: organization-role	organization role	label	"role of organization "+[name]+" with ID="+[id]
+object-property-expression:	[row=individual]	bearer of	organization-role
 
 [name]
 annotation: [row-individual]	label	[name]

@@ -207,13 +207,12 @@ public class RdfConversionInstructionSetF2Compiler {
 				variableName, classIriHandle);
 			return rcai;
 		} else if (instructionType.equals("query-individual")) {
-			if (flds.length != 4) throw new ParseException(
-				"query individual expressions must have four, tab-delimited fields." + instruction, 8);
+			if (flds.length != 4 && flds.length != 5) throw new ParseException(
+				"query individual expressions must have four or five, tab-delimited fields." + instruction, 8);
 			String variableName = flds[0].trim(); 					// e.g., affiliation-org
 			String rowTypeName = flds[1].trim();					// e.g., organization
 			String externalFileFieldName = flds[2].trim();			// e.g., ID
 			String lookupValueFieldName = flds[3].trim();			// e.g., [OrganizationAffiliationID]
-
 			/*
 			IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
 			IriRepository iriRepository, String iriRepositoryPrefix, String externalFileFieldName, String externalFileRowTypeName, String iriPrefix,
@@ -222,6 +221,8 @@ public class RdfConversionInstructionSetF2Compiler {
 			RdfConversionQueryIndividualInstruction rcqii = new RdfConversionQueryIndividualInstruction(
 				iriMap, odf, variableName, iriRepository, iriRepositoryPrefix, externalFileFieldName, 
 				rowTypeName, iriPrefix, lookupValueFieldName);
+			if (flds.length == 5) rcqii.setLookupVariableName(flds[4].trim());
+			 
 			return rcqii;
 		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);

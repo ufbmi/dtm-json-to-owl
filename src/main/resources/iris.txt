@@ -176,3 +176,4 @@ document act	http://purl.obolibrary.org/obo/IAO_0021001	class
 exists at	http://purl.obolibrary.org/obo/BFO_0000108	object property
 linkedin website	https://www.linkedin.com/	individual	website	LinkedIn
 twitter	https://www.twitter.com/	individual	website	Twitter
+organization role	http://purl.obolibrary.org/obo/OMRSE_00000051	class

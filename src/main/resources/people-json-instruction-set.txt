@@ -58,17 +58,15 @@ new-individual: role-in-org-id	identifier	label	[personAffiliationID]
 object-property-expression: role-in-org-id	denotes	role-in-org
 annotation: role-in-org-id	comment	"personAffiliationID: "+[personAffiliationID]
 class-assertion-expression: role-in-org	[title]
-# document act creating role links org to role
-new-individual: d-act-for-role	document act	label	"document act by "+[affiliation.name]+" that created "+[title]+" role."
-object-property-expression: d-act-for-role	has specified output	role-in-org
-object-property-expression: d-act-for-role	has active participant	primary-affiliated-org
-# we'll say the document act creates the email address for this affiliation, too
+# we'll say the email address for this affiliation is contact info about the person, but it's also about the role-in-org
 new-individual: email-for-role	email address	label	[email]	[email] not-empty
-object-property-expression: d-act-for-role	has specified output	email-for-role
 object-property-expression: email-for-role	is contact information about	[row-individual]
+object-property-expression: email-for-role	is about	role-in-org
 # and the document act is the proximate cause ultimately of the profile page for this affiliation
 new-individual: profile-page-for-role	website	label	[profileUrl]	[profileUrl] not-empty	iri=[profileUrl]
-object-property-expression: d-act-for-role	has specified output	profile-page-for-role
 object-property-expression: profile-page-for-role	is about	role-in-org
 # I like that it's about the role more than I like that it's about the person
 object-property-expression: profile-page-for-role	is about	[row-individual]
+# get the organization role, and say the the person's role w/the org is proper continuant part at all times of that role
+query-individual: primary-affiliated-org-role	organization	id	[affiliation.organizationID]	organization-role
+object-property-expression: role-in-org	proper continuant part	primary-affiliated-org-role
