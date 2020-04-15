@@ -48,8 +48,7 @@ import edu.ufl.bmi.misc.LineNumberReaderSourceRecordDataObjectProvider;
 import edu.ufl.bmi.misc.RecordDataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
-@Deprecated
-public class GenericRdfConverter {
+public class GenericOwl2Converter {
 	static boolean headerProcessed = false;
 	static String iriCounterTxt;
     static long iriCounter;
