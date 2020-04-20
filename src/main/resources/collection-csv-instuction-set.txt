@@ -1,0 +1,76 @@
+[collection_ID]
+new-individual: midas-cc-identifier	identifier	label	[collection_ID]
+object-property-expression: midas-cc-identifier	denotes	[row-individual]
+annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[collection_title_en]
+
+[collection_title_en]
+annotation: [row-individual]	title	[collection_title_en]
+
+[collection_title_original]
+annotation: [row-individual]	title	[collection_title_original]
+
+[collection_description]
+annotation: [row-individual]	description	[collection_description]
+
+[collection_URL_original]
+annotation: [row-individual] hasURL	[collection_URL_original]
+
+[collection_publisher]
+annotation: [row-individual]	publisher	[collection_publisher]
+
+[collection_language]
+new-individual:	collection-creation	documenting	label	"process of creating "+[collection_title_en]
+object-property-expression:	collection-creation	realizes	[collection_language]
+object-property-expression: collection-creation	has specified output	[row-individual]
+
+[collection_access]
+new-individual: collection-access	action specification	label	"access instructions for "+[collection_title_en]
+annotation: collection-access	comment	[collection_access]
+object-property-expression: collection-access	is about	[row-individual]
+
+[collection_lastupdated_date]
+new-individual: collection-updating	documenting	label	"process of updating "+[collection_title_en]
+object-property-expression: collection-updating	has specified output	[row-individual]
+object-property-expression: collection-updating	has specified input	[row-individual]
+
+# Will require querying people file, without IDs, but instead using names
+# [collection_lastupdated_email]
+# [collection_lastupdated_person]
+
+[collection_type]
+class-assertion: [row-individual]	[collection_type]
+
+# Will require querying people file, without IDs, but instead using names
+# [collection_creator_name]
+# [collection_creator_contact]
+
+# Need to say something about time period in reality that is represented vs. time of ICEs in collection
+# [collection_first_report_date]
+# [collection_last_report_date]
+
+# files and file formats need work
+# [collection_format]
+
+
+# At present, all 6 values for collection_license, across the 35 collection_metadata.csv files, are garbage.
+# [collection_license]
+
+for each [collection_members]
+new-individual: collection-member-i	info content entity	label	[collection_members]
+object-property-expression: collection-member-i	member of	[row-individual]
+
+#[collection_number_files]
+
+[collection_path_repository]
+new-individual: collection-path	action specification	label	"repository path to "+[collection_title_en]
+annotation: collection-path	hasURL	"https://github.com/midas-network/"+[collection_path_repository]
+object-property-expression: collection-path	is about	[row-individual]
+
+[collection_spatial_coverage]
+object-property-expression: [row-individual]	is about	[collection spatial coverage]
+
+# [curation _notes]
+# [curation_notes]
+# [related_object_id]
+# [related_object_path]
+# [relation_description]

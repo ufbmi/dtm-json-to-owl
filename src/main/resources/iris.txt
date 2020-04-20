@@ -177,3 +177,21 @@ exists at	http://purl.obolibrary.org/obo/BFO_0000108	object property
 linkedin website	https://www.linkedin.com/	individual	website	LinkedIn
 twitter	https://www.twitter.com/	individual	website	Twitter
 organization role	http://purl.obolibrary.org/obo/OMRSE_00000051	class
+Chinese	http://purl.obolibrary.org/obo/OMRSE_00000571	individual	language	Chinese
+language	http://purl.obolibrary.org/obo/OMRSE_00000194	class
+English	http://purl.obolibrary.org/obo/OMRSE_00000610	individual	language	English
+Thai	http://purl.obolibrary.org/obo/OMRSE_00000872	individual	language	Thai
+Khmer	http://purl.obolibrary.org/obo/OMRSE_00000698	individual	language	Central Khmer
+action specification	http://purl.obolibrary.org/obo/IAO_0000007	class
+documenting	http://purl.obolibrary.org/obo/IAO_0000572	class
+case counts	http://purl.obolibrary.org/obo/APOLLO_SV_00000559	class
+cases line list	http://purl.obolibrary.org/obo/APOLLO_SV_00000559	class
+publisher	http://purl.org/dc/elements/1.1/publisher	annotation
+info content entity	http://purl.obolibrary.org/obo/IAO_0000030	class
+Cambodia	http://purl.obolibrary.org/obo/GEO_000000650	individual	geographical region	region of Cambodia
+China	http://purl.obolibrary.org/obo/GEO_000000657	individual	geographical region	region of China
+Europe	http://purl.obolibrary.org/obo/GEO_000000342	individual	geographical region	region of Europe
+Hong Kong	http://purl.obolibrary.org/obo/GEO_000000770	individual	geographical region	region of Hong Kong
+South Korea	http://purl.obolibrary.org/obo/GEO_000000692	individual	geographical region	region of South Korea
+Thailand	http://purl.obolibrary.org/obo/GEO_000000541	individual	geographical region	region of Thailand
+Unites States of America	http://purl.obolibrary.org/obo/GEO_000000587	individual	geographical region	region of the United States
