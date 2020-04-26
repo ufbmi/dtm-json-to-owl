@@ -11,10 +11,19 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
-public class RdfConversionLookupInstruction extends RdfConversionInstruction {
+/*
+ *  At the moment, this class is a shortcut.  Eventually, we're going to need for each element that takes
+ *		as its value one of a finite set of values, a mapping from its values to an individual IRI.
+ *
+ *  Currently if we had two elements with the same text string that referred to different individuals,
+ *    we would be stuck.  If two elements use different value strings to refer to the same 
+ *    individual, then we could still hack that up, albeit unelegantly, in our current iris.txt
+ *	  file.
+*/
+public class RdfConversionLookupByElementValueInstruction extends RdfConversionInstruction {
 
 	String variableName;
-	String searchFieldName;
+	String lookupFieldName;
 	//int searchFieldIndex;
 	/*
 	 *  TODO: we can update the instruction syntax to tell the execution specifically
@@ -23,11 +32,11 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 	 */
 	HashMap<String, HashMap<String, OWLNamedIndividual>>  searchIndexes;
 
-	public RdfConversionLookupInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, String searchFieldName,
+	public RdfConversionLookupByElementValueInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, String lookupFieldName,
 			HashMap<String, HashMap<String, OWLNamedIndividual>>  searchIndexes) {
 		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","").trim();
-		this.searchFieldName = searchFieldName;
+		this.lookupFieldName = lookupFieldName;
 		//this.searchFieldIndex = fieldNameToIndex.get(searchFieldName);
 		this.searchIndexes = searchIndexes;
 	}
@@ -56,19 +65,13 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 	@Override
 	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		//Find the value of the field specified in this instruction, and search for named individuals created with that field value
-		String fieldValue = dataObject.getDataElementValue(this.searchFieldName);
-		//System.err.println("Searching for individual by " + this.searchFieldName + " = " + fieldValue);
+		String fieldValue = dataObject.getDataElementValue(this.lookupFieldName);
+		//System.err.println("Searching for individual by " + this.lookupFieldName + " = " + fieldValue);
 		//System.out.println("lookup field value: " + fieldValue + " (is valid: " + validFieldValue(fieldValue) + "), lookup element name " + searchFieldName);
 		if (validFieldValue(fieldValue)) {
-			Set<String> keySet = this.searchIndexes.keySet();
-			for (String key : keySet) {
-				HashMap<String, OWLNamedIndividual> searchIndex = this.searchIndexes.get(key);
-				OWLNamedIndividual oni = searchIndex.get(fieldValue);
-				if (oni != null) {
-					variables.put(variableName, oni);
-					//System.out.println("added the following to hashmap " + variableName + "\t" + oni);
-					break;
-				}
+			OWLNamedIndividual oni = variables.get(fieldValue);
+			if (oni != null) {
+				variables.put(this.variableName, oni);
 			}
 		} else {
 			System.out.println("Bad field value: '" + fieldValue + "'");

@@ -32,7 +32,7 @@ public class RdfConversionObjectPropertylInstruction extends RdfConversionInstru
 		OWLNamedIndividual sourceInd = (sourceVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(sourceVariableName);
 		OWLNamedIndividual targetInd = (targetVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(targetVariableName);
 		if (sourceInd != null && targetInd != null && objectPropertyIri != null) {
-			GenericRdfConverter.createOWLObjectPropertyAssertion(sourceInd, objectPropertyIri, targetInd, oo);
+			GenericOwl2Converter.createOWLObjectPropertyAssertion(sourceInd, objectPropertyIri, targetInd, oo);
 		} else {
 			System.err.println("null individual or OP for OP assertion for " + sourceVariableName + " & " + targetVariableName + "\t" + sourceInd + ", " + targetInd);
 			//System.out.println("OP IRI = " + objectPropertyIri);
@@ -44,7 +44,7 @@ public class RdfConversionObjectPropertylInstruction extends RdfConversionInstru
 		OWLNamedIndividual sourceInd = (sourceVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(sourceVariableName);
 		OWLNamedIndividual targetInd = (targetVariableName.equals("[row-individual]")) ? rowIndividual : variables.get(targetVariableName);
 		if (sourceInd != null && targetInd != null && objectPropertyIri != null) {
-			GenericRdfConverter.createOWLObjectPropertyAssertion(sourceInd, objectPropertyIri, targetInd, oo);
+			GenericOwl2Converter.createOWLObjectPropertyAssertion(sourceInd, objectPropertyIri, targetInd, oo);
 		} else {
 			System.err.println("null individual or OP for OP assertion for " + sourceVariableName + " & " + targetVariableName + "\t" + sourceInd + ", " + objectPropertyIri + ", " + targetInd);
 			//System.out.println("OP IRI = " + objectPropertyIri);

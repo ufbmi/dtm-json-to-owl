@@ -35,7 +35,7 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 		if (validFieldValue(annotationValue)) {
 			OWLNamedIndividual oni = (variableName.equals("[row-individual]")) ? rowIndividual : variables.get(variableName);
 			if (oni != null)
-				GenericRdfConverter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
+				GenericOwl2Converter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
 		}
 	}
 */
@@ -45,7 +45,7 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 		if (validFieldValue(annotationValue)) {
 			OWLNamedIndividual oni = (variableName.equals("[row-individual]")) ? rowIndividual : variables.get(variableName);
 			if (oni != null)
-				GenericRdfConverter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
+				GenericOwl2Converter.addAnnotationToNamedIndividual(oni, annotationPropertyIri, annotationValue, oo); 
 		}		
 	}
 

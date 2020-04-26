@@ -89,10 +89,10 @@ public class RdfConversionInstructionSetExecutor {
 			String variableName = indAndIri.getKey();
 			IRI iri = indAndIri.getValue();
 			/*
-			 *  This is admittedly a weird dependency on GenericRdfConverter...
+			 *  This is admittedly a weird dependency on GenericOwl2Converter...
 			 */
 			//createNamedIndividualWithIriTypeAndLabel(IRI iri, OWLOntology oo, IRI classTypeIri, IRI labelPropIri, String rdfsLabel)
-			OWLNamedIndividual oni = GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(iri, iriMap.getTypeForIndividual(variableName),
+			OWLNamedIndividual oni = GenericOwl2Converter.createNamedIndividualWithIriTypeAndLabel(iri, iriMap.getTypeForIndividual(variableName),
 				iriMap.getLabelForIndividual(variableName));
 			this.variables.put(variableName, oni);
 		}
@@ -131,7 +131,7 @@ public class RdfConversionInstructionSetExecutor {
 		//this.variables.put("sysDay", day);
 		//this.variables.put("sysDate", date);
 
-		OWLNamedIndividual oniSysDateLocal = GenericRdfConverter.createNamedIndividualWithIriAndType(
+		OWLNamedIndividual oniSysDateLocal = GenericOwl2Converter.createNamedIndividualWithIriAndType(
 			IRI.create("http://time.org/gregorian/"+date), iriMap.lookupClassIri("temporal interval"));
 		this.variables.put("[sysDateUrlLocal]", oniSysDateLocal);  //http://time.org/
 
@@ -144,7 +144,7 @@ public class RdfConversionInstructionSetExecutor {
 		//this.variables.put("sysMonthZ", monthZ);
 		//this.variables.put("sysDayZ", dayZ);
 		//this.variables.put("sysDateZ", dateZ);
-		OWLNamedIndividual oniSysDateZ = GenericRdfConverter.createNamedIndividualWithIriAndType(
+		OWLNamedIndividual oniSysDateZ = GenericOwl2Converter.createNamedIndividualWithIriAndType(
 			IRI.create("http://time.org/gregorian/"+dateZ), iriMap.lookupClassIri("temporal interval"));
 		this.variables.put("[sysDateUrl]", oniSysDateZ);  //http://time.org/
 		System.out.println(oniSysDateZ);

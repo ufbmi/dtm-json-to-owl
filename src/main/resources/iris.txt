@@ -188,6 +188,7 @@ case counts	http://purl.obolibrary.org/obo/APOLLO_SV_00000559	class
 cases line list	http://purl.obolibrary.org/obo/APOLLO_SV_00000559	class
 publisher	http://purl.org/dc/elements/1.1/publisher	annotation
 info content entity	http://purl.obolibrary.org/obo/IAO_0000030	class
+geographical region	http://purl.obolibrary.org/obo/GEO_000000372	class
 Cambodia	http://purl.obolibrary.org/obo/GEO_000000650	individual	geographical region	region of Cambodia
 China	http://purl.obolibrary.org/obo/GEO_000000657	individual	geographical region	region of China
 Europe	http://purl.obolibrary.org/obo/GEO_000000342	individual	geographical region	region of Europe
@@ -195,3 +196,4 @@ Hong Kong	http://purl.obolibrary.org/obo/GEO_000000770	individual	geographical r
 South Korea	http://purl.obolibrary.org/obo/GEO_000000692	individual	geographical region	region of South Korea
 Thailand	http://purl.obolibrary.org/obo/GEO_000000541	individual	geographical region	region of Thailand
 Unites States of America	http://purl.obolibrary.org/obo/GEO_000000587	individual	geographical region	region of the United States
+document	http://purl.obolibrary.org/obo/IAO_0000310	class

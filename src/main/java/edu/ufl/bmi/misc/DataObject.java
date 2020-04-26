@@ -20,6 +20,21 @@ public abstract class DataObject {
 		return this.getDataElementValue(this.keyName);
 	}
 
+	public String printObject() {
+		Set<String> keys = getElementKeySet();
+		String result = "";
+		for (String key : keys) {
+			result += key + "\t";
+			String[] values = getValuesForElement(key);
+			for (String value : values) {
+				result += value + " : ";
+			}
+			result += "\n";
+		}
+		result += "\n";
+		return result;
+	}
+
 	public abstract String getDataElementValue(String elementName);
 	public abstract Set<String> getElementKeySet();
 	public abstract DataObjectType getDataObjectType();

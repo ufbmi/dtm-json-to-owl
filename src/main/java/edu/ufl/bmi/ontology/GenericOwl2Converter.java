@@ -46,6 +46,8 @@ import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.DataObjectProvider;
 import edu.ufl.bmi.misc.LineNumberReaderSourceRecordDataObjectProvider;
 import edu.ufl.bmi.misc.RecordDataObject;
+import edu.ufl.bmi.misc.OneObjectPerFileDataProvider;
+import edu.ufl.bmi.misc.AttributeValueDataObject;
 import edu.ufl.bmi.misc.IriLookup;
 
 public class GenericOwl2Converter {
@@ -95,6 +97,12 @@ public class GenericOwl2Converter {
     static String baseUrl;
     static String allObjectIdsUrl;
     static String objectLocatorTxt;
+
+    static String objectFileListFileName;
+	static String elementArrangementInFile;
+	static String multipleValueType;
+	static String multipleValueElementDelimiter;
+	static String elementValueDelimiter;
 
     static String instructionSetVersion;
 
@@ -146,6 +154,12 @@ public class GenericOwl2Converter {
 		baseUrl = p.getProperty("api_base_url");
 		allObjectIdsUrl = p.getProperty("get_all_object_ids_url");
 		objectLocatorTxt = p.getProperty(objectTypeTxt);
+
+		objectFileListFileName = p.getProperty("list_of_files_with_objects");
+		elementArrangementInFile = p.getProperty("element_arrangement_in_file");
+		multipleValueType = p.getProperty("multiple_value_type");
+		multipleValueElementDelimiter = p.getProperty("multiple_value_element_delimiter");
+		elementValueDelimiter=p.getProperty("element_value_delimiter");
 
 		String allUniqueKeyFieldNames = p.getProperty("unique_key_fields");
 		uniqueKeyFieldNames = new ArrayList<String>();
@@ -293,6 +307,13 @@ public class GenericOwl2Converter {
 		} else if (dataProviderTypeTxt.equals("json api")) {
 			dopLocal = new ApiSourceJsonObjectDataProvider(baseUrl, allObjectIdsUrl, baseUrl+objectLocatorTxt, uniqueIdFieldName);
 			((ApiSourceJsonObjectDataProvider)dopLocal).initialize();
+		} else if (dataProviderTypeTxt.equals("one object per file")) {
+			dopLocal = new OneObjectPerFileDataProvider(uniqueIdFieldName, objectFileListFileName, elementArrangementInFile, multipleValueType,
+				multipleValueElementDelimiter, elementValueDelimiter);
+			((OneObjectPerFileDataProvider)dopLocal).initialize();
+		} else {
+			System.err.println("Don't know about " + dataProviderTypeTxt + " data providers.");
+			System.exit(5);
 		}
 		return dopLocal;
 	}
@@ -318,6 +339,10 @@ public class GenericOwl2Converter {
 			repoAnnotations.put(varNameIri, "row individual");
 			//System.out.println("uniqueIdFieldName=" + uniqueIdFieldName);
 			String keyValue = dataObject.getDataElementValue(uniqueIdFieldName);
+			if (keyValue == null || keyValue.length() == 0) {
+				System.err.println("object has no value for key field " + uniqueIdFieldName);
+				System.err.println(dataObject.printObject());
+			}
 
 			repoAnnotations.put(uniqueIdFieldIri, keyValue);
 			Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);

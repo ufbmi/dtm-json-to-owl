@@ -81,9 +81,9 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				}
 
 				OWLNamedIndividual oni = (resultCount == 1) ? 
-					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(resultSet.iterator().next(), oo, classIri, annotationPropertyIri, 
+					GenericOwl2Converter.createNamedIndividualWithIriTypeAndLabel(resultSet.iterator().next(), oo, classIri, annotationPropertyIri, 
 						annotationValue) :
-					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
+					GenericOwl2Converter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
 						annotationValue);
 				//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 				variables.put(variableName, oni);
@@ -129,7 +129,10 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				repoAnnotations.put(varNameIri, variableName);
 				IRI rdfLabelIri = iriMap.lookupAnnPropIri("label");
 				repoAnnotations.put(rdfLabelIri, annotationValue);
+				//System.err.println("newIndividual query, variableName=" + variableName + " and annotationValue=" + annotationValue);
 				repoAnnotations.put(this.uniqueIdFieldIri, dataObject.getDataElementValue(uniqueIdFieldName));
+				//System.err.println("newIndividual query, variableName=" + this.uniqueIdFieldIri + " and value=" +
+				//		dataObject.getDataElementValue(uniqueIdFieldName)); 
 				
 				Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
 				int resultCount = resultSet.size();
@@ -148,9 +151,9 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				}
 
 				OWLNamedIndividual oni = (individualIri != null) ? 
-					GenericRdfConverter.createNamedIndividualWithIriTypeAndLabel(individualIri, oo, classIri, annotationPropertyIri, 
+					GenericOwl2Converter.createNamedIndividualWithIriTypeAndLabel(individualIri, oo, classIri, annotationPropertyIri, 
 						annotationValue) :
-					GenericRdfConverter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
+					GenericOwl2Converter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
 						annotationValue);
 				//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 				variables.put(variableName, oni);

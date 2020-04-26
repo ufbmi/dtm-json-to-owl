@@ -52,6 +52,7 @@ public class AnnotationValueBuilder {
 			if (isLiteralValue.get(i)) {
 				sb2.append(s);
 			} else {
+				//System.err.println("Getting value of " + s + " element to build annotation.");
 				String value = dataObject.getDataElementValue(s);
 				if (value.trim().length()>0)
 					sb2.append(value);

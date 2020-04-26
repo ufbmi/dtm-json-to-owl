@@ -39,22 +39,22 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 					String s = (String)dataValue;
 					//System.out.println(dataPropertyIri + "\t" + s);
 					if (s.trim().length() > 0)
-						GenericRdfConverter.addStringDataToNamedIndividual(oni, dataPropertyIri, s, oo); 
+						GenericOwl2Converter.addStringDataToNamedIndividual(oni, dataPropertyIri, s, oo); 
 					break;
 				case "int":
 					Integer i = (Integer)dataValue;
 					if (i != null)
-						GenericRdfConverter.addIntDataToNamedIndividual(oni, dataPropertyIri, i.intValue(), oo); 
+						GenericOwl2Converter.addIntDataToNamedIndividual(oni, dataPropertyIri, i.intValue(), oo); 
 					break;
 				case "float":
 					Float f = (Float)dataValue;
 					if (f != null)
-						GenericRdfConverter.addFloatDataToNamedIndividual(oni, dataPropertyIri, f.floatValue(), oo); 
+						GenericOwl2Converter.addFloatDataToNamedIndividual(oni, dataPropertyIri, f.floatValue(), oo); 
 					break;
 				case "boolean":
 					Boolean b = (Boolean)dataValue;
 					if (b != null)
-						GenericRdfConverter.addBooleanDataToNamedIndividual(oni, dataPropertyIri, b.booleanValue(), oo); 
+						GenericOwl2Converter.addBooleanDataToNamedIndividual(oni, dataPropertyIri, b.booleanValue(), oo); 
 					break;
 				default:
 					System.err.println("dataValue is of type " + dataValue);
@@ -73,22 +73,22 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 					String s = (String)dataValue;
 					//System.out.println(dataPropertyIri + "\t" + s);
 					if (s.trim().length() > 0)
-						GenericRdfConverter.addStringDataToNamedIndividual(oni, dataPropertyIri, s, oo); 
+						GenericOwl2Converter.addStringDataToNamedIndividual(oni, dataPropertyIri, s, oo); 
 					break;
 				case "int":
 					Integer i = (Integer)dataValue;
 					if (i != null)
-						GenericRdfConverter.addIntDataToNamedIndividual(oni, dataPropertyIri, i.intValue(), oo); 
+						GenericOwl2Converter.addIntDataToNamedIndividual(oni, dataPropertyIri, i.intValue(), oo); 
 					break;
 				case "float":
 					Float f = (Float)dataValue;
 					if (f != null)
-						GenericRdfConverter.addFloatDataToNamedIndividual(oni, dataPropertyIri, f.floatValue(), oo); 
+						GenericOwl2Converter.addFloatDataToNamedIndividual(oni, dataPropertyIri, f.floatValue(), oo); 
 					break;
 				case "boolean":
 					Boolean b = (Boolean)dataValue;
 					if (b != null)
-						GenericRdfConverter.addBooleanDataToNamedIndividual(oni, dataPropertyIri, b.booleanValue(), oo); 
+						GenericOwl2Converter.addBooleanDataToNamedIndividual(oni, dataPropertyIri, b.booleanValue(), oo); 
 					break;
 				default:
 					System.err.println("dataValue is of type " + dataValue);

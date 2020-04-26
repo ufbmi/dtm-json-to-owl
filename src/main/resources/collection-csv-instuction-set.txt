@@ -13,14 +13,15 @@ annotation: [row-individual]	title	[collection_title_original]
 annotation: [row-individual]	description	[collection_description]
 
 [collection_URL_original]
-annotation: [row-individual] hasURL	[collection_URL_original]
+annotation: [row-individual]	hasURL	[collection_URL_original]
 
 [collection_publisher]
 annotation: [row-individual]	publisher	[collection_publisher]
 
 [collection_language]
 new-individual:	collection-creation	documenting	label	"process of creating "+[collection_title_en]
-object-property-expression:	collection-creation	realizes	[collection_language]
+lookup-individual-by-element-value: collection-language	[collection_language]
+object-property-expression:	collection-creation	realizes	collection-language
 object-property-expression: collection-creation	has specified output	[row-individual]
 
 [collection_access]
@@ -38,7 +39,7 @@ object-property-expression: collection-updating	has specified input	[row-individ
 # [collection_lastupdated_person]
 
 [collection_type]
-class-assertion: [row-individual]	[collection_type]
+class-assertion-expression: [row-individual]	[collection_type]
 
 # Will require querying people file, without IDs, but instead using names
 # [collection_creator_name]
@@ -55,7 +56,7 @@ class-assertion: [row-individual]	[collection_type]
 # At present, all 6 values for collection_license, across the 35 collection_metadata.csv files, are garbage.
 # [collection_license]
 
-for each [collection_members]
+foreach [collection_members]
 new-individual: collection-member-i	info content entity	label	[collection_members]
 object-property-expression: collection-member-i	member of	[row-individual]
 
@@ -67,7 +68,8 @@ annotation: collection-path	hasURL	"https://github.com/midas-network/"+[collecti
 object-property-expression: collection-path	is about	[row-individual]
 
 [collection_spatial_coverage]
-object-property-expression: [row-individual]	is about	[collection spatial coverage]
+lookup-individual-by-element-value: spatial-coverage	[collection_spatial_coverage]
+object-property-expression: [row-individual]	is about	spatial-coverage
 
 # [curation _notes]
 # [curation_notes]

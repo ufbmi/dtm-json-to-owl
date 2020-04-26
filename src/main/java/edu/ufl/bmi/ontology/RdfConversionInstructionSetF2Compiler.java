@@ -103,6 +103,7 @@ public class RdfConversionInstructionSetF2Compiler {
 					String[] flds = line.split(Pattern.quote(":"), 2);
 					//System.out.println(flds.length + ", " + flds[0] + ", " + line);
 					String instructionType = flds[0].trim();
+					if (flds.length==1) System.err.println(lnr.getLineNumber() + ": " + line);
 					String instruction = flds[1].trim();
 				
 					RdfConversionInstruction rci = compileInstruction(instructionType, instruction);
@@ -198,6 +199,14 @@ public class RdfConversionInstructionSetF2Compiler {
 			RdfConversionLookupInstruction rclii = new RdfConversionLookupInstruction(iriMap, 
 					odf, variableName, searchFieldName, searchIndexes);
 			return rclii;
+		} else if (instructionType.equals("lookup-individual-by-element-value")) {
+			if (flds.length !=2) throw new ParseException(
+				"lookup-individual-by-element-value instuctions must have two, tab-delimited fields: " + instruction, 9);
+			String variableName = flds[0].trim();
+			String lookupFieldName = flds[1].trim().replace("[","").replace("]","");
+			RdfConversionLookupByElementValueInstruction rclbevi = new RdfConversionLookupByElementValueInstruction(
+				iriMap, odf, variableName, lookupFieldName, searchIndexes);
+			return rclbevi;
 		} else if (instructionType.equals("class-assertion-expression")) {
 			if (flds.length !=2) throw new ParseException(
 				"class assertion expressions must have two, tab-delimited fields: " + instruction, 7);

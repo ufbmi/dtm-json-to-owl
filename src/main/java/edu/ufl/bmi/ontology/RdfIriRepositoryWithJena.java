@@ -45,6 +45,9 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 		while (i.hasNext()) {
 			IRI propIri = i.next();
 			String value = propertyValuePairs.get(propIri);
+			if (value == null) {
+				System.err.println("query IRIs, value is null for " + propIri);
+			}
 			if (!first)
 				queryTxt.append(".\n");
 			queryTxt.append("\t?x <");

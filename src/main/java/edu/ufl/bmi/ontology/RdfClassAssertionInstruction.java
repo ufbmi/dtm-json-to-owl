@@ -53,7 +53,7 @@ public class RdfClassAssertionInstruction extends RdfConversionInstruction {
 			OWLNamedIndividual oni = (handleOfIndividual.equals("[row-individual]")) ? rowIndividual : variables.get(handleOfIndividual);
 			//System.out.println("class is " + classHandle + "\t" + classIri);
 			//System.out.println("ind is " + handleOfIndividual + "\t" + oni);
-			GenericRdfConverter.addClassAssertionAxiom(oni, classIri, oo);
+			GenericOwl2Converter.addClassAssertionAxiom(oni, classIri, oo);
 		} else {
 			System.out.println("WARNING: could not find IRI for class: \"" + classHandle + "\"");
 		}
@@ -73,7 +73,7 @@ public class RdfClassAssertionInstruction extends RdfConversionInstruction {
 			OWLNamedIndividual oni = (handleOfIndividual.equals("[row-individual]")) ? rowIndividual : variables.get(handleOfIndividual);
 			//System.out.println("class is " + classHandle + "\t" + classIri);
 			//System.out.println("ind is " + handleOfIndividual + "\t" + oni);
-			GenericRdfConverter.addClassAssertionAxiom(oni, classIri, oo);
+			GenericOwl2Converter.addClassAssertionAxiom(oni, classIri, oo);
 		} else {
 			System.out.println("WARNING: could not find IRI for class: \"" + classHandle + "\"");
 		}
