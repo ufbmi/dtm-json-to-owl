@@ -2,6 +2,7 @@
 new-individual: midas-cc-identifier	identifier	label	[collection_ID]
 object-property-expression: midas-cc-identifier	denotes	[row-individual]
 annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[collection_title_en]
+object-property-expression: [row-individual]	is about	sars-cov-2-i
 
 [collection_title_en]
 annotation: [row-individual]	title	[collection_title_en]
@@ -46,8 +47,13 @@ class-assertion-expression: [row-individual]	[collection_type]
 # [collection_creator_contact]
 
 # Need to say something about time period in reality that is represented vs. time of ICEs in collection
-# [collection_first_report_date]
-# [collection_last_report_date]
+[collection_first_report_date]
+new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."
+annotation: collection-interval	comment	"start of interval: "+[collection_first_report_date]
+
+[collection_last_report_date]
+new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."	[collection_first_report_date] empty
+annotation: collection-interval	comment	"end of interval: "+[collection_last_report_date]
 
 # files and file formats need work
 # [collection_format]

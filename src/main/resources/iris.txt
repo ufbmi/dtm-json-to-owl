@@ -197,3 +197,5 @@ South Korea	http://purl.obolibrary.org/obo/GEO_000000692	individual	geographical
 Thailand	http://purl.obolibrary.org/obo/GEO_000000541	individual	geographical region	region of Thailand
 Unites States of America	http://purl.obolibrary.org/obo/GEO_000000587	individual	geographical region	region of the United States
 document	http://purl.obolibrary.org/obo/IAO_0000310	class
+sars-cov-2-i	http://purl.obolibrary.org/obo/NCBITaxon_2697049	individual	sars-cov-2-c	Severe acute respiratory syndrome coronavirus 2
+sars-cov-2-c	http://purl.obolibrary.org/obo/NCBITaxon_2697049	class

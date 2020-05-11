@@ -43,8 +43,10 @@ public class AttributeValueDataObject extends DataObject {
 			this.attributesAndValues.get(attribute) : new ArrayList<String>();
 
 			values.add(value);
-			if (position != values.size())
+			if (position != values.size()) {
 				System.err.println("position="+position+", but value is at " + values.size());
+				System.err.println("\tfor attribute="+attribute + " and value=" + value);
+			}
 
 		if (!this.attributesAndValues.containsKey(attribute)) {
 			this.attributesAndValues.put(attribute, values);

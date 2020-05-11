@@ -182,6 +182,9 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				} else if (subcondition.contains("not-empty")) {
 					String field = subcondition.replace("not-empty","").trim().replace("[","").replace("]","");
 					subConditionResult = subConditionResult && !dataObject.getDataElementValue(field).isEmpty();
+				} else if (subcondition.contains("empty")) {
+					String field = subcondition.replace("empty","").trim().replace("[","").replace("]","");
+					subConditionResult = subConditionResult && dataObject.getDataElementValue(field).isEmpty();
 				}
 			}
 			result = result || subConditionResult;
