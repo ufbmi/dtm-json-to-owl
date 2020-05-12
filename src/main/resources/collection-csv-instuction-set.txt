@@ -50,10 +50,12 @@ class-assertion-expression: [row-individual]	[collection_type]
 [collection_first_report_date]
 new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."
 annotation: collection-interval	comment	"start of interval: "+[collection_first_report_date]
+object-property-expression: [row-individual] is about	collection-interval
 
 [collection_last_report_date]
 new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."	[collection_first_report_date] empty
 annotation: collection-interval	comment	"end of interval: "+[collection_last_report_date]
+object-property-expression: [row-individual] is about	collection-interval
 
 # files and file formats need work
 # [collection_format]

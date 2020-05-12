@@ -108,11 +108,20 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
 		int resultCount = resultSet.size();
 		if (resultCount > 1) {
-			throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
+			//throw new RuntimeException("resultSet should be size 1, but got " + resultCount);
+			System.err.println("resultSet size should be 1, but is " + resultCount);
+			System.err.println("\tlookup variable is " + this.lookupVariableName);
+			System.err.println("\tlookup value is " + lookupValue);
+
 		}
-		OWLNamedIndividual oni = (resultCount == 1) ? 
+		//OWLNamedIndividual oni = (resultCount == 1) ? 
+		//	odf.getOWLNamedIndividual(resultSet.iterator().next()) :
+		//	null;
+		
+		OWLNamedIndividual oni = (resultCount > 0) ? 
 			odf.getOWLNamedIndividual(resultSet.iterator().next()) :
 			null;
+		
 			
 		//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
 		if (oni != null) variables.put(variableName, oni);

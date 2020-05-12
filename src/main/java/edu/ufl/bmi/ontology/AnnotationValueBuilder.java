@@ -59,7 +59,7 @@ public class AnnotationValueBuilder {
 			}
 		}
 
-		String annotationValue2=sb2.toString();
+		String annotationValue2=sb2.toString().replace("  "," ");
 		if (annotationValue2.trim().length() == 0) annotationValue2 = null;
 		return annotationValue2 ;
 	}
