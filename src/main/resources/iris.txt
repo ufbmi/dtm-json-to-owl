@@ -199,3 +199,5 @@ Unites States of America	http://purl.obolibrary.org/obo/GEO_000000587	individual
 document	http://purl.obolibrary.org/obo/IAO_0000310	class
 sars-cov-2-i	http://purl.obolibrary.org/obo/NCBITaxon_2697049	individual	sars-cov-2-c	Severe acute respiratory syndrome coronavirus 2
 sars-cov-2-c	http://purl.obolibrary.org/obo/NCBITaxon_2697049	class
+pmid	http://purl.obolibrary.org/obo/OBI_0001617	class
+pubmed central	https://www.ncbi.nlm.nih.gov/pmc/	individual	website	PubMed Central Website

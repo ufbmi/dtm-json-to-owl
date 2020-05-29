@@ -1,0 +1,125 @@
+
+# this is the MIDAS ID and need to set it as the unique key, identifier field in the config file
+[paperID]
+new-individual: midas-cc-identifier	identifier	label	[paperID]
+object-property-expression: midas-cc-identifier	denotes	[row-individual]
+annotation: midas-cc-identifier	comment	"MIDAS Coordination Center identifier for "+[title]
+
+# annotate the individual w/dc:title
+[title]
+annotation: [row-individual]	title	[title]
+
+[pmid]
+new-individual: paper-pmid	pmid	label	[pmid]
+object-property-expression: paper-pmid	denotes	[row-individual]
+annotation: paper-pmid	comment	"PMID for "+[title]
+
+[doi]
+new-individual: paper-doi	doi	label	[doi]
+object-property-expression: paper-doi	denotes	[row-individual]
+annotation: paper-doi	comment	"DOI for "+[title]
+
+# easy.  It's just a pubmed central ID
+[pmcid]
+new-individual: paper-pmcid	identifier	label	[pmcid]
+object-property-expression: paper-pmcid	denotes	[row-individual]
+annotation: paper-pmcid	comment	"PMCID for "+[title]
+object-property-expression: paper-pmcid	proper continuant part	pubmed central
+
+# authors primitive
+[authors]
+annotation: [row-individual]	authors	[authors]
+
+# if populated, then you should use it as the IRI of the individual
+[paperUrl]
+annotation: [row-individual]	hasURL	[paperUrl]
+
+# This is the name of the journal. There is no identifier for journal in the metadata.
+#   The lookup instruction only works to find other data object of the primary type.
+#   So if we're processing organizations, lookup individual works to lookup other
+#	organizations.
+# So we mgiht need to a separate passthrough to get all the unique journals
+#   and then create an OWL file for them with IRIs in the IRI repository.
+# We'll probably even want to grab individual volumes and issues along the
+#   way and assign those IRIs, and preconfigure all the parthood.
+# [publicationVenue]
+# lookup-individual: journal	
+
+[publicationVenue]
+annotation: [row-individual]	comment	"journal: "+[publicationVenue]
+
+# publicationAbbreviation primitive
+# add it only if it's not there already, which is interesting
+[publicationAbbreviation]
+annotation: [row-individual]	comment	"journal abbreviation: "+[publicationAbbreviation]
+
+[journalVolume]
+annotation: [row-individual]	comment	"volume: "+[journalVolume]
+annotation: [row-individual]	comment	"journal+volume: "+[publicationVenue]+", "+[journalVolume]
+
+[journalIssue]
+annotation: [row-individual]	comment	"journal+volume+issue: "+[publicationVenue]+", "+[journalVolume]+", "+[]
+
+# Can look this up now.  But see what these entries are.  And you still need to do the better lookup based on object/field
+# [paperLanguage]
+
+# [paperDatasetIdentifier]
+
+#paperAbstract object
+
+# [publicationStatus]
+
+#releasedToWebsiteDate primitive
+# [active] primitive
+
+# [tags] primitive
+
+# [articleDateType] primitive
+
+# paperSoftwareIdentifier primitive
+# paperSoftwareIdentifierSource primitive
+
+# paperGrantsAcknowledgedText primitive
+
+# isbn is for journal?  Check.
+# isbn primitive
+
+# need to check values TODO
+# [pubmedCurated] primitive
+
+# need to understand structure of objects in this array first
+# [paperAuthors] array
+
+# need to model the date.  Publishing is a process that occurs after authoring, etc.  What's in IAO here? I can write IAO stuff myself now :-)
+# [datePublished] primitive
+
+# should be redundant to paperID - need to check
+# [id] primitive
+
+# need to understand structure of objects in array first
+# [paperGrantsAcknowledged] array
+
+# need to see what these values are
+# [otherIdentifierSource] primitive
+# [otherIdentifier] primitive
+
+# this is an interesting date.  It's more about when pubmed indexed vs. when pubmed published I think.  WIll have to do some research
+# [pubmedPublishedDate] primitive
+
+# Hmmmm.  More stuff about journals.  Need to look at values.
+# [journalCitedMedium] primitive
+
+
+
+
+# not sure what this means
+# [paperDatasetIdentifierSource] primitive
+
+# not sure how this is differnet from datePublished?
+# [articleDate] primitive
+
+# interesting
+# properties of paperAbstract object: 
+# [paperAbstractID]
+# [paperAbstractText]
+# [id]

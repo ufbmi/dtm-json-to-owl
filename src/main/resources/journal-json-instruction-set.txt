@@ -1,0 +1,36 @@
+# create an instance of identifier, annotate as NLM identifier, say it's a part of some NLM site perhaps just use pubmed
+[ID]
+
+# also create a hasURL annotation with https://www.ncbi.nlm.nih.gov/nlmcatalog/ plus ID
+# ideally, figure out how to make that the individual IRI in the first place
+
+# create a website individual, and an is about from that to row individual
+[JrXml.Serial.IndexingSelectedURL]
+
+# add a title annotation to the row individual
+[JrXml.Serial.Title]
+
+# create an abbreviated(ion) text individual, denotes the row-individual
+[JrXml.Serial.ISOAbbreviation]
+
+# create a proper name, denotes, add annotation that says something about it being the SortSerialName
+[JrXml.Serial.SortSerialName]
+
+# another identifier, may need to create individual for LOC info system/web site, say it's part
+[NLMCatalogRecord.LCCN.value]
+
+# create an abbreviated(ion) text individual, denotes the row-individual
+[NLMCatalogRecord.MedlineTA]
+
+# not always represented as array because it doesn't have a schema.  So if there's one, no array, if there's multiple, array.
+# might need to figure out how to represent as array in the case where there's one entry only
+for each [JrXml.Serial.ISSN]
+
+# It's a URL in the value attribute.  Make a website for each one and an is about to the row individual
+for each [NLMCatalogRecord.ELocationList.ELocation]
+
+
+# process of creating realizes the language. Need some simple mappings for eng and spa and find some others.  Just get the lion's share: eng, ger, spa, fre, 
+#  
+for each [NLMCatalogRecord.Language]
+
