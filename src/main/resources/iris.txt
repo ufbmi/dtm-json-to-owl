@@ -201,3 +201,6 @@ sars-cov-2-i	http://purl.obolibrary.org/obo/NCBITaxon_2697049	individual	sars-co
 sars-cov-2-c	http://purl.obolibrary.org/obo/NCBITaxon_2697049	class
 pmid	http://purl.obolibrary.org/obo/OBI_0001617	class
 pubmed central	https://www.ncbi.nlm.nih.gov/pmc/	individual	website	PubMed Central Website
+author list	http://purl.obolibrary.org/obo/IAO_0000321	class
+proper occurrent part of	http://purl.obolibrary.org/obo/BFO_0000138	object property
+author role	http://purl.obolibrary.org/obo/IAO_0000442	class
