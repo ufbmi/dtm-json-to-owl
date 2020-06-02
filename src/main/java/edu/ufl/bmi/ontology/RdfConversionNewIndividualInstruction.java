@@ -1,6 +1,16 @@
 package edu.ufl.bmi.ontology;
 
+import java.text.ParsePosition;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -27,6 +37,10 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	int uniqueIdFieldIndex;
 	IRI uniqueIdFieldIri;
 	String iriSourceVariableName;
+
+	boolean constructIriFromDate;
+	ZoneId zoneId;
+	DateTimeFormatter dtf;
 	
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
 		String classIriTxt, String annotationPropertyTxt, String annotationValueInstruction,
@@ -42,6 +56,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		this.uniqueIdFieldName = uniqueIdFieldName;
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 		this.iriSourceVariableName = null;
+		this.constructIriFromDate = false;
 	}
 
 	public RdfConversionNewIndividualInstruction(IriLookup iriMap, OWLDataFactory odf, String variableName, 
@@ -59,6 +74,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		this.uniqueIdFieldIri = IRI.create(iriRepositoryPrefix + "/" + uniqueIdFieldName);
 		this.setCreationConditionLogic(creationCondition);
 		this.iriSourceVariableName = null;
+		this.constructIriFromDate = false;
 	}
 
 /*
@@ -144,7 +160,8 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				if (resultCount == 1) {
 					individualIri = resultSet.iterator().next();
 				} else if (this.iriSourceVariableName != null && !this.iriSourceVariableName.isEmpty()) {
-					String iriTxt = dataObject.getDataElementValue(this.iriSourceVariableName); 
+					String iriTxt = (this.constructIriFromDate) ? buildIriTxtFromDate(dataObject) :
+						dataObject.getDataElementValue(this.iriSourceVariableName); 
 					System.out.println("Got value of " + iriTxt + " for " + this.iriSourceVariableName + " data element.");
 					individualIri = IRI.create(iriTxt);
 					System.out.println("Created new IRI: " + individualIri.toString());
@@ -193,8 +210,30 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	}
 
 	public void setIriSourceVariableName(String iriSourceVariableName) {
+		if (iriSourceVariableName.startsWith("fromDate")) {
+			this.constructIriFromDate = true;
+			this.dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			this.zoneId = ZoneId.systemDefault();
+			iriSourceVariableName = iriSourceVariableName.replace("fromDate(","");
+			iriSourceVariableName = iriSourceVariableName.replace(")","");
+			System.out.println("from date source variable name remaining: " + iriSourceVariableName);
+		}
 		this.iriSourceVariableName = iriSourceVariableName.replace("[","").replace("]","");
 		System.out.println("Variable whose value is the IRI we'll give to individuals: "  + this.iriSourceVariableName);
+	}
+
+	protected String buildIriTxtFromDate(DataObject dataObject) {
+		String dateValueTxt = dataObject.getDataElementValue(this.iriSourceVariableName);
+		System.err.print("dateValueTxt="+dateValueTxt);
+       
+        LocalDate ld = LocalDate.parse(dateValueTxt, dtf);
+        System.err.print(", as ISO = " + DateTimeFormatter.ISO_LOCAL_DATE.format(ld));
+        //System.out.println(DateTimeFormatter.ISO_OFFSET_DATE.format(odt));
+        ZonedDateTime odt = ZonedDateTime.of(ld, LocalTime.now(), zoneId);
+        String localPart = DateTimeFormatter.ISO_OFFSET_DATE.format(odt);
+        System.err.println(", and now with offset: " + localPart);		
+
+		return "http://time.org/gregorian/"+localPart;
 	}
 
 	public void setCreationConditionLogic(String creationConditionLogic) {

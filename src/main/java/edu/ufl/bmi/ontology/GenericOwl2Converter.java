@@ -106,6 +106,9 @@ public class GenericOwl2Converter {
 
     static String instructionSetVersion;
 
+    static String iriBaseForUrlPlusIdIri;
+    static String idFieldForUrlPlusIdIri;
+
     public static void main(String[] args) {
 		try {
 		    readConfigurationProperties(args[0]);
@@ -182,6 +185,9 @@ public class GenericOwl2Converter {
 
 		iriCounter = Math.max(iriCounter, iriRepository.getIriCounter());
 		System.out.println("Setting counter to: " + iriCounter);
+
+		iriBaseForUrlPlusIdIri = p.getProperty("iribase");
+		idFieldForUrlPlusIdIri = p.getProperty("iri_completion_field");
 
 		rcise = new RdfConversionInstructionSetExecutor();
     }

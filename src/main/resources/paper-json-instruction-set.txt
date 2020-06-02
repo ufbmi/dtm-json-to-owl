@@ -1,4 +1,3 @@
-
 # this is the MIDAS ID and need to set it as the unique key, identifier field in the config file
 [paperID]
 new-individual: midas-cc-identifier	identifier	label	[paperID]
@@ -47,13 +46,23 @@ object-property-expression: author-x-paper-writing	realizes	author-x-role
 object-property-expression: author-x	bearer	author-x-role
 object-property-expression: author-x-paper-writing	has active participant	author-x	
 annotation: author-x-role	comment	"author order: "+[authorOrder]
-annotation: author-x-role	comment	"primary or senior author: "+[primaryOrSeniorAuthor]
+annotation: author-x-role	comment	"primary or senior author: "+[primarySeniorAuthor]
 
 # an argument could be made to use it as IRI of the individual, but if the journal changes ownership, etc. then the URL could change
 # so keep this as is.  Alternatively you could could make it an instance of Webiste that is about the paper or stands in some other
 # relationship to the publication itself.
 [paperUrl]
 annotation: [row-individual]	hasURL	[paperUrl]
+
+# need to model the date.  Publishing is a process that occurs after authoring, etc.  What's in IAO here? I can write IAO stuff myself now :-)
+# there's no publishing class.  For now, we'll say the end of the authoring process occurs over an interval that overlaps this date
+# [datePublished] primitive
+[datePublished]
+new-individual: authoring-region	one d region	label	"temporal region occupied by authoring of "+[paperID]+" with title: "+[title]
+new-individual: pub-date	temporal interval	label	[datePublished]	iri=fromDate([datePublished])
+object-property-expression: paper-writing	occupies temporal region	authoring-region
+object-property-expression: authoring-region	ends during	pub-date
+
 
 # This is the name of the journal. There is no identifier for journal in the metadata.
 #   The lookup instruction only works to find other data object of the primary type.
@@ -111,9 +120,6 @@ annotation: [row-individual]	comment	"journal+volume+issue: "+[publicationVenue]
 
 # need to understand structure of objects in this array first
 # [paperAuthors] array
-
-# need to model the date.  Publishing is a process that occurs after authoring, etc.  What's in IAO here? I can write IAO stuff myself now :-)
-# [datePublished] primitive
 
 # should be redundant to paperID - need to check
 # [id] primitive

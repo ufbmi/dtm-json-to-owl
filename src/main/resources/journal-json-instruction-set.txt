@@ -1,5 +1,11 @@
 # create an instance of identifier, annotate as NLM identifier, say it's a part of some NLM site perhaps just use pubmed
+# THIS IS WRONG.  WE NEED TO CREATE THE ROW INDIVIDUAL WITH A NON-MIDAS IRI
+# SO THE "FROM BASE" PART NEEDS TO GO INTO THE CONFIG, AND BE INVOKED ON THE FIRST PASSTHROUGH
+# THE BASE URL FOR JOURNAL IDENTIFIERS IS THE FOLLOWING: https://www.ncbi.nlm.nih.gov/nlmcatalog/
+# SO WE NEED TO PUT THAT BASE IN THE JOURNAL-JSON-CONFIG.TXT FILE
+# AND TELL THE GENERIC OWL2 CONVERTER TO BUILD THE IRI USING THAT BASE PLUS THE UNIQUE ID FIELD
 [ID]
+new-individual: journal	journal	label	[JrXml.Serial.Title]	iri=fromBase("",[ID])
 
 # also create a hasURL annotation with https://www.ncbi.nlm.nih.gov/nlmcatalog/ plus ID
 # ideally, figure out how to make that the individual IRI in the first place
