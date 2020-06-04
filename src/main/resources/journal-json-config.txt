@@ -2,7 +2,7 @@ object_type=journal
 
 # data object provider information
 data_provider_type=json file
-json_file_name=src/main/resources/nlm_catalog_result.json
+json_file_name=/Users/hoganwr/Downloads/nlm_catalog_result_20.json
 
 # information about fields / elements in the data objects
 unique_key_fields=ID

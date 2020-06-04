@@ -205,3 +205,4 @@ author list	http://purl.obolibrary.org/obo/IAO_0000321	class
 proper occurrent part of	http://purl.obolibrary.org/obo/BFO_0000138	object property
 author role	http://purl.obolibrary.org/obo/IAO_0000442	class
 one d region	http://purl.obolibrary.org/obo/BFO_0000038	class
+journal	http://purl.obolibrary.org/obo/FBcv_0000787	class

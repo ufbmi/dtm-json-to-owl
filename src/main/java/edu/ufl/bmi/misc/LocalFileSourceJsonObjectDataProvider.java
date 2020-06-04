@@ -38,22 +38,25 @@ public class LocalFileSourceJsonObjectDataProvider extends DataObjectProvider {
 		
         FileReader fr = null;
         try {
+            System.out.println("file name is " + this.filePathAndName);
             fr = new FileReader(this.filePathAndName);
             JsonParser jp = new JsonParser();
             JsonElement jeTop = jp.parse(fr);
             if (jeTop.isJsonArray()) {
                 allObjects = jeTop.getAsJsonArray();
+            } else {
+                System.err.println("Expected Json Array at top level of file.  Not initialized.");
             }
-            
+            fr.close();
         } catch (IOException ioe) {
         	ioe.printStackTrace();
-        } finally {
+        } /*finally {
             try {
-            	fr.close();
+                fr.close(); 	
             } catch (IOException ioe) {
             	ioe.printStackTrace();
             }
-        }
+        }*/
 	}
 
 	@Override
@@ -62,6 +65,7 @@ public class LocalFileSourceJsonObjectDataProvider extends DataObjectProvider {
 	}
 
 	protected DataObject getNextDataObject() {
+        if (iCurrentObject == allObjects.size()) { iCurrentObject = 0; return null; }
 		JsonDataObject jdo = new JsonDataObject(allObjects.get(iCurrentObject).getAsJsonObject(), keyField);
         iCurrentObject++;
 		return jdo;

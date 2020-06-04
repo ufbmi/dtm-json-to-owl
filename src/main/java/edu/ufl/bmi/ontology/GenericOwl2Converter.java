@@ -45,6 +45,7 @@ import edu.ufl.bmi.misc.ApiSourceJsonObjectDataProvider;
 import edu.ufl.bmi.misc.DataObject;
 import edu.ufl.bmi.misc.DataObjectProvider;
 import edu.ufl.bmi.misc.LineNumberReaderSourceRecordDataObjectProvider;
+import edu.ufl.bmi.misc.LocalFileSourceJsonObjectDataProvider;
 import edu.ufl.bmi.misc.RecordDataObject;
 import edu.ufl.bmi.misc.OneObjectPerFileDataProvider;
 import edu.ufl.bmi.misc.AttributeValueDataObject;
@@ -108,6 +109,7 @@ public class GenericOwl2Converter {
 
     static String iriBaseForUrlPlusIdIri;
     static String idFieldForUrlPlusIdIri;
+    static String jsonFileName;
 
     public static void main(String[] args) {
 		try {
@@ -188,6 +190,7 @@ public class GenericOwl2Converter {
 
 		iriBaseForUrlPlusIdIri = p.getProperty("iribase");
 		idFieldForUrlPlusIdIri = p.getProperty("iri_completion_field");
+		jsonFileName = p.getProperty("json_file_name");
 
 		rcise = new RdfConversionInstructionSetExecutor();
     }
@@ -317,6 +320,9 @@ public class GenericOwl2Converter {
 			dopLocal = new OneObjectPerFileDataProvider(uniqueIdFieldName, objectFileListFileName, elementArrangementInFile, multipleValueType,
 				multipleValueElementDelimiter, elementValueDelimiter);
 			((OneObjectPerFileDataProvider)dopLocal).initialize();
+		} else if (dataProviderTypeTxt.equals("json file")) {
+			dopLocal = new LocalFileSourceJsonObjectDataProvider(jsonFileName, uniqueIdFieldName);
+			((LocalFileSourceJsonObjectDataProvider)dopLocal).initialize();
 		} else {
 			System.err.println("Don't know about " + dataProviderTypeTxt + " data providers.");
 			System.exit(5);
@@ -358,8 +364,14 @@ public class GenericOwl2Converter {
 			if (resultCount == 1) {
 				oni = createNamedIndividualWithIriAndType(resultSet.iterator().next(), iriMap.lookupClassIri(objectTypeTxt));
 			} else if (resultCount == 0) {
-				oni = createNamedIndividualWithType(iriMap.lookupClassIri(objectTypeTxt));
-				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+				if (iriBaseForUrlPlusIdIri != null && idFieldForUrlPlusIdIri != null) {
+					IRI iri = IRI.create(iriBaseForUrlPlusIdIri + dataObject.getDataElementValue(idFieldForUrlPlusIdIri));
+					oni = createNamedIndividualWithIriAndType(iri, iriMap.lookupClassIri(objectTypeTxt));
+					iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+				} else {
+					oni = createNamedIndividualWithType(iriMap.lookupClassIri(objectTypeTxt));
+					iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
+				}
 			} else {
 				throw new RuntimeException("Unexpected query result set number: " + 
 					resultCount + ", expected 0 or 1.");
