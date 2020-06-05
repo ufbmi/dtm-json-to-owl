@@ -212,7 +212,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	public void setIriSourceVariableName(String iriSourceVariableName) {
 		if (iriSourceVariableName.startsWith("fromDate")) {
 			this.constructIriFromDate = true;
-			this.dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			this.dtf = DateTimeFormatter.ofPattern("[MM/dd/yyyy][yyyy-MM-dd]");
 			this.zoneId = ZoneId.systemDefault();
 			iriSourceVariableName = iriSourceVariableName.replace("fromDate(","");
 			iriSourceVariableName = iriSourceVariableName.replace(")","");

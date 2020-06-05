@@ -39,6 +39,7 @@ public class JsonDataObject extends DataObject {
 
 
     protected static String getValueForJsonPath(JsonObject jo, String path) {
+        //System.err.println("path="+path);
     	if (jo == null || path == null) return "";
         String[] pathElems = path.split(Pattern.quote("."), 2);
         //System.out.println("Path is " + path);
@@ -160,7 +161,9 @@ public class JsonDataObject extends DataObject {
             //if pathElems[0] has bracket, then need to get array instead of string
             //  and return ith string in array where i is index inside bracket
             String value = "";
+            pathElems[0] = pathElems[0].trim();
             if (pathElems[0].contains("[")) {
+                //System.out.println("pathElems[0]="+pathElems[9]);
                 String[] arrayInfo = pathElems[0].split(Pattern.quote("["), 2);
                 String elemName = arrayInfo[0];
                 int i = Integer.parseInt(arrayInfo[1].replace("]",""));
@@ -180,10 +183,21 @@ public class JsonDataObject extends DataObject {
 
     @Override
     public DataObject[] getValuesAsDataObjectsForElement(String elementName) {
-    	JsonElement je = jo.get(elementName);
+        //System.err.println("getting possibly multiple values for element="+elementName);
+    	
+        String[] pathSteps = elementName.split(Pattern.quote("."), -1);
+        JsonObject joNew = jo;
+        for (int i=0; i<pathSteps.length-1; i++) {
+            joNew = joNew.get(pathSteps[i]).getAsJsonObject();
+        }
+        JsonElement je = joNew.get(pathSteps[pathSteps.length-1]);
+        //System.out.println("Getting array of " + elementName);
+        //System.out.println("\t"+ je);
     	JsonDataObject[] jdos = null;
     	if (je.isJsonArray()) {
+            //System.out.print("The value of " + elementName + " is an array...");
     		JsonArray ja = je.getAsJsonArray();
+            //System.out.println("of size " + ja.size());
     		jdos = new JsonDataObject[ja.size()];
     		int i=0;
     		for (JsonElement jei : ja) {
@@ -194,6 +208,7 @@ public class JsonDataObject extends DataObject {
     			} else if (jei.isJsonObject()) {
     				joLocal = jei.getAsJsonObject();
     			} 
+                //System.out.println(joLocal.toString());
     			jdos[i++] = new JsonDataObject(joLocal, "id");
     		}
     		return jdos;

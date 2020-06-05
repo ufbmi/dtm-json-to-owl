@@ -206,3 +206,6 @@ proper occurrent part of	http://purl.obolibrary.org/obo/BFO_0000138	object prope
 author role	http://purl.obolibrary.org/obo/IAO_0000442	class
 one d region	http://purl.obolibrary.org/obo/BFO_0000038	class
 journal	http://purl.obolibrary.org/obo/FBcv_0000787	class
+issn international centre	https://www.issn.org/	individual	organization	The International Centre for the registration of serial publications – CIEPS
+dubbing	http://purl.obolibrary.org/obo/IAO_20010	class
+has participant	http://purl.obolibrary.org/obo/RO_0000057	object property

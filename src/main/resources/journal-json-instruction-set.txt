@@ -21,20 +21,43 @@ annotation: [row-individual]	hasURL	[JrXml.Serial.IndexingSelectedURL]
 annotation: [row-individual]	title	[JrXml.Serial.Title]
 
 # create an abbreviated(ion) text individual, denotes the row-individual
-#[JrXml.Serial.ISOAbbreviation]
+[JrXml.Serial.ISOAbbreviation]
+new-individual: iso-abbrev	abbreviation textual entity	label	[JrXml.Serial.ISOAbbreviation]
+object-property-expression: iso-abbrev	denotes	[row-individual]
+annotation: iso-abbrev	comment	"ISO journal abbreviation"
 
 # create a proper name, denotes, add annotation that says something about it being the SortSerialName
-# [JrXml.Serial.SortSerialName]
+[JrXml.Serial.SortSerialName]
+new-individual:	sort-name	identifier	label	[JrXml.Serial.SortSerialName]
+annotation: sort-name	comment	"name of journal "+[JrXml.Serial.Title]+" that is used for sorting"
+object-property-expression: sort-name	denotes	[row-individual]
 
 # another identifier, may need to create individual for LOC info system/web site, say it's part
-# [NLMCatalogRecord.LCCN.value]
+[NLMCatalogRecord.LCCN.value]
+new-individual: lccn-id	identifier	label	[NLMCatalogRecord.LCCN.value]
+object-property-expression: lccn-id	denotes	[row-individual]
+annotation: lccn-id	comment	"Libary of Congress Catalog Number of "+[JrXml.Serial.Title]
 
 # create an abbreviated(ion) text individual, denotes the row-individual
-# [NLMCatalogRecord.MedlineTA]
+[NLMCatalogRecord.MedlineTA]
+new-individual: medline-abbrev	abbreviation textual entity	label	[NLMCatalogRecord.MedlineTA]
+object-property-expression: medline-abbrev	denotes	[row-individual]
+annotation: medline-abbrev	comment	"Medline abbreviated title of "+[JrXml.Serial.Title]
 
 # not always represented as array because it doesn't have a schema.  So if there's one, no array, if there's multiple, array.
 # might need to figure out how to represent as array in the case where there's one entry only
-# for each [JrXml.Serial.ISSN]
+foreach [JrXml.Serial.ISSN]
+new-individual: issn-x	identifier	label	[value]
+object-property-expression: issn-x	denotes	[row-individual]
+annotation: issn-x	comment	"ISSN"
+new-individual: process-of-assigning-x-to-journal	dubbing	label	"assigning ISSN "+[value]+" to journal"
+object-property-expression: process-of-assigning-x-to-journal	has specified output	issn-x
+object-property-expression: process-of-assigning-x-to-journal	has participant	issn international centre
+annotation: issn-x	comment	"ISSN type: "+[IssnType]
+new-individual: issn-creation-region	temporal interval	label	"temporal interval occupied by assigning ISSN "+[value]
+object-property-expression: issn-creation-region	occupies temporal region	issn-creation-region
+new-individual: issn-creation-date	temporal interval	label	[CreatedTimestamp]	iri=fromDate([CreatedTimestamp])
+object-property-expression: issn-creation-region	proper occurrent part of	issn-creation-date
 
 # It's a URL in the value attribute.  Make a website for each one and an is about to the row individual
 # for each [NLMCatalogRecord.ELocationList.ELocation]
