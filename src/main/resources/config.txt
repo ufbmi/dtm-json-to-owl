@@ -1,3 +1,0 @@
-owlfile=./dtm-owl-data.owl
-owliri=http://www.pitt.edu/dc/dtm
-import=http://purl.obolibrary.org/obo/apollo_sv.owl
