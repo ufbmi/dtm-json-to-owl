@@ -1,6 +1,0 @@
-1-U24-GM087704	http://www.pitt.edu/obc/IDE_0000000181
-ERC Stg-260686	http://www.pitt.edu/obc/IDE_ARTICLE_0000000011
-NIH U54 GM111274	http://www.pitt.edu/obc/IDE_0000000195
-NIH/NIGMS R01GM093939	http://www.pitt.edu/obc/IDE_ARTICLE_0000000013
-R35GM119582	http://www.pitt.edu/obc/IDE_ARTICLE_0000000015
-U24GM110707	http://www.pitt.edu/obc/IDE_0000000187

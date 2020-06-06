@@ -54,7 +54,7 @@ public class RdfConversionLookupInstruction extends RdfConversionInstruction {
 	*/
 
 	@Override
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		//Find the value of the field specified in this instruction, and search for named individuals created with that field value
 		String fieldValue = dataObject.getDataElementValue(this.searchFieldName);
 		//System.err.println("Searching for individual by " + this.searchFieldName + " = " + fieldValue);

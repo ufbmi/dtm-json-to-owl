@@ -48,7 +48,7 @@ public class RdfConversionInstructionSet {
 		HashMap<String, OWLNamedIndividual> variables = new HashMap<String, OWLNamedIndividual>();
 
 		for (RdfConversionInstruction i : instructions) {
-			i.execute(rowIndividual, dataObject, variables, oo);
+			i.execute(rowIndividual, dataObject, null, variables, oo);
 		}
 	}
 
@@ -57,11 +57,11 @@ public class RdfConversionInstructionSet {
 	 *   pass the variables into this instruction set.
 	 *
 	 */
-	public void executeInstructions(OWLNamedIndividual rowIndividual, DataObject dataObject, OWLOntology oo,
-		HashMap<String, OWLNamedIndividual> variables) {
+	public void executeInstructions(OWLNamedIndividual rowIndividual, DataObject dataObject, 
+		OWLOntology oo, HashMap<String, OWLNamedIndividual> variables) {
 
 		for (RdfConversionInstruction i : instructions) {
-			i.execute(rowIndividual, dataObject, variables, oo);
+			i.execute(rowIndividual, dataObject, null, variables, oo);
 		}
 	}
 

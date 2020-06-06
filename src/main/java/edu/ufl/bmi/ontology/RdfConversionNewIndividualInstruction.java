@@ -136,9 +136,9 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 	}
 	*/
 
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		if (alwaysCreate || evaluateCondition(dataObject)) {
-			String annotationValue = avb.buildAnnotationValue(dataObject);
+			String annotationValue = avb.buildAnnotationValue(dataObject, parentObject);
 			if (validFieldValue(annotationValue)) {
 				HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 				IRI varNameIri = IRI.create(iriRepositoryPrefix + "/variableName");
@@ -146,7 +146,11 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 				IRI rdfLabelIri = iriMap.lookupAnnPropIri("label");
 				repoAnnotations.put(rdfLabelIri, annotationValue);
 				//System.err.println("newIndividual query, variableName=" + variableName + " and annotationValue=" + annotationValue);
-				repoAnnotations.put(this.uniqueIdFieldIri, dataObject.getDataElementValue(uniqueIdFieldName));
+				if (parentObject == null) {
+					repoAnnotations.put(this.uniqueIdFieldIri, dataObject.getDataElementValue(uniqueIdFieldName));
+				} else {
+					repoAnnotations.put(this.uniqueIdFieldIri, parentObject.getDataElementValue(uniqueIdFieldName));
+				}
 				//System.err.println("newIndividual query, variableName=" + this.uniqueIdFieldIri + " and value=" +
 				//		dataObject.getDataElementValue(uniqueIdFieldName)); 
 				

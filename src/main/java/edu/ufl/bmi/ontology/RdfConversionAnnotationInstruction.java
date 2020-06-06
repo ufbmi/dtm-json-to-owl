@@ -40,8 +40,8 @@ public class RdfConversionAnnotationInstruction extends RdfConversionInstruction
 	}
 */
 	
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
-		String annotationValue = avb.buildAnnotationValue(dataObject);
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+		String annotationValue = avb.buildAnnotationValue(dataObject, parentObject);
 		if (validFieldValue(annotationValue)) {
 			OWLNamedIndividual oni = (variableName.equals("[row-individual]")) ? rowIndividual : variables.get(variableName);
 			if (oni != null)

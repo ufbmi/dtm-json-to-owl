@@ -11,6 +11,7 @@ public class AnnotationValueBuilder {
 
 	ArrayList<String> annotationValueComponent;
 	ArrayList<Boolean> isLiteralValue;
+	ArrayList<Boolean> isFromParent;
 
 	public AnnotationValueBuilder(String annotationInstruction) {
 		parseAnnotationValueInstruction(annotationInstruction);
@@ -44,7 +45,7 @@ public class AnnotationValueBuilder {
 	}
 	*/
 
-	public String buildAnnotationValue(DataObject dataObject) {
+	public String buildAnnotationValue(DataObject dataObject, DataObject parentObject) {
 		StringBuilder sb2 = new StringBuilder();
 		int size = annotationValueComponent.size();
 		for (int i=0; i<size; i++) {
@@ -53,7 +54,7 @@ public class AnnotationValueBuilder {
 				sb2.append(s);
 			} else {
 				//System.err.println("Getting value of " + s + " element to build annotation.");
-				String value = dataObject.getDataElementValue(s);
+				String value = (isFromParent.get(i)) ? parentObject.getDataElementValue(s) : dataObject.getDataElementValue(s);
 				if (value.trim().length()>0)
 					sb2.append(value);
 			}
@@ -72,6 +73,7 @@ public class AnnotationValueBuilder {
 		*/
 		annotationValueComponent = new ArrayList<String>();
 		isLiteralValue = new ArrayList<Boolean>();
+		isFromParent = new ArrayList<Boolean>();
 
 		String[] flds = annotationValueInstruction.split(Pattern.quote("+"));
 		for (String fld : flds) {
@@ -81,9 +83,16 @@ public class AnnotationValueBuilder {
 				String varName = fld.substring(1, fld.length()-1);
 				annotationValueComponent.add(varName);
 				isLiteralValue.add(false);
+				isFromParent.add(false);
+			} else if (fld.startsWith("p.[") && fld.endsWith("]")) {
+				String varName = fld.substring(3, fld.length()-1);
+				annotationValueComponent.add(varName);
+				isLiteralValue.add(false);
+				isFromParent.add(true);
 			} else {
 				annotationValueComponent.add(fld.replace("\"",""));
 				isLiteralValue.add(true);
+				isFromParent.add(false);
 			}
 		}
 	}

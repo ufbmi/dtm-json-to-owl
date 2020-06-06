@@ -95,7 +95,7 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		this.lookupVariableName = lookupVariableName;
 	}
 
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		HashMap<IRI, String> repoAnnotations = new HashMap<IRI, String>();
 		IRI externalFieldIri = IRI.create(queryIriPrefix + "/" + externalFileFieldName);
 		String lookupValue = dataObject.getDataElementValue(lookupValueFieldName);

@@ -1,7 +1,7 @@
 # create an instance of identifier, annotate as NLM identifier, say it's a part of some NLM site perhaps just use pubmed
 [ID]
 new-individual: journal-id	identifier	label	[ID]
-annotation: journal-id	comment	"identifier for "+[JrXml.Serial.Title]
+annotation: journal-id	comment	"NLM identifier for "+[JrXml.Serial.Title]
 object-property-expression: journal-id	denotes	[row-individual]
 
 # create a website individual, and an is about from that to row individual
@@ -42,7 +42,7 @@ foreach [JrXml.Serial.ISSN]
 new-individual: issn-x	identifier	label	[value]
 object-property-expression: issn-x	denotes	[row-individual]
 annotation: issn-x	comment	"ISSN"
-new-individual: process-of-assigning-x-to-journal	dubbing	label	"assigning ISSN "+[value]+" to journal"
+new-individual: process-of-assigning-x-to-journal	dubbing	label	"assigning ISSN "+[value]+" to journal "+p.[JrXml.Serial.Title]
 object-property-expression: process-of-assigning-x-to-journal	has specified output	issn-x
 object-property-expression: process-of-assigning-x-to-journal	has participant	issn international centre
 annotation: issn-x	comment	"ISSN type: "+[IssnType]
@@ -52,8 +52,10 @@ new-individual: issn-creation-date	temporal interval	label	[CreatedTimestamp]	ir
 object-property-expression: issn-creation-region	proper occurrent part of	issn-creation-date
 
 # It's a URL in the value attribute.  Make a website for each one and an is about to the row individual
-# for each [NLMCatalogRecord.ELocationList.ELocation]
-
+foreach [NLMCatalogRecord.ELocationList.ELocation]
+new-individual: elocation-x	website	label	"Electronic location of "+p.[JrXml.Serial.Title]	[ELocationID.value] not-empty	iri=[ELocationID.value]
+annotation: elocation-x	comment	"elocation type:"+[ELocationID.EIdType]
+annotation: elocation-x	comment	"valid: "+[ELocationID.ValidYN]
 
 # process of creating realizes the language. Need some simple mappings for eng and spa and find some others.  Just get the lion's share: eng, ger, spa, fre, 
 #  

@@ -61,7 +61,7 @@ public class RdfClassAssertionInstruction extends RdfConversionInstruction {
 */
 	
 	@Override
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		/*
 		 *  Step 1: get IRI for class. If not null, continue.
 		 *  Step 2: get individual for which we're making assertion

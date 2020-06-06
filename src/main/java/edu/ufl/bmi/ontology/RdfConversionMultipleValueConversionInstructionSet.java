@@ -50,7 +50,7 @@ public class RdfConversionMultipleValueConversionInstructionSet extends RdfConve
 			HashMap<String, OWLNamedIndividual> varCopy = (HashMap<String, OWLNamedIndividual>)variables.clone();
 
 			for (RdfConversionInstruction i : instructions) {
-				i.execute(rowIndividual, nextDataObject, varCopy, oo);
+				i.execute(rowIndividual, nextDataObject, dataObject, varCopy, oo);
 			}
 		}
 	}

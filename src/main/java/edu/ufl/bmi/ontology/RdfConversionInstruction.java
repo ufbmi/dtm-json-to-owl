@@ -31,6 +31,12 @@ public abstract class RdfConversionInstruction {
 		return (fieldValue != null && fieldValue.trim().length() > 0);
 	}
 
-	public abstract void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
+	/*
+	 *
+	 * Execute the instruction against the dataObject.  If a parent object is specified, it makes the "wrapper" object available to the
+	 *   instruction as well.
+     *
+	 */
+	public abstract void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo);
 
 }

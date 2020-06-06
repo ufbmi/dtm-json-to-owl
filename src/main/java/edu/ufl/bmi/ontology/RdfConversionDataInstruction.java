@@ -64,7 +64,7 @@ public class RdfConversionDataInstruction extends RdfConversionInstruction {
 */
 
 	@Override
-	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
+	public void execute(OWLNamedIndividual rowIndividual, DataObject dataObject, DataObject parentObject, HashMap<String, OWLNamedIndividual> variables, OWLOntology oo) {
 		Object dataValue = dvb.buildDataValue(dataObject);
 		OWLNamedIndividual oni = (variableName.equals("[row-individual]")) ? rowIndividual : variables.get(variableName);
 		if (oni != null) {
