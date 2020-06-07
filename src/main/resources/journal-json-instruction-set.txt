@@ -37,6 +37,15 @@ new-individual: medline-abbrev	abbreviation textual entity	label	[NLMCatalogReco
 object-property-expression: medline-abbrev	denotes	[row-individual]
 annotation: medline-abbrev	comment	"Medline abbreviated title of "+[JrXml.Serial.Title]
 
+[NLMCatalogRecord.ISSNLinking]
+new-individual: issn-link	identifier	label	[NLMCatalogRecord.ISSNLinking.value]
+annotation: issn-link	comment	"Linking ISSN of journal: "+[JrXml.Serial.Title]
+object-property-expression: issn-link	denotes	[row-individual]
+annotation: issn-link	comment	"Valid: "+[NLMCatalogRecord.ISSNLinking.ValidYN]
+new-individual: process-of-assigning-issn-link-to-journal	dubbing	label	"assigning ISSN "+[value]+" to journal: "+[JrXml.Serial.Title]
+object-property-expression: process-of-assigning-issn-link-to-journal	has specified output	issn-link
+object-property-expression: process-of-assigning-issn-link-to-journal	has participant	issn international centre
+
 # not always represented as array because it doesn't have a schema.  So if there's one, no array, if there's multiple, array.
 # might need to figure out how to represent as array in the case where there's one entry only
 foreach [JrXml.Serial.ISSN]
@@ -48,14 +57,14 @@ object-property-expression: process-of-assigning-x-to-journal	has specified outp
 object-property-expression: process-of-assigning-x-to-journal	has participant	issn international centre
 annotation: issn-x	comment	"ISSN type: "+[IssnType]
 new-individual: issn-creation-region	temporal interval	label	"temporal interval occupied by assigning ISSN "+[value]
-object-property-expression: issn-creation-region	occupies temporal region	issn-creation-region
+object-property-expression: process-of-assigning-x-to-journal	occupies temporal region	issn-creation-region
 new-individual: issn-creation-date	temporal interval	label	[CreatedTimestamp]	iri=fromDate([CreatedTimestamp])
 object-property-expression: issn-creation-region	proper occurrent part of	issn-creation-date
 
 # It's a URL in the value attribute.  Make a website for each one and an is about to the row individual.
 # Can't use the URL as the IRI, because some values aren't suitable, so we're minting IRIs
 foreach [NLMCatalogRecord.ELocationList.ELocation]
-new-individual: elocation-x	website	label	"Electronic location of "+p.[JrXml.Serial.Title]	[ELocationID.value] not-empty
+new-individual: elocation-x	website	label	"Electronic location of "+p.[JrXml.Serial.Title]+" at "+[ELocationID.value]	[ELocationID.value] not-empty
 annotation: elocation-x	hasURL	[ELocationID.value]
 annotation: elocation-x	comment	"elocation type:"+[ELocationID.EIdType]
 annotation: elocation-x	comment	"valid: "+[ELocationID.ValidYN]
