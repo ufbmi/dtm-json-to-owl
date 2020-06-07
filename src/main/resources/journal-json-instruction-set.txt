@@ -25,10 +25,11 @@ annotation: sort-name	comment	"name of journal "+[JrXml.Serial.Title]+" that is 
 object-property-expression: sort-name	denotes	[row-individual]
 
 # another identifier, may need to create individual for LOC info system/web site, say it's part
-[NLMCatalogRecord.LCCN.value]
-new-individual: lccn-id	identifier	label	[NLMCatalogRecord.LCCN.value]
+foreach [NLMCatalogRecord.LCCN]
+new-individual: lccn-id	identifier	label	[value]
 object-property-expression: lccn-id	denotes	[row-individual]
-annotation: lccn-id	comment	"Libary of Congress Catalog Number of "+[JrXml.Serial.Title]
+annotation: lccn-id	comment	"Libary of Congress Catalog Number of "+p.[JrXml.Serial.Title]
+annotation: lccn-id	comment	"Valid: "+[ValidYN]
 
 # create an abbreviated(ion) text individual, denotes the row-individual
 [NLMCatalogRecord.MedlineTA]
@@ -51,11 +52,14 @@ object-property-expression: issn-creation-region	occupies temporal region	issn-c
 new-individual: issn-creation-date	temporal interval	label	[CreatedTimestamp]	iri=fromDate([CreatedTimestamp])
 object-property-expression: issn-creation-region	proper occurrent part of	issn-creation-date
 
-# It's a URL in the value attribute.  Make a website for each one and an is about to the row individual
+# It's a URL in the value attribute.  Make a website for each one and an is about to the row individual.
+# Can't use the URL as the IRI, because some values aren't suitable, so we're minting IRIs
 foreach [NLMCatalogRecord.ELocationList.ELocation]
-new-individual: elocation-x	website	label	"Electronic location of "+p.[JrXml.Serial.Title]	[ELocationID.value] not-empty	iri=[ELocationID.value]
+new-individual: elocation-x	website	label	"Electronic location of "+p.[JrXml.Serial.Title]	[ELocationID.value] not-empty
+annotation: elocation-x	hasURL	[ELocationID.value]
 annotation: elocation-x	comment	"elocation type:"+[ELocationID.EIdType]
 annotation: elocation-x	comment	"valid: "+[ELocationID.ValidYN]
+object-property-expression: elocation-x	is about	[row-individual]
 
 # process of creating realizes the language. Need some simple mappings for eng and spa and find some others.  Just get the lion's share: eng, ger, spa, fre, 
 #  
