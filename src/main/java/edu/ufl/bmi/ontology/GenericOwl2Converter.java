@@ -429,6 +429,7 @@ public class GenericOwl2Converter {
        		if (rcis != null) {
        			rcis.executeInstructions(rowInd, dataObject, oos);
        		} else if (rcise != null) {
+       			rcise.initializeVariables(iriMap, odf);
        			rcise.executeAllInstructionSets(rowInd, dataObject, oos);
        		}
     	}

@@ -233,6 +233,25 @@ public class RdfConversionInstructionSetF2Compiler {
 			if (flds.length == 5) rcqii.setLookupVariableName(flds[4].trim());
 			 
 			return rcqii;
+		} else if (instructionType.equals("query-individual-by-attribute-value")) {
+			if (flds.length != 5 && flds.length != 6) throw new ParseException(
+				"query individual expressions must have four or five, tab-delimited fields." + instruction, 8);
+			String variableName = flds[0].trim(); 					// e.g., affiliation-org
+			String rowTypeName = flds[1].trim();					// e.g., organization
+			String externalFileFieldName = flds[2].trim();			// e.g., ID
+			String lookupValueFieldName = flds[3].trim();			// e.g., [OrganizationAffiliationID]
+			String lookupUniqueFieldName = flds[4].trim();
+			String searchInstructions = (flds.length == 6) ? flds[5].trim() : null;
+			/*
+			IriLookup iriMap, HashMap<String,Integer> fieldNameToIndex, OWLDataFactory odf, String variableName, 
+			IriRepository iriRepository, String iriRepositoryPrefix, String externalFileFieldName, String externalFileRowTypeName, String iriPrefix,
+			String lookupValueFieldName
+			*/
+			RdfConversionQueryIndividualByAttributeValueInstruction rcqibav = new RdfConversionQueryIndividualByAttributeValueInstruction(
+				iriMap, odf, variableName, iriRepository, iriRepositoryPrefix, externalFileFieldName, 
+				rowTypeName, iriPrefix, lookupValueFieldName, lookupUniqueFieldName, searchInstructions);
+						 
+			return rcqibav;
 		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
 		}

@@ -71,7 +71,10 @@ object-property-expression: authoring-region	ends during	pub-date
 # We'll probably even want to grab individual volumes and issues along the
 #   way and assign those IRIs, and preconfigure all the parthood.
 # [publicationVenue]
-# query-individual: pub-venue	journal	medline-abbrev	[publicationVenue]
+query-individual-by-attribute-value: pub-venue	journal	medline-abbrev	[publicationVenue]	[ID]
+query-individual-by-attribute-value: pub-venue	journal	iso-abbrev	[publicationVenue]	[ID]
+query-individual-by-attribute-value: pub-venue	journal	sort-name	[publicationVenue]	[ID]	uppercase
+object-property-expression: [row-individual]	proper continuant part	pub-venue
 
 [publicationVenue]
 annotation: [row-individual]	comment	"journal: "+[publicationVenue]

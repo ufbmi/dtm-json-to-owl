@@ -38,6 +38,7 @@ public class RdfIriRepositoryWithJena implements IriRepository {
 		this.iriPrefix = iriPrefix;
 	}
 
+	@Override
 	public Set<IRI> queryIris(IRI namedGraphIri, HashMap<IRI, String> propertyValuePairs) {
 		StringBuilder queryTxt = new StringBuilder("select ?x\nwhere {\n");
 		Iterator<IRI> i = propertyValuePairs.keySet().iterator();
@@ -73,6 +74,35 @@ public class RdfIriRepositoryWithJena implements IriRepository {
      			QuerySolution soln = results.nextSolution() ;
     			RDFNode x = soln.get("x") ;       // Get a result variable by name.
     			result.add(IRI.create(x.toString()));
+    			System.out.print(x + "\t");
+    		}
+    		System.out.println("\n");
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		}
+		return result;
+	}
+
+	@Override
+	public Set<String> queryAnnotationValueForIri(IRI individualIri, IRI annotationIri) {
+		StringBuilder queryTxt = new StringBuilder("select ?x\nwhere {\n");
+		queryTxt.append("\t<");
+		queryTxt.append(individualIri);
+		queryTxt.append(">  ");
+		queryTxt.append("<");
+		queryTxt.append(annotationIri);
+		queryTxt.append(">  ?x\n}");
+
+		HashSet<String> result = new HashSet<String>();
+		Query query = QueryFactory.create(queryTxt.toString()) ;
+
+  		try (QueryExecution qexec = QueryExecutionFactory.create(query, m)) {
+   			ResultSet results = qexec.execSelect();
+   			System.out.print("QUERY RESULT(S): ");
+   			for ( ; results.hasNext() ; ) {
+     			QuerySolution soln = results.nextSolution() ;
+    			RDFNode x = soln.get("x") ;       // Get a result variable by name.
+    			result.add(x.toString());
     			System.out.print(x + "\t");
     		}
     		System.out.println("\n");
