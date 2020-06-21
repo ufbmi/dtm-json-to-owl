@@ -192,12 +192,24 @@ public class RdfConversionQueryIndividualByAttributeValueInstruction extends Rdf
 		String processedValue = lookupValue;
 		if (this.searchInstructions != null) {
 			for (String instruction : this.searchInstructions) {
-				switch (instruction) {
+				String[] components = instruction.split(Pattern.quote(";"));
+				String theInstructionItself = components[0];
+				switch (theInstructionItself) {
 					case "uppercase":
 						processedValue = processedValue.toUpperCase();
 						break;
-					case: "lowercase":
+					case "lowercase":
 						processedValue = processedValue.toLowerCase();
+						break;
+					case "removeword":
+						String beginning = components[1]+" ";
+						String end = " "+components[1];
+						String beginningUpper = beginning.toUpperCase();
+						String beginningLower = beginning.toLowerCase();
+						String endUpper = end.toUpperCase();
+						String endLower = end.toLowerCase();
+						processedValue = processedValue.replace(beginning,"").replace(end,"").replace(beginngUpper,"")
+							.replace(beginningLower,"").replace(endUpper,"").replace(endLower,"");
 						break;
 					default:
 						System.err.println("don't understand search instruction " + instruction);

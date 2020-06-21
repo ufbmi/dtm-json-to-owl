@@ -39,7 +39,7 @@ foreach [paperAuthors]
 # query-individual: primary-affiliated-org	organization	id	[affiliation.organizationID]
 query-individual: author-x	human	id	[authorAlias.paperAlias.personID]
 # annotate author-x-paper-writing with order.  Consider some author role that is realized.  Maybe annotations for author order go there!
-new-individual: author-x-role	author role	label	"role of person "+[authorAlias.paperAlias.personID]+" "+[authorAlias.lastName]+" "+[authorAlias.foreName]+" in writing paper "+[paperID]
+new-individual: author-x-role	author role	label	"role of person "+[authorAlias.paperAlias.personID]+" "+[authorAlias.lastName]+" "+[authorAlias.foreName]+" in writing paper "+p.[paperID]
 object-property-expression: paper-writing	realizes	author-x-role
 object-property-expression: author-x	bearer	author-x-role
 object-property-expression: paper-writing	has active participant	author-x	
@@ -74,9 +74,8 @@ object-property-expression: authoring-region	ends during	pub-date
 query-individual-by-attribute-value: pub-venue	journal	medline-abbrev	[publicationVenue]	[ID]
 query-individual-by-attribute-value: pub-venue	journal	iso-abbrev	[publicationVenue]	[ID]
 query-individual-by-attribute-value: pub-venue	journal	sort-name	[publicationVenue]	[ID]	uppercase
+query-individual-by-attribute-value: pub-venue	journal	sort-name	[publicationVenue]	[ID]	uppercase,removeword;THE
 object-property-expression: [row-individual]	proper continuant part	pub-venue
-
-[publicationVenue]
 annotation: [row-individual]	comment	"journal: "+[publicationVenue]
 
 # publicationAbbreviation primitive
