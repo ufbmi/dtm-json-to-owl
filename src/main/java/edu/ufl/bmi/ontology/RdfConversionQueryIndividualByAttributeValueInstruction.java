@@ -208,7 +208,7 @@ public class RdfConversionQueryIndividualByAttributeValueInstruction extends Rdf
 						String beginningLower = beginning.toLowerCase();
 						String endUpper = end.toUpperCase();
 						String endLower = end.toLowerCase();
-						processedValue = processedValue.replace(beginning,"").replace(end,"").replace(beginngUpper,"")
+						processedValue = processedValue.replace(beginning,"").replace(end,"").replace(beginningUpper,"")
 							.replace(beginningLower,"").replace(endUpper,"").replace(endLower,"");
 						break;
 					default:
