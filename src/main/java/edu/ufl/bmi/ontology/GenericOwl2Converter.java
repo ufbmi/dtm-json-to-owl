@@ -112,6 +112,7 @@ public class GenericOwl2Converter {
     static String jsonFileName;
 
     public static void main(String[] args) {
+    	System.setProperty("https.protocols", "TLSv1.3");
 		try {
 		    readConfigurationProperties(args[0]);
 		    setupOuputOwlFile();

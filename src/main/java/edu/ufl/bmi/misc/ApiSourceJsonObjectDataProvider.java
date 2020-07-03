@@ -1,6 +1,9 @@
 package edu.ufl.bmi.misc;
 
 import java.io.IOException;
+import java.net.SocketException;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,11 +50,20 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 
 
 	public void initialize() {
-		CloseableHttpClient httpclient = HttpClients.createDefault();
+		//httpclient = HttpClients.createSystem();
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            httpclient.close();
+            httpclient.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        httpclient = HttpClients.createDefault();
         try {
             //HttpGet httpGetIds = new HttpGet(buildPeopleIdsUri(p));
             String getUrl = (allIdsUrl != null) ? this.allIdsUrl : this.allObjectOfTypeUrl;
             HttpGet httpGet = new HttpGet(getUrl);
+            httpGet.addHeader("accept", "application/json");
 
             //System.out.println("Executing request " + httpGet.getRequestLine());
             // Create a custom response handler
@@ -70,7 +82,23 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
                 }
 
             };
-            String responseBody = httpclient.execute(httpGet, responseHandler);
+            int cTries = 0;
+            String responseBody = null;
+            Exception shell = null;
+            do {
+                try {
+                    responseBody = httpclient.execute(httpGet, responseHandler);
+                } catch (SocketException she) {
+                    shell = she;
+                    httpclient = HttpClients.createSystem();
+                    cTries++;
+                } catch (SSLException ssle) {
+                    shell = ssle;
+                    httpclient = HttpClients.createSystem();
+                    cTries++;
+                }
+            } while (cTries < 10);
+            if (responseBody == null && shell != null) throw new RuntimeException("After 10 tries, still didn't get repsonse");
             System.out.println("----------------------------------------");
             //System.out.println(responseBody);
             Gson g = new Gson();
@@ -107,9 +135,11 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
         }
 
 		if (allIdsUrl != null) { 
+
 			CloseableHttpClient httpclient = HttpClients.createDefault();
         	try {
             	//HttpGet httpGetIds = new HttpGet(buildPeopleIdsUri(p));
+                
             	String getUrl = this.getObjectByIdUrl + "/" + allIds[iCurrentObject];
             	HttpGet httpGet = new HttpGet(getUrl);
 
@@ -132,8 +162,21 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 
             	};
             	
-            	String responseBody = httpclient.execute(httpGet, responseHandler);
-            	jdo = new JsonDataObject(responseBody, this.keyField);
+                int cTries = 0;
+                SSLHandshakeException shell = null;
+                do {
+                    try {
+            	       String responseBody = httpclient.execute(httpGet, responseHandler);
+            	       jdo = new JsonDataObject(responseBody, this.keyField);
+                       break;
+                    } catch (SSLHandshakeException she) {
+                        httpclient = HttpClients.createDefault();
+                        shell = she;
+                        cTries++;
+                    }
+                } while (cTries < 10);
+
+                if (jdo == null && shell != null) throw new RuntimeException("After 10 attempts stilll got a SSLHandshakeException.");
 			} catch (IOException ioe) {
         		ioe.printStackTrace();
         	} finally {

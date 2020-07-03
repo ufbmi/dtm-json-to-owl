@@ -1,33 +1,33 @@
-"afr"
-"ara"
-"bos"
-"chi"
-"cze"
-"dan"
-"dut"
-"eng"
-"fre"
-"geo"
-"ger"
-"gre"
-"heb"
-"hrv"
-"hun"
-"ice"
-"ita"
-"jpn"
-"kor"
-"lit"
-"mul"
-"nep"
-"nor"
-"pol"
-"por"
-"rum"
-"rus"
-"slo"
-"spa"
-"srp"
-"swe"
-"tur"
-"ukr"
+afr	http://purl.obolibrary.org/obo/OMRSE_00000514
+ara	http://purl.obolibrary.org/obo/OMRSE_00000524
+bos	http://purl.obolibrary.org/obo/OMRSE_00000554
+chi	http://purl.obolibrary.org/obo/OMRSE_00000571
+cze	http://purl.obolibrary.org/obo/OMRSE_00000566
+dan	http://purl.obolibrary.org/obo/OMRSE_00000590
+dut	http://purl.obolibrary.org/obo/OMRSE_00000602
+eng	http://purl.obolibrary.org/obo/OMRSE_00000610
+fre	http://purl.obolibrary.org/obo/OMRSE_00000624
+geo	http://purl.obolibrary.org/obo/OMRSE_00000635
+ger	http://purl.obolibrary.org/obo/OMRSE_00000594
+gre	http://purl.obolibrary.org/obo/OMRSE_00000608
+heb	http://purl.obolibrary.org/obo/OMRSE_00000657
+hrv	http://purl.obolibrary.org/obo/OMRSE_00000664
+hun	
+ice	
+ita	
+jpn	
+kor	
+lit	
+mul	
+nep	
+nor	
+pol	
+por	
+rum	
+rus	
+slo	
+spa	
+srp	
+swe	
+tur	
+ukr	
