@@ -34,6 +34,8 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 	JsonArray allObjects;
 	int iCurrentObject;
 
+    CloseableHttpClient httpclient;
+
 	public ApiSourceJsonObjectDataProvider(String baseUrl, String allIdsUrl, String objectByIdUrl, String keyField) {
 		this.baseUrl = baseUrl;
 		this.allIdsUrl = allIdsUrl;
@@ -51,14 +53,8 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 
 	public void initialize() {
 		//httpclient = HttpClients.createSystem();
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
-            httpclient.close();
-            httpclient.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
         httpclient = HttpClients.createDefault();
+       
         try {
             //HttpGet httpGetIds = new HttpGet(buildPeopleIdsUri(p));
             String getUrl = (allIdsUrl != null) ? this.allIdsUrl : this.allObjectOfTypeUrl;
@@ -88,6 +84,7 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
             do {
                 try {
                     responseBody = httpclient.execute(httpGet, responseHandler);
+                    break;
                 } catch (SocketException she) {
                     shell = she;
                     httpclient = HttpClients.createSystem();
@@ -109,13 +106,13 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
             }
         } catch (IOException ioe) {
         	ioe.printStackTrace();
-        } finally {
+        } /* finally {
             try {
             	httpclient.close();
             } catch (IOException ioe) {
             	ioe.printStackTrace();
             }
-        }
+        } */
 	}
 
 	@Override
@@ -128,15 +125,27 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 
         if (allIds != null && iCurrentObject == allIds.length) {
         	iCurrentObject = 0;
+            try {
+                httpclient.close();
+                httpclient = HttpClients.createDefault();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         	return jdo;
         } else if (allObjects !=null && iCurrentObject == allObjects.size()) {
         	iCurrentObject = 0;
+            try {
+                httpclient.close();
+                httpclient = HttpClients.createDefault();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         	return jdo;
         }
 
 		if (allIdsUrl != null) { 
 
-			CloseableHttpClient httpclient = HttpClients.createDefault();
+			//CloseableHttpClient httpclient = HttpClients.createDefault();
         	try {
             	//HttpGet httpGetIds = new HttpGet(buildPeopleIdsUri(p));
                 
@@ -179,13 +188,13 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
                 if (jdo == null && shell != null) throw new RuntimeException("After 10 attempts stilll got a SSLHandshakeException.");
 			} catch (IOException ioe) {
         		ioe.printStackTrace();
-        	} finally {
+        	} /* finally {
             	try {
             		httpclient.close();
             	} catch (IOException ioe) {
             		ioe.printStackTrace();
             	}
-        	}
+        	} */
         } else {
         	jdo = new JsonDataObject(allObjects.get(iCurrentObject).getAsJsonObject(), this.keyField);
         }
