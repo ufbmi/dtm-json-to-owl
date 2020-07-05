@@ -235,7 +235,7 @@ public class RdfConversionInstructionSetF2Compiler {
 			return rcqii;
 		} else if (instructionType.equals("query-individual-by-attribute-value")) {
 			if (flds.length != 5 && flds.length != 6) throw new ParseException(
-				"query individual expressions must have four or five, tab-delimited fields." + instruction, 8);
+				"query individual expressions must have four or five, tab-delimited fields." + instruction, 10);
 			String variableName = flds[0].trim(); 					// e.g., affiliation-org
 			String rowTypeName = flds[1].trim();					// e.g., organization
 			String externalFileFieldName = flds[2].trim();			// e.g., ID
@@ -252,6 +252,19 @@ public class RdfConversionInstructionSetF2Compiler {
 				rowTypeName, iriPrefix, lookupValueFieldName, lookupUniqueFieldName, searchInstructions);
 						 
 			return rcqibav;
+		} else if (instructionType.equals("lookup-mapping-to-individual")) {
+			if (flds.length != 4) throw new ParseException(
+				"mapping lookup instructions must have four, tab-delimited fields.", 11);
+
+			String variableName = flds[0].trim(); 
+			String lookupValueFieldName = flds[1].trim();	
+			String mappingRdfFileName = flds[2].trim();
+			String sparqlQueryTemplate = flds[3].trim();
+			//IriLookup iriMap, OWLDataFactory odf, String variableName, String searchFieldName,
+			// HashMap<String, HashMap<String, OWLNamedIndividual>>  searchIndexes, String lookupFileLocation, String sparqlQueryTemplate)
+			RdfConversionLookupMappingToIndividualInstruction rclmtii = new RdfConversionLookupMappingToIndividualInstruction(
+				iriMap, odf, variableName, lookupValueFieldName, searchIndexes, mappingRdfFileName, sparqlQueryTemplate);
+			return rclmtii; 
 		} else {
 			throw new ParseException("don't understand instruction type of " + instructionType, 6);
 		}

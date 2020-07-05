@@ -77,6 +77,7 @@ public class JsonDataObject extends DataObject {
            if (pathElems[0].contains("[")) {
                 String[] arrayInfo = pathElems[0].split(Pattern.quote("["), 2);
                 String elemName = arrayInfo[0];
+                System.out.println("For pathElems.length == 1, arrayInfo[0]="+arrayInfo[0] + ", and arrayInfo[1]=" + arrayInfo[1]);
                 int i = Integer.parseInt(arrayInfo[1].replace("]",""));
                 value = jo.get(elemName).getAsJsonArray().get(i).getAsString();
             } else {

@@ -1,0 +1,27 @@
+object_type=journal
+
+# data object provider information
+data_provider_type=json file
+json_file_name=/Users/hoganwr/devel/repos/software/dtm-json-to-owl/new_journal_json_2020-07-03.txt
+
+# information about fields / elements in the data objects
+unique_key_fields=ID
+unique_id_field=ID
+
+# IRI information
+iri_prefix=http://www.pitt.edu/midascc_
+iri_counter=100
+iri_id_length=8
+iri_lookup=./src/main/resources/iris.txt
+
+# compose object IRI from ID
+iribase=https://www.ncbi.nlm.nih.gov/nlmcatalog/
+iri_completion_field=ID
+
+# output file information
+output_file=midas-cc-journal-set-3.owl
+output_file_iri_id=midas_cc_iri_repository
+
+# RDF conversion instructions for the object type
+instructions=./src/main/resources/journal-json-instruction-set.txt
+instructions_version=v2

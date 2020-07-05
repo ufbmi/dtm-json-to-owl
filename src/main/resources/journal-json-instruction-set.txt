@@ -73,9 +73,8 @@ object-property-expression: elocation-x	is about	[row-individual]
 # process of creating realizes the language. Need some simple mappings for eng and spa and find some others.  Just get the lion's share: eng, ger, spa, fre, 
 #  
 #[NLMCatalogRecord.Language]
-#new-individual: journal-creation-process	documenting	label	"process of creating journal "+[JrXml.Serial.Title]
-#object-property-assertion: journal-creation-process	has specified output	[row-individual]	
-
-#for each [NLMCatalogRecord.Language]
-#lookup-mapping-to-individual: journal-language-x	[NLMCatalogRecord.Language]	<http://purl.obolibrary.org/obo/omrse/language-individuals>	SELECT ?x WHERE { ?x rdf:type <http://purl.obolibrary.org/obo/OMRSE_00000194> . ?x <http://purl.obolibrary.org/obo/OMRSE_00000664> "???" }
-#object-property-assertion: journal-creation-process	realizes	journal-language-x
+foreach [NLMCatalogRecord.Language]
+new-individual: journal-creation-process	documenting	label	"process of creating journal "+p.[JrXml.Serial.Title]
+object-property-expression: journal-creation-process	has specified output	[row-individual]
+lookup-mapping-to-individual: journal-language-x	[value]	./src/main/resources/language-individuals.owl	SELECT ?x WHERE { ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/OMRSE_00000194> . ?x <http://purl.obolibrary.org/obo/OMRSE_00002026> "???" }
+object-property-expression: journal-creation-process	realizes	journal-language-x

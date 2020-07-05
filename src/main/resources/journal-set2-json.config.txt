@@ -2,7 +2,7 @@ object_type=journal
 
 # data object provider information
 data_provider_type=json file
-json_file_name=/Users/hoganwr/devel/repos/software/dtm-json-to-owl/new_journal_json.txt
+json_file_name=/Users/hoganwr/devel/repos/software/dtm-json-to-owl/journal_json/new_journal_json.txt
 
 # information about fields / elements in the data objects
 unique_key_fields=ID
