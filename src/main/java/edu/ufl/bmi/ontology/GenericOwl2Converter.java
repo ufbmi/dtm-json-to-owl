@@ -194,7 +194,8 @@ public class GenericOwl2Converter {
 		jsonFileName = p.getProperty("json_file_name");
 
 		rcise = new RdfConversionInstructionSetExecutor();
-    }
+
+	}
 
     protected static void processHeaderRow(LineNumberReader lnr) throws IOException {
     	

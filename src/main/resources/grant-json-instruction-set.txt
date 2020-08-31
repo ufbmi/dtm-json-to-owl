@@ -1,0 +1,73 @@
+# id primitive
+[id]
+new-individual: grant-id	identifier	label	[id]
+annotation: grant-id	comment	"identifier for grant "+[title]
+object-property-expression: grant-id	denotes	[row-individual]
+
+# title primitive
+[title]
+annotation: [row-individual]	title	[title]
+
+# grantFunderUrl primitive.  This URL is URL on the grant funder's web site that is directly about this grant
+[grantFunderUrl]
+new-individual: grantwebsite	website	label	[grantFunderUrl]
+annotation: grantwebsite	comment	"funding agency website for grant id="+[id]
+annotation: [row-individual]	hasURL	[grantFunderUrl]
+object-property-expression: grantwebsite	is about	[row-individual]
+
+# grantNumber primitive
+[grantNumber]
+new-individual: grant-number	identifier	label	[grantNumber]
+annotation: grant-number	comment	"funding agency number for grant with id="+[id]
+object-property-expression: grant-number	denotes	[row-individual]
+
+# grantAbstract primitive
+[grantAbstract]
+new-individual: grantabstract	abstract	label	"abstract for grant id="+[id]
+annotation: grantabstract	comment	[grantAbstract]
+object-property-expression: grantabstract	is about	[row-individual]
+
+# funderName primitive
+[funderName]
+new-individual: funder	organization	label	[funderName]
+annotation: funder	comment	"funding agency for grant id="+[id]
+annotation: funder	hasURL	[funderUrl]
+new-individual: grant-realizable	realizable entity	label	"realizable entity that grant id="+[id]+" is about"
+object-property-expression: [row-individual]	is about	grant-realizable
+object-property-expression: funder	bearer	grant-realizable
+
+# startDate primitive
+[startDate]
+new-individual: grant-interval	temporal interval	label	"temporal interval during which realization of grant occurs"
+new-individual: grant-realization	planned process	label	"realization of grant with id="+[id]
+new-individual: start-date	temporal interval	label	[startDate]	iri=fromDate([startDate])
+annotation: start-date	comment	"start date for grant id="+[id]
+object-property-expression: grant-realization	realizes	grant-realizable
+object-property-expression: grant-realization	occupies temporal region	grant-interval
+object-property-expression: grant-interval	starts during	start-date
+
+# endDate primitive
+[endDate]
+new-individual: end-date	temporal interval	label	[endDate]	iri=fromDate([endDate])
+object-property-expression: end-date	starts during	grant-interval
+
+# grantProjectUrl primitive
+[grantProjectUrl]
+new-individual: project-url	website	label	[grantProjectUrl]	iri=[grantProjectUrl]
+annotation: project-url	comment	"project website for grant id="+[id]
+object-property-expression: project-url	is about	grant-realization
+object-property-expression: project-url	is about	[row-individual]
+
+# grantPrincipalInvestigators array
+foreach [grantPrincipalInvestigators]
+query-individual: grant-pi	human	id	[personID]
+object-property-expression: grant-realization	has participant	grant-pi
+
+# shutterStockPhotoName primitive
+# releasedToWebsiteDate primitive
+# active primitive
+# grantCountries array
+# grantID primitive -- same as id above.  No need to process
+# grantSource primitive -- for NIH and NSF, it's just NIH and NSF, whereas actual agency within is funderName and funderUrl.  Not terribly helpful attribute.
+# tags primitive
+# includedMidas primitive

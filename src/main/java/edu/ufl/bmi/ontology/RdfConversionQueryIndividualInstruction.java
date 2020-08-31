@@ -107,6 +107,9 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		IRI externalVarNameIri = IRI.create(queryIriPrefix + "/variableName");
 		if (this.lookupVariableName == null) repoAnnotations.put(externalVarNameIri, "row individual");
 		else repoAnnotations.put(externalVarNameIri, this.lookupVariableName);
+
+		//System.err.println("query on " + this.lookupValueFieldName + " = "+ lookupValue + ", lookup variable is " + this.externalFileFieldName);
+		//System.err.println("\t"+externalFieldIri);
 		
 		Set<IRI> resultSet = iriRepository.queryIris(null, repoAnnotations);
 		int resultCount = resultSet.size();
@@ -124,6 +127,8 @@ public class RdfConversionQueryIndividualInstruction extends RdfConversionInstru
 		OWLNamedIndividual oni = (resultCount > 0) ? 
 			odf.getOWLNamedIndividual(resultSet.iterator().next()) :
 			null;
+
+		//System.err.println("resultCount is " + resultCount+" and oni is " + oni);
 		
 			
 		//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);

@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonParseException;
 
 public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
 	
@@ -176,7 +177,13 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
                 do {
                     try {
             	       String responseBody = httpclient.execute(httpGet, responseHandler);
-            	       jdo = new JsonDataObject(responseBody, this.keyField);
+                       try {
+            	           jdo = new JsonDataObject(responseBody, this.keyField);
+                       } catch (JsonParseException jpe) {
+                            System.err.println("GOT BAD JSON FOR ALLEGED OBJECT WITH ID " + allIds[iCurrentObject] + ". SO SKIPPING IT AND TRYING FOR NEXT ONE.");
+                            iCurrentObject++;
+                            return getNextDataObject();
+                       }
                        break;
                     } catch (SSLHandshakeException she) {
                         httpclient = HttpClients.createDefault();
@@ -185,7 +192,7 @@ public class ApiSourceJsonObjectDataProvider extends DataObjectProvider {
                     }
                 } while (cTries < 10);
 
-                if (jdo == null && shell != null) throw new RuntimeException("After 10 attempts stilll got a SSLHandshakeException.");
+                if (jdo == null && shell != null) throw new RuntimeException("After 10 attempts still got a SSLHandshakeException.");
 			} catch (IOException ioe) {
         		ioe.printStackTrace();
         	} /* finally {

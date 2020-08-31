@@ -1,14 +1,14 @@
-object_type=publication
+object_type=grant
 
 # data object provider information
 data_provider_type=json api
 api_base_url=https://members.midasnetwork.us/midascontacts/api/
-get_all_object_ids_url=https://members.midasnetwork.us/midascontacts/api/papers/ids
+get_all_object_ids_url=https://members.midasnetwork.us/midascontacts/api/grants/ids
 # this maps from the class handle in iris.txt to the API lingo
-publication=papers
+grant=grants
 
 # information about fields / elements in the data objects
-unique_key_fields=id,paperID
+unique_key_fields=id,grantID
 unique_id_field=id
 
 # IRI information
@@ -18,9 +18,9 @@ iri_id_length=8
 iri_lookup=./src/main/resources/iris.txt
 
 # output file information
-output_file=midas-cc-papers.owl
+output_file=midas-cc-grants.owl
 output_file_iri_id=midas_cc_iri_repository
 
 # RDF conversion instructions for the object type
-instructions=./src/main/resources/paper-json-instruction-set.txt
+instructions=./src/main/resources/grant-json-instruction-set.txt
 instructions_version=v2

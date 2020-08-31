@@ -48,6 +48,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
+		if (this.classIri==null) System.err.println("Cannot find IRI for class handle '"+classIriTxt+"'");
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
 		this.avb = new AnnotationValueBuilder(annotationValueInstruction);
 		this.alwaysCreate = true;
@@ -65,6 +66,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 		super(iriMap, odf);
 		this.variableName = variableName.replace("[","").replace("]","");
 		this.classIri = iriMap.lookupClassIri(classIriTxt);
+		if (this.classIri==null) System.err.println("Cannot find IRI for class handle '"+classIriTxt+"'");
 		this.annotationPropertyIri = iriMap.lookupAnnPropIri(annotationPropertyTxt);
 		this.avb = new AnnotationValueBuilder(annotationValueInstruction);
 		this.alwaysCreate = false;
@@ -177,6 +179,7 @@ public class RdfConversionNewIndividualInstruction extends RdfConversionInstruct
 					GenericOwl2Converter.createNamedIndividualWithTypeAndLabel(oo, classIri, annotationPropertyIri, 
 						annotationValue);
 				//System.out.println("Adding the following to variables: " + variableName + "\t" + oni);
+				//if (variableName.contains("grant")) System.err.println("putting variable " + variableName + ", oni="+oni);
 				variables.put(variableName, oni);
 				iriRepository.addIris(oni.getIRI(), null, repoAnnotations);
 

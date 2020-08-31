@@ -209,3 +209,8 @@ journal	http://purl.obolibrary.org/obo/FBcv_0000787	class
 issn international centre	https://www.issn.org/	individual	organization	The International Centre for the registration of serial publications – CIEPS
 dubbing	http://purl.obolibrary.org/obo/IAO_20010	class
 has participant	http://purl.obolibrary.org/obo/RO_0000057	object property
+grant	http://purl.obolibrary.org/obo/OBI_0001636	class
+narrative	http://purl.obolibrary.org/obo/IAO_0000006	class
+abstract	http://purl.obolibrary.org/obo/IAO_0000315	class
+realizable entity	http://purl.obolibrary.org/obo/BFO_0000017	class
+starts during	http://purl.obolibrary.org/obo/RO_0002091	object property
