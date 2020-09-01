@@ -31,7 +31,7 @@ object-property-expression: grantabstract	is about	[row-individual]
 [funderName]
 new-individual: funder	organization	label	[funderName]
 annotation: funder	comment	"funding agency for grant id="+[id]
-annotation: funder	hasURL	[funderUrl]
+annotation: funder	hasURL	[funderNameUrl]
 new-individual: grant-realizable	realizable entity	label	"realizable entity that grant id="+[id]+" is about"
 object-property-expression: [row-individual]	is about	grant-realizable
 object-property-expression: funder	bearer	grant-realizable
