@@ -22,7 +22,7 @@ annotation: [row-individual]	publisher	[collection_publisher]
 [collection_language]
 new-individual:	collection-creation	documenting	label	"process of creating "+[collection_title_en]
 lookup-individual-by-element-value: collection-language	[collection_language]
-object-property-expression:	collection-creation	realizes	collection-language
+object-property-expression: collection-creation	realizes	collection-language
 object-property-expression: collection-creation	has specified output	[row-individual]
 
 [collection_access]
@@ -50,12 +50,12 @@ class-assertion-expression: [row-individual]	[collection_type]
 [collection_first_report_date]
 new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."
 annotation: collection-interval	comment	"start of interval: "+[collection_first_report_date]
-object-property-expression: [row-individual] is about	collection-interval
+object-property-expression: [row-individual]	is about	collection-interval
 
 [collection_last_report_date]
 new-individual: collection-interval	temporal interval	label	"Interval that collection "+[collection_title_en]+" is about."	[collection_first_report_date] empty
 annotation: collection-interval	comment	"end of interval: "+[collection_last_report_date]
-object-property-expression: [row-individual] is about	collection-interval
+object-property-expression: [row-individual	is about	collection-interval
 
 # files and file formats need work
 # [collection_format]
@@ -71,8 +71,9 @@ object-property-expression: collection-member-i	member of	[row-individual]
 #[collection_number_files]
 
 [collection_path_repository]
-new-individual: collection-path	action specification	label	"repository path to "+[collection_title_en]
-annotation: collection-path	hasURL	"https://github.com/midas-network/"+[collection_path_repository]
+new-individual: collection-path	action specification	editor preferred	"repository path to "+[collection_title_en]
+#annotation: collection-path	hasURL	"https://github.com/midas-network/COVID-19/tree/master/"+[collection_path_repository]
+annotation: collection-path	label	"\""+[collection_path_repository]+"\""
 object-property-expression: collection-path	is about	[row-individual]
 
 [collection_spatial_coverage]

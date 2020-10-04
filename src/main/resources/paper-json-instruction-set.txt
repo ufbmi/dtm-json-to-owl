@@ -127,6 +127,11 @@ annotation: [row-individual]	comment	"journal+volume+issue: "+[publicationVenue]
 # need to understand structure of objects in array first
 # [paperGrantsAcknowledged] array
 
+foreach [paperGrantsAcknowledged]
+query-individual: grant-realization	grant	id	[grantID]	grant-realization
+# we can say the paper is about the process of realizing the grant realizable
+object-property-expression: [row-individual]	is about	grant-realization
+
 # need to see what these values are
 # [otherIdentifierSource] primitive
 # [otherIdentifier] primitive
